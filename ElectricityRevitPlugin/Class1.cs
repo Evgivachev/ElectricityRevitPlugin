@@ -11,6 +11,8 @@ namespace ElectricityRevitPlugin
         static void Main()
         {
             Console.WriteLine("sdsd");
+            Console.WriteLine("kdfjdkfj");
+
         }
     }
 }
