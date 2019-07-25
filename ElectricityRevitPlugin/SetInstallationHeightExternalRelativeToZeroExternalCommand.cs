@@ -11,7 +11,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class SetInstallationHeightExternalCommand : IExternalCommand
+    public class SetInstallationHeightExternalRelativeToZeroExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
