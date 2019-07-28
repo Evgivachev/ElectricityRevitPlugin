@@ -65,7 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AppSetting.cs" />
+    <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ElementExtension.cs" />
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

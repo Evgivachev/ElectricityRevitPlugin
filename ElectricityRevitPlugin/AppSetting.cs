@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectricityRevitPlugin
 {
-    public class Class1
+    public class AppSetting
     {
-        static void Main()
-        {
-            Console.WriteLine("sdsd");
-            Console.WriteLine("kdfjdkfj");
-
-        }
     }
 }
