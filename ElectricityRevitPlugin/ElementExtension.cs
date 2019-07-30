@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.Revit.UI;
 
 namespace ElectricityRevitPlugin
 {
@@ -15,7 +16,7 @@ namespace ElectricityRevitPlugin
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static double GettInstallationHeightRelativeToLevel(this Element element)
+        public static double GetInstallationHeightRelativeToLevel(this Element element)
         {
             var elementPoint = element.Location as LocationPoint;
             if (elementPoint is null)
@@ -42,6 +43,7 @@ namespace ElectricityRevitPlugin
             }
             if(level is null)
             {
+                throw new NullReferenceException($"level is null {element.Id.IntegerValue}");
 
             }
             var elevation = level.Elevation;
@@ -49,5 +51,34 @@ namespace ElectricityRevitPlugin
             var heigthInMillimeters = UnitUtils.ConvertFromInternalUnits(height, DisplayUnitType.DUT_MILLIMETERS);
             return heigthInMillimeters;
         }
+
+        public static Result SetElementCoordinate(this Element element,XYZ point, bool openTransaction = true)
+        {
+            var result = Result.Failed;
+            if (openTransaction)
+            {
+                using (var tr = new Transaction(element.Document))
+                {
+                    tr.Start("SetElementCoordinate");
+                    result = element.SetElementCoordinate(point);
+                    tr.Commit();
+                }
+            }
+            else
+            {
+                result = element.SetElementCoordinate(point);
+            }
+
+            return result;
+        }
+        private static Result SetElementCoordinate(this Element element, XYZ point)
+        {
+            if (!(element.Location is LocationPoint currentLocation))
+                    return Result.Failed;
+
+            var flag = element.Location.Move(point.Subtract(currentLocation.Point));
+            return flag ? Result.Succeeded : Result.Failed;
+        }
+        
     }
 }
