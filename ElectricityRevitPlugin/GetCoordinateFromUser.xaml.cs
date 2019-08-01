@@ -25,36 +25,85 @@ namespace ElectricityRevitPlugin
         private double _x;
         private double _y;
         private double _z;
-        private bool _shift;
+        private bool _shiftRelativelyLevel;
+        private DisplayUnitType _currentUnit = DisplayUnitType.DUT_METERS;
+        private bool _isDefaultUnit = true;
 
         public static (double, double, bool, double) GetCoordinate(Element element)
         {
             var wpf = new GetCoordinateFromUserWpf(element);
             var q = wpf.ShowDialog();
-            if(q == false)
+            if (q == false)
             {
                 throw new ArgumentException("Не удалось прочитать значения");
             }
+
             var shift = wpf.UseShiftCheckBox.IsChecked == true;
-            return (wpf._x, wpf._y, wpf._shift, wpf._z);
+            return (wpf._x, wpf._y, wpf._shiftRelativelyLevel, wpf._z);
         }
+
         public GetCoordinateFromUserWpf(Element element)
         {
             var ci = CultureInfo.InvariantCulture;
             InitializeComponent();
-            var point = element.Location as LocationPoint;
-            if (point != null)
+            MeterRadioButton.Tag = DisplayUnitType.DUT_METERS;
+            MeterRadioButton.Checked += MeterRadioButtonOnChecked;
+            FtRadioButton.Checked += FtRadioButtonOnChecked;
+            XTextBlock.TextChanged += TextBlockOnTextChanged;
+            YTextBlock.TextChanged += TextBlockOnTextChanged;
+            ZTextBlock.TextChanged += TextBlockOnTextChanged;
+            if (element.Location is LocationPoint point)
             {
-                XTextBlock.Text = point.Point.X.ToString(ci);
-                YTextBlock.Text = point.Point.Y.ToString(ci);
-                ZTextBlock.Text = point.Point.Z.ToString(ci);
+                _x = point.Point.X;
+                _y = point.Point.Y;
+                _z = point.Point.Z;
+            }
+            SetValuesToTextBox();
 
+            MeterRadioButton.IsChecked = true;
+        }
 
+        private void TextBlockOnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var tb = sender as TextBox;
+            var flag = double.TryParse(((TextBox) e.Source).Text,NumberStyles.Any,CultureInfo.InvariantCulture, out var value);
+            if (!flag)
+            {
+                tb.Text = ((TextBox) e.OriginalSource).Text;
             }
         }
+
+        private void FtRadioButtonOnChecked(object sender, RoutedEventArgs e)
+        {
+            _isDefaultUnit = true;
+            _x = UnitUtils.ConvertToInternalUnits(_x, DisplayUnitType.DUT_METERS);
+            _y = UnitUtils.ConvertToInternalUnits(_y, DisplayUnitType.DUT_METERS);
+            _z = UnitUtils.ConvertToInternalUnits(_z, DisplayUnitType.DUT_METERS);
+            SetValuesToTextBox();
+            _isDefaultUnit = false;
+        }
+
+        private void MeterRadioButtonOnChecked(object sender, RoutedEventArgs e)
+        {
+            _currentUnit = DisplayUnitType.DUT_METERS;
+            _isDefaultUnit = false;
+            _x = UnitUtils.ConvertFromInternalUnits(_x, DisplayUnitType.DUT_METERS);
+            _y = UnitUtils.ConvertFromInternalUnits(_y, DisplayUnitType.DUT_METERS);
+            _z = UnitUtils.ConvertFromInternalUnits(_z, DisplayUnitType.DUT_METERS);
+            SetValuesToTextBox();
+            _isDefaultUnit = false;
+        }
+
+        private void SetValuesToTextBox()
+        {
+            var ci = CultureInfo.InvariantCulture;
+            XTextBlock.Text = _x.ToString(ci);
+            YTextBlock.Text = _y.ToString(ci);
+            ZTextBlock.Text = _z.ToString(ci);
+        }
+
         public GetCoordinateFromUserWpf(IEnumerable<Element> elements)
         {
-
             InitializeComponent();
             //var ci = CultureInfo.InvariantCulture;
             //var point = element.Location as LocationPoint;
@@ -70,14 +119,13 @@ namespace ElectricityRevitPlugin
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-
             var flags = new[]
             {
                 double.TryParse(XTextBlock.Text, out _x),
                 double.TryParse(YTextBlock.Text, out _y),
                 double.TryParse(ZTextBlock.Text, out _z),
             };
-            DialogResult = !flags.Any(a=>a==false);
+            DialogResult = !flags.Any(a => a == false);
             this.Close();
         }
 
