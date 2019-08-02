@@ -72,6 +72,7 @@
     <Compile Include="AppSetting.cs" />
     <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ElementExtension.cs" />
+    <Compile Include="Extensions\FamilyInstanceExtension.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
