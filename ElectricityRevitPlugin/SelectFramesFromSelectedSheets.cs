@@ -9,7 +9,7 @@ namespace ElectricityRevitPlugin
 {
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.ReadOnly)]
-    public class SelectFramesFromSelectedLists : IExternalCommand
+    public class SelectFramesFromSelectedSheets : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -23,6 +23,8 @@ namespace ElectricityRevitPlugin
             {
                 var selection = uiDoc.Selection;
                 var selectedElementsIds = selection.GetElementIds();
+                if (!selectedElementsIds.Any())
+                    return result;
                 var lists = selectedElementsIds.Select(x => doc.GetElement(x) as ViewSheet)
                     .Where(x => x != null)
                     .Select(x=>x.Id.IntegerValue)

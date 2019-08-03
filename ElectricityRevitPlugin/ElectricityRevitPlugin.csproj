@@ -73,15 +73,17 @@
     <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ElementExtension.cs" />
     <Compile Include="Extensions\FamilyInstanceExtension.cs" />
+    <Compile Include="Extensions\ViewSheetExtension.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectFramesFromSelectedLists.cs" />
+    <Compile Include="SelectFramesFromSelectedSheets.cs" />
     <Compile Include="SetElementCoordinatesExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
+    <Compile Include="SortSheets.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
