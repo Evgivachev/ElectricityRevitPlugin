@@ -8,7 +8,7 @@ using Autodesk.Revit.Attributes;
 namespace ElectricityRevitPlugin
 {
     [Regeneration(RegenerationOption.Manual)]
-    [Transaction(TransactionMode.Manual)]
+    [Transaction(TransactionMode.ReadOnly)]
     public class SelectFramesFromSelectedLists : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -23,24 +23,25 @@ namespace ElectricityRevitPlugin
             {
                 var selection = uiDoc.Selection;
                 var selectedElementsIds = selection.GetElementIds();
+                var lists = selectedElementsIds.Select(x => doc.GetElement(x) as ViewSheet)
+                    .Where(x => x != null)
+                    .Select(x=>x.Id.IntegerValue)
+                    .ToHashSet();
+                    
                 var framesIds = new List<ElementId>();
-                foreach (var id in selectedElementsIds)
+                var allFrames = new FilteredElementCollector(doc)
+                    .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                    .WhereElementIsNotElementType()
+                    .ToElements();
+                foreach (var element in allFrames)
                 {
-                    var list = doc.GetElement(id) as ViewSheet;
-                    if (list is null)
-                        continue;
-                    var framesOnView = new FilteredElementCollector(doc, id)
-                        .OfCategory(BuiltInCategory.OST_TitleBlocks)
-                        .WhereElementIsNotElementType()
-                        .ToElementIds()
-                        .Where(elementId => elementId != null)
-                        .ToArray();
-                    if (framesOnView.Any())
-                        framesIds.AddRange(framesOnView);
+                    var ownerView = element.OwnerViewId.IntegerValue;
+                    if(lists.Contains(ownerView))
+                        framesIds.Add(element.Id);
+                        
                 }
-
-                if (framesIds.Any())
-                    selection.SetElementIds(framesIds);
+                selection.SetElementIds(framesIds);
+                return result;
             }
             catch (Exception e)
             {
