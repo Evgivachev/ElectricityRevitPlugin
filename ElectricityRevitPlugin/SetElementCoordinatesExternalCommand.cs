@@ -21,9 +21,13 @@ namespace ElectricityRevitPlugin
             var doc = uiDoc.Document;
 
             var selection = uiDoc.Selection;
-            var selectedElements = selection.GetElementIds();
-            var element = doc.GetElement(selectedElements.First());
-            var q = GetCoordinateFromUserWpf.GetCoordinate(element);
+            var selectedElementsIds = selection.GetElementIds();
+            var selectedElements =selectedElementsIds.Select(id
+            => doc.GetElement(id))
+                .ToArray();
+            var model = new CoordinateModelMvc(selectedElements);
+            var q = new GetCoordinateFromUserWpf(model);
+            q.ShowDialog();
             return Result.Succeeded;
             
 
