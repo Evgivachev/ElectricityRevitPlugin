@@ -8,7 +8,7 @@ using Autodesk.Revit.Attributes;
 namespace ElectricityRevitPlugin
 {
     [Regeneration(RegenerationOption.Manual)]
-    [Transaction(TransactionMode.ReadOnly)]
+    [Transaction(TransactionMode.Manual)]
     public class SelectFramesFromSelectedSheets : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

@@ -20,24 +20,32 @@ namespace ElectricityRevitPlugin
             var doc = uiDoc.Document;
             var app = uiApp.Application;
             var result = Result.Succeeded;
+            var parameterName = "Высотная отметка";
             try
             {
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Установка высоты установки элементов");
-                    var selection = uiDoc.Selection;
-                    var elementIds = selection.GetElementIds();
+                    //var selection = uiDoc.Selection;
+                    //var elementIds = selection.GetElementIds();
 
-                    foreach (var elId in elementIds)
+                    var sharedParameterApplicableRule = new SharedParameterApplicableRule(parameterName);
+                    var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
+                    var allElements = new FilteredElementCollector(doc)
+                       .OfClass(typeof(FamilyInstance))
+                       .WherePasses(elementParameterFilter)
+                       .Cast<Element>();
+
+                    foreach (var el in allElements)
                     {
                         try
                         {
-                            var el = doc.GetElement(elId);
+                           // var el = doc.GetElement(elId);
                             var location = el.Location as LocationPoint;
                             if (location is null) continue;
                             var z = UnitUtils.ConvertFromInternalUnits(location.Point.Z, DisplayUnitType.DUT_METERS);
-                            z = Math.Round(z, 3);
-                            var parameter = el.LookupParameter("Высота установки");
+                            //z = Math.Round(z, 3);
+                            var parameter = el.LookupParameter(parameterName);
                             if (parameter is null)
                                 continue;
                             parameter.Set(z);

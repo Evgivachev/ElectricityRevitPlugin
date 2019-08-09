@@ -36,7 +36,9 @@ namespace ElectricityRevitPlugin
                     foreach(var el in allElements)
                     {
                         var param = el.LookupParameter("Высота установки");
-                        param.Set(el.GetInstallationHeightRelativeToLevel());
+                        var value = el.GetInstallationHeightRelativeToLevel();
+                       // value = Math.Round(value, 0);
+                        param.Set(value);
                     }
                     tr.Commit();
                 }
