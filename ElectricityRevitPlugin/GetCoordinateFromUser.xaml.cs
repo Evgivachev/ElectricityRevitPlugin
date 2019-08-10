@@ -23,29 +23,44 @@ namespace ElectricityRevitPlugin
     /// </summary>
     public partial class GetCoordinateFromUserWpf : Window
     {
-        private readonly CoordinateModelMvc _model;
+        private CoordinateModelMvc _model;
 
         public GetCoordinateFromUserWpf(CoordinateModelMvc model)
         {
             _model = model;
             InitializeComponent();
             MeterRadioButton.Checked += MeterRadioButtonOnChecked;
+            var array = new[]
+            {
+                XTextBlock,
+                YTextBlock,
+                ZTextBlock
+            };
+            for(var i=0;i<array.Length;i++)
+            {
+                array[i].TextChanged += TextBlockOnTextChanged;
+                array[i].PreviewTextInput += XTextBlockOnTextInput;
+            }
             FtRadioButton.Checked += FtRadioButtonOnChecked;
-            XTextBlock.TextChanged += TextBlockOnTextChanged;
-            YTextBlock.TextChanged += TextBlockOnTextChanged;
-            ZTextBlock.TextChanged += TextBlockOnTextChanged;
-            //XTextBlock.PreviewKeyDown += TextBlockOnPreviewKeyDown;
-            XTextBlock.PreviewTextInput += XTextBlockOnTextInput;
-            UseShiftCheckBox.Checked += UseShiftCheckBoxOnChecked;
+            UseShiftCheckBox.Click += UseShiftCheckBoxClick;
+            _model.ModelChanged += _model_ModelChanged;
+            SetValues();
+        }
 
+        private void _model_ModelChanged(CoordinateModelMvc obj)
+        {
+            _model = obj;
             SetValues();
         }
 
         private void XTextBlockOnTextInput(object sender, TextCompositionEventArgs e)
         {
             var inputSymbol = e.Text;
+
             var tb = sender as TextBox;
             var text = tb.Text+inputSymbol;
+            if (text == "-")
+                return;
             e.Handled = !double.TryParse(text, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
         }
 
@@ -53,17 +68,19 @@ namespace ElectricityRevitPlugin
         {
             var tb = sender as TextBox;
             string inputSymbol = tb.Text;
-
+           
             if (!double.TryParse(inputSymbol, NumberStyles.Number, CultureInfo.InvariantCulture, out _))
             {
                 e.Handled = true;
             }
         }
 
-        private void UseShiftCheckBoxOnChecked(object sender, RoutedEventArgs e)
+        private void UseShiftCheckBoxClick(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox cb)
                 _model.UseShift = cb.IsChecked.HasValue && cb.IsChecked.Value;
+            
+
         }
 
         private void TextBlockOnTextChanged(object sender, TextChangedEventArgs e)
@@ -74,19 +91,25 @@ namespace ElectricityRevitPlugin
             if (!flag)
             {
                 tb.Text = ((TextBox) e.OriginalSource).Text;
+                _model.XField =XTextBlock.Text;
+                _model.YField = YTextBlock.Text;
+                _model.ZField = ZTextBlock.Text;
+
+            }
+            else
+            {
+                e.Handled = false;
             }
         }
 
         private void FtRadioButtonOnChecked(object sender, RoutedEventArgs e)
         {
             _model.IsMeterUnits = false;
-            SetValues();
         }
 
         private void MeterRadioButtonOnChecked(object sender, RoutedEventArgs e)
         {
             _model.IsMeterUnits = true;
-            SetValues();
         }
 
 

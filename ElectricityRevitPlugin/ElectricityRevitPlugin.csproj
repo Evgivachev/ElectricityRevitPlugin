@@ -78,6 +78,7 @@
     <Compile Include="GetCoordinateFromUser.xaml.cs">
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PluginParametersSet.cs" />
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectFramesFromSelectedSheets.cs" />

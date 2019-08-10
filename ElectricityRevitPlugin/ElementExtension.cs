@@ -11,16 +11,23 @@ namespace ElectricityRevitPlugin
     public static class ElementExtension
     {
         /// <summary>
-        /// Возвращает высоту установки элемента относительно уровня в мм,
-        /// если уровня нет то координату z в м
+        /// Возвращает высоту установки элемента относительно уровня,
+        /// по умолчанию во внутренних единицах
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
-        public static double GetInstallationHeightRelativeToLevel(this Element element)
+        public static double GetInstallationHeightRelativeToLevel(this Element element, DisplayUnitType? displayUnitType=null)
         {
             var elementPoint = element.Location as LocationPoint;
             if (elementPoint is null)
                 throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
+            var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM).AsDouble();
+            if (displayUnitType.HasValue)
+                shiftParam = UnitUtils.ConvertFromInternalUnits(shiftParam, displayUnitType.Value);
+            return shiftParam;
+
+                
+
 
             var doc = element.Document;
             var levelId = element.LevelId;

@@ -40,32 +40,64 @@ namespace ElectricityRevitPlugin
         public string XField
         {
             get { return GetValueToField(_xField); }
+            set
+            {
+                var doubleValue = double.Parse(value);
+                _xField = Enumerable.Repeat(doubleValue,_xField.Length).ToArray();
+
+            }
         }
 
         public string YField
         {
             get { return GetValueToField(_yField); }
+            set
+            {
+                var doubleValue = double.Parse(value);
+                _yField = Enumerable.Repeat(doubleValue, _yField.Length).ToArray();
+
+            }
         }
 
         public string ZField
         {
-            get { return GetValueToField(_zField); }
+            get { return GetValueToField(_zField,UseShift); }
+            set
+            {
+                var doubleValue = double.Parse(value);
+                _zField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
+
+            }
         }
 
         private double[] _xField;
         private double[] _yField;
         private double[] _zField;
         public bool IsMeterUnits = true;
-        public bool UseShift = false;
+        private bool _useShift = false;
+        public bool UseShift
+        {
+            get => _useShift;
+            set
+            {
+                _useShift = value;
+                ModelChanged.Invoke(this);
+                
+            }
+        } 
 
         public event Action<CoordinateModelMvc> ModelChanged;
 
-        private string GetValueToField(double[] array)
+        private string GetValueToField(double[] array,bool useShift = false)
         {
             var isSimilar = IsSimilar(array, tolerance);
             if (!isSimilar)
                 return IsNotSimilar;
             var result = array.First();
+            if(useShift)
+            {
+                result = _elements.First().GetInstallationHeightRelativeToLevel();
+            }
             if (IsMeterUnits)
                 result = UnitUtils.ConvertFromInternalUnits(result, DisplayUnitType.DUT_METERS);
             return Math.Round(result, tolerance).ToString(_cultureInfo);
