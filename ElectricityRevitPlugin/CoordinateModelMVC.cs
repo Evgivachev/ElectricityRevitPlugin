@@ -29,22 +29,43 @@ namespace ElectricityRevitPlugin
                 _zField[i] = Math.Round(p.Point.Z, tolerance);
             }
         }
-
+        private Document _doc => _elements.Select(x => x.Document).FirstOrDefault();
         private readonly CultureInfo _cultureInfo = CultureInfo.InvariantCulture;
         private int tolerance = 3;
         private Element[] _elements;
         private readonly int _elementsCount;
-        private string IsNotSimilar => "*РАЗЛИЧНЫЕ*";
+        public string IsNotSimilar => "*РАЗЛИЧНЫЕ*";
+        public void SetCoordinate()
+        {
 
+            using (var tr = new Transaction(_doc, "Установка координат объектов"))
+            {
+                tr.Start();
+                var points = new XYZ[_elementsCount];
+                for (var i = 0; i < _elementsCount; i++)
+                {
+                    var point = new XYZ(_xField[i], _yField[i], _zField[i]);
+                    points[i] = point;
+                    _elements[i].SetElementCoordinate(point, false);
+                }
+                tr.Commit();
+
+            }
+
+        }
 
         public string XField
         {
             get { return GetValueToField(_xField); }
             set
             {
+                if (value == IsNotSimilar)
+                    return;
                 var doubleValue = double.Parse(value);
-                _xField = Enumerable.Repeat(doubleValue,_xField.Length).ToArray();
-
+                if (IsMeterUnits)
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
+                _xField = Enumerable.Repeat(doubleValue, _xField.Length).ToArray();
+                ModelChanged.Invoke(this);
             }
         }
 
@@ -53,27 +74,45 @@ namespace ElectricityRevitPlugin
             get { return GetValueToField(_yField); }
             set
             {
+                if (value == IsNotSimilar)
+                    return;
                 var doubleValue = double.Parse(value);
+                if (IsMeterUnits)
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _yField = Enumerable.Repeat(doubleValue, _yField.Length).ToArray();
+                ModelChanged.Invoke(this);
 
             }
         }
 
         public string ZField
         {
-            get { return GetValueToField(_zField,UseShift); }
+            get { return GetValueToField(_zField, UseShift); }
             set
             {
+                if (value == IsNotSimilar)
+                    return;
                 var doubleValue = double.Parse(value);
+                if (IsMeterUnits)
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _zField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
-
+                ModelChanged.Invoke(this);
             }
         }
 
         private double[] _xField;
         private double[] _yField;
         private double[] _zField;
-        public bool IsMeterUnits = true;
+        private bool _isMeterUnits = true;
+        public bool IsMeterUnits
+        {
+            get => _isMeterUnits;
+            set
+            {
+                _isMeterUnits = value;
+                ModelChanged.Invoke(this);
+            }
+        } 
         private bool _useShift = false;
         public bool UseShift
         {
@@ -82,19 +121,19 @@ namespace ElectricityRevitPlugin
             {
                 _useShift = value;
                 ModelChanged.Invoke(this);
-                
+
             }
-        } 
+        }
 
         public event Action<CoordinateModelMvc> ModelChanged;
 
-        private string GetValueToField(double[] array,bool useShift = false)
+        private string GetValueToField(double[] array, bool useShift = false)
         {
             var isSimilar = IsSimilar(array, tolerance);
             if (!isSimilar)
                 return IsNotSimilar;
             var result = array.First();
-            if(useShift)
+            if (useShift)
             {
                 result = _elements.First().GetInstallationHeightRelativeToLevel();
             }
