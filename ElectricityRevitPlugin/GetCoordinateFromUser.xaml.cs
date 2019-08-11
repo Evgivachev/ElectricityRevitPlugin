@@ -34,7 +34,8 @@ namespace ElectricityRevitPlugin
             {
                 XTextBlock,
                 YTextBlock,
-                ZTextBlock
+                ZTextBlock,
+                RTextBlock
             };
             for (var i = 0; i < array.Length; i++)
             {
@@ -164,6 +165,7 @@ namespace ElectricityRevitPlugin
             XTextBlock.Text = _model.XField;
             YTextBlock.Text = _model.YField;
             ZTextBlock.Text = _model.ZField;
+            RTextBlock.Text = _model.RField;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
@@ -171,10 +173,12 @@ namespace ElectricityRevitPlugin
             var _x =(string) XTextBlock.Text.Clone();
             var _y = (string)YTextBlock.Text.Clone();
             var _z = (string)ZTextBlock.Text.Clone();
+            var _r = (string)RTextBlock.Text.Clone();
 
             _model.XField = _x;
             _model.YField = _y;
             _model.ZField = _z;
+            _model.RField = _r;
             _model.SetCoordinate();
             this.Close();
         }

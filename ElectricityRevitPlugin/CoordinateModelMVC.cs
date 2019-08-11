@@ -17,6 +17,7 @@ namespace ElectricityRevitPlugin
             _xField = new double[_elementsCount];
             _yField = new double[_elementsCount];
             _zField = new double[_elementsCount];
+            _rField = new double[_elementsCount];
 
             for (var i = 0; i < _elementsCount; i++)
             {
@@ -27,6 +28,8 @@ namespace ElectricityRevitPlugin
                 _xField[i] = Math.Round(p.Point.X, tolerance);
                 _yField[i] = Math.Round(p.Point.Y, tolerance);
                 _zField[i] = Math.Round(p.Point.Z, tolerance);
+                var r = p.Rotation/Math.PI*180;
+                _rField[i] = Math.Round(r, tolerance);
             }
         }
         private Document _doc => _elements.Select(x => x.Document).FirstOrDefault();
@@ -37,21 +40,18 @@ namespace ElectricityRevitPlugin
         public string IsNotSimilar => "*РАЗЛИЧНЫЕ*";
         public void SetCoordinate()
         {
-
-            using (var tr = new Transaction(_doc, "Установка координат объектов"))
-            {
-                tr.Start();
+         
                 var points = new XYZ[_elementsCount];
                 for (var i = 0; i < _elementsCount; i++)
                 {
-                    var point = new XYZ(_xField[i], _yField[i], _zField[i]);
-                    points[i] = point;
-                    _elements[i].SetElementCoordinate(point, false);
+                XYZ point = new XYZ(_xField[i], _yField[i], _zField[i]);
+
+                points[i] = point;
+                _elements[i].SetElementCoordinate(point, true);
+                if (UseShift)
+                    _elements[i].SetInstallationHeightRelativeToLevel(point.Z,null,true);
+                    _elements[i].SetElementRotation(_rField[i], null, true);
                 }
-                tr.Commit();
-
-            }
-
         }
 
         public string XField
@@ -99,10 +99,35 @@ namespace ElectricityRevitPlugin
                 ModelChanged.Invoke(this);
             }
         }
+        /// <summary>
+        /// в градусах
+        /// </summary>
+        public string RField
+        {
+            get { return GetValueToRField(_rField); }
+            set
+            {
+                if (value == IsNotSimilar)
+                    return;
+                var doubleValue = double.Parse(value);
+                _rField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
+                ModelChanged.Invoke(this);
+            }
+        }
+
+        private string GetValueToRField(double[] rField)
+        {
+            var isSimilar = IsSimilar(rField, tolerance);
+            if (!isSimilar)
+                return IsNotSimilar;
+            var result = rField.First();
+            return Math.Round(result, tolerance).ToString(_cultureInfo);
+        }
 
         private double[] _xField;
         private double[] _yField;
         private double[] _zField;
+        private double[] _rField;
         private bool _isMeterUnits = true;
         public bool IsMeterUnits
         {

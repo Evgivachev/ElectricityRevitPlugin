@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ElectricityRevitPlugin"
              mc:Ignorable="d"
-        Width="440" Height="300" ResizeMode="CanMinimize">
+        Width="450" Height="300" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="53*"/>
@@ -13,22 +13,28 @@
             <ColumnDefinition Width="194*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="36*"/>
         </Grid.RowDefinitions>
-        <Label Content="X:" Margin="16,22,17,22" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="20"/>
-        <Label Content="Y:" Margin="17,22" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="19"/>
-        <Label Content="Z:" Margin="17,22,17,21" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="19"/>
-        <TextBox Name="XTextBlock" Grid.Column="1" Margin="14,22" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" Width="150" Height="25" SelectionBrush="#FFECC61D"/>
-        <TextBox Name="YTextBlock" Grid.Column="1" Margin="14,22" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" Width="150" Height="25" SelectionBrush="#FFECC61D"/>
-        <TextBox Name="ZTextBlock" Grid.Column="1" Margin="14,22" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" Height="25" Width="150" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" SelectionBrush="#FFECC61D"/>
-        <Button Name="OkButton" Content="ОК" Grid.Column="2" Margin="0,0,106,10" Grid.Row="3" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="OkButton_Click" IsDefault="True"/>
-        <Button Name="CancelButton" Content="Отмена" Grid.Column="2" Margin="0,0,10,10" Grid.Row="3" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="CancelButton_Click" IsCancel="True"/>
-        <CheckBox Name="UseShiftCheckBox" Content="Использовать смещение" Grid.Column="2" Margin="17,26,10,17" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <RadioButton Name="FtRadioButton" Content="Футы" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <RadioButton Name="MeterRadioButton" Content="Метры" Grid.Column="2" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        <Label Content="X:" Margin="16,21,17,21" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="20"/>
+        <Label Content="Y:" Margin="17,21" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="19"/>
+        <Label Content="Z:" Margin="17,22,17,20" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="19"/>
+        <Label Content="R:" Margin="17" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="19"/>
+        <TextBox Name="XTextBlock" TabIndex="1" Grid.Column="1" Margin="19,22,18,21" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" SelectionBrush="#FFECC61D" OpacityMask="#FF46FF00"/>
+        <TextBox Name="YTextBlock" TabIndex="2" Grid.Column="1" Margin="19,22,18,21" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" SelectionBrush="#FFECC61D" OpacityMask="#FF46FF00"/>
+        <TextBox Name="ZTextBlock" TabIndex="3" Grid.Column="1" Margin="19,22,18,21" Grid.Row="2" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" SelectionBrush="#FFECC61D" OpacityMask="#FF46FF00"/>
+        <TextBox Name="RTextBlock" TabIndex="4" Grid.Column="1" Margin="19,23,52,20" Grid.Row="3" TextWrapping="Wrap" Text="TextBlock" BorderBrush="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" CaretBrush="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" FontFamily="Arial" TextAlignment="Center" SelectionBrush="#FFECC61D" OpacityMask="#FF46FF00"/>
+        <Button Name="OkButton" TabIndex="5" Content="ОК" Grid.Column="2" Margin="0,0,106,10" Grid.Row="4" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="OkButton_Click" IsDefault="True"/>
+        <Button Name="CancelButton" TabIndex="6" Content="Отмена" Grid.Column="2" Margin="0,0,10,10" Grid.Row="4" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Click="CancelButton_Click" IsCancel="True"/>
+        <CheckBox Name="UseShiftCheckBox" Content="Использовать смещение" Grid.Column="2" Margin="13,18,10,16" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="171"/>
+        <RadioButton Name="FtRadioButton" Content="Футы" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="15" Width="47"/>
+        <RadioButton Name="MeterRadioButton" Content="Метры" Grid.Column="2" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Height="14" Width="57"/>
+       
+        
+        <Label Content=", град" Margin="135,17,10,17" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="42" Grid.Column="1"/>
 
     </Grid>
 </Window>
