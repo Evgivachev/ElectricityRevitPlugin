@@ -61,7 +61,7 @@ namespace ElectricityRevitPlugin
             {
                 if (value == IsNotSimilar)
                     return;
-                var doubleValue = double.Parse(value);
+                var doubleValue = double.Parse(value,NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
                     doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _xField = Enumerable.Repeat(doubleValue, _xField.Length).ToArray();
@@ -76,7 +76,7 @@ namespace ElectricityRevitPlugin
             {
                 if (value == IsNotSimilar)
                     return;
-                var doubleValue = double.Parse(value);
+                var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
                     doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _yField = Enumerable.Repeat(doubleValue, _yField.Length).ToArray();
@@ -92,7 +92,7 @@ namespace ElectricityRevitPlugin
             {
                 if (value == IsNotSimilar)
                     return;
-                var doubleValue = double.Parse(value);
+                var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
                     doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _zField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
@@ -109,7 +109,7 @@ namespace ElectricityRevitPlugin
             {
                 if (value == IsNotSimilar)
                     return;
-                var doubleValue = double.Parse(value);
+                var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 _rField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
                 ModelChanged.Invoke(this);
             }
@@ -174,7 +174,7 @@ namespace ElectricityRevitPlugin
             var first = coords[0];
             foreach (var coord in coords)
             {
-                if (Math.Abs(coord - first) > tolerance)
+                if (Math.Abs(coord - first) >1/(10* tolerance))
                 {
                     return false;
                 }
