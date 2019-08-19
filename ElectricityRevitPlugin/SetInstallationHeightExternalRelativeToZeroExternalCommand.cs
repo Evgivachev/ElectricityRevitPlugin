@@ -44,11 +44,11 @@ namespace ElectricityRevitPlugin
                             var location = el.Location as LocationPoint;
                             if (location is null) continue;
                             var z = UnitUtils.ConvertFromInternalUnits(location.Point.Z, DisplayUnitType.DUT_METERS);
-                            //z = Math.Round(z, 3);
+                            z = Math.Round(z, 3);
                             var parameter = el.LookupParameter(parameterName);
                             if (parameter is null)
                                 continue;
-                            parameter.Set(z);
+                            var flag  = parameter.Set(z);
                             //var level = doc.GetElement(el.LevelId) as Level;
                             //if(level is null)
                             //{
