@@ -18,45 +18,50 @@ namespace ElectricityRevitPlugin
         /// <returns></returns>
         public static double GetInstallationHeightRelativeToLevel(this Element element, DisplayUnitType? displayUnitType=null)
         {
-            var elementPoint = element.Location as LocationPoint;
-            if (elementPoint is null)
-                throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
-            var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM).AsDouble();
+            //var elementPoint = element.Location as LocationPoint;
+            //if (elementPoint is null)
+            //    throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
+            //Смещение 
+            var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
+            //Смещение по высоте, есть не у всех элементов но работает
+            shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
+
+            var shift = shiftParam.AsDouble();
             if (displayUnitType.HasValue)
-                shiftParam = UnitUtils.ConvertFromInternalUnits(shiftParam, displayUnitType.Value);
-            return shiftParam;
+                shift = UnitUtils.ConvertFromInternalUnits(shift, displayUnitType.Value);
+            return shift;
 
                 
 
 
-            var doc = element.Document;
-            var levelId = element.LevelId;
-            var level = doc.GetElement(levelId) as Level;
-            if (level is null)
-            {
-                var familyInstance = element as FamilyInstance;
-                var host = familyInstance?.Host;
-                if (host is Level levelHost)
-                {
-                    level = levelHost;
-                }
-                else
-                {
-                    var hostLevelId = host?.LevelId;
-                    if (host is null || hostLevelId is null)
-                        return UnitUtils.ConvertFromInternalUnits(elementPoint.Point.Z, DisplayUnitType.DUT_MILLIMETERS);
-                    level = doc.GetElement(hostLevelId) as Level;
-                }
-            }
-            if(level is null)
-            {
-                throw new NullReferenceException($"level is null {element.Id.IntegerValue}");
+            //var doc = element.Document;
+            //var levelId = element.LevelId;
+            //var level = doc.GetElement(levelId) as Level;
+            //if (level is null)
+            //{
+            //    var familyInstance = element as FamilyInstance;
+            //    var host = familyInstance?.Host;
+            //    if (host is Level levelHost)
+            //    {
+            //        level = levelHost;
+            //    }
+            //    else
+            //    {
+            //        var hostLevelId = host?.LevelId;
+            //        if (host is null || hostLevelId is null)
+            //            return UnitUtils.ConvertFromInternalUnits(elementPoint.Point.Z, DisplayUnitType.DUT_MILLIMETERS);
+            //        level = doc.GetElement(hostLevelId) as Level;
+            //    }
+            //}
+            //if(level is null)
+            //{
+            //    throw new NullReferenceException($"level is null {element.Id.IntegerValue}");
 
-            }
-            var elevation = level.Elevation;
-            var height = elementPoint.Point.Z - elevation;
-            var heigthInMillimeters = UnitUtils.ConvertFromInternalUnits(height, DisplayUnitType.DUT_MILLIMETERS);
-            return heigthInMillimeters;
+            //}
+            //var elevation = level.Elevation;
+            //var height = elementPoint.Point.Z - elevation;
+            //var heigthInMillimeters = UnitUtils.ConvertFromInternalUnits(height, DisplayUnitType.DUT_MILLIMETERS);
+            //return heigthInMillimeters;
         }
         public static Result SetInstallationHeightRelativeToLevel(this Element element, double heigth, DisplayUnitType? displayUnitType = null, bool openTransaction = false)
         {
