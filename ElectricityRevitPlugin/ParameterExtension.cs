@@ -22,6 +22,24 @@ namespace ElectricityRevitPlugin
                     
             }
         }
+        public static bool SetEmptyValue(this Parameter parameter)
+        {
+            var type = parameter.StorageType;
+            switch (type)
+            {
+                case StorageType.Double:
+                    return parameter.Set(0.0);
+                case StorageType.Integer:
+                    return parameter.Set(0);
+                case StorageType.String:
+                    return parameter.Set("");
+                case StorageType.ElementId:
+                    return parameter.Set(new ElementId(-1));
+                default:
+                    return parameter.SetValueString("");
+                    
+            }
+        }
         
     }
 }

@@ -28,7 +28,14 @@ namespace ElectricityRevitPlugin
                     var spaces = new Dictionary<int,Dictionary<string, (int Count, double Heigth)>>();
                     var allFixtures = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_LightingFixtures)
-                        .WhereElementIsNotElementType();
+                        .WhereElementIsNotElementType()
+                        .Cast<FamilyInstance>()
+                        .Where(x =>
+                        {
+                            var flag = x.MEPModel?.ElectricalSystems?.IsEmpty;
+                            return flag.HasValue && !flag.Value;
+                        });
+                    
                     foreach (var element in allFixtures)
                     {
                         var fixture = (FamilyInstance) element;
@@ -44,6 +51,15 @@ namespace ElectricityRevitPlugin
                             spaces[spaceIdInt][fixtureName] = ( 0,Heigth: element.GetInstallationHeightRelativeToLevel(DisplayUnitType.DUT_MILLIMETERS)) ;
                         
                         spaces[spaceIdInt][fixtureName] = (spaces[spaceIdInt][fixtureName].Count+1 ,spaces[spaceIdInt][fixtureName].Heigth);
+                    }
+                    var allSpaces = new FilteredElementCollector(doc)
+                        .OfCategory(BuiltInCategory.OST_MEPSpaces)
+                        .OfType<Space>();
+                    foreach (var space in allSpaces)
+                    {
+                        if(spaces.ContainsKey(space.Id.IntegerValue))
+                            continue;
+                        spaces[space.Id.IntegerValue] = null;
                     }
 
                     var names = spaces.Select(x => doc.GetElement(new ElementId(x.Key)).Name).OrderBy(x=>x).ToArray();
@@ -70,21 +86,33 @@ namespace ElectricityRevitPlugin
                             space.LookupParameter("Высота светильников"),
                             space.LookupParameter("Высота светильников 2")
                         };
-                        var fixtures = pair.Value.Take(2).ToArray();
-
-                        for (var i = 0; i < fixtures.Length; i++)
-                        {
-                            var type = fixtures[i].Key;
-                            var count = fixtures[i].Value.Count;
-                            var h = fixtures[i].Value.Heigth;
-                            var flag = new[]
+                        var fixtures = pair.Value?.Take(2).ToArray();
+                        
+                            for (var i = 0; i < 2; i++)
                             {
-                                types[i].Set(type),
-                                counts[i].Set(count),
-                                countsLamp[i].Set(1),
-                                fixtureHeight[i].Set(h)
-                            };
-                        }
+                                var flag1 = new[]
+                                {
+                                    
+                                    types[i].SetEmptyValue(),
+                                    counts[i].SetEmptyValue(),
+                                    countsLamp[i].SetEmptyValue(),
+                                    fixtureHeight[i].SetEmptyValue()
+                                };
+                                if(fixtures is null || fixtures.Length<2)
+                                    continue;
+                                var type = fixtures[i].Key;
+                                var count = fixtures[i].Value.Count;
+                                var h = fixtures[i].Value.Heigth;
+                                var flag = new[]
+                                {
+                                    
+                                    types[i].Set(type),
+                                    counts[i].Set(count),
+                                    countsLamp[i].Set(1),
+                                    fixtureHeight[i].Set(h)
+                                };
+                            }
+                        
                     }
                     tr.Commit();
                 }
