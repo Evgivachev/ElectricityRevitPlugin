@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -162,5 +163,48 @@ namespace ElectricityRevitPlugin
             return flag ? Result.Succeeded : Result.Failed;
         }
 
+        private static Result CopyParameters(this Element to, Element from)
+        {
+            var result = Result.Succeeded;
+            var fromParametersMap = from.ParametersMap;
+            var toParameterMap = to.ParametersMap;
+            foreach (Parameter toParam in toParameterMap)
+            {
+                if(toParam.IsReadOnly)
+                    continue;
+                if(!fromParametersMap.Contains(toParam.Definition.Name))
+                    continue;
+                var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
+                var value = fromParam.GetValueDynamic();
+                if(value is null)
+                    continue;
+                var flag = toParam.Set(value);
+
+            }
+
+            return result;
+
+        }
+
+        public static Result CopyParameters(this Element to, Element from, bool openTransaction = false )
+        {
+            var result = Result.Failed;
+            if (openTransaction)
+            {
+                using (var tr = new Transaction(from.Document))
+                {
+                    tr.Start("CopyParameters");
+                    result = to.CopyParameters(from);
+                    tr.Commit();
+                }
+            }
+            else
+            {
+                result = result = to.CopyParameters(from);
+            }
+
+            return result;
+
+        }
     }
 }

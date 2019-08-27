@@ -79,11 +79,13 @@
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="KeySchelduleExtension.cs" />
+    <Compile Include="ParameterExtension.cs" />
     <Compile Include="PluginParametersSet.cs" />
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectFramesFromSelectedSheets.cs" />
     <Compile Include="SetElementCoordinatesExternalCommand.cs" />
+    <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SortSheets.cs" />

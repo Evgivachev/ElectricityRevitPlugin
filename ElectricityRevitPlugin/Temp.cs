@@ -25,21 +25,9 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Temp");
-                    var sharedParameterApplicableRule = new SharedParameterApplicableRule("Высота установки");
-                    var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
-
-                    var allElements = new FilteredElementCollector(doc)
-                        .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
-                        .OfClass(typeof(FamilyInstance))
-                        .Cast<Element>();
-
-                    foreach (var el in allElements)
-                    {
-                        var name = el.Name;
-                        if (!name.StartsWith("БП"))
-                            continue;
-                        el.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_PREFIX).Set(name);
-                    }
+                    var viewSchedule = doc.GetElement(new ElementId(20150886)) as ViewSchedule;
+                    var fromElement = doc.GetElement(new ElementId(20151417));
+                    viewSchedule.AddElement(app,fromElement,false);
                     tr.Commit();
                 }
             }
