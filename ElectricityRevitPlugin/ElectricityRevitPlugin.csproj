@@ -89,7 +89,7 @@
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SortSheets.cs" />
-    <Compile Include="Temp.cs" />
+    <Compile Include="DublicateElementInViewScheduleExternalCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

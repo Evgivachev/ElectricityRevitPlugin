@@ -11,7 +11,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class TempExternalCommand : IExternalCommand
+    public class DublicateElementInViewScheduleExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -25,9 +25,20 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Temp");
-                    var viewSchedule = doc.GetElement(new ElementId(20150886)) as ViewSchedule;
-                    var fromElement = doc.GetElement(new ElementId(20151417));
-                    viewSchedule.AddElement(app,fromElement,false);
+                    var selection = uiDoc.Selection;
+                    var selectedIds = selection.GetElementIds();
+                    var selectedElements = selectedIds
+                        .Select(x => doc.GetElement(x));
+                    foreach(var element in selectedElements)
+                    {
+                        var viewId = element.OwnerViewId;
+                        if (viewId is null)
+                            continue;
+                        var view = doc.GetElement(viewId) as ViewSchedule;
+                        if (view is null)
+                            continue;
+                        view.AddElement(app, element, false);
+                    }
                     tr.Commit();
                 }
             }

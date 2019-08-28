@@ -98,7 +98,7 @@ namespace ElectricityRevitPlugin
                                     countsLamp[i].SetEmptyValue(),
                                     fixtureHeight[i].SetEmptyValue()
                                 };
-                                if(fixtures is null || fixtures.Length<2)
+                                if(fixtures is null || i==1&&fixtures.Length<2)
                                     continue;
                                 var type = fixtures[i].Key;
                                 var count = fixtures[i].Value.Count;
