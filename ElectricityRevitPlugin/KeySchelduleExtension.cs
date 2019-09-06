@@ -11,10 +11,10 @@ namespace ElectricityRevitPlugin
 {
     public static class KeyScheduleExtension
     {
-        public static void AddElement(this ViewSchedule schedule, Application app, Element el, bool openTransaction)
+        public static void AddElement(this ViewSchedule schedule, Element el, bool openTransaction)
         {
             var fromElementName = el.Name;
-            var doc = el.Document;
+            var doc = schedule.Document;
             var td = schedule.GetTableData();
             var body = td.GetSectionData(SectionType.Body);
             var flag = body.CanInsertRow(body.FirstRowNumber);

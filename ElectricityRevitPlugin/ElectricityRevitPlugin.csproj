@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="AppSetting.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
+    <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
     <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ElementExtension.cs" />
     <Compile Include="Extensions\FamilyInstanceExtension.cs" />
@@ -99,13 +100,20 @@
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SortSheets.cs" />
-    <Compile Include="DublicateElementInViewScheduleExternalCommand.cs" />
+    <Compile Include="DuplicateElementInViewScheduleExternalCommand.cs" />
+    <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
+      <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="GetCoordinateFromUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CopyElementsInViewScheduleWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

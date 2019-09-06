@@ -11,7 +11,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class DublicateElementInViewScheduleExternalCommand : IExternalCommand
+    public class DuplicateElementInViewScheduleExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -37,7 +37,12 @@ namespace ElectricityRevitPlugin
                         var view = doc.GetElement(viewId) as ViewSchedule;
                         if (view is null)
                             continue;
-                        view.AddElement(app, element, false);
+                        var cat = Category.GetCategory(doc,view.Definition.CategoryId);
+
+                        var q = ViewSchedule.GetValidCategoriesForSchedule()
+                            .Where(ViewSchedule.IsValidCategoryForKeySchedule);
+
+                       // view.AddElement(app, element, false);
                     }
                     tr.Commit();
                 }

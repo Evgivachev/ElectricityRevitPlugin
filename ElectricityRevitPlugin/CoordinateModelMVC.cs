@@ -28,7 +28,7 @@ namespace ElectricityRevitPlugin
                 _xField[i] = Math.Round(p.Point.X, tolerance);
                 _yField[i] = Math.Round(p.Point.Y, tolerance);
                 _zField[i] = Math.Round(p.Point.Z, tolerance);
-                var r = p.Rotation/Math.PI*180;
+                var r = p.Rotation / Math.PI * 180;
                 _rField[i] = Math.Round(r, tolerance);
             }
         }
@@ -40,18 +40,18 @@ namespace ElectricityRevitPlugin
         public string IsNotSimilar => "*РАЗЛИЧНЫЕ*";
         public void SetCoordinate()
         {
-         
-                var points = new XYZ[_elementsCount];
-                for (var i = 0; i < _elementsCount; i++)
-                {
+
+            var points = new XYZ[_elementsCount];
+            for (var i = 0; i < _elementsCount; i++)
+            {
                 XYZ point = new XYZ(_xField[i], _yField[i], _zField[i]);
 
                 points[i] = point;
                 _elements[i].SetElementCoordinate(point, true);
                 if (UseShift)
-                    _elements[i].SetInstallationHeightRelativeToLevel(point.Z,null,true);
-                    _elements[i].SetElementRotation(_rField[i], null, true);
-                }
+                    _elements[i].SetInstallationHeightRelativeToLevel(point.Z, null, true);
+                _elements[i].SetElementRotation(_rField[i], null, true);
+            }
         }
 
         public string XField
@@ -61,7 +61,7 @@ namespace ElectricityRevitPlugin
             {
                 if (value == IsNotSimilar)
                     return;
-                var doubleValue = double.Parse(value,NumberStyles.Number, CultureInfo.InvariantCulture);
+                var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
                     doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
                 _xField = Enumerable.Repeat(doubleValue, _xField.Length).ToArray();
@@ -137,7 +137,7 @@ namespace ElectricityRevitPlugin
                 _isMeterUnits = value;
                 ModelChanged.Invoke(this);
             }
-        } 
+        }
         private bool _useShift = false;
         public bool UseShift
         {
@@ -174,7 +174,7 @@ namespace ElectricityRevitPlugin
             var first = coords[0];
             foreach (var coord in coords)
             {
-                if (Math.Abs(coord - first) >1/(10* tolerance))
+                if (Math.Abs(coord - first) > 1 / (10 * tolerance))
                 {
                     return false;
                 }
