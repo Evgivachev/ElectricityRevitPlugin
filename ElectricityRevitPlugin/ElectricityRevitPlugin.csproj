@@ -78,18 +78,20 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddReserveElectricalSystemExternalCommand.cs" />
     <Compile Include="AppSetting.cs" />
+    <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
     <Compile Include="ElectricityPluginApp.cs" />
-    <Compile Include="ElementExtension.cs" />
+    <Compile Include="Extensions\ElementExtension.cs" />
     <Compile Include="Extensions\FamilyInstanceExtension.cs" />
     <Compile Include="Extensions\ViewSheetExtension.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KeySchelduleExtension.cs" />
-    <Compile Include="ParameterExtension.cs" />
+    <Compile Include="Extensions\KeySchelduleExtension.cs" />
+    <Compile Include="Extensions\ParameterExtension.cs" />
     <Compile Include="PluginParametersSet.cs" />
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Temp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

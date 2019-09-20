@@ -1,17 +1,19 @@
-﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
 
 namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class DuplicateElementInViewScheduleExternalCommand : IExternalCommand
+    class ConnectElementsToShieldExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -24,22 +26,27 @@ namespace ElectricityRevitPlugin
             {
                 using (var tr = new Transaction(doc))
                 {
-                    tr.Start("Temp");
+                    tr.Start("ConnectElementsToShield");
                     var selection = uiDoc.Selection;
                     var selectedIds = selection.GetElementIds();
-                    selectedIds.Add(new ElementId(20151058));
                     var selectedElements = selectedIds
-                        .Select(x => doc.GetElement(x));
+                        .Select(x => doc.GetElement(x))
+                        .OfType<FamilyInstance>()
+                        .ToArray();
+                    var shield = selectedElements.FirstOrDefault(x =>
+                        x.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
+                    if (shield is null)
+                    {
+                        throw new NullReferenceException("Следует выбрать щит и элементы");
+                    }
                     foreach (var element in selectedElements)
                     {
-                        var viewId = element.OwnerViewId;
-                        if (viewId is null)
+                        if(element == shield)
                             continue;
-                        var view = doc.GetElement(viewId) as ViewSchedule;
-                        if (view is null)
-                            continue;
-                        var cat = Category.GetCategory(doc, view.Definition.CategoryId);
-                        view.AddElement(element, false);
+
+                        var nEs = ElectricalSystem.Create(doc, new List<ElementId>() { element.Id },
+                            ElectricalSystemType.PowerCircuit);
+                        nEs.SelectPanel(shield);
                     }
                     tr.Commit();
                 }
