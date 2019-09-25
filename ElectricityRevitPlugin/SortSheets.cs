@@ -4,6 +4,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using ElectricityRevitPlugin.Extensions;
+using MoreLinq;
 
 namespace ElectricityRevitPlugin
 {
@@ -11,6 +12,8 @@ namespace ElectricityRevitPlugin
     [Regeneration(RegenerationOption.Manual)]
     public class SortSheets : IExternalCommand
     {
+        private Guid _listManuallyNumberParameterGuid = new Guid("c7687445-c508-4eb1-aefd-3ae0c9e6abfa");
+        private Guid _endToEndNumberingParameterGuid = new Guid("88cb0f2b-89b8-4158-8f56-eb605da286c6");
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var uiApp = commandData.Application;
@@ -36,8 +39,10 @@ namespace ElectricityRevitPlugin
                 
                 if (!allSheet.Any())
                     return result;
+
                 var numbers = allSheet
-                    .Select(x => x.LookupParameter("Номер листа (вручную)").AsInteger())
+                    .Select(x => x.get_Parameter(_listManuallyNumberParameterGuid)
+                        .AsDouble())
                     .ToArray();
                 var minNumber = numbers.Min();
                 minNumber = minNumber == 0 ? 1 : minNumber;
@@ -45,25 +50,40 @@ namespace ElectricityRevitPlugin
                 var sortedSheets = allSheet
                     .OrderBy(x =>
                     {
-                        var param = x.LookupParameter("Номер листа (вручную)");
+                        var param = x.get_Parameter(_listManuallyNumberParameterGuid);
                         if (param.HasValue)
                             return param.AsInteger();
                         return maxNumber + 1;
                     })
                     .ThenBy(x => x.SheetNumber.Length)
-                    .ThenBy(x => x.SheetNumber);
+                    .ThenBy(x => x.SheetNumber)
+                    .ToArray();
                 var currentNumber = minNumber;
+
+                var indexEndToEndNumbering = 0;
+                double? minEndToEndNumbering = null;
+                for (int i = 0; i < sortedSheets.Length; i++)
+                {
+                    var param = sortedSheets[i].get_Parameter(_endToEndNumberingParameterGuid);
+                    if(!param.HasValue)
+                        continue;
+                    var endToEndNumber = param.AsDouble();
+                    if (!minEndToEndNumbering.HasValue || minEndToEndNumbering.Value > endToEndNumber)
+                    {
+                        indexEndToEndNumbering = i;
+                        minEndToEndNumbering = endToEndNumber;
+                    }
+                }
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Задание номеров листов");
-                    foreach (var sheet in sortedSheets)
+                    for (var index = 0; index < sortedSheets.Length; index++)
                     {
+                        var sheet = sortedSheets[index];
                         var newNumber = currentNumber++;
-                        var q1 = sheet.GetSheetNumberManuallyString();
-                        var param = sheet.LookupParameter("Номер листа (вручную)");
+                        var param = sheet.get_Parameter(_listManuallyNumberParameterGuid);
                         var sheetName = sheet.Name;
                         var flag = param.Set(newNumber);
-                        var q = sheet.GetSheetNumberManuallyString();
                         var grOfSheet = sheet.LookupParameter(grName).AsString();
 
                         var repeat = 0;
@@ -71,17 +91,20 @@ namespace ElectricityRevitPlugin
                         {
                             try
                             {
-                                sheet.SheetNumber = $"{grOfSheet}_{newNumber}"+(repeat==0? "" : $"({repeat})");
+                                sheet.SheetNumber = $"{grOfSheet}_{newNumber}" + (repeat == 0 ? "" : $"({repeat})");
                                 break;
-
                             }
                             catch (Exception e)
                             {
                                 repeat++;
                             }
-                            
                         }
-                        
+
+                        if (minEndToEndNumbering.HasValue)
+                        {
+                            var endToEndNumberingParam = sheet.get_Parameter(_endToEndNumberingParameterGuid);
+                            endToEndNumberingParam.Set(minEndToEndNumbering.Value - indexEndToEndNumbering + index);
+                        }
                     }
 
                     tr.Commit();
