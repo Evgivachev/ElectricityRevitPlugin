@@ -111,6 +111,8 @@
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
+    <Compile Include="SetProjectSectionExternalCommand.cs" />
+    <Compile Include="SetProjectSectionForElectricalSystems.cs" />
     <Compile Include="SortSheets.cs" />
     <Compile Include="DuplicateElementInViewScheduleExternalCommand.cs" />
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">

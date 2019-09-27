@@ -45,35 +45,22 @@ namespace ElectricityRevitPlugin
                         .AsDouble())
                     .ToArray();
                 var minNumber = numbers.Min();
-                minNumber = minNumber == 0 ? 1 : minNumber;
                 var maxNumber = numbers.Max();
                 var sortedSheets = allSheet
                     .OrderBy(x =>
                     {
                         var param = x.get_Parameter(_listManuallyNumberParameterGuid);
                         if (param.HasValue)
-                            return param.AsInteger();
+                            return param.AsDouble();
                         return maxNumber + 1;
                     })
                     .ThenBy(x => x.SheetNumber.Length)
                     .ThenBy(x => x.SheetNumber)
                     .ToArray();
                 var currentNumber = minNumber;
+                var eneToEndNumberingCurrent =
+                    sortedSheets[0].get_Parameter(_endToEndNumberingParameterGuid).AsDouble();
 
-                var indexEndToEndNumbering = 0;
-                double? minEndToEndNumbering = null;
-                for (int i = 0; i < sortedSheets.Length; i++)
-                {
-                    var param = sortedSheets[i].get_Parameter(_endToEndNumberingParameterGuid);
-                    if(!param.HasValue)
-                        continue;
-                    var endToEndNumber = param.AsDouble();
-                    if (!minEndToEndNumbering.HasValue || minEndToEndNumbering.Value > endToEndNumber)
-                    {
-                        indexEndToEndNumbering = i;
-                        minEndToEndNumbering = endToEndNumber;
-                    }
-                }
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Задание номеров листов");
@@ -99,12 +86,8 @@ namespace ElectricityRevitPlugin
                                 repeat++;
                             }
                         }
-
-                        if (minEndToEndNumbering.HasValue)
-                        {
-                            var endToEndNumberingParam = sheet.get_Parameter(_endToEndNumberingParameterGuid);
-                            endToEndNumberingParam.Set(minEndToEndNumbering.Value - indexEndToEndNumbering + index);
-                        }
+                        var endToEndNumberingParam = sheet.get_Parameter(_endToEndNumberingParameterGuid);
+                        endToEndNumberingParam.Set(eneToEndNumberingCurrent++);
                     }
 
                     tr.Commit();
