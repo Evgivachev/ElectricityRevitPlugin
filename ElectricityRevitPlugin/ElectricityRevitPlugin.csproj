@@ -119,6 +119,7 @@
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Temp.cs" />
+    <Compile Include="Temp2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
