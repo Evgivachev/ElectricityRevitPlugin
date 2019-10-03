@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectElectricalSystemsFromAnnotation.cs" />
     <Compile Include="SelectFramesFromSelectedSheets.cs" />
     <Compile Include="SelectPowerElectricalSystemsFromSelectionExternalCommand.cs" />
     <Compile Include="SelectSheetFormatAndAlignExternalCommand.cs" />

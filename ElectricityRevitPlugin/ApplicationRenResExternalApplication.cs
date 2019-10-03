@@ -38,13 +38,13 @@ namespace ElectricityRevitPlugin
                     .CreateSplitButton("SB Листы2", " SB Листы2",
                         sb =>
                         {
-                            sb.CreateButton<SortSheets>("Подобрать рамки", "Подобрать рамки",
+                            sb.CreateButton<SelectSheetFormatAndAlignExternalCommand>("Подобрать рамки", "Подобрать рамки",
                                 bt =>
                                     bt.SetLargeImage(Resource1.icons8_futurama_bender_32)
                                         .SetLongDescription<MyButton>("Подобрать рамки")
                                         .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                             "https://www.revitapidocs.com/2019/"));
-                            sb.CreateButton<SelectFramesFromSelectedSheets>("Подобрать рамки для схем", "Подобрать рамки для схем",
+                            sb.CreateButton<SelectSheetFormatAndAlignOnDiagramExternalCommand>("Подобрать рамки для схем", "Подобрать рамки для схем",
                                 bt => bt.SetLargeImage(Resource1.icons8_futurama_zoidberg_32)
                                     .SetLongDescription<MyButton>("Подобрать рамки для схем")
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
