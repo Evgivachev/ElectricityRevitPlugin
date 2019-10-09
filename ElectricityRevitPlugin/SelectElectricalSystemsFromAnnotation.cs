@@ -43,31 +43,6 @@ namespace ElectricityRevitPlugin
                 .Where(x => x != null);
 
             uiDoc.Selection.SetElementIds(selection.Select(x=>x.Id).ToArray());
-            //using (var tr = new Transaction(doc))
-            //{
-            //    tr.Start("sds");
-            //    foreach (var system in systems)
-            //    {
-            //        var isReserveParameter = system.LookupParameter("Резервная группа");
-            //        var isControlParameter = system.LookupParameter("Контрольные цепи");
-
-            //        var d1Id = system.LookupParameter("Отключающее устройство 1").AsElementId();
-            //        var d1 = doc.GetElement(d1Id)?.Name;
-
-            //        var d2Id = system.LookupParameter("Отключающее устройство 2").AsElementId();
-            //        var d2 = doc.GetElement(d2Id)?.Name;
-
-
-            //        var isReserve = d1?.Contains("Резерв") ?? false;
-            //        var isControl = d2 == "Цепи управления";
-
-            //        isReserveParameter.Set(isReserve ? 1 : 0);
-            //        isControlParameter.Set(isControl ? 1 : 0);
-
-            //    }
-            //    tr.Commit();
-            //}
-
             return result;
 
         }

@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace ExternalCommands
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    class RotateElementsExternalCommand : IExternalCommand
+    class SetModeOfElectricalSystemToAllElementsExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -24,28 +25,16 @@ namespace ExternalCommands
             {
                 using (var tr = new Transaction(doc))
                 {
-                    tr.Start("Установка поворота элементов");
-                    var selection = uiDoc.Selection;
-                    var elementIds = selection.GetElementIds();
+                    tr.Start("Установка режима траектории электрической цепи на все устройства");
+                    var electricalSystems = new FilteredElementCollector(doc)
+                        .OfClass(typeof(ElectricalSystem))
+                        .WhereElementIsNotElementType()
+                        .OfType<ElectricalSystem>();
+                    SetModeOfElectricalSystem(electricalSystems);
+                    
 
-                    foreach (var elId in elementIds)
-                    {
-                        try
-                        {
-                            var el = doc.GetElement(elId);
-                            var location = el.Location as LocationPoint;
-                            if (location is null) continue;
-                            var line = Line.CreateUnbound(location.Point, new XYZ(0, 0, 1));
-                            var k = Math.Round(location.Rotation / Math.PI * 2);
-                            var angle = k * Math.PI / 2;
-                            el.Location.Rotate(line, -location.Rotation + angle);
-                        }
-                        catch
-                        {
-
-                        }
-                    }
                     tr.Commit();
+
                 }
             }
             catch (Exception e)
@@ -59,8 +48,15 @@ namespace ExternalCommands
             }
             return result;
         }
+
+        private void SetModeOfElectricalSystem(IEnumerable<ElectricalSystem> electricalSystems)
+        {
+            foreach(var system in electricalSystems)
+            {
+                var mode = system.CircuitPathMode;
+                if (mode == ElectricalCircuitPathMode.FarthestDevice)
+                    system.CircuitPathMode = ElectricalCircuitPathMode.AllDevices;
+            }
+        }
     }
 }
-
-
-
