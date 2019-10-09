@@ -50,7 +50,28 @@ namespace ElectricityRevitPlugin
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                         "https://www.revitapidocs.com/2019/"));
 
-                        });
+                        })
+                    
+                    ;
+
+                MyRibbon.GetApplicationRibbon(uicApp)
+                    .Tab("ЭОМ")
+                    .Panel("Общая")
+                    .CreateStackedItems(si => si.CreateButton<SetElementCoordinatesExternalCommand>("Задать координаты", "Задать координаты",
+                                bt =>
+                                    bt.SetSmallImage(Resource1.icons8_капитан_америка_16)
+                                        .SetLongDescription<MyButton>("Задать координаты")
+                                        .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                            "https://www.revitapidocs.com/2019/"))
+                    .CreateButton<SetInstallationHeightExternalRelativeToLevelExternalCommand>("Высота установки", "Высота установки",
+                                bt =>
+                                    bt.SetSmallImage(Resource1.icons8_халк_16)
+                                        .SetLongDescription<MyButton>("Высота установки")
+                                        .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                            "https://www.revitapidocs.com/2019/"))
+                    );
+                
+
             }
             catch (Exception e)
             {

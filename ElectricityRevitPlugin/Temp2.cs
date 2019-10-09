@@ -22,21 +22,18 @@ namespace ElectricityRevitPlugin
             var app = uiApp.Application;
             var doc = uiDoc.Document;
             var result = Result.Succeeded;
-            var systems = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
-                .Cast<ElectricalSystem>();
+            var sheets = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_Sheets)
+                .Cast<ViewSheet>();
             using (var tr = new Transaction(doc))
             {
                 tr.Start("sds");
-                foreach (var system in systems)
+                foreach (var sheet in sheets)
                 {
-                    var param = system.LookupParameter("Марка кабеля");
-                    var paramString = param.AsValueString();
-
-                    if (paramString.Contains("LTx"))
+                    var name = sheet.Name;
+                    if(name.EndsWith("."))
                     {
-                        if (paramString.Contains("3x2.5"))
-                            param.Set(new ElementId(22411615));
+                        sheet.Name = name.Substring(0, name.Length - 1);
                     }
                 }
                 tr.Commit();

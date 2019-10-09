@@ -153,5 +153,11 @@
   <ItemGroup>
     <None Include="Resources\icons8-futurama-zoidberg-32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-капитан-америка-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-халк-16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
