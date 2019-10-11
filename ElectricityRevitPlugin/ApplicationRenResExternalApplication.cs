@@ -70,8 +70,18 @@ namespace ElectricityRevitPlugin
                                         .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                             "https://www.revitapidocs.com/2019/"))
                     );
-                
 
+                MyRibbon.GetApplicationRibbon(uicApp)
+                    .Tab("ЭОМ")
+                    .Panel("Цепи")
+                    .CreateButton<SetModeOfElectricalSystemToAllElementsExternalCommand>("Изменить режим траектории,","Изменить режим траектории",
+                                bt =>
+
+                                    bt.SetLargeImage(Resource1.icons8_тринити_32)
+                                        .SetLongDescription<MyButton>("Перевести режим траектории из \"Наиболее удалённое устройство\" во \"Все устройства\"")
+                                        .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                            "https://www.revitapidocs.com/2019/")
+                        );
             }
             catch (Exception e)
             {

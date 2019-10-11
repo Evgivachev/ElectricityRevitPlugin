@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExternalCommands
+namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    class SetModeOfElectricalSystemToAllElementsExternalCommand : IExternalCommand
+    public class SetModeOfElectricalSystemToAllElementsExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
