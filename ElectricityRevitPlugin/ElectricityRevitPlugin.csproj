@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Extensions\KeySchelduleExtension.cs" />
     <Compile Include="Extensions\ParameterExtension.cs" />
+    <Compile Include="IUpdaterParameters.cs" />
     <Compile Include="PluginParametersSet.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -113,6 +114,7 @@
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
+    <Compile Include="SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
     <Compile Include="SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
@@ -125,6 +127,8 @@
     <Compile Include="Temp2.cs" />
     <Compile Include="Temp3.cs" />
     <Compile Include="Temp4.cs" />
+    <Compile Include="UpdateParametersOfElectricalSystemIExernalCommand.cs" />
+    <Compile Include="UpdaterParameters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

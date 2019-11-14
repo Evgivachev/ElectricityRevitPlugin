@@ -29,7 +29,8 @@ namespace ElectricityRevitPlugin
         {
             _model = model;
             InitializeComponent();
-            MeterRadioButton.Checked += MeterRadioButtonOnChecked;
+
+            
             var array = new[]
             {
                 XTextBlock,
@@ -39,13 +40,10 @@ namespace ElectricityRevitPlugin
             };
             for (var i = 0; i < array.Length; i++)
             {
-                //array[i].TextChanged += TextBlockOnTextChanged;
                 array[i].PreviewTextInput += XTextBlockOnTextInput;
                 array[i].GotFocus += GetCoordinateFromUserWpf_GotFocus;
-                //array[i].LostFocus += GetCoordinateFromUserWpf_LostFocus;
-                //array[i].PreviewLostKeyboardFocus += GetCoordinateFromUserWpf_PreviewLostKeyboardFocus;
-                //array[i].TextChanged += GetCoordinateFromUserWpf_TextChanged; ;
             }
+            MeterRadioButton.Checked += MeterRadioButtonOnChecked;
             FtRadioButton.Checked += FtRadioButtonOnChecked;
             UseShiftCheckBox.Click += UseShiftCheckBoxClick;
             _model.ModelChanged += _model_ModelChanged;

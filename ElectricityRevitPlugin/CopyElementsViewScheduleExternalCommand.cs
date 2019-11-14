@@ -34,43 +34,6 @@ namespace ElectricityRevitPlugin
             var window = new CopyElementsInViewScheduleWPF(this);
             window.CopyElements();
 
-            //try
-            //{
-            //    using (var tr = new Transaction(doc))
-            //    {
-            //        tr.Start("Temp");
-
-            //        var symilarViewSchedule = new FilteredElementCollector(OpenedDocument)
-            //            .OfCategory(BuiltInCategory.OST_Schedules)
-            //            .OfType<ViewSchedule>()
-            //            .Where(s => s.Definition.IsKeySchedule)
-            //            .First(s => s.Definition.CategoryId == ActiveViewSchedule.Definition.CategoryId);
-            //        var nElements = new FilteredElementCollector(OpenedDocument, symilarViewSchedule.Id)
-            //            .ToElements();
-            //        var ownElements = new FilteredElementCollector(doc, ActiveViewSchedule.Id)
-            //            .ToElements();
-            //        var keys = ownElements.Select(x => x.get_Parameter(BuiltInParameter.REF_TABLE_ELEM_NAME).AsString())
-            //            .ToHashSet();
-            //        foreach (var nElement in nElements)
-            //        {
-            //            var nKey = nElement.get_Parameter(BuiltInParameter.REF_TABLE_ELEM_NAME).AsString();
-            //            if (keys.Contains(nKey))
-            //                continue;
-            //            ActiveViewSchedule.AddElement(nElement, false);
-
-            //        }
-            //        tr.Commit();
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    message += e.Message + '\n' + e.StackTrace;
-            //    result = Result.Failed;
-            //}
-            //finally
-            //{
-
-            //}
             return result;
         }
 

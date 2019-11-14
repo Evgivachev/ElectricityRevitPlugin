@@ -38,22 +38,6 @@ namespace ElectricityRevitPlugin
                     .ToArray();
                 selection.SetElementIds(elSystemIds);
 
-                //using (var trGr = new TransactionGroup(doc))
-                //{
-                //    trGr.Start(this.ToString());
-                    
-                //    var sheets = selection.Select(x => doc.GetElement(x))
-                //        .OfType<ViewSheet>()
-                //        .ToArray();
-                //    if (!sheets.Any())
-                //        throw new Exception("Следует выделить листы в диспетчере проекта");
-                //    foreach (var view in sheets)
-                //    {
-                //        ExecuteOnTheViewSheet(commandData, ref message, elements, view, ShiftTitleBlock);
-                //    }
-
-                //    trGr.Assimilate();
-                //}
             }
             catch (Exception e)
             {
