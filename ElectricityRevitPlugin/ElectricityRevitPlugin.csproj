@@ -127,6 +127,7 @@
     <Compile Include="Temp2.cs" />
     <Compile Include="Temp3.cs" />
     <Compile Include="Temp4.cs" />
+    <Compile Include="Temp5.cs" />
     <Compile Include="UpdateParametersOfElectricalSystemIExernalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
   </ItemGroup>
