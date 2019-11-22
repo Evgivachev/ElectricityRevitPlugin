@@ -35,16 +35,46 @@ namespace ElectricityRevitPlugin
         {
             _actions.Add(updater.UpdateParameters);
         }
+
+        //public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        //{
+        //    var uiApp = commandData.Application;
+        //    var uiDoc = uiApp.ActiveUIDocument;
+        //    var doc = uiDoc.Document;
+        //    var app = uiApp.Application;
+        //    var result = Result.Succeeded;
+
+        //    try
+        //    {
+        //        using (var tr = new Transaction(doc))
+        //        {
+        //            tr.Start(this.GetType().Name);
+        //            parameterUpdater.Execute();
+        //            tr.Commit();
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        message += e.Message + '\n' + e.StackTrace;
+        //        result = Result.Failed;
+        //    }
+        //    finally
+        //    {
+
+        //    }
+        //    return result;
+        //}
         public void Execute()
         {
             var els = GetElements();
-            foreach(var el in els)
+            foreach (var el in els)
             {
-                foreach(var a in _actions)
+                foreach (var a in _actions)
                 {
                     a.Invoke(el);
                 }
             }
         }
+
     }
 }

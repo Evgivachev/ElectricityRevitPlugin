@@ -116,6 +116,7 @@
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
     <Compile Include="SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
+    <Compile Include="SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
     <Compile Include="SortSheets.cs" />

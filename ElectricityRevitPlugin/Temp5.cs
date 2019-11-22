@@ -36,9 +36,7 @@ namespace ElectricityRevitPlugin
                     foreach (var el in allElements)
                     {
                         var param = el.get_Parameter(_projectSectionParameterGuid);
-                        if (param.IsReadOnly)
-                            continue;
-                        if (param is null)
+                        if (param.IsReadOnly || param is null)
                             continue;
                         var paramString = param.AsString();
                         string value = "_@";

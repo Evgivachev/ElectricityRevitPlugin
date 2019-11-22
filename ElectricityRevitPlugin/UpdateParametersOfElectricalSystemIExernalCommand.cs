@@ -12,7 +12,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    class UpdateParametersOfElectricalSystemIExernalCommand : IExternalCommand
+    internal class UpdateParametersOfElectricalSystemIExernalCommand :  IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -27,6 +27,8 @@ namespace ElectricityRevitPlugin
             parameterUpdater.AddAction(new SetLenghtForTubeOfElectricalSystemsExternalCommand());
             //Режим траектории электрической цепи
             parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
+            //Тип вводного автомата Уставка вводного автомата
+            parameterUpdater.AddAction(new SetParametersOfElSystemsCurrentPowerSystemAndType());
 
             try
             {
@@ -48,12 +50,6 @@ namespace ElectricityRevitPlugin
             }
             return result;
         }
-
-
-
-
-
-
 
     }
 }
