@@ -163,30 +163,27 @@ namespace ElectricityRevitPlugin
             return flag ? Result.Succeeded : Result.Failed;
         }
 
-        private static Result CopyParameters(this Element to, Element from)
-        {
-            var result = Result.Succeeded;
-            var fromParametersMap = from.ParametersMap;
-            var toParameterMap = to.ParametersMap;
-            foreach (Parameter toParam in toParameterMap)
-            {
-                if(toParam.IsReadOnly)
-                    continue;
-                if(!fromParametersMap.Contains(toParam.Definition.Name))
-                    continue;
-                var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
-                var value = fromParam.GetValueDynamic();
-                if(value is null)
-                    continue;
-                var flag = toParam.Set(value);
+        //private static Result CopyParameters(this Element to, Element from, params string[] excludedParams)
+        //{
+        //    var result = Result.Succeeded;
+        //    var fromParametersMap = from.ParametersMap;
+        //    var toParameterMap = to.ParametersMap;
+        //    foreach (Parameter toParam in toParameterMap)
+        //    {
+        //        if(toParam.IsReadOnly)
+        //            continue;
+        //        if(!fromParametersMap.Contains(toParam.Definition.Name))
+        //            continue;
+        //        var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
+        //        var value = fromParam.GetValueDynamic();
+        //        if(value is null)
+        //            continue;
+        //        var flag = toParam.Set(value);
+        //    }
+        //    return result;
+        //}
 
-            }
-
-            return result;
-
-        }
-
-        public static Result CopyParameters(this Element to, Element from, bool openTransaction = false )
+        public static Result CopyParameters(this Element to, Element from, bool openTransaction = false, params string[] excludedParams)
         {
             var result = Result.Failed;
             if (openTransaction)
@@ -194,17 +191,30 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(from.Document))
                 {
                     tr.Start("CopyParameters");
-                    result = to.CopyParameters(from);
+                    result = to.CopyParameters(from,false, excludedParams);
                     tr.Commit();
                 }
             }
             else
             {
-                result = result = to.CopyParameters(from);
+                var fromParametersMap = from.ParametersMap;
+                var toParameterMap = to.ParametersMap;
+                foreach (Parameter toParam in toParameterMap)
+                {
+                    if (toParam.IsReadOnly)
+                        continue;
+                    if (!fromParametersMap.Contains(toParam.Definition.Name))
+                        continue;
+                    if (excludedParams.Contains(toParam.Definition.Name))
+                        continue;
+                    var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
+                    var value = fromParam.GetValueDynamic();
+                    if (value is null)
+                        continue;
+                    var flag = toParam.Set(value);
+                }
             }
-
             return result;
-
         }
     }
 }

@@ -88,6 +88,7 @@
     <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
+    <Compile Include="CopySheetsExternalCommand.cs" />
     <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ApplicationRenResExternalApplication.cs" />
     <Compile Include="Extensions\ElementExtension.cs" />
