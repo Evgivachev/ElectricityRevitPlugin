@@ -23,9 +23,9 @@ namespace ElectricityRevitPlugin
             //if (elementPoint is null)
             //    throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
             //Смещение 
-            var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
+            //var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
             //Смещение по высоте, есть не у всех элементов но работает
-            shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
+            var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
 
             var shift = shiftParam.AsDouble();
             if (displayUnitType.HasValue)
