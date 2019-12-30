@@ -25,7 +25,6 @@ namespace ElectricityRevitPlugin
         protected virtual Result BuiltPanel()
         {
             throw new NotImplementedException();
-
         }
     }
 }
