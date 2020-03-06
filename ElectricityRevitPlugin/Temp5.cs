@@ -51,11 +51,10 @@ namespace ElectricityRevitPlugin
                             case "ТЭ@":
                                 continue;
                             case "ЭОМ":
-                                value = "ТЭ@";
+                                value = "ЭОМ@";
                                 break;
                             case "ЭОМ@":
-                                value = "ТЭ@";
-                                break;
+                                continue;
                             case "ТЭ ПП":
                                 value = "ТЭ_ПП@";
                                 break;
@@ -78,7 +77,7 @@ namespace ElectricityRevitPlugin
 
                             param.Set(value);
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
 
                         }

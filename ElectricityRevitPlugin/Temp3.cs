@@ -25,6 +25,7 @@ namespace ElectricityRevitPlugin
             var systems = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
                 .Cast<ElectricalSystem>();
+
             using (var tr = new Transaction(doc))
             {
                 tr.Start("sds");

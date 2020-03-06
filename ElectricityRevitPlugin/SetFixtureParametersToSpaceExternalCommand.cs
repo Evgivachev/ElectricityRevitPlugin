@@ -65,6 +65,8 @@ namespace ElectricityRevitPlugin
                     var names = spaces.Select(x => doc.GetElement(new ElementId(x.Key)).Name).OrderBy(x=>x).ToArray();
                     foreach (var pair in spaces)
                     {
+                        var spaceId = pair.Key;
+
                         var space =doc.GetElement(new ElementId( pair.Key));
                         var types = new[]
                         {
