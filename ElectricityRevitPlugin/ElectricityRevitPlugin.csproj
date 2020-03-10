@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows, Version=2016.11.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\AdWindows.dll</HintPath>
+    <Reference Include="AdWindows">
+      <HintPath>..\ref\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MoreLinq, Version=3.2.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d">
@@ -42,24 +42,24 @@
     <Reference Include="mscorlib" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI, Version=18.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI">
+      <HintPath>..\ref\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIIFC, Version=18.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\RevitAPIIFC.dll</HintPath>
+    <Reference Include="RevitAPIIFC">
+      <HintPath>..\ref\RevitAPIIFC.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIMacros, Version=18.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\RevitAPIMacros.dll</HintPath>
+    <Reference Include="RevitAPIMacros">
+      <HintPath>..\ref\RevitAPIMacros.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI, Version=18.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\ref\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUIMacros, Version=18.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Revit-2018.1-x64.Base.1.0.0\lib\net46\RevitAPIUIMacros.dll</HintPath>
+    <Reference Include="RevitAPIUIMacros">
+      <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -127,7 +127,7 @@
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Temp.cs" />
+    <Compile Include="TempDUCT.cs" />
     <Compile Include="Temp2.cs" />
     <Compile Include="Temp3.cs" />
     <Compile Include="Temp4.cs" />
@@ -176,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-тринити-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
