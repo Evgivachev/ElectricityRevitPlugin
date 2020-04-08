@@ -74,5 +74,10 @@ namespace ElectricityRevitPlugin
             DialogResult = true;
             Close();
         }
+
+        private void SchedulesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

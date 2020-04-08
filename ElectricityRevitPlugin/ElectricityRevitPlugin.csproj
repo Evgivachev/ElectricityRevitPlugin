@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ElectricityRevitPlugin</RootNamespace>
     <AssemblyName>ElectricityRevitPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -91,10 +92,27 @@
     <Compile Include="CoordinateModelMVC.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
     <Compile Include="CopySheetsExternalCommand.cs" />
+    <Compile Include="DefaultExternalCommand.cs" />
     <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ApplicationRenResExternalApplication.cs" />
+    <Compile Include="Extensions\ElectricalSystemExtension.cs" />
     <Compile Include="Extensions\ElementExtension.cs" />
     <Compile Include="Extensions\FamilyInstanceExtension.cs" />
+    <Compile Include="GeneralSubject\CableParameterUpdater.cs" />
+    <Compile Include="GeneralSubject\CheckableItem.cs" />
+    <Compile Include="GeneralSubject\DisconnectingDeviceParameterUpdater.cs" />
+    <Compile Include="GeneralSubject\GeneralSubjectViewModel.cs" />
+    <Compile Include="GeneralSubject\GeneralSubjectWpf.xaml.cs">
+      <DependentUpon>GeneralSubjectWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GeneralSubject\MyCollectionOfCheckableItems.cs" />
+    <Compile Include="GeneralSubject\OutgoingLineParameterUpdater.cs" />
+    <Compile Include="GeneralSubject\ParameterUpdater.cs" />
+    <Compile Include="GeneralSubject\ShieldParameterUpdater.cs" />
+    <Compile Include="GeneralSubject\ShowGeneralSubjectWindowExternalCommand.cs" />
+    <Compile Include="GeneralSubject\Test1.cs" />
+    <Compile Include="GeneralSubject\TestPasteElectricalSystems.cs" />
+    <Compile Include="GeneralSubject\TestPastleAnnotation.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
       <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
     </Compile>
@@ -102,12 +120,14 @@
     <Compile Include="Extensions\ParameterExtension.cs" />
     <Compile Include="IUpdaterParameters.cs" />
     <Compile Include="PluginParametersSet.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
     <Compile Include="RevitLinkSelectionFilter.cs" />
+    <Compile Include="RevitNameComparer.cs" />
     <Compile Include="RotateElementsExternalCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectElectricalSystemsFromAnnotation.cs" />
@@ -135,6 +155,8 @@
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
     <Compile Include="Temp6.cs" />
+    <Compile Include="UpdateCableManagementMethodExternalCommand.cs" />
+    <Compile Include="UpdateCablesMarkExternalCommand.cs" />
     <Compile Include="UpdateParametersOfElectricalSystemIExernalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
   </ItemGroup>
@@ -142,6 +164,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="GeneralSubject\GeneralSubjectWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GetCoordinateFromUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,5 +207,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

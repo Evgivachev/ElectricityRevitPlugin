@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
             <Label Content="Открыть документ: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="118"/>
             <Label Content="Ключевая спецификация:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Height="26" Width="150" Grid.Row="1"/>
-            <ComboBox x:Name="SchedulesComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="470" Grid.Row="1" Height="22"/>
+            <ComboBox x:Name="SchedulesComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="470" Grid.Row="1" Height="22" SelectionChanged="SchedulesComboBox_SelectionChanged"/>
             <Button x:Name="CancelButton" Content="Отмена" Grid.Column="1" HorizontalAlignment="Left" Margin="495,16,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="20" Click="CancelButton_Click"/>
             <Button x:Name="OkButton" Content="Ок" Grid.Column="1" HorizontalAlignment="Left" Margin="405,16,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="20" Click="OkButton_Click"/>
             <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="10,10,0,0" VerticalAlignment="Top" Width="470">

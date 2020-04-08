@@ -14,7 +14,10 @@ namespace ElectricityRevitPlugin
                 case StorageType.Integer:
                     return parameter.AsInteger();
                 case StorageType.String:
-                    return parameter.AsString();
+                {
+                    var result = parameter.AsString();
+                    return result ?? string.Empty;
+                }
                 case StorageType.ElementId:
                     return parameter.AsElementId();
                 default:

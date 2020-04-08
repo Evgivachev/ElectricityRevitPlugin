@@ -29,6 +29,10 @@ namespace ElectricityRevitPlugin
             parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
             //Тип вводного автомата Уставка вводного автомата
             parameterUpdater.AddAction(new SetParametersOfElSystemsCurrentPowerSystemAndType());
+            //Обновление параметра Марка кабелей для выносок
+            parameterUpdater.AddAction(new UpdateCablesMarkExternalCommand());
+
+            parameterUpdater.AddAction(new UpdateCableManagementMethodExternalCommand());
 
             try
             {

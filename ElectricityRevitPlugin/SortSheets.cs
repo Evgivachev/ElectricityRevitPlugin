@@ -81,7 +81,7 @@ namespace ElectricityRevitPlugin
                                 sheet.SheetNumber = $"{grOfSheet}_{newNumber}" + (repeat == 0 ? "" : $"({repeat})");
                                 break;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                                 repeat++;
                             }
