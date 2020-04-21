@@ -31,7 +31,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     {
                         var shield = (FamilyInstance) s;
 
-                        var value = shield.LookupParameter("Тип вводного автомата").AsString();
+                        var value = shield.LookupParameter("Тип вводного автомата")?.AsString()??"";
                         return value;
                     }
                 },

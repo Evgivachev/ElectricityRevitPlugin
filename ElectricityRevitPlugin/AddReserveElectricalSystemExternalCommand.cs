@@ -13,7 +13,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    ///Добавить резервные группы к электрическому щиту
+    //Добавить резервные группы к электрическому щиту
     class AddReserveElectricalSystemExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

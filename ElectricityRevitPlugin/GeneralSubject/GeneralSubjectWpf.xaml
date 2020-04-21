@@ -27,7 +27,6 @@
         <TreeView x:Name="TreeView" Margin="10,9.4,9.6,8.6" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding MyCollectionOfCheckableItems}"
             >
             <TreeView.ItemTemplate>
-                
                 <HierarchicalDataTemplate
                     DataType="local:CheckableItem"
                     ItemsSource="{Binding Children}">

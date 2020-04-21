@@ -38,14 +38,17 @@ namespace ElectricityRevitPlugin.GeneralSubject
             SetParameters(instance);
             return instance;
         }
-        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary =new Dictionary<string, Func<object, dynamic>>();
+        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>();
 
-        public void SetParameters(Element toElement)
+        public virtual void SetParameters(Element toElement)
         {
+            var p = toElement.get_Parameter(new Guid("be64f474-c030-40cf-9975-6eaebe087a84"))?.AsInteger() == 1;
+            if (p)
+                return;
             SetSameParameters(toElement);
+            Doc.Regenerate();
             SetParametersFromParametersDictionary(toElement);
             SetParametersFromFuncDictionary(toElement);
-
         }
         protected virtual void SetParametersFromParametersDictionary(Element toElement)
         {
@@ -53,6 +56,8 @@ namespace ElectricityRevitPlugin.GeneralSubject
             {
                 var fromP = (Parameter)_fromElement.get_Parameter(pair.Key);
                 var toP =(Parameter) toElement.get_Parameter(pair.Value);
+                if(fromP is null || toP is null)
+                    throw new NullReferenceException();
                 var flag  = toP.Set(fromP.GetValueDynamic());
             }
         }
@@ -62,6 +67,8 @@ namespace ElectricityRevitPlugin.GeneralSubject
             foreach (var func in FuncParametricDictionary)
             {
                 var toP = toElement.LookupParameter(func.Key);
+                if(toP is null)
+                    throw new NullReferenceException();
                 var value = func.Value.Invoke(_fromElement);
                 if(value is null)
                     continue;
@@ -81,7 +88,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     continue;
                 toP.Set(fromP.GetValueDynamic());
             }
-            toElement.get_Parameter(ConnectedElementId).Set(toElement.Id.IntegerValue.ToString());
+            toElement.get_Parameter(ConnectedElementId).Set(_fromElement.Id.IntegerValue.ToString());
         }
 
         //protected XYZ PickPoint()

@@ -16,7 +16,11 @@ namespace ElectricityRevitPlugin.GeneralSubject
         { }
         public DisconnectingDeviceParameterUpdater(Element fromElement) : base(fromElement)
         {
-            ParametersDictionary = new Dictionary<dynamic, dynamic>();
+            ParametersDictionary = new Dictionary<dynamic, dynamic>
+            {
+                // Количество фаз
+                {BuiltInParameter.RBS_ELEC_NUMBER_OF_POLES, new Guid("20497dfd-f758-48d3-9652-9d4b22880dfd")}
+            };
             FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>
             {
                 {

@@ -148,6 +148,7 @@
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Temp7.cs" />
     <Compile Include="TempDUCT.cs" />
     <Compile Include="Temp2.cs" />
     <Compile Include="Temp3.cs" />

@@ -1,3 +1,4 @@
+using System;
 using Autodesk.Revit.DB;
 
 namespace ElectricityRevitPlugin
@@ -6,6 +7,8 @@ namespace ElectricityRevitPlugin
     {
         public static dynamic GetValueDynamic(this Parameter parameter)
         {
+            if(parameter is null)
+                throw new NullReferenceException();
             var type = parameter.StorageType;
             switch (type)
             {

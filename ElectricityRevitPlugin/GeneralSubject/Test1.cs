@@ -42,26 +42,30 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 tr.Start();
                 foreach (var toElement in allElements)
                 {
+                    var toElementType = Doc.GetElement(toElement.GetTypeId());
+
                     var id = toElement.Id.IntegerValue;
                     //24751880
-                    var linkID = toElement.get_Parameter(new Guid("dca1fe51-4090-4178-9f12-a83aa5986266")).AsString()
+                    var linkId = toElement.get_Parameter(new Guid("dca1fe51-4090-4178-9f12-a83aa5986266")).AsString()
                         .Trim();
-                    var updaterClassName = toElement.get_Parameter(new Guid("6c36d5e8-7863-4efb-accf-894a5aa95cc1")).AsString();
+                    var updaterClassName = toElementType.get_Parameter(new Guid("6c36d5e8-7863-4efb-accf-894a5aa95cc1")).AsString();
                     var currentAssembly = Assembly.GetCallingAssembly();
                    
 
-                    if (string.IsNullOrEmpty(linkID))
+                    if (string.IsNullOrEmpty(linkId))
                         continue;
-                    var fromElemId = new ElementId(int.Parse(toElement.get_Parameter(new Guid("dca1fe51-4090-4178-9f12-a83aa5986266")).AsString().Trim()));
+                    var fromElemId = new ElementId(int.Parse(linkId));
 
                     var fromElement = Doc.GetElement(fromElemId);
+                    if(fromElement is null)
+                        continue;
 
                     var parameterUpdater = (ParameterUpdater) currentAssembly.CreateInstance(updaterClassName, false,
                         BindingFlags.CreateInstance, null, new[] {fromElement}, CultureInfo.InvariantCulture, null);
                   //  parameterUpdater = new CableParameterUpdater(fromElement);
                   Debug.Assert(parameterUpdater != null, nameof(parameterUpdater) + " != null");
-                  parameterUpdater.SetSameParameters(toElement);
-                    Doc.Regenerate();
+                  //parameterUpdater.SetSameParameters(toElement);
+                  //  Doc.Regenerate();
                     parameterUpdater.SetParameters(toElement);
 
                 }
