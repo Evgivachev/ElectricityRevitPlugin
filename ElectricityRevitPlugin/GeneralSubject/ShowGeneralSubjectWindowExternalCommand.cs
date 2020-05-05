@@ -16,8 +16,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             var viewModel = new GeneralSubjectViewModel(UiDoc);
-            var window = new GeneralSubjectWpf(viewModel);
-            window.ShowDialog();
+            viewModel.Run();
             return Result.Succeeded;
         }
     }

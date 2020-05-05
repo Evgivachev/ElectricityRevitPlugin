@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using ElectricityRevitPlugin.Annotations;
 
 namespace ElectricityRevitPlugin.GeneralSubject
 {
-    public class GeneralSubjectViewModel
+    public class GeneralSubjectViewModel :INotifyPropertyChanged
     {
         private Document _doc;
         private UIDocument _uiDoc;
         public bool IsHideExistingElements = false;
-        public FamilySymbol SelectedFamilySymbol { get; set; }
         //public IList<TreeNode> TreeNodes => GetTreeView(SelectedFamilySymbol);
         public GeneralSubjectViewModel(UIDocument uiDocument)
         {
@@ -25,31 +27,32 @@ namespace ElectricityRevitPlugin.GeneralSubject
             _doc = uiDocument.Document;
         }
 
-        public IList<Element> GetAvailableFamilySymbols()
-        {
-            var sharedParameterApplicableRule = new[]
-            {
-               // new SharedParameterApplicableRule("ID связанного элемента"),
-                new SharedParameterApplicableRule("ReflectionClassName")
-            };
-            //var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
-            var elementParameterFilter = new ElementParameterFilter(new SharedParameterApplicableRule("ReflectionClassName"));
-            var allElements = new FilteredElementCollector(_doc)
-              .OfClass(typeof(FamilySymbol))
-              .WhereElementIsElementType()
-              //.WherePasses(elementParameterFilter)
-              .OfType<FamilySymbol>()
-               .Where(x =>
-              {
-                  var updaterClassName = x.get_Parameter(ParameterUpdater.ReflectionClassNameGuid)?.AsString();
-                  return !string.IsNullOrEmpty(updaterClassName);
-                  return x.FamilyName.Contains("ВРУ");
-              })
-                .ToArray();
-            return allElements;
-        }
 
-        public MyCollectionOfCheckableItems GetTreeView(FamilySymbol familySymbol)
+        public FamilySymbol SelectedFamilySymbol { get; set; }
+        public FamilySymbol[] AvailableFamilySymbols
+        {
+            get
+            {
+                var elementParameterFilter =
+                    new ElementParameterFilter(new SharedParameterApplicableRule("ReflectionClassName"));
+                var allElements = new FilteredElementCollector(_doc)
+                    .OfClass(typeof(FamilySymbol))
+                    .WhereElementIsElementType()
+                    //.WherePasses(elementParameterFilter)
+                    .OfType<FamilySymbol>()
+                    .Where(x =>
+                    {
+                        var updaterClassName = x.get_Parameter(ParameterUpdater.ReflectionClassNameGuid)?.AsString();
+                        return !string.IsNullOrEmpty(updaterClassName);
+                    })
+                    .ToArray();
+                return allElements;
+            }
+        }
+        public bool IsHideExistingElementsCheckBox { get; set; }
+
+        public MyCollectionOfCheckableItems TreeCollectionOfCheckableItems => GetTreeView(SelectedFamilySymbol);
+       private MyCollectionOfCheckableItems GetTreeView(FamilySymbol familySymbol)
         {
             var currentAssembly = Assembly.GetCallingAssembly();
             var updaterClassName = familySymbol.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
@@ -57,7 +60,6 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 BindingFlags.CreateInstance, null, null, CultureInfo.InvariantCulture, null);
             var validateElements = parameterUpdater
                 .GetValidateElements(_doc);
-
             return validateElements;
         }
 
@@ -95,6 +97,21 @@ namespace ElectricityRevitPlugin.GeneralSubject
             ObjectSnapTypes snapTypes = ObjectSnapTypes.Endpoints | ObjectSnapTypes.Intersections;
             XYZ point = _uiDoc.Selection.PickPoint(snapTypes, "Select an end point or intersection");
             return point;
+        }
+
+        public void Run()
+        {
+            var window = new GeneralSubjectWpf();
+            window.DataContext = this;
+            var dialogResult = window.ShowDialog();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
