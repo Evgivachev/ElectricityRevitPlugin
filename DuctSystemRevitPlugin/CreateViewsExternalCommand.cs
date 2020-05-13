@@ -78,6 +78,7 @@ namespace DuctSystemRevitPlugin
                         .OfClass(typeof(ParameterFilterElement))
                         .First(f => f.Name == "MACROS_Возд_" + _systemName);
                     filter = filter1 as ParameterFilterElement;
+                    filter.SetCategories(categories);
                     filter.SetElementFilter(epf);
                 }
 
