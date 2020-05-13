@@ -22,8 +22,7 @@ namespace ElectricityRevitPlugin
             for (var i = 0; i < _elementsCount; i++)
             {
                 var element = elements[i];
-                var p = element.Location as LocationPoint;
-                if (p is null)
+                if (!(element.Location is LocationPoint p))
                     throw new ArgumentException($"Location point of element {element.Id.IntegerValue} is null ");
                 _xField[i] = Math.Round(p.Point.X, tolerance);
                 _yField[i] = Math.Round(p.Point.Y, tolerance);
@@ -32,7 +31,6 @@ namespace ElectricityRevitPlugin
                 _rField[i] = Math.Round(r, tolerance);
             }
         }
-        private Document _doc => _elements.Select(x => x.Document).FirstOrDefault();
         private readonly CultureInfo _cultureInfo = CultureInfo.InvariantCulture;
         private int tolerance = 3;
         private Element[] _elements;
