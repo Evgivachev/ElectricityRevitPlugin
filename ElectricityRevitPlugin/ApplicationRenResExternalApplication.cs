@@ -49,7 +49,6 @@ namespace ElectricityRevitPlugin
                                     .SetLongDescription<MyButton>("Подобрать рамки для схем")
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                         "https://www.revitapidocs.com/2019/"));
-
                         })
                     ;
 
