@@ -32,6 +32,7 @@ namespace ElectricityRevitPlugin
                         .Cast<FamilyInstance>()
                         .Where(x =>
                         {
+                            return true;
                             var flag = x.MEPModel?.ElectricalSystems?.IsEmpty;
                             return flag.HasValue && !flag.Value;
                         });

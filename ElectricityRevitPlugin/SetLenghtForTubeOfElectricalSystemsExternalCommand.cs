@@ -31,8 +31,8 @@ namespace ElectricityRevitPlugin
                         .OfClass(typeof(ElectricalSystem))
                         .WhereElementIsNotElementType()
                         .OfType<ElectricalSystem>();
-                    foreach(var el in electricalSystems)
-                    SetLenghtForTubeOfElectricalSystems(el);
+                    foreach (var el in electricalSystems)
+                        SetLenghtForTubeOfElectricalSystems(el);
 
                     tr.Commit();
 
