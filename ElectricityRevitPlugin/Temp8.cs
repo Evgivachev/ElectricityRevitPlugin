@@ -11,37 +11,41 @@ using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledEx
 
 namespace ElectricityRevitPlugin
 {
-    [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
-    public class Temp8 : DefaultExternalCommand
+    [Regeneration(RegenerationOption.Manual)]
+    class Temp8 : DefaultExternalCommand
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            var selection = UiDoc.Selection;
-            //Элемент для копирования
-            var elId = new ElementId(24837780);
+            var elId = new ElementId(24839863);
             var el = Doc.GetElement(elId);
-            //Выбор связи
+            var point = el.Location as LocationPoint;
+            var selection = UiDoc.Selection;
+
+
             try
             {
                 using (var tr = new Transaction(Doc))
                 {
-                    tr.Start("Копироваине элементов");
+                    
+
                     while (true)
                     {
+                        tr.Start("Вставка элементов");
 
-
-                        var linkedEl = selection.PickObject(ObjectType.LinkedElement, "Выберите элемент");
-                        var copy = ElementTransformUtils.CopyElement(Doc, elId, linkedEl.GlobalPoint);
+                        var fromEl = selection.PickObject(ObjectType.LinkedElement, "Выбор связанного элемента");
+                        var coord = fromEl.GlobalPoint;
+                        var load = ElementTransformUtils.CopyElement(Doc, elId, coord-point?.Point);
+                        tr.Commit();
                     }
+                    
                 }
             }
-            catch (OperationCanceledException)
+
+            catch (OperationCanceledException e)
             {
                 return Result.Succeeded;
-
             }
-
         }
     }
 }
