@@ -143,6 +143,7 @@
     <Compile Include="SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
+    <Compile Include="Short-Circuits\ShortCircuits.cs" />
     <Compile Include="SortSheets.cs" />
     <Compile Include="DuplicateElementInViewScheduleExternalCommand.cs" />
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
