@@ -28,7 +28,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
         }
 
-        public abstract MyCollectionOfCheckableItems GetValidateElements(Document document);
+        public abstract CollectionOfCheckableItems GetValidateElements(Document document);
 
         protected Dictionary<dynamic, dynamic> ParametersDictionary = new Dictionary<dynamic, dynamic>();
 

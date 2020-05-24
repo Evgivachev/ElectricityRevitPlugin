@@ -16,7 +16,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
         }
 
-        public override MyCollectionOfCheckableItems GetValidateElements(Document document)
+        public override CollectionOfCheckableItems GetValidateElements(Document document)
         {
             throw new NotImplementedException();
         }

@@ -65,7 +65,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
         }
 
-        public override MyCollectionOfCheckableItems GetValidateElements(Document document)
+        public override CollectionOfCheckableItems GetValidateElements(Document document)
         {
             var elss = new FilteredElementCollector(document)
                 .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
@@ -75,7 +75,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 .GroupBy(x => x.PanelName ?? "???")
                 //.GroupBy(x => x.PanelName)
                 ;
-            var result = new MyCollectionOfCheckableItems();
+            var result = new CollectionOfCheckableItems();
             foreach (var group in elss)
             {
                 var item = new CheckableItem()

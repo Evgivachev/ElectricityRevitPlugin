@@ -21,11 +21,15 @@
             <ColumnDefinition Width="306*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Семейство для вставки" HorizontalAlignment="Left" Margin="10,10,0,9.6" Width="150"/>
-        <ComboBox ItemsSource="{Binding AvailableFamilySymbols}" SelectedItem="{Binding SelectedFamilySymbol}"
+        <ComboBox ItemsSource="{Binding AvailableFamilySymbols}"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedFamilySymbol}"
                   Grid.Row="0" Grid.Column="1" Margin="9.8,10,9.6,0" VerticalAlignment="Top" Height="22"/>
         <CheckBox  IsChecked="{Binding IsHideExistingElementsCheckBox }" Content="Скрыть существующие элементы на виде" HorizontalAlignment="Left" Margin="10,9.4,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"
                    Grid.Column="0" Height="20" Width="280" />
-        <TreeView  Margin="10,9.4,9.6,8.6" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding MyCollectionOfCheckableItems}"
+        <TreeView  Margin="10,9.4,9.6,8.6"
+                   Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"
+                   ItemsSource="{Binding TreeCollectionOfCheckableItems}"
             >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate

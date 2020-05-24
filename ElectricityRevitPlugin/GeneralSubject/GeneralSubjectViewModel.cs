@@ -15,7 +15,7 @@ using ElectricityRevitPlugin.Annotations;
 
 namespace ElectricityRevitPlugin.GeneralSubject
 {
-    public class GeneralSubjectViewModel :INotifyPropertyChanged
+    public class GeneralSubjectViewModel : INotifyPropertyChanged
     {
         private Document _doc;
         private UIDocument _uiDoc;
@@ -28,7 +28,19 @@ namespace ElectricityRevitPlugin.GeneralSubject
         }
 
 
-        public FamilySymbol SelectedFamilySymbol { get; set; }
+        private FamilySymbol _selectedFamilySymbol;
+
+        public FamilySymbol SelectedFamilySymbol
+        {
+            get => _selectedFamilySymbol;
+            set
+            {
+                _selectedFamilySymbol = value;
+                OnPropertyChanged(nameof(SelectedFamilySymbol));
+                UpdateTreeCollectionOfCheckableItems();
+            }
+        }
+
         public FamilySymbol[] AvailableFamilySymbols
         {
             get
@@ -51,26 +63,40 @@ namespace ElectricityRevitPlugin.GeneralSubject
         }
         public bool IsHideExistingElementsCheckBox { get; set; }
 
-        public MyCollectionOfCheckableItems TreeCollectionOfCheckableItems => GetTreeView(SelectedFamilySymbol);
-       private MyCollectionOfCheckableItems GetTreeView(FamilySymbol familySymbol)
+        private CollectionOfCheckableItems _treeCollectionOfCheckableItems;
+        public CollectionOfCheckableItems TreeCollectionOfCheckableItems
         {
-            var currentAssembly = Assembly.GetCallingAssembly();
-            var updaterClassName = familySymbol.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
-            var parameterUpdater = (ParameterUpdater)currentAssembly.CreateInstance(updaterClassName, false,
-                BindingFlags.CreateInstance, null, null, CultureInfo.InvariantCulture, null);
-            var validateElements = parameterUpdater
-                .GetValidateElements(_doc);
-            return validateElements;
+            get
+            {
+                if(_treeCollectionOfCheckableItems is null)
+                    UpdateTreeCollectionOfCheckableItems();
+                return _treeCollectionOfCheckableItems;
+            } 
         }
 
+        private void UpdateTreeCollectionOfCheckableItems()
+        {
+            if (SelectedFamilySymbol is null)
+            {
+                _treeCollectionOfCheckableItems = null;
+                return;
+            }
+            var currentAssembly = Assembly.GetCallingAssembly();
+            var updaterClassName = SelectedFamilySymbol.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
+            var parameterUpdater = (ParameterUpdater)currentAssembly.CreateInstance(updaterClassName, false,
+                BindingFlags.CreateInstance, null, null, CultureInfo.InvariantCulture, null);
+            var validateElements = parameterUpdater?.GetValidateElements(_doc);
+            _treeCollectionOfCheckableItems = validateElements;
+            OnPropertyChanged(nameof(TreeCollectionOfCheckableItems));
+        }
         public List<FamilyInstance> InsertInstances(IEnumerable<Element> selectedElements)
         {
             var insertedElement = new List<FamilyInstance>();
             var currentAssembly = Assembly.GetCallingAssembly();
             var fs = SelectedFamilySymbol;
             var updaterClassName = fs.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
-            
-            using (var tr = new Transaction(_doc,"Вставка элементов схемы ВРУ"))
+
+            using (var tr = new Transaction(_doc, "Вставка элементов схемы ВРУ"))
             {
                 tr.Start();
                 foreach (var element in selectedElements)
@@ -85,11 +111,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 }
                 tr.Commit();
             }
-            
-
             return insertedElement;
-            // var line = Line.CreateBound(points[0], points[1]);
-            //  var instance = doc.Create.NewFamilyInstance(line, familySymbol, Doc.ActiveView);
         }
 
         private XYZ PickPoint()
@@ -101,8 +123,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
         public void Run()
         {
-            var window = new GeneralSubjectWpf();
-            window.DataContext = this;
+            var window = new GeneralSubjectWpf(this);
             var dialogResult = window.ShowDialog();
         }
 

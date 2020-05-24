@@ -105,7 +105,7 @@
     <Compile Include="GeneralSubject\GeneralSubjectWpf.xaml.cs">
       <DependentUpon>GeneralSubjectWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GeneralSubject\MyCollectionOfCheckableItems.cs" />
+    <Compile Include="GeneralSubject\CollectionOfCheckableItems.cs" />
     <Compile Include="GeneralSubject\OutgoingLineParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ShieldParameterUpdater.cs" />

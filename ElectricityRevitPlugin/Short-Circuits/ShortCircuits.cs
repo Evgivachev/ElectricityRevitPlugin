@@ -83,7 +83,6 @@ namespace ElectricityRevitPlugin.Short_Circuits
                 {
                     SetParametersToElectricalSystemsInShield(system,shield,r,x);
                 }
-
             }
         }
 
@@ -99,7 +98,6 @@ namespace ElectricityRevitPlugin.Short_Circuits
 
         private (double r, double x) GetResistanceOfElectricalSystem(ElectricalSystem system)
         {
-
             var dr = system.LookupParameter("Активное сопротивление").AsDouble();
             var dx = system.LookupParameter("Индуктивное сопротивление").AsDouble();
             //Длина кабелей для ОС
