@@ -19,32 +19,32 @@ namespace ElectricityRevitPlugin
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("ЭОМ")
                     .Panel("Листы")
-                    .CreateSplitButton("SB Листы1", " SB Листы1",
+                    .CreateSplitButton("SB Листы1Old", " SB Листы1Old",
                         sb =>
                         {
-                            sb.CreateButton<SortSheets>("Сортировка листов", "Сортировка листов",
+                            sb.CreateButton<SortSheets>("Сортировка листовOld", "Сортировка листов",
                                 bt =>
                                     bt.SetLargeImage(Resource1.icons8_futurama_professor_farnsworth_32)
                                         .SetLongDescription<MyButton>("Сортировка листов")
                                         .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                             "https://www.revitapidocs.com/2019/"));
-                            sb.CreateButton<SelectFramesFromSelectedSheets>("Выбрать рамки", "Выбрать рамки",
+                            sb.CreateButton<SelectFramesFromSelectedSheets>("Выбрать рамкиOld", "Выбрать рамки",
                                 bt => bt.SetLargeImage(Resource1.icons8_futurama_fry_32)
                                     .SetLongDescription<MyButton>("Выбрать семейства основной надписи на листах")
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                         "https://www.revitapidocs.com/2019/"));
 
                         })
-                    .CreateSplitButton("SB Листы2", " SB Листы2",
+                    .CreateSplitButton("SB Листы2Old", " SB Листы2Old",
                         sb =>
                         {
-                            sb.CreateButton<SelectSheetFormatAndAlignExternalCommand>("Подобрать рамки", "Подобрать рамки",
+                            sb.CreateButton<SelectSheetFormatAndAlignExternalCommand>("Подобрать рамкиOld", "Подобрать рамки",
                                 bt =>
                                     bt.SetLargeImage(Resource1.icons8_futurama_bender_32)
                                         .SetLongDescription<MyButton>("Подобрать рамки")
                                         .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                             "https://www.revitapidocs.com/2019/"));
-                            sb.CreateButton<SelectSheetFormatAndAlignOnDiagramExternalCommand>("Подобрать рамки для схем", "Подобрать рамки для схем",
+                            sb.CreateButton<SelectSheetFormatAndAlignOnDiagramExternalCommand>("Подобрать рамки для схемOld", "Подобрать рамки для схем",
                                 bt => bt.SetLargeImage(Resource1.icons8_futurama_zoidberg_32)
                                     .SetLongDescription<MyButton>("Подобрать рамки для схем")
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
