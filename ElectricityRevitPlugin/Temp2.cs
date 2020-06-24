@@ -38,9 +38,7 @@ namespace ElectricityRevitPlugin
                 }
                 tr.Commit();
             }
-
             return result;
-
         }
     }
 }

@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows">
@@ -138,9 +139,9 @@
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
-    <Compile Include="SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
-    <Compile Include="SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
-    <Compile Include="SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
     <Compile Include="Short-Circuits\ShortCircuits.cs" />
@@ -158,9 +159,9 @@
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
     <Compile Include="Temp6.cs" />
-    <Compile Include="UpdateCableManagementMethodExternalCommand.cs" />
-    <Compile Include="UpdateCablesMarkExternalCommand.cs" />
-    <Compile Include="UpdateParametersOfElectricalSystemIExernalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExernalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
   </ItemGroup>
   <ItemGroup>

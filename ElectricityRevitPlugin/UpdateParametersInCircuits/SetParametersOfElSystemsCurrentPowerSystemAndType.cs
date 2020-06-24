@@ -54,8 +54,6 @@ namespace ElectricityRevitPlugin
         public string UpdateParameters(ElectricalSystem els)
         {
             var number = els.CircuitNumber;
-
-            string result = null;
             //Подключенные щиты
             var connectedShields = els
                 .Elements
