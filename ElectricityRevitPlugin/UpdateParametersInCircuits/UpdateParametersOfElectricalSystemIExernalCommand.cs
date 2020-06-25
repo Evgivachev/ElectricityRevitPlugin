@@ -1,14 +1,10 @@
-﻿using Autodesk.Revit.Attributes;
+﻿using System;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ElectricityRevitPlugin
+namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
@@ -24,7 +20,7 @@ namespace ElectricityRevitPlugin
 
             var parameterUpdater = new UpdaterParameters<ElectricalSystem>(doc, BuiltInCategory.OST_ElectricalCircuit);
             //Длина труб для спецификации
-            parameterUpdater.AddAction(new SetLenghtForTubeOfElectricalSystemsExternalCommand());
+            parameterUpdater.AddAction(new SetLengthForElectricalSystemsExternalCommand());
             //Режим траектории электрической цепи
             parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
             //Тип вводного автомата Уставка вводного автомата

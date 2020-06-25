@@ -1,16 +1,12 @@
-﻿using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ElectricityRevitPlugin.Extensions;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.UI;
 using MoreLinq;
 
-namespace ElectricityRevitPlugin
+namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]

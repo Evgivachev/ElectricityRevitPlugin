@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 
-namespace ElectricityRevitPlugin
+namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
     class UpdateCableManagementMethodExternalCommand : IExternalCommand, IUpdaterParameters<ElectricalSystem>
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

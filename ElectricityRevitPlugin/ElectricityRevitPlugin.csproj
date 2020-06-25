@@ -139,7 +139,7 @@
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
@@ -159,6 +159,7 @@
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
     <Compile Include="Temp6.cs" />
+    <Compile Include="UpdateParametersInCircuits\TestUpdate.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExernalCommand.cs" />
