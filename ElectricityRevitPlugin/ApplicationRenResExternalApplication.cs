@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using ElectricityRevitPlugin.GroupByGost;
 using ElectricityRevitPlugin.UpdateParametersInCircuits;
+using UpdateNameSpace;
 using VCRevitRibbonUtilCustom;
 
 namespace ElectricityRevitPlugin
@@ -53,7 +56,6 @@ namespace ElectricityRevitPlugin
                 //        })
                 //    ;
 
-
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("ЭОМ")
                     .Panel("Общая")
@@ -81,7 +83,56 @@ namespace ElectricityRevitPlugin
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                         "https://www.revitapidocs.com/2019/")
                     );
+                MyRibbon.GetApplicationRibbon(uicApp)
+                    .Tab("REN_ЭОМ")
+                    .Panel("Обновление")
+                    .CreateButton<UpdaterParametersOfShields>("Обновить параметры в щитах", "Обновить параметры в щитах", b =>
+                    {
+                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url, "https://docs.google.com/document/d/1fyB0MJm0YujIILterNRl4a_bm4gCdKuK8uN3iU6MpMw/edit?usp=sharing")
+                            .SetHelpUrl<MyButton>("www.werfau.ru")
+                            .SetLongDescription<MyButton>($"Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
+                            .SetLargeImage(Resource1.icons8_house_stark_32);
+                    });
 
+                //Регистрация изменений Обновление длин кабелей
+                var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater,true);
+                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                //    electricalSystemLengthUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeAny());
+                //Триггер на изменение параметра Длина для электрической цепи
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.GetElementFilter(),
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+                //Триггер на изменение параметра "Способ расчета длины электрической цепи"
+                //var calculateLengthType = el.LookupParameter("Способ расчета длины").AsValueString();
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.GetElementFilter(),
+                    Element.GetChangeTypeParameter(new ElementId(25296192)));
+
+                ////Триггер на изменение параметра Длина для электрической цепи
+                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                //    electricalSystemLengthUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+                ////Триггер на изменение параметра "Способ расчета длины электрической цепи"
+                ////var calculateLengthType = el.LookupParameter("Способ расчета длины").AsValueString();
+                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                //    electricalSystemLengthUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeAny());
+
+                //Регистрация изменений Обновление номера группы по ГОСТ
+
+
+                //При отсоединении элемента или добавлении триггер не срабатывает, поэтому GetChanngeTypeAny
+
+                var groupNumberByGostUpdater = new GroupByGostDynamicUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(groupNumberByGostUpdater, true);
+                //UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
+                //    groupNumberByGostUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER)));
+                UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
+                    groupNumberByGostUpdater.GetElementFilter(),
+                    Element.GetChangeTypeAny());
             }
             catch (Exception e)
             {
@@ -94,6 +145,8 @@ namespace ElectricityRevitPlugin
 
         public Result OnShutdown(UIControlledApplication application)
         {
+            var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(application.ActiveAddInId);
+            UpdaterRegistry.UnregisterUpdater(electricalSystemLengthUpdater.GetUpdaterId());
             return Result.Succeeded;
         }
     }
