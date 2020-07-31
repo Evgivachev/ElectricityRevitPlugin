@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectricityRevitPlugin
 {
-    public interface IUpdaterParameters<T> where T:Element
+    public interface IUpdaterParameters<in T> where T:Element
     {
         string UpdateParameters(T el);
     }

@@ -21,6 +21,11 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
         readonly Guid _lengthThrowAllDevicesGuid = new Guid("43387d31-d9b2-4374-916d-69ce7cec588f");
         //Запретить изменение
         readonly Guid _isUnEditable = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
+
+
+
+
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             using (var tr = new Transaction(Doc))
@@ -46,8 +51,9 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
         {
             var name = el.Name;
             //Ключевая спецификация способ расчета длины
-            var calculateLengthType = el.LookupParameter("Способ расчета длины").AsValueString();
-            var k = el.LookupParameter("Коэффициент для длины электрической цепи").AsDouble();
+            var calculateLengthType = el.LookupParameter("Способ расчета длины")?.AsValueString();
+            calculateLengthType = calculateLengthType ?? "(нет)";
+            var k = el.LookupParameter("Коэффициент для длины электрической цепи")?.AsDouble()??0.0;
 
             var lengthToNearestDeviceParameter = el.get_Parameter(_lengthToNearestDeviceGuid);
             var lengthToMostRemoteDeviceParameter = el.get_Parameter(_lengthToMostRemoteDeviceGuid);
@@ -121,7 +127,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var devices = el
                 .Elements
                 .Cast<Element>()
-                .ToDictionary(x => x.Id);
+                .ToDictionary(element => element.Id);
 
 
             var baseDevice = el.BaseEquipment;
@@ -132,7 +138,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 return true;
             var baseDeviceLocation = baseDevice.Location as LocationPoint;
             var baseDevicePoint = baseDeviceLocation.Point;
-
+           
 
             foreach (var pair in devices)
             {
@@ -150,22 +156,41 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
             //Расчет длины через все устройства
             var lastPoint = baseDevicePoint;
+            //Расчет потерь напряжения
+            //Количество фаз
+            var polesNumber = el.get_Parameter(BuiltInParameter.RBS_ELEC_NUMBER_OF_POLES).AsInteger();
+            //Напряжение
+            var voltage = el.get_Parameter(BuiltInParameter.RBS_ELEC_VOLTAGE).AsDouble();
+            //Сечение кабеля
+            var crossSection = el.LookupParameter("Сечение кабеля").AsDouble();
+            //r
+            var r = el.LookupParameter("Активное сопротивление").AsDouble();
+            //x
+            var x = el.LookupParameter("Индуктивное сопротивление").AsDouble();
+            //Количество параллельных кабелей
+            var n = el.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
+            //var P = el.
             while (devices.Any())
             {
-                var nearest = devices.Select(x => x.Value)
-                    .Select(x =>
+                var nearest = devices.Select(pair => pair.Value)
+                    .Select(element =>
                     {
-                        var lp = x.Location as LocationPoint;
+                        var lp = element.Location as LocationPoint;
                         var p = lp.Point;
                         var v = lastPoint - p;
                         var d = Math.Abs(v.X) + Math.Abs(v.Y) + Math.Abs(v.Z);
-                        return Tuple.Create(x, d, p);
+                        return Tuple.Create(element, d, p);
                     })
-                    .MinBy(x => x.Item2)
+                    .MinBy(tuple => tuple.Item2)
                     .FirstOrDefault();
                 lastPoint = nearest.Item3;
                 lengthThrowAllDevice += nearest.Item2;
                 devices.Remove(nearest.Item1.Id);
+                
+
+                //Расчет потерь напряжения
+
+
             }
 
             return true;
