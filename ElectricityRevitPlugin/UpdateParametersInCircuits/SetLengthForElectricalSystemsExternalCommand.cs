@@ -63,9 +63,9 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
             var q = new[]
             {
-                lengthToNearestDeviceParameter.Set(lengthToNearestDevice),
-                lengthToMostRemoteDeviceParameter.Set(lengthToMostRemote),
-                lengthThrowAllDeviceParameter.Set(lengthTrowAllDevice)
+                !lengthToNearestDeviceParameter.IsReadOnly && lengthToNearestDeviceParameter.Set(lengthToNearestDevice),
+                !lengthToMostRemoteDeviceParameter.IsReadOnly && lengthToMostRemoteDeviceParameter.Set(lengthToMostRemote),
+                !lengthThrowAllDeviceParameter.IsReadOnly && lengthThrowAllDeviceParameter.Set(lengthTrowAllDevice)
             };
 
             SetLengthOfCableForDiagrams(el, calculateLengthType, k);

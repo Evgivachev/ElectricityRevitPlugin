@@ -100,6 +100,7 @@ namespace ElectricityRevitPlugin
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                 //    electricalSystemLengthUpdater.GetElementFilter(),
                 //    Element.GetChangeTypeAny());
+
                 //Триггер на изменение параметра Длина для электрической цепи
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.GetElementFilter(),
@@ -133,6 +134,20 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
                     groupNumberByGostUpdater.GetElementFilter(),
                     Element.GetChangeTypeAny());
+
+
+                //Обновление потерь напряжения в цепях
+                var lossVoltageUpdater = new UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(lossVoltageUpdater, true);
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.GetElementFilter(),
+                    Element.GetChangeTypeAny());
+
+
+
+
+
+
             }
             catch (Exception e)
             {

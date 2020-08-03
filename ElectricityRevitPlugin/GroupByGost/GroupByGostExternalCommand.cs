@@ -33,7 +33,9 @@ namespace ElectricityRevitPlugin.GroupByGost
     {
         private readonly Guid _groupByGostGuid = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
         private readonly string _defaultGroupByGost = "???";
-        
+        private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
+
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             using (var tr = new Transaction(Doc, "trName"))
@@ -56,7 +58,7 @@ namespace ElectricityRevitPlugin.GroupByGost
                     {
                         //Не брать элементы типовых аннотаций (Однолинейные схемы)
                         var category = element.Category;
-                        if(category.Id.IntegerValue == (int)BuiltInCategory.OST_GenericAnnotation)
+                        if (category.Id.IntegerValue == (int)BuiltInCategory.OST_GenericAnnotation)
                             continue;
                         SetValuesToElement(element);
                     }
@@ -72,12 +74,13 @@ namespace ElectricityRevitPlugin.GroupByGost
         public void SetValuesToElement(FamilyInstance fi)
         {
             var parameter = fi.LookupParameter("Номер группы по ГОСТ");
+
             if (parameter is null)
                 return;
             var powerCable = fi.GetPowerElectricalSystem();
             if (powerCable is null)
             {
-                parameter.Set("???");
+                parameter.Set(_defaultGroupByGost);
             }
             else
             {
@@ -96,7 +99,7 @@ namespace ElectricityRevitPlugin.GroupByGost
                 param.Set(_defaultGroupByGost);
                 return;
             }
-            SetValuesToShield(new []{shield});
+            SetValuesToShield(new[] { shield });
         }
         private void SetValuesToShield(IEnumerable<FamilyInstance> shields)
         {
@@ -122,11 +125,16 @@ namespace ElectricityRevitPlugin.GroupByGost
                 var number = 1;
                 foreach (var circuit in circuits)
                 {
+                    var isDisableChangeParameter = circuit.get_Parameter(_disableChangeGuid)?.AsInteger() == 1;
+                    if (isDisableChangeParameter)
+                        continue;
                     var param = circuit.LookupParameter("Номер группы по ГОСТ");
-                    param.Set($"{prefix}{separator}{number}");
+                    if (!param.IsReadOnly)
+                        param.Set($"{prefix}{separator}{number}");
 
                     var numberQfParam = circuit.LookupParameter("Номер QF");
-                    numberQfParam.Set($"QF{number}");
+                    if (!numberQfParam.IsReadOnly)
+                        numberQfParam.Set($"QF{number}");
                     number++;
                 }
             }
