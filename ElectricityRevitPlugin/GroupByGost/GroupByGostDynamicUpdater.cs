@@ -14,7 +14,6 @@ namespace ElectricityRevitPlugin.GroupByGost
     {
         private UpdaterId _updaterId;
         private static AddInId _appId;
-        public Guid GroupByGostGuid { get; } = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
 
         public GroupByGostDynamicUpdater(AddInId id)
         {

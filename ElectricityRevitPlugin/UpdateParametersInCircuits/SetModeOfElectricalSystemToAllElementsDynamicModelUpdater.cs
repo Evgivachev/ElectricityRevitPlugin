@@ -6,38 +6,28 @@ using System.Threading.Tasks;
 using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Macros;
 
 namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
-    public class UpdateLengthOfElectricalSystemsDynamicModelUpdater : IUpdater
+    public class SetModeOfElectricalSystemToAllElementsDynamicModelUpdater : IUpdater
     {
         private static AddInId _appId;
         private static UpdaterId _updaterId;
-
-        public ElementFilter GetElementFilter()
-        {
-            var ef = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalCircuit);
-            return ef;
-        }
-
-        public UpdateLengthOfElectricalSystemsDynamicModelUpdater(AddInId id)
+        public SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(AddInId id)
         {
             _appId = id;
-            _updaterId = new UpdaterId(_appId, new Guid("3018BA6E-9571-4EB9-9D7A-75DDB66CDC85"));
+            _updaterId = new UpdaterId(_appId, new Guid("265CFA1D-4FB1-4A8E-8B85-9FAD661844DB"));
         }
+
 
         public void Execute(UpdaterData data)
         {
             try
             {
                 var doc = data.GetDocument();
-                var command = new SetLengthForElectricalSystemsExternalCommand();
-                command.Doc = doc;
-                var systems = data
-                    .GetModifiedElementIds()
-                    .Select(x => doc.GetElement(x) as ElectricalSystem)
-                    .Concat(data.GetAddedElementIds().Select(x => doc.GetElement(x) as ElectricalSystem));
+                var command = new SetModeOfElectricalSystemToAllElementsExternalCommand();
+                var systems = data.GetAddedElementIds()
+                    .Select(x => doc.GetElement(x) as ElectricalSystem);
                 foreach (var system in systems)
                 {
                     command.UpdateParameters(system);
@@ -61,12 +51,18 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         public string GetUpdaterName()
         {
-            return nameof(UpdateLengthOfElectricalSystemsDynamicModelUpdater);
+            return nameof(SetModeOfElectricalSystemToAllElementsDynamicModelUpdater);
         }
 
         public string GetAdditionalInformation()
         {
-            return "Обновление длин цепей";
+            return "Обновление траектории электрической цепи на все элементы";
+        }
+
+        public ElementFilter GetElementFilter()
+        {
+            var ef = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalCircuit);
+            return ef;
         }
     }
 }

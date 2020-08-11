@@ -94,6 +94,14 @@ namespace ElectricityRevitPlugin
                             .SetLargeImage(Resource1.icons8_house_stark_32);
                     });
 
+                //Регистрация изменений для новых цепей. Изменение траектории цепи на все элементы
+                var modeOfElectricalSystem = new SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(modeOfElectricalSystem, true);
+                UpdaterRegistry.AddTrigger(modeOfElectricalSystem.GetUpdaterId(),
+                    modeOfElectricalSystem.GetElementFilter(),
+                    Element.GetChangeTypeElementAddition());
+
+
                 //Регистрация изменений Обновление длин кабелей
                 var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater,true);
@@ -120,6 +128,8 @@ namespace ElectricityRevitPlugin
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                 //    electricalSystemLengthUpdater.GetElementFilter(),
                 //    Element.GetChangeTypeAny());
+
+               
 
                 //Регистрация изменений Обновление номера группы по ГОСТ
 

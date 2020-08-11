@@ -140,8 +140,11 @@
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
+    <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
+    <Compile Include="Temp9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
