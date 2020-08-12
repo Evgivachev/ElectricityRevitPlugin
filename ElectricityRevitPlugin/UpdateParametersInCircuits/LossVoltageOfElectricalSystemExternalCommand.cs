@@ -18,7 +18,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
     public class LossVoltageOfElectricalSystemExternalCommand : DefaultExternalCommand,
         IUpdaterParameters<ElectricalSystem>
     {
-
         private readonly Guid _lossVoltageParameterGuid = new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46");
         private readonly double _tolerance = 1e-8;
         private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
@@ -29,8 +28,15 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 .Cast<ElectricalSystem>()
                 //.Where(el=>el.Id.IntegerValue == 24431899)
                 //.Where(el=>el?.BaseEquipment?.Name =="ЩС-0")
-
                 ;
+
+            var selectedElectricalSystems = UiDoc.Selection
+                .GetElementIds()
+                .Select(id => Doc.GetElement(id))
+                .OfType<ElectricalSystem>();
+
+            allElectricalSystems = selectedElectricalSystems;
+
 
             using (var tr = new Transaction(Doc, "Расчет потерь напряжения в цепях"))
             {
@@ -119,25 +125,27 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 fi.GetElectricalParameters(out var activePowerFi, out var powerFactorFi);
                 if (activePower < _tolerance || powerFactorFi < _tolerance)
                     continue;
+                
                 previousL = 0;
                 l = 0;
                 var tgPhiFi = Math.Sqrt(1 / powerFactorFi / powerFactorFi - 1);
                 var reactivePowerFi = activePowerFi * tgPhiFi;
 
-
                 activePower -= activePowerFi;
                 reactivePower -= reactivePowerFi;
                 du0 += du;
             }
+            
             //Параметр имеет тип string
             var lossVoltageParameter = el.get_Parameter(_lossVoltageParameterGuid);
-            lossVoltageParameter = el.LookupParameter("Тестовый");
-
-
             du0 = du0 / voltage * 100;
             if (!lossVoltageParameter.IsReadOnly)
             {
-                var flag = lossVoltageParameter.Set(du0.ToString(CultureInfo.InvariantCulture));
+                var flag = lossVoltageParameter.Set(du0.ToString(("F2")));
+            }
+            else
+            {
+                
             }
             return null;
         }

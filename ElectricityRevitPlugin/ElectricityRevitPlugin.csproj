@@ -164,6 +164,7 @@
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
     <Compile Include="Temp6.cs" />
+    <Compile Include="UpdateParametersInCircuits\UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />

@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Macros;
 
 namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
-    public class UpdateLengthOfElectricalSystemsDynamicModelUpdater : IUpdater
+    public class UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater : IUpdater
     {
         private static AddInId _appId;
         private static UpdaterId _updaterId;
@@ -22,10 +21,10 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             return ef;
         }
 
-        public UpdateLengthOfElectricalSystemsDynamicModelUpdater(AddInId id)
+        public UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater(AddInId id)
         {
             _appId = id;
-            _updaterId = new UpdaterId(_appId, new Guid("3018BA6E-9571-4EB9-9D7A-75DDB66CDC85"));
+            _updaterId = new UpdaterId(_appId, new Guid("54F360D4-63B6-4DAE-8A35-586B62177D6A"));
         }
 
         public void Execute(UpdaterData data)
@@ -33,18 +32,23 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             try
             {
                 var doc = data.GetDocument();
-                var command = new SetLengthForElectricalSystemsExternalCommand();
-                command.Doc = doc;
                 var systems = data
-                    .GetModifiedElementIds()
-                    .Select(x => doc.GetElement(x) as ElectricalSystem)
-                    .Concat(data.GetAddedElementIds().Select(x => doc.GetElement(x) as ElectricalSystem));
+                    .GetAddedElementIds()
+                    .Select(id=>doc.GetElement(id))
+                    .OfType<ElectricalSystem>();
+
                 foreach (var system in systems)
                 {
-                    var isUnEditable = system.get_Parameter(_isUnEditable).AsInteger() == 1;
-                    if (isUnEditable)
-                        continue;
-                    command.UpdateParameters(system);
+                    var isUnEditableParameter = system.get_Parameter(_isUnEditable);
+
+                    var systemHasValueIsUnEditable = isUnEditableParameter.HasValue;
+                    if (!systemHasValueIsUnEditable)
+                        using (var tr = new Transaction(doc))
+                        {
+                            tr.Start("Установка значения параметра для цепи \"Запретить изменение\" в False");
+                            isUnEditableParameter.Set(0);
+                            tr.Commit();
+                        }
                 }
             }
             catch (Exception e)
@@ -65,12 +69,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         public string GetUpdaterName()
         {
-            return nameof(UpdateLengthOfElectricalSystemsDynamicModelUpdater);
+            return nameof(UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater);
         }
 
         public string GetAdditionalInformation()
         {
-            return "Обновление длин цепей";
+            return "Установка значения параметра для цепи \"Запретить изменение\" в False";
         }
     }
 }

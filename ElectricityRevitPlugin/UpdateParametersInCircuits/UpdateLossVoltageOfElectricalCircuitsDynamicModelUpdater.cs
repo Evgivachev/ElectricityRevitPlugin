@@ -13,7 +13,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
     {
         private static AddInId _appId;
         private static UpdaterId _updaterId;
-
+        readonly Guid _isUnEditable = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
         public ElementFilter GetElementFilter()
         {
             var ef = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalCircuit);
@@ -39,6 +39,9 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                     .Concat(data.GetAddedElementIds().Select(x => doc.GetElement(x) as ElectricalSystem));
                 foreach (var system in systems)
                 {
+                    var isUnEditable = system.get_Parameter(_isUnEditable).AsInteger() == 1;
+                    if (isUnEditable)
+                        continue;
                     command.UpdateParameters(system);
                 }
             }

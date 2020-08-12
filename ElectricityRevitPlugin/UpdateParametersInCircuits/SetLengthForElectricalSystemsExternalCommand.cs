@@ -23,6 +23,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
         readonly Guid _isUnEditable = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
         //Длина через все элементы со смещением
         readonly Guid _lengthThrowAllDevicesWithShiftGuid = new Guid("48cb22b9-5f47-4d45-978d-4a5749462053");
+        //смещение для электрической цепи
+        readonly Guid _shiftForElectricalCircuit = new Guid("8598960d-1bdb-4e68-82e0-f5202c76bce1");
 
         protected override Result DoWork(ref string message, ElementSet elements)
         {
@@ -32,11 +34,11 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             using (var tr = new Transaction(Doc))
             {
                 tr.Start("Установка длин кабелей и труб для электрических цепей");
-                
+
                 foreach (var el in electricalSystems)
                 {
-                    var isUneditable = el.get_Parameter(_isUnEditable).AsInteger() == 1;
-                    if (isUneditable)
+                    var isUnEditable = el.get_Parameter(_isUnEditable).AsInteger() == 1;
+                    if (isUnEditable)
                         continue;
                     SetLengthElectricalSystems(el);
                 }
@@ -56,14 +58,23 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var lengthToNearestDeviceParameter = el.get_Parameter(_lengthToNearestDeviceGuid);
             var lengthToMostRemoteDeviceParameter = el.get_Parameter(_lengthToMostRemoteDeviceGuid);
             var lengthThrowAllDeviceParameter = el.get_Parameter(_lengthThrowAllDevicesGuid);
+            var lengthTrowAllDevicesWithShiftParameter = el.get_Parameter(_lengthThrowAllDevicesWithShiftGuid);
+            var shiftForElectricalCircuits = el.get_Parameter(_shiftForElectricalCircuit).AsDouble();
 
-            var isCalculated = CalculateLengthsOfElSystem(el, out var lengthToNearestDevice, out var lengthToMostRemote, out var lengthTrowAllDevice);
+
+            var isCalculated = CalculateLengthsOfElSystem(el,
+                shiftForElectricalCircuits,
+                out var lengthToNearestDevice,
+                out var lengthToMostRemote,
+                out var lengthTrowAllDevice,
+                out var lengthThrowAllDevicesWithShift);
 
             var q = new[]
             {
                 !lengthToNearestDeviceParameter.IsReadOnly && lengthToNearestDeviceParameter.Set(lengthToNearestDevice),
                 !lengthToMostRemoteDeviceParameter.IsReadOnly && lengthToMostRemoteDeviceParameter.Set(lengthToMostRemote),
-                !lengthThrowAllDeviceParameter.IsReadOnly && lengthThrowAllDeviceParameter.Set(lengthTrowAllDevice)
+                !lengthThrowAllDeviceParameter.IsReadOnly && lengthThrowAllDeviceParameter.Set(lengthTrowAllDevice),
+                    !lengthTrowAllDevicesWithShiftParameter .IsReadOnly && lengthTrowAllDevicesWithShiftParameter.Set(lengthThrowAllDevicesWithShift)
             };
 
             SetLengthOfCableForDiagrams(el, calculateLengthType, k);
@@ -99,17 +110,23 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             }
             //Длина кабелей для ОС
             //число в метрах
-            lengthForDiagramsParameter.Set(UnitUtils.ConvertFromInternalUnits(lengthForDiagrams, DisplayUnitType.DUT_METERS));
+            if (!(lengthForDiagramsParameter.IsReadOnly))
+                lengthForDiagramsParameter.Set(Math.Round(UnitUtils.ConvertFromInternalUnits(lengthForDiagrams, DisplayUnitType.DUT_METERS), 2));
             //длина в миллиметрах
             var storeLengthForTube = el.get_Parameter(new Guid("25122ee0-d761-4a5f-af49-b507b64188e3")).AsDouble();
             //длина в миллиметрах
             var tubeLengthParam = el.LookupParameter("Длина труб для спецификации");
             var value = Math.Max(0, numberOfCables * (lengthForDiagrams + storeLengthForTube));
-            tubeLengthParam.Set(UnitUtils.ConvertToInternalUnits(value, DisplayUnitType.DUT_METERS));
+            tubeLengthParam.Set(value);
             return true;
         }
 
-        private bool CalculateLengthsOfElSystem(ElectricalSystem el, out double lengthToNearestDevice, out double lengthToMostRemoteDevice, out double lengthThrowAllDevice)
+        private bool CalculateLengthsOfElSystem(ElectricalSystem el,
+            double shift,
+            out double lengthToNearestDevice,
+            out double lengthToMostRemoteDevice,
+            out double lengthThrowAllDevice,
+            out double lengthThrowAllDevicesWithShift)
         {
             var path = el.GetCircuitPath();
             var devices = el
@@ -122,12 +139,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             lengthToNearestDevice = 0;
             lengthToMostRemoteDevice = 0;
             lengthThrowAllDevice = 0;
+            lengthThrowAllDevicesWithShift = 0;
             if (baseDevice is null)
                 return true;
             //TODO взять точку семейства
             var baseDevicePoint = ((LocationPoint)baseDevice.Location).Point;
             //GetCoordinateOfElectricalConnector(baseDevice);
-
 
             foreach (var pair in devices)
             {
@@ -180,9 +197,10 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 lengthThrowAllDevice += nearest.Item2;
                 devices.Remove(nearest.Item1.Id);
             }
-
+            //TODO считает с соединителями
+            var connectedElementsCount = el.Elements.Size;
+            lengthThrowAllDevicesWithShift = lengthThrowAllDevice + shift * connectedElementsCount;
             return true;
-
         }
 
         private XYZ GetCoordinateOfElectricalConnector(FamilyInstance fi)

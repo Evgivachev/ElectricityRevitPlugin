@@ -94,11 +94,21 @@ namespace ElectricityRevitPlugin
                             .SetLargeImage(Resource1.icons8_house_stark_32);
                     });
 
+
+
                 //Регистрация изменений для новых цепей. Изменение траектории цепи на все элементы
                 var modeOfElectricalSystem = new SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(modeOfElectricalSystem, true);
                 UpdaterRegistry.AddTrigger(modeOfElectricalSystem.GetUpdaterId(),
                     modeOfElectricalSystem.GetElementFilter(),
+                    Element.GetChangeTypeElementAddition());
+
+
+                //Регистрация изменений для новых цепей. Установка значения Запретить изменение в false
+                var isUnEditableDynamicModelUpdater = new UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(isUnEditableDynamicModelUpdater, true);
+                UpdaterRegistry.AddTrigger(isUnEditableDynamicModelUpdater.GetUpdaterId(),
+                    isUnEditableDynamicModelUpdater.GetElementFilter(),
                     Element.GetChangeTypeElementAddition());
 
 
@@ -119,6 +129,15 @@ namespace ElectricityRevitPlugin
                     electricalSystemLengthUpdater.GetElementFilter(),
                     Element.GetChangeTypeParameter(new ElementId(25296192)));
 
+                //Параметр запретить изменение
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.GetElementFilter(),
+                    Element.GetChangeTypeParameter(new ElementId(24969484)   ));
+                //Параметр Смещение электрической цепи
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.GetElementFilter(),
+                    Element.GetChangeTypeParameter(new ElementId(25296204)));
+
                 ////Триггер на изменение параметра Длина для электрической цепи
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                 //    electricalSystemLengthUpdater.GetElementFilter(),
@@ -129,7 +148,7 @@ namespace ElectricityRevitPlugin
                 //    electricalSystemLengthUpdater.GetElementFilter(),
                 //    Element.GetChangeTypeAny());
 
-               
+
 
                 //Регистрация изменений Обновление номера группы по ГОСТ
 
@@ -138,9 +157,7 @@ namespace ElectricityRevitPlugin
 
                 var groupNumberByGostUpdater = new GroupByGostDynamicUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(groupNumberByGostUpdater, true);
-                //UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
-                //    groupNumberByGostUpdater.GetElementFilter(),
-                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER)));
+               
                 UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
                     groupNumberByGostUpdater.GetElementFilter(),
                     Element.GetChangeTypeAny());
