@@ -34,7 +34,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 var doc = data.GetDocument();
                 var systems = data
                     .GetAddedElementIds()
-                    .Select(id=>doc.GetElement(id))
+                    .Select(id => doc.GetElement(id))
                     .OfType<ElectricalSystem>();
 
                 foreach (var system in systems)
@@ -43,12 +43,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
                     var systemHasValueIsUnEditable = isUnEditableParameter.HasValue;
                     if (!systemHasValueIsUnEditable)
-                        using (var tr = new Transaction(doc))
-                        {
-                            tr.Start("Установка значения параметра для цепи \"Запретить изменение\" в False");
-                            isUnEditableParameter.Set(0);
-                            tr.Commit();
-                        }
+                        isUnEditableParameter.Set(0);
                 }
             }
             catch (Exception e)

@@ -23,6 +23,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             parameterUpdater.AddAction(new SetLengthForElectricalSystemsExternalCommand());
             //Режим траектории электрической цепи
             parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
+
             //Тип вводного автомата Уставка вводного автомата
             parameterUpdater.AddAction(new SetParametersOfElSystemsCurrentPowerSystemAndType());
             //Обновление параметра Марка кабелей для выносок
