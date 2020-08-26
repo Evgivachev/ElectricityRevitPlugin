@@ -109,9 +109,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 lengthForDiagrams = el.get_Parameter(_lengthThrowAllDevicesWithShiftGuid).AsDouble();
             }
             //Длина кабелей для ОС
-            //число в метрах
             if (!(lengthForDiagramsParameter.IsReadOnly))
-                lengthForDiagramsParameter.Set(Math.Round(UnitUtils.ConvertFromInternalUnits(lengthForDiagrams, DisplayUnitType.DUT_METERS), 2));
+                lengthForDiagramsParameter.Set(lengthForDiagrams);
             //длина в миллиметрах
             var storeLengthForTube = el.get_Parameter(new Guid("25122ee0-d761-4a5f-af49-b507b64188e3")).AsDouble();
             //длина в миллиметрах

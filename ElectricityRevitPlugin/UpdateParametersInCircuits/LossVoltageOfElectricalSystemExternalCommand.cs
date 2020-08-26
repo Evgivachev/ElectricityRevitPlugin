@@ -102,6 +102,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             //Общая потеря напряжения в сети
             var du0 = 0.0;
             var previousL = 0.0;
+            var isTrueCalculating = true;
             while (devices.Any())
             {
                 var nearest = devices.Select(pair => pair.Value)
@@ -121,6 +122,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 //Расчет потерь напряжения
                 var l = previousL + UnitUtils.ConvertFromInternalUnits(nearest.Item2, DisplayUnitType.DUT_METERS);
                 var du = CalculateLossVoltage(activePower, reactivePower, r, x, l, voltage, n, polesNumber);
+                if (double.IsNaN(du))
+                {
+                    du = 0;
+                    isTrueCalculating = false;
+                    break;
+                }
                 //Мощность приемника
                 fi.GetElectricalParameters(out var activePowerFi, out var powerFactorFi);
                 if (activePower < _tolerance || powerFactorFi < _tolerance)
@@ -135,13 +142,15 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 reactivePower -= reactivePowerFi;
                 du0 += du;
             }
-            
-            //Параметр имеет тип string
             var lossVoltageParameter = el.get_Parameter(_lossVoltageParameterGuid);
             du0 = du0 / voltage * 100;
+            if (!isTrueCalculating)
+            {
+                du0 = -1;
+            }
             if (!lossVoltageParameter.IsReadOnly)
             {
-                var flag = lossVoltageParameter.Set(du0.ToString(("F2")));
+                var flag = lossVoltageParameter.Set(du0);
             }
             else
             {

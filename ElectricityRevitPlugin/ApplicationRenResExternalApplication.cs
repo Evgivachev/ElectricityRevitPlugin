@@ -94,8 +94,6 @@ namespace ElectricityRevitPlugin
                             .SetLargeImage(Resource1.icons8_house_stark_32);
                     });
 
-
-
                 //Регистрация изменений для новых цепей. Изменение траектории цепи на все элементы
                 var modeOfElectricalSystem = new SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(modeOfElectricalSystem, true);
@@ -103,14 +101,12 @@ namespace ElectricityRevitPlugin
                     modeOfElectricalSystem.GetElementFilter(),
                     Element.GetChangeTypeElementAddition());
 
-
                 //Регистрация изменений для новых цепей. Установка значения Запретить изменение в false
                 var isUnEditableDynamicModelUpdater = new UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(isUnEditableDynamicModelUpdater, true);
                 UpdaterRegistry.AddTrigger(isUnEditableDynamicModelUpdater.GetUpdaterId(),
                     isUnEditableDynamicModelUpdater.GetElementFilter(),
                     Element.GetChangeTypeElementAddition());
-
 
                 //Регистрация изменений Обновление длин кабелей
                 var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
