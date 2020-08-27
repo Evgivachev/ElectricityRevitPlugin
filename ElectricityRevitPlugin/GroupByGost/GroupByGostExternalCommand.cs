@@ -34,7 +34,7 @@ namespace ElectricityRevitPlugin.GroupByGost
         private readonly Guid _groupByGostGuid = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
         private readonly string _defaultGroupByGost = "???";
         private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
-
+        private readonly Guid _idLinkElement = new Guid("dca1fe51-4090-4178-9f12-a83aa5986266");
 
         protected override Result DoWork(ref string message, ElementSet elements)
         {
@@ -73,21 +73,25 @@ namespace ElectricityRevitPlugin.GroupByGost
 
         public void SetValuesToElement(FamilyInstance fi)
         {
-            var parameter = fi.LookupParameter("Номер группы по ГОСТ");
+            var parameter = fi.get_Parameter(_groupByGostGuid);
 
             if (parameter is null)
                 return;
-            var powerCable = fi.GetPowerElectricalSystem();
+            Element powerCable = fi.GetPowerElectricalSystem();
             if (powerCable is null)
             {
-                parameter.Set(_defaultGroupByGost);
+                var linkedElementParameterId = fi.get_Parameter(_idLinkElement)?.AsString();
+                if (linkedElementParameterId != null)
+                    powerCable = Doc.GetElement(linkedElementParameterId);
+                else
+                {
+                    parameter.Set(_defaultGroupByGost);
+                    return;
+                }
             }
-            else
-            {
-                var circuitName = powerCable.Name;
-                var circuitGost = powerCable.LookupParameter("Номер группы по ГОСТ")?.AsString();
-                parameter?.Set(string.IsNullOrEmpty(circuitGost) ? circuitName : circuitGost);
-            }
+            var circuitName = powerCable?.Name;
+            var circuitGost = powerCable?.get_Parameter(_groupByGostGuid)?.AsString();
+            parameter?.Set(string.IsNullOrEmpty(circuitGost) ? circuitName : circuitGost);
 
         }
         public void SetValuesToElement(ElectricalSystem electricalSystem)
@@ -128,7 +132,7 @@ namespace ElectricityRevitPlugin.GroupByGost
                     var isDisableChangeParameter = circuit.get_Parameter(_disableChangeGuid)?.AsInteger() == 1;
                     if (isDisableChangeParameter)
                         continue;
-                    var param = circuit.LookupParameter("Номер группы по ГОСТ");
+                    var param = circuit.get_Parameter(_groupByGostGuid);
                     if (!param.IsReadOnly)
                         param.Set($"{prefix}{separator}{number}");
 

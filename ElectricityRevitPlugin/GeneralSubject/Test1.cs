@@ -19,7 +19,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            var sharedParameterApplicableRule = new[]
+            var sharedParameterApplicableRule = new FilterRule[]
             {
                 new SharedParameterApplicableRule("ID связанного элемента"),
                 new SharedParameterApplicableRule("ReflectionClassName")
@@ -31,11 +31,6 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 .WherePasses(elementParameterFilter)
                 .WhereElementIsNotElementType()
                 .Where(x => x.OwnerViewId.IntegerValue == Doc.ActiveView.Id.IntegerValue);
-
-
-
-
-
 
             using (var tr = new Transaction(Doc, "test1"))
             {

@@ -21,8 +21,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var parameterUpdater = new UpdaterParameters<ElectricalSystem>(doc, BuiltInCategory.OST_ElectricalCircuit);
             //Длина труб для спецификации
             parameterUpdater.AddAction(new SetLengthForElectricalSystemsExternalCommand());
-            //Режим траектории электрической цепи
-            parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
+            ////Режим траектории электрической цепи
+            //parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
 
             //Тип вводного автомата Уставка вводного автомата
             parameterUpdater.AddAction(new SetParametersOfElSystemsCurrentPowerSystemAndType());

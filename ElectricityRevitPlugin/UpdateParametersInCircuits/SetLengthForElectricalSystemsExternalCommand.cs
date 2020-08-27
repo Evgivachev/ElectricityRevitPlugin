@@ -84,7 +84,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         private bool SetLengthOfCableForDiagrams(ElectricalSystem el, string type, double k = 0)
         {
-            Doc.Regenerate();
+            var doc = el.Document;
+            doc.Regenerate();
             var numberOfCables = el.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
             var lengthForDiagramsParameter = el.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d"));
             var lengthForDiagrams = el.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM).AsDouble();
