@@ -141,6 +141,7 @@
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
+    <Compile Include="Temp10.cs" />
     <Compile Include="Temp9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
