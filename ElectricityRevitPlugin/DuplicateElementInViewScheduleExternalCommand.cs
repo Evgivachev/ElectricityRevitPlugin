@@ -27,7 +27,6 @@ namespace ElectricityRevitPlugin
                     tr.Start("Temp");
                     var selection = uiDoc.Selection;
                     var selectedIds = selection.GetElementIds();
-                    selectedIds.Add(new ElementId(20151058));
                     var selectedElements = selectedIds
                         .Select(x => doc.GetElement(x));
                     foreach (var element in selectedElements)
@@ -51,6 +50,7 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
+
 
             }
             return result;

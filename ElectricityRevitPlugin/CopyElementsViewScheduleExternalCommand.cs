@@ -60,8 +60,6 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Temp");
-
-                   
                     var nElements = new FilteredElementCollector(OpenedDocument, SimilarViewSchedule.Id)
                         .ToElements();
                     var ownElements = new FilteredElementCollector(doc, ActiveViewSchedule.Id)

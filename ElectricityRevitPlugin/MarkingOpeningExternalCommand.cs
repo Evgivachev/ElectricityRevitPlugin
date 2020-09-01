@@ -13,7 +13,7 @@ namespace ElectricityRevitPlugin
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    class Temp10 : DefaultExternalCommand
+    class MarkingOpeningExternalCommand : DefaultExternalCommand
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
