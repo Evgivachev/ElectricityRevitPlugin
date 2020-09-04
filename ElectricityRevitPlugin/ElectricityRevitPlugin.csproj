@@ -90,6 +90,11 @@
     <Compile Include="ConnectElectricalSystemToPanelExternalCommand.cs" />
     <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml.cs">
+      <DependentUpon>CopyElementsInSameScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleViewModel.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\ExternalCommand.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
     <Compile Include="CopySheetsExternalCommand.cs" />
     <Compile Include="DefaultExternalCommand.cs" />
@@ -177,6 +182,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GeneralSubject\GeneralSubjectWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,5 +232,6 @@
   <ItemGroup>
     <None Include="Resources\icons8-house-stark-32.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
