@@ -5,23 +5,43 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ElectricityRevitPlugin.CopyElementsInSameViewSchedule"
              mc:Ignorable="d" 
-             d:DesignHeight="460.174" d:DesignWidth="440">
+             d:DesignHeight="460.174" d:DesignWidth="440"
+             Width="400" Height="400" ResizeMode="CanResize">
+    
     <Border BorderThickness="5">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="342*"/>
-                <RowDefinition Height="43*"/>
-                <RowDefinition Height="44*"/>
+                <RowDefinition Height="167*"/>
+                <RowDefinition Height="33*"/>
+                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <GroupBox Header="Выберите элементы для копирования" >
                 <ScrollViewer>
-                    <ListBox Name="ElementsListBox"
-                             ItemsSource="{Binding Elements}"
-                             >
+                    <ListBox 
+                             ItemsSource="{Binding Elements}" SelectionMode="Extended"
+                              >
+                        <ListBox.ItemTemplate>
+                            <ItemContainerTemplate DataType="local:CheckableItem">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding IsChecked}"/>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+
+                                </StackPanel>
+
+                            </ItemContainerTemplate>
+
+                        </ListBox.ItemTemplate>
 
                     </ListBox>
                 </ScrollViewer>
             </GroupBox>
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        FlowDirection="RightToLeft">
+                <Button Content="Отмена" IsCancel="True" HorizontalAlignment="Right" Width="70" Margin="10,0"></Button>
+                <Button Margin ="10,0" IsDefault="True"
+                        Content="ОК" HorizontalAlignment="Left" Width="70"></Button>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

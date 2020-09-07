@@ -20,8 +20,9 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
     /// </summary>
     public partial class CopyElementsInSameScheduleView : Window
     {
-        public CopyElementsInSameScheduleView()
+        public CopyElementsInSameScheduleView(CopyElementsInSameScheduleViewModel model)
         {
+            DataContext = model;
             InitializeComponent();
         }
     }

@@ -90,6 +90,7 @@
     <Compile Include="ConnectElectricalSystemToPanelExternalCommand.cs" />
     <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\CheckableItem.cs" />
     <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml.cs">
       <DependentUpon>CopyElementsInSameScheduleView.xaml</DependentUpon>
     </Compile>
