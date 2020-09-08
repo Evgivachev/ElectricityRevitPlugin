@@ -23,25 +23,15 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
         private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            var allElectricalSystems = new FilteredElementCollector(Doc)
-                .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
-                .Cast<ElectricalSystem>()
-                //.Where(el=>el.Id.IntegerValue == 24431899)
-                //.Where(el=>el?.BaseEquipment?.Name =="ЩС-0")
-                ;
-
             var selectedElectricalSystems = UiDoc.Selection
                 .GetElementIds()
                 .Select(id => Doc.GetElement(id))
                 .OfType<ElectricalSystem>();
 
-            allElectricalSystems = selectedElectricalSystems;
-
-
             using (var tr = new Transaction(Doc, "Расчет потерь напряжения в цепях"))
             {
                 tr.Start();
-                foreach (var electricalSystem in allElectricalSystems)
+                foreach (var electricalSystem in selectedElectricalSystems)
                 {
                     try
                     {

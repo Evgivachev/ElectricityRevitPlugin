@@ -59,9 +59,19 @@ namespace ElectricityRevitPlugin.Extensions
             }
             else
             {
-                activePowerParameter =
-                    familyInstance.get_Parameter(_installedPower) ?? type.get_Parameter(_installedPower);
-                powerFactorParameter = familyInstance.get_Parameter(_powerFactor) ?? type.get_Parameter(_powerFactor);
+                var instanceActivePowerParameter = familyInstance.get_Parameter(_installedPower);
+                var typeActivePowerParameter = type.get_Parameter(_installedPower);
+                if (instanceActivePowerParameter != null && instanceActivePowerParameter.HasValue)
+                    activePowerParameter = instanceActivePowerParameter;
+                else
+                    activePowerParameter = typeActivePowerParameter;
+
+                var instancePowerFactorParameter = familyInstance.get_Parameter(_powerFactor);
+                var typePowerFactorParameter = type.get_Parameter(_powerFactor);
+                if (instancePowerFactorParameter != null && instancePowerFactorParameter.HasValue)
+                    powerFactorParameter = instancePowerFactorParameter;
+                else
+                    powerFactorParameter = typePowerFactorParameter;
             }
             if (activePowerParameter is null || powerFactorParameter is null)
             {
