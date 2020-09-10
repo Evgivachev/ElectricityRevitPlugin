@@ -148,7 +148,6 @@
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
     <Compile Include="MarkingOpeningExternalCommand.cs" />
-    <Compile Include="Temp9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsDynamicModelUpdater.cs" />
@@ -161,15 +160,11 @@
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Temp7.cs" />
     <Compile Include="Temp8.cs" />
-    <Compile Include="TempDUCT.cs" />
     <Compile Include="Temp2.cs" />
-    <Compile Include="Temp3.cs" />
     <Compile Include="Temp4.cs" />
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
-    <Compile Include="Temp6.cs" />
     <Compile Include="UpdateParametersInCircuits\UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />

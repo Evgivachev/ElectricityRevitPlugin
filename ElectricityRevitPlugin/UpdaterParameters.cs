@@ -11,7 +11,7 @@ using Autodesk.Revit.UI;
 
 namespace ElectricityRevitPlugin
 {
-    public class UpdaterParameters<T> where T : Element
+    public sealed class UpdaterParameters<T> where T : Element
     {
         private readonly Document _doc;
         private readonly BuiltInCategory _category;
@@ -23,7 +23,7 @@ namespace ElectricityRevitPlugin
         }
         private readonly List<Func<T,string>> _actions = new List<Func<T, string>>();
 
-        protected virtual IEnumerable<T> GetElements()
+        private IEnumerable<T> GetElements()
         {
             var fec = new FilteredElementCollector(_doc)
                 .OfCategory(_category)
