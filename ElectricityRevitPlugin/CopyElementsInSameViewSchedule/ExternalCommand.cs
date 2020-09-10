@@ -21,6 +21,17 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
             var view = new CopyElementsInSameScheduleView(model);
             if (view.ShowDialog() == true)
             {
+                using (var tr = new Transaction(Doc))
+                {
+                    tr.Start("Копирование элементов ключевой спецификации");
+                    foreach (var element in model.CheckedElements)
+                    {
+
+                        var activeView = Doc.ActiveView as ViewSchedule;
+                        activeView.AddElement(element, false);
+                    }
+                    tr.Commit();
+                }
 
             }
             return Result.Succeeded;

@@ -158,7 +158,6 @@
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
     <Compile Include="Short-Circuits\ShortCircuits.cs" />
     <Compile Include="SortSheets.cs" />
-    <Compile Include="DuplicateElementInViewScheduleExternalCommand.cs" />
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>

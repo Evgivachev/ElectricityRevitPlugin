@@ -24,5 +24,9 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
                );
         }
         public ObservableCollection<CheckableItem> Elements { get; set; }
+
+        public IEnumerable<Element> CheckedElements => Elements
+            .Where(x => x.IsChecked)
+            .Select(x => x.Element);
     }
 }

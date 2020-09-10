@@ -208,6 +208,8 @@ namespace ElectricityRevitPlugin
                     if (excludedParams.Contains(toParam.Definition.Name))
                         continue;
                     var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
+                    if(!fromParam.HasValue)
+                        continue;
                     var value = fromParam.GetValueDynamic();
                     if (value is null)
                         continue;

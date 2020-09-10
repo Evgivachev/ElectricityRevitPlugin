@@ -17,12 +17,12 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
 
         public bool IsChecked { get; set; } = false;
 
-        private readonly Element _element;
+        public Element Element { get; private set; }
 
         public CheckableItem(Element element)
         {
             Name = element.Name;
-            _element = element;
+            Element = element;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

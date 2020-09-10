@@ -40,7 +40,7 @@
                         FlowDirection="RightToLeft">
                 <Button Content="Отмена" IsCancel="True" HorizontalAlignment="Right" Width="70" Margin="10,0"></Button>
                 <Button Margin ="10,0" IsDefault="True"
-                        Content="ОК" HorizontalAlignment="Left" Width="70"></Button>
+                        Content="ОК" HorizontalAlignment="Left" Width="70" Click="Button_Click"></Button>
             </StackPanel>
         </Grid>
     </Border>
