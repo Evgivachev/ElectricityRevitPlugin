@@ -108,9 +108,16 @@ namespace ElectricityRevitPlugin
                     isUnEditableDynamicModelUpdater.GetElementFilter(),
                     Element.GetChangeTypeElementAddition());
 
+                //Регистрация изменений для новых цепей. Установка значения Резервная группа Контрольные цепи в false
+                var isReserveCircuitDynamicModelUpdater = new ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(isReserveCircuitDynamicModelUpdater, true);
+                UpdaterRegistry.AddTrigger(isReserveCircuitDynamicModelUpdater.GetUpdaterId(),
+                    isReserveCircuitDynamicModelUpdater.GetElementFilter(),
+                    Element.GetChangeTypeElementAddition());
+
                 //Регистрация изменений Обновление длин кабелей
                 var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater,true);
+                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater, true);
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                 //    electricalSystemLengthUpdater.GetElementFilter(),
                 //    Element.GetChangeTypeAny());
@@ -125,14 +132,33 @@ namespace ElectricityRevitPlugin
                     electricalSystemLengthUpdater.GetElementFilter(),
                     Element.GetChangeTypeParameter(new ElementId(25296192)));
 
-                //Параметр запретить изменение
+                //Обновить длину при изменение параметра Запретить изменение
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(24969484)   ));
+                    Element.GetChangeTypeParameter(new ElementId(24969484)));
                 //Параметр Смещение электрической цепи
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.GetElementFilter(),
                     Element.GetChangeTypeParameter(new ElementId(25296204)));
+
+                //Параметр Наименование нагрузки
+                //Регистрация изменений Обновление длин кабелей
+                var electricalSystemLoadNameUpdater = new SetLoadNameForElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(electricalSystemLoadNameUpdater, true);
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.GetElementFilter(),
+                    ChangeType.ConcatenateChangeTypes(
+                        ChangeType.ConcatenateChangeTypes(
+                    Element.GetChangeTypeElementAddition(),
+                    //Системный параметр "Классификация нагрузок"
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.CIRCUIT_LOAD_CLASSIFICATION_PARAM))),
+                        ChangeType.ConcatenateChangeTypes(
+                    //Системный параметр "Количество элементов"
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER_OF_ELEMENTS_PARAM)),
+
+                    //Системный параметр "Длина"
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM))
+                        )));
 
                 ////Триггер на изменение параметра Длина для электрической цепи
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
@@ -153,7 +179,7 @@ namespace ElectricityRevitPlugin
 
                 var groupNumberByGostUpdater = new GroupByGostDynamicUpdater(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(groupNumberByGostUpdater, true);
-               
+
                 UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
                     groupNumberByGostUpdater.GetElementFilter(),
                     Element.GetChangeTypeAny());

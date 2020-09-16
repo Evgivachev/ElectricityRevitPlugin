@@ -19,6 +19,7 @@ namespace ElectricityRevitPlugin.Extensions
         private static Guid _powerFactor = new Guid("2ca28edf-3aaf-486a-830a-fae82079832d");
         //Косинус в щитах
         private static Guid _powerFactorShield = new Guid("ddc9d5f2-202b-4f16-a5d8-f1180c8b7984");
+        private static Guid _loadClassificationGuid = new Guid("fa6ed58d-6a37-4060-9cd2-a16c5d110afe");
         public static ElectricalSystem GetPowerElectricalSystem(this FamilyInstance familyInstance)
         {
             try
@@ -42,13 +43,17 @@ namespace ElectricityRevitPlugin.Extensions
         }
 
         public static void GetElectricalParameters(this FamilyInstance familyInstance, out double activePower,
-            out double powerFactor)
+            out double powerFactor,
+            out ElementId loadClassification)
         {
             var doc = familyInstance.Document;
             var typeId = familyInstance.GetTypeId();
             var type = doc.GetElement(typeId);
             Parameter activePowerParameter = null;
             Parameter powerFactorParameter = null;
+            Parameter loadClassificationParameter;
+            loadClassification = ElementId.InvalidElementId;
+
             if (familyInstance.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment)
             {
                 activePowerParameter = familyInstance.get_Parameter(_installedPowerShield);
@@ -57,22 +62,28 @@ namespace ElectricityRevitPlugin.Extensions
                 powerFactor = powerFactorParameter.AsDouble();
                 return;
             }
-            else
-            {
-                var instanceActivePowerParameter = familyInstance.get_Parameter(_installedPower);
-                var typeActivePowerParameter = type.get_Parameter(_installedPower);
-                if (instanceActivePowerParameter != null && instanceActivePowerParameter.HasValue)
-                    activePowerParameter = instanceActivePowerParameter;
-                else
-                    activePowerParameter = typeActivePowerParameter;
 
-                var instancePowerFactorParameter = familyInstance.get_Parameter(_powerFactor);
-                var typePowerFactorParameter = type.get_Parameter(_powerFactor);
-                if (instancePowerFactorParameter != null && instancePowerFactorParameter.HasValue)
-                    powerFactorParameter = instancePowerFactorParameter;
-                else
-                    powerFactorParameter = typePowerFactorParameter;
-            }
+            var instanceActivePowerParameter = familyInstance.get_Parameter(_installedPower);
+            var typeActivePowerParameter = type.get_Parameter(_installedPower);
+            if (instanceActivePowerParameter != null && instanceActivePowerParameter.HasValue)
+                activePowerParameter = instanceActivePowerParameter;
+            else
+                activePowerParameter = typeActivePowerParameter;
+
+            var instancePowerFactorParameter = familyInstance.get_Parameter(_powerFactor);
+            var typePowerFactorParameter = type.get_Parameter(_powerFactor);
+            if (instancePowerFactorParameter != null && instancePowerFactorParameter.HasValue)
+                powerFactorParameter = instancePowerFactorParameter;
+            else
+                powerFactorParameter = typePowerFactorParameter;
+
+            var instanceLoadClassificationParameter = familyInstance.get_Parameter(_loadClassificationGuid);
+            var typeLoadClassificationParameter = type.get_Parameter(_loadClassificationGuid);
+            if (instanceLoadClassificationParameter != null && instanceLoadClassificationParameter.HasValue)
+                loadClassificationParameter = instanceLoadClassificationParameter;
+            else
+                loadClassificationParameter = typeLoadClassificationParameter;
+
             if (activePowerParameter is null || powerFactorParameter is null)
             {
 
@@ -84,6 +95,7 @@ namespace ElectricityRevitPlugin.Extensions
             activePower =
                 UnitUtils.ConvertFromInternalUnits(activePowerParameter.AsDouble(), DisplayUnitType.DUT_WATTS);
             powerFactor = powerFactorParameter.AsDouble();
+            loadClassification = loadClassificationParameter.AsElementId();
         }
 
     }

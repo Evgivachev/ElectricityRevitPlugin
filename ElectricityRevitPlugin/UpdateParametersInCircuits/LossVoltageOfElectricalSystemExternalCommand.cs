@@ -119,7 +119,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                     break;
                 }
                 //Мощность приемника
-                fi.GetElectricalParameters(out var activePowerFi, out var powerFactorFi);
+                fi.GetElectricalParameters(out var activePowerFi, out var powerFactorFi,out _);
                 if (activePower < _tolerance || powerFactorFi < _tolerance)
                     continue;
                 

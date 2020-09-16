@@ -149,7 +149,10 @@
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
     <Compile Include="MarkingOpeningExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
