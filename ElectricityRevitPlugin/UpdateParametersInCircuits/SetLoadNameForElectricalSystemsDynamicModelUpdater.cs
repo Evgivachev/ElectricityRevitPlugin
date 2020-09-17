@@ -14,6 +14,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
     {
         private static AddInId _appId;
         private static UpdaterId _updaterId;
+
+        private Guid _isProhibitChangesGuid = new Guid("5de14719-6968-4655-9457-94825e70b623");
         public SetLoadNameForElectricalSystemsDynamicModelUpdater(AddInId id)
         {
             _appId = id;
@@ -37,8 +39,13 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                         system = electricalSystem;
                     else if (el is FamilyInstance fi)
                         system = fi.GetPowerElectricalSystem();
-                    command.UpdateParameters(system);
 
+                    if (system != null)
+                    {
+                        var isProhibitChanges = system.get_Parameter(_isProhibitChangesGuid);
+                        if (isProhibitChanges.AsInteger() == 0)
+                            command.UpdateParameters(system);
+                    }
                 }
             }
             catch (Exception e)
