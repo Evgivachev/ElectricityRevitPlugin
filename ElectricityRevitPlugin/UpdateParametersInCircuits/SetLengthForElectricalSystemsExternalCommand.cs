@@ -49,7 +49,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         private string SetLengthElectricalSystems(ElectricalSystem el)
         {
-            var name = el.Name;
             //Ключевая спецификация способ расчета длины
             var calculateLengthType = el.LookupParameter("Способ расчета длины")?.AsValueString();
             calculateLengthType = calculateLengthType ?? "(нет)";
@@ -89,9 +88,13 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var numberOfCables = el.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
             var lengthForDiagramsParameter = el.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d"));
             var lengthForDiagrams = el.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM).AsDouble();
-            if (type == "(нет)")
+            var isReserveGroupGuid = new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
+            var isReserveGroup = el.get_Parameter(isReserveGroupGuid).AsInteger() == 1;
+            if (isReserveGroup)
+                lengthForDiagrams = 0;
+            else if (type == "(нет)")
             {
-                //Остается так же
+                //Остается длина
             }
             else if (type.StartsWith("*"))
             {
@@ -218,12 +221,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         }
 
-        private double CalculateDistanceBetweenPoints(XYZ point1, XYZ point2)
-        {
-            var dx = point2.X - point1.X;
-            var dy = point2.Y - point1.Y;
-            return Math.Abs(point1.Z - point2.Z) + Math.Pow(dx * dx + dy * dy, 0.5);
-        }
+      
         /// <summary>
         /// Метрика Матхеттен
         /// </summary>

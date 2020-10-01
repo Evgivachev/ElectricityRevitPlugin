@@ -36,6 +36,9 @@ namespace ElectricityRevitPlugin.GroupByGost
         private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
         private readonly Guid _idLinkElement = new Guid("dca1fe51-4090-4178-9f12-a83aa5986266");
 
+        private Guid _isReserveGroupGuid = new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
+        private Guid _isControlCircuit = new Guid("0f13e1e5-71bb-4b0f-b3dc-18054c25e1ee");
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             using (var tr = new Transaction(Doc, "trName"))
@@ -118,8 +121,8 @@ namespace ElectricityRevitPlugin.GroupByGost
                     .Cast<ElectricalSystem>()
                     .OrderBy(s =>
                     {
-                        var isReserve = s.LookupParameter("Резервная группа")?.AsInteger() ?? 0;
-                        var isControlCircuit = s.LookupParameter("Контрольные цепи")?.AsInteger() ?? 0;
+                        var isReserve = s.get_Parameter(_isReserveGroupGuid).AsInteger();
+                        var isControlCircuit = s.get_Parameter(_isControlCircuit).AsInteger();
                         return isReserve * 10 + isControlCircuit;
                     })
                     .ThenBy(x => x.StartSlot);

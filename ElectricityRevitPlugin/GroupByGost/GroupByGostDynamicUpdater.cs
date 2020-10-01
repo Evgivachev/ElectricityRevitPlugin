@@ -12,7 +12,7 @@ namespace ElectricityRevitPlugin.GroupByGost
 {
     class GroupByGostDynamicUpdater : IUpdater
     {
-        private UpdaterId _updaterId;
+        private readonly UpdaterId _updaterId;
         private static AddInId _appId;
 
         public GroupByGostDynamicUpdater(AddInId id)
@@ -34,8 +34,7 @@ namespace ElectricityRevitPlugin.GroupByGost
             {
                 var doc = data.GetDocument();
                 var ids = data.GetModifiedElementIds();
-                var updater = new GroupByGostExternalCommand();
-                updater.Doc = doc;
+                var updater = new GroupByGostExternalCommand {Doc = doc};
                 //using (var tr = new Transaction(doc))
                 //{
                 //    tr.Start("Обновление группы по ГОСТ");

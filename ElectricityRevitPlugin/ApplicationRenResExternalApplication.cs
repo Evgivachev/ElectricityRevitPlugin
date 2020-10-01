@@ -96,86 +96,40 @@ namespace ElectricityRevitPlugin
 
 
 
-                //Регистрация изменений для новых цепей. Изменение траектории цепи на все элементы
-                var modeOfElectricalSystem = new SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(modeOfElectricalSystem, true);
-                UpdaterRegistry.AddTrigger(modeOfElectricalSystem.GetUpdaterId(),
-                    modeOfElectricalSystem.GetElementFilter(),
-                    Element.GetChangeTypeElementAddition());
-
-                ////Регистрация изменений для новых цепей. Установка значения Запретить изменение в false
-                //var isUnEditableDynamicModelUpdater = new UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
-                //UpdaterRegistry.RegisterUpdater(isUnEditableDynamicModelUpdater, true);
-                //UpdaterRegistry.AddTrigger(isUnEditableDynamicModelUpdater.GetUpdaterId(),
-                //    isUnEditableDynamicModelUpdater.GetElementFilter(),
+                ////Регистрация изменений для новых цепей. Изменение траектории цепи на все элементы
+                //var modeOfElectricalSystem = new SetModeOfElectricalSystemToAllElementsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(modeOfElectricalSystem, true);
+                //UpdaterRegistry.AddTrigger(modeOfElectricalSystem.GetUpdaterId(),
+                //    modeOfElectricalSystem.GetElementFilter(),
                 //    Element.GetChangeTypeElementAddition());
 
-                ////Регистрация изменений для новых цепей. Установка значения Резервная группа Контрольные цепи в false
-                //var isReserveCircuitDynamicModelUpdater = new ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
-                //UpdaterRegistry.RegisterUpdater(isReserveCircuitDynamicModelUpdater, true);
-                //UpdaterRegistry.AddTrigger(isReserveCircuitDynamicModelUpdater.GetUpdaterId(),
-                //    isReserveCircuitDynamicModelUpdater.GetElementFilter(),
+                //////Регистрация изменений для новых цепей. Установка значения Запретить изменение в false
+                ////var isUnEditableDynamicModelUpdater = new UnEnableEditionSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                ////UpdaterRegistry.RegisterUpdater(isUnEditableDynamicModelUpdater, true);
+                ////UpdaterRegistry.AddTrigger(isUnEditableDynamicModelUpdater.GetUpdaterId(),
+                ////    isUnEditableDynamicModelUpdater.GetElementFilter(),
+                ////    Element.GetChangeTypeElementAddition());
+
+                //////Регистрация изменений для новых цепей. Установка значения Резервная группа Контрольные цепи в false
+                ////var isReserveCircuitDynamicModelUpdater = new ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                ////UpdaterRegistry.RegisterUpdater(isReserveCircuitDynamicModelUpdater, true);
+                ////UpdaterRegistry.AddTrigger(isReserveCircuitDynamicModelUpdater.GetUpdaterId(),
+                ////    isReserveCircuitDynamicModelUpdater.GetElementFilter(),
+                ////    Element.GetChangeTypeElementAddition());
+
+                ////Регистрация изменений для новых цепей. Установка значения bool-параметров в false
+                //var booleanParameterUpdaterForAddedElements = new SetToFalseBooleanParametersForAddedElementsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(booleanParameterUpdaterForAddedElements, true);
+                //UpdaterRegistry.AddTrigger(booleanParameterUpdaterForAddedElements.GetUpdaterId(),
+                //    booleanParameterUpdaterForAddedElements.GetElementFilter(),
                 //    Element.GetChangeTypeElementAddition());
 
-                //Регистрация изменений для новых цепей. Установка значения bool-параметров в false
-                var booleanParameterUpdaterForAddedElements = new SetToFalseBooleanParametersForAddedElementsDynamicModelUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(booleanParameterUpdaterForAddedElements, true);
-                UpdaterRegistry.AddTrigger(booleanParameterUpdaterForAddedElements.GetUpdaterId(),
-                    booleanParameterUpdaterForAddedElements.GetElementFilter(),
-                    Element.GetChangeTypeElementAddition());
-
-                //Регистрация изменений Обновление длин кабелей
-                var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater, true);
-                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
-                //    electricalSystemLengthUpdater.GetElementFilter(),
-                //    Element.GetChangeTypeAny());
-
-                //Триггер на изменение параметра Длина для электрической цепи
-                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
-                    electricalSystemLengthUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
-                //Триггер на изменение параметра "Способ расчета длины электрической цепи"
-                //var calculateLengthType = el.LookupParameter("Способ расчета длины").AsValueString();
-                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
-                    electricalSystemLengthUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(25296192)));
-
-                //Обновить длину при изменение параметра Запретить изменение
-                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
-                    electricalSystemLengthUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(24969484)));
-                //Параметр Смещение электрической цепи
-                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
-                    electricalSystemLengthUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(25296204)));
-
-                //Параметр Наименование нагрузки
-                //Регистрация изменений Обновление длин кабелей
-                var electricalSystemLoadNameUpdater = new SetLoadNameForElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(electricalSystemLoadNameUpdater, true);
-                UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
-                    electricalSystemLoadNameUpdater.GetElementFilter(),
-                    Element.GetChangeTypeElementAddition());
-                //Системный параметр "Классификация нагрузок"
-                UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
-                    electricalSystemLoadNameUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.CIRCUIT_LOAD_CLASSIFICATION_PARAM)));
-
-                //Системный параметр "Количество элементов"
-                UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
-                    electricalSystemLoadNameUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER_OF_ELEMENTS_PARAM)));
-
-                //Системный параметр "Длина"
-                UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
-                    electricalSystemLoadNameUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
-
-                //Системный параметр "Полная мощность"
-                UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
-                    electricalSystemLoadNameUpdater.GetElementFilter(),
-                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_APPARENT_LOAD)));
+                ////Регистрация изменений Обновление длин кабелей
+                //var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater, true);
+                ////UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                ////    electricalSystemLengthUpdater.GetElementFilter(),
+                ////    Element.GetChangeTypeAny());
 
                 ////Триггер на изменение параметра Длина для электрической цепи
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
@@ -185,8 +139,43 @@ namespace ElectricityRevitPlugin
                 ////var calculateLengthType = el.LookupParameter("Способ расчета длины").AsValueString();
                 //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                 //    electricalSystemLengthUpdater.GetElementFilter(),
-                //    Element.GetChangeTypeAny());
+                //    Element.GetChangeTypeParameter(new ElementId(25296192)));
 
+                ////Обновить длину при изменение параметра Запретить изменение
+                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                //    electricalSystemLengthUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(24969484)));
+                ////Параметр Смещение электрической цепи
+                //UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                //    electricalSystemLengthUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(25296204)));
+
+                ////Параметр Наименование нагрузки
+                ////Регистрация изменений Обновление длин кабелей
+                //var electricalSystemLoadNameUpdater = new SetLoadNameForElectricalSystemsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(electricalSystemLoadNameUpdater, true);
+                //UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
+                //    electricalSystemLoadNameUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeElementAddition());
+                ////Системный параметр "Классификация нагрузок"
+                //UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
+                //    electricalSystemLoadNameUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.CIRCUIT_LOAD_CLASSIFICATION_PARAM)));
+
+                ////Системный параметр "Количество элементов"
+                //UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
+                //    electricalSystemLoadNameUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER_OF_ELEMENTS_PARAM)));
+
+                ////Системный параметр "Длина"
+                //UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
+                //    electricalSystemLoadNameUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+
+                ////Системный параметр "Полная мощность"
+                //UpdaterRegistry.AddTrigger(electricalSystemLoadNameUpdater.GetUpdaterId(),
+                //    electricalSystemLoadNameUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_APPARENT_LOAD)));
 
 
                 //Регистрация изменений Обновление номера группы по ГОСТ
@@ -194,25 +183,115 @@ namespace ElectricityRevitPlugin
 
                 //При отсоединении элемента или добавлении триггер не срабатывает, поэтому GetChanngeTypeAny
 
-                var groupNumberByGostUpdater = new GroupByGostDynamicUpdater(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(groupNumberByGostUpdater, true);
+                //var groupNumberByGostUpdater = new GroupByGostDynamicUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(groupNumberByGostUpdater, true);
 
-                UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
-                    groupNumberByGostUpdater.GetElementFilter(),
+                //UpdaterRegistry.AddTrigger(groupNumberByGostUpdater.GetUpdaterId(),
+                //    groupNumberByGostUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeAny());
+
+
+
+
+
+
+
+                ////Обновление потерь напряжения в цепях
+                //var lossVoltageUpdater = new UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //UpdaterRegistry.RegisterUpdater(lossVoltageUpdater, true);
+                //UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                //    lossVoltageUpdater.GetElementFilter(),
+                //    Element.GetChangeTypeAny());
+
+                //TODO обновление групп по ГОСТ
+                var groupByGostUpdater = new Updaters.GroupByGost(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(groupByGostUpdater, true);
+                UpdaterRegistry.AddTrigger(groupByGostUpdater.GetUpdaterId(),
+                    groupByGostUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
-
-
-                //Обновление потерь напряжения в цепях
-                var lossVoltageUpdater = new UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater(uicApp.ActiveAddInId);
+                //TODO Потери напряжения
+                var lossVoltageUpdater = new Updaters.LossVoltage(uicApp.ActiveAddInId);
                 UpdaterRegistry.RegisterUpdater(lossVoltageUpdater, true);
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
-                    lossVoltageUpdater.GetElementFilter(),
+                    lossVoltageUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
 
+                
+
+                #region Наименование нагрузки
 
 
 
+                var loadNameUpdater = new Updaters.LoadName(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(loadNameUpdater,true);
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeElementAddition());
+                //Системный параметр "Классификация нагрузок"
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.CIRCUIT_LOAD_CLASSIFICATION_PARAM)));
 
+                //Системный параметр "Количество элементов"
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_NUMBER_OF_ELEMENTS_PARAM)));
+
+                //Системный параметр "Длина"
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+
+                //Системный параметр "Полная мощность"
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_APPARENT_LOAD)));
+
+                //Параметр Резервная группа
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(25928440)));
+                //Параметр Контрольные цепи
+                UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
+                    loadNameUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(25928439)));
+                #endregion
+
+                ////Регистрация изменений для новых цепей. Установка значения bool-параметров в false
+                var booleanParameterUpdaterForAddedElements = new Updaters.UpdateAddedElectricalSystems(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(booleanParameterUpdaterForAddedElements, true);
+                UpdaterRegistry.AddTrigger(booleanParameterUpdaterForAddedElements.GetUpdaterId(),
+                    booleanParameterUpdaterForAddedElements.ElementFilter,
+                    Element.GetChangeTypeElementAddition());
+
+                #region Обновление длины цепи
+
+                
+
+                //Регистрация изменений Обновление длин кабелей
+                var electricalSystemLengthUpdater = new Updaters.LengthOfElectricalSystem(uicApp.ActiveAddInId);
+                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater, true);
+                //Триггер на изменение параметра Длина для электрической цепи
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+                //Триггер на изменение параметра "Способ расчета длины электрической цепи"
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(25296192)));
+                //Обновить длину при изменение параметра Запретить изменение
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(24969484)));
+                //Параметр Смещение электрической цепи
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(25296204)));
+                //Параметр Резервная группа
+                UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
+                    electricalSystemLengthUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(25928440)));
+                #endregion
 
             }
             catch (Exception e)

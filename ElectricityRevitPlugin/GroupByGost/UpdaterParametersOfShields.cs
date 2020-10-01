@@ -19,7 +19,6 @@ namespace UpdateNameSpace
         {
             try
             {
-                var result = Result.Failed;
                 var uiApp = commandData?.Application;
                 var uiDoc = uiApp?.ActiveUIDocument;
                 var app = uiApp?.Application;

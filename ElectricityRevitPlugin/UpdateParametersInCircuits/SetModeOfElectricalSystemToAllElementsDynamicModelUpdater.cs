@@ -19,7 +19,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             _updaterId = new UpdaterId(_appId, new Guid("265CFA1D-4FB1-4A8E-8B85-9FAD661844DB"));
         }
 
-
         public void Execute(UpdaterData data)
         {
             try
