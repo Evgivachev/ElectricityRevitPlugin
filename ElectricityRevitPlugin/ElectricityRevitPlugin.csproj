@@ -169,6 +169,7 @@
     <Compile Include="SharedParameterFile.cs" />
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
     <Compile Include="MarkingOpeningExternalCommand.cs" />
+    <Compile Include="Tepm9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
