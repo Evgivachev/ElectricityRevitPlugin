@@ -10,6 +10,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using RevitParametersCodeGenerator;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace ElectricityRevitPlugin
@@ -48,7 +49,6 @@ namespace ElectricityRevitPlugin
                         {
                             var dParameter = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d"));
                             var duParameter = system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46"));
-
                             dParameter.Set(tmbDParameter.AsDouble());
                             duParameter.Set(tmbPParameter.AsDouble());
 
