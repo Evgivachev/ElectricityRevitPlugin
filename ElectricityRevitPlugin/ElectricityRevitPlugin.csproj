@@ -147,7 +147,6 @@
     <Compile Include="GroupByGost\GroupByGostExternalCommand.cs" />
     <Compile Include="GroupByGost\UpdaterParametersOfShields.cs" />
     <Compile Include="IUpdaterParameters.cs" />
-    <Compile Include="PluginParametersSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -169,6 +168,7 @@
     <Compile Include="SharedParameterFile.cs" />
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
     <Compile Include="MarkingOpeningExternalCommand.cs" />
+    <Compile Include="Temp10.cs" />
     <Compile Include="Tepm9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater.cs" />

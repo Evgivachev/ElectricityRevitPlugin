@@ -290,7 +290,8 @@ namespace ElectricityRevitPlugin
                 //Параметр Резервная группа
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.ElementFilter,
-                    Element.GetChangeTypeParameter(new ElementId(25928440)));
+                    Element.GetChangeTypeParameter(new ElementId(25928440))
+                    );
                 #endregion
 
             }
