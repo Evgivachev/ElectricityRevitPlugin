@@ -121,10 +121,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 //Мощность приемника
                 fi.GetElectricalParameters(out var activePowerFi, out var powerFactorFi,out _);
                 if (activePower < _tolerance || powerFactorFi < _tolerance)
+                {
+                    previousL = l;
                     continue;
-                
+                }
+
                 previousL = 0;
-                l = 0;
                 var tgPhiFi = Math.Sqrt(1 / powerFactorFi / powerFactorFi - 1);
                 var reactivePowerFi = activePowerFi * tgPhiFi;
 
