@@ -78,7 +78,7 @@ namespace ElectricityRevitPlugin
                 }
             }
 
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
                 return Result.Failed;
             }

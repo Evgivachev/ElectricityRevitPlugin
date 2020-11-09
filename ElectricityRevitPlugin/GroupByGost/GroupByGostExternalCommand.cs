@@ -134,7 +134,10 @@ namespace ElectricityRevitPlugin.GroupByGost
                 {
                     var isDisableChangeParameter = circuit.get_Parameter(_disableChangeGuid)?.AsInteger() == 1;
                     if (isDisableChangeParameter)
+                    {
+                        number++;
                         continue;
+                    }
                     var param = circuit.get_Parameter(_groupByGostGuid);
                     if (!param.IsReadOnly)
                         param.Set($"{prefix}{separator}{number}");

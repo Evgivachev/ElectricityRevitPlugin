@@ -33,8 +33,8 @@ namespace ElectricityRevitPlugin
                         .Where(x =>
                         {
                             return true;
-                            var flag = x.MEPModel?.ElectricalSystems?.IsEmpty;
-                            return flag.HasValue && !flag.Value;
+                            //var flag = x.MEPModel?.ElectricalSystems?.IsEmpty;
+                            //return flag.HasValue && !flag.Value;
                         });
 
                     foreach (var element in allFixtures)

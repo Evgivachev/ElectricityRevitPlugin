@@ -169,6 +169,9 @@
     <Compile Include="MarkingOpeningExternalCommand.cs" />
     <Compile Include="Temp10.cs" />
     <Compile Include="Tepm9.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\LossVoltageCalculator.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\RateCalculator.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\StandardCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />

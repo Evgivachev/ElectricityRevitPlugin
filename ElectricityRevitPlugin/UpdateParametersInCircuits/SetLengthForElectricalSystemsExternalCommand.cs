@@ -6,6 +6,7 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using ElectricityRevitPlugin.Annotations;
 using MoreLinq;
+using RevitParametersCodeGenerator;
 
 namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
@@ -90,7 +91,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var lengthForDiagrams = el.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM).AsDouble();
             var isReserveGroupGuid = new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
             var isReserveGroup = el.get_Parameter(isReserveGroupGuid).AsInteger() == 1;
-            if (isReserveGroup)
+            var isControlGroup = el.get_Parameter(SharedParametersFile.Kontrolnye_TSepi).AsInteger() == 1;
+            if (isReserveGroup|| isControlGroup)
                 lengthForDiagrams = 0;
             else if (type == "(нет)")
             {

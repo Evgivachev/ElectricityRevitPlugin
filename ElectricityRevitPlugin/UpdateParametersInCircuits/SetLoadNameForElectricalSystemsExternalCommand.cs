@@ -39,7 +39,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         public string UpdateParameters(ElectricalSystem el)
         {
-            var isReserveGroup = el.get_Parameter(_isReserveGroupGuid).AsInteger() == 1;
+             var isReserveGroup = el.get_Parameter(_isReserveGroupGuid).AsInteger() == 1;
             var isControlCircuit = el.get_Parameter(_isControlCircuit).AsInteger() == 1;
             string loadName;
             var loadNameParameter = el.get_Parameter(_loadNameGuid);
