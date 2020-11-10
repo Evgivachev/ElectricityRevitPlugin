@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
-using ElectricityRevitPlugin.GroupByGost;
 using ElectricityRevitPlugin.UpdateParametersInCircuits;
+using ElectricityRevitPlugin.Updaters;
 using RevitParametersCodeGenerator;
 using UpdateNameSpace;
 using VCRevitRibbonUtilCustom;
@@ -58,7 +55,7 @@ namespace ElectricityRevitPlugin
                     {
                         b.SetContextualHelp<MyButton>(ContextualHelpType.Url, "https://docs.google.com/document/d/1fyB0MJm0YujIILterNRl4a_bm4gCdKuK8uN3iU6MpMw/edit?usp=sharing")
                             .SetHelpUrl<MyButton>("www.werfau.ru")
-                            .SetLongDescription<MyButton>($"Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
+                            .SetLongDescription<MyButton>("Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
                             .SetLargeImage(Resource1.icons8_house_stark_32);
                     });
 
@@ -71,7 +68,8 @@ namespace ElectricityRevitPlugin
             }
             return result;
         }
-        private void RegisterUpdaters(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
+        
+        private void RegisterUpdaters(object sender, DocumentOpenedEventArgs e)
         {
             try
             {
@@ -95,22 +93,24 @@ namespace ElectricityRevitPlugin
                     })
                     .Distinct(new ProjectParameterNameComparer())
                     .ToDictionary(x=>x.Name);
-
-                //TODO обновление групп по ГОСТ
+                //обновление групп по ГОСТ
                 var groupByGostUpdater = new Updaters.GroupByGost(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(groupByGostUpdater, true);
+                groupByGostUpdater.RegisterUpdater(doc);
+                //UpdaterRegistry.RegisterUpdater(groupByGostUpdater,doc,true);
                 UpdaterRegistry.AddTrigger(groupByGostUpdater.GetUpdaterId(),
                     groupByGostUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
                 //TODO Потери напряжения
-                var lossVoltageUpdater = new Updaters.LossVoltage(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(lossVoltageUpdater, true);
+                var lossVoltageUpdater = new LossVoltage(uicApp.ActiveAddInId);
+                lossVoltageUpdater.RegisterUpdater(doc);
+                //UpdaterRegistry.RegisterUpdater(lossVoltageUpdater,  doc,true);
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
                 #region Наименование нагрузки
-                var loadNameUpdater = new Updaters.LoadName(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(loadNameUpdater, true);
+                var loadNameUpdater = new LoadName(uicApp.ActiveAddInId);
+                loadNameUpdater.RegisterUpdater(doc);
+                //UpdaterRegistry.RegisterUpdater(loadNameUpdater,  doc,true);
                 UpdaterRegistry.AddTrigger(loadNameUpdater.GetUpdaterId(),
                     loadNameUpdater.ElementFilter,
                     Element.GetChangeTypeElementAddition());
@@ -149,15 +149,17 @@ namespace ElectricityRevitPlugin
 
                 #endregion
                 ////Регистрация изменений для новых цепей. Установка значения bool-параметров в false
-                var booleanParameterUpdaterForAddedElements = new Updaters.UpdateAddedElectricalSystems(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(booleanParameterUpdaterForAddedElements, true);
+                var booleanParameterUpdaterForAddedElements = new UpdateAddedElectricalSystems(uicApp.ActiveAddInId);
+                booleanParameterUpdaterForAddedElements.RegisterUpdater(doc);
+                //UpdaterRegistry.RegisterUpdater(booleanParameterUpdaterForAddedElements,  doc,true);
                 UpdaterRegistry.AddTrigger(booleanParameterUpdaterForAddedElements.GetUpdaterId(),
                     booleanParameterUpdaterForAddedElements.ElementFilter,
                     Element.GetChangeTypeElementAddition());
                 #region Обновление длины цепи
                 //Регистрация изменений Обновление длин кабелей
-                var electricalSystemLengthUpdater = new Updaters.LengthOfElectricalSystem(uicApp.ActiveAddInId);
-                UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater, true);
+                var electricalSystemLengthUpdater = new LengthOfElectricalSystem(uicApp.ActiveAddInId);
+                electricalSystemLengthUpdater.RegisterUpdater(doc);
+                //UpdaterRegistry.RegisterUpdater(electricalSystemLengthUpdater,  doc,true);
                 //Триггер на изменение параметра Длина для электрической цепи
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.ElementFilter,
@@ -184,29 +186,33 @@ namespace ElectricityRevitPlugin
                     electricalSystemLengthUpdater.ElementFilter,
                     Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Kontrolnye_TSepi].Id)
                 );
+                //Установка приоритетов
+                UpdaterRegistry.SetExecutionOrder(electricalSystemLengthUpdater.GetUpdaterId(),lossVoltageUpdater.GetUpdaterId());
                 #endregion
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message + "\n" + exception.StackTrace);
-                var uicApp = sender as UIControlledApplication;
-                uicApp.ControlledApplication.DocumentOpened -= RegisterUpdaters;
             }
-           
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            var electricalSystemLengthUpdater = new UpdateLengthOfElectricalSystemsDynamicModelUpdater(application.ActiveAddInId);
-            UpdaterRegistry.UnregisterUpdater(electricalSystemLengthUpdater.GetUpdaterId());
+            
+
             return Result.Succeeded;
         }
+
+        //private void RegisterUpdater(IUpdater updater, Document doc,)
+        //{
+
+        //}
 
         public class ProjectParameterNameComparer : EqualityComparer<ParameterElement>
         {
             public override bool Equals(ParameterElement x, ParameterElement y)
             {
-                if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                if (x is null || y is null)
                     return false;
                 return x.Name == y.Name;
             }

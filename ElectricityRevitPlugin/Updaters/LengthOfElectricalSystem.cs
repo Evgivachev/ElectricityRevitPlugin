@@ -43,7 +43,7 @@ namespace ElectricityRevitPlugin.Updaters
         }
 
         protected override string Name { get; } = "Обновление длины электрической цепи";
-        protected override ChangePriority ChangePriority { get; } = ChangePriority.MEPSystems;
+        protected override ChangePriority ChangePriority { get; } = ChangePriority.MEPCalculations;
         protected override string AdditionalInformation { get; } = "Обновление длины электрической цепи";
         public override ElementFilter ElementFilter { get; } = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalCircuit);
     }

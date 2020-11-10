@@ -49,7 +49,7 @@ namespace ElectricityRevitPlugin.Updaters
 
         protected override string Name { get; } = "Обновление вновь добавленных электрических цепей";
 
-        protected override ChangePriority ChangePriority { get; } = ChangePriority.MEPCalculations;
+        protected override ChangePriority ChangePriority { get; } = ChangePriority.Annotations;
         protected override string AdditionalInformation { get; } = "Обновление вновь добавленных электрических цепей";
         public override ElementFilter ElementFilter { get; } = new ElementCategoryFilter(BuiltInCategory.OST_ElectricalCircuit);
     }

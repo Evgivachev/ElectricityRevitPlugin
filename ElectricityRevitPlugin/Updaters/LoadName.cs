@@ -52,7 +52,7 @@ namespace ElectricityRevitPlugin.Updaters
         }
 
         protected override string Name { get; } = "Обновление Наименование нагрузки для электрической цепи";
-        protected override ChangePriority ChangePriority { get; } = ChangePriority.MEPCalculations;
+        protected override ChangePriority ChangePriority { get; } = ChangePriority.Annotations;
 
         protected override string AdditionalInformation { get; } =
             "Обновление Наименование нагрузки для электрической цепи";

@@ -15,6 +15,7 @@ namespace DuctSystemRevitPlugin
     public class CreateViewsExternalCommand : IExternalCommand
     {
         private Document _document;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var uiApp = commandData.Application;
@@ -45,6 +46,7 @@ namespace DuctSystemRevitPlugin
         }
 
         #region CreateDuctSystemView
+
         private void CreateFilterForDuctSystem(Document doc, string systemName)
         {
 
@@ -52,16 +54,17 @@ namespace DuctSystemRevitPlugin
             {
                 tr.Start();
                 var view = _document.ActiveView;
-                IList<ElementId> categories = new List<ElementId>
-                {
-                    categories.Add(new ElementId(BuiltInCategory.OST_DuctAccessory));
-                    categories.Add(new ElementId(BuiltInCategory.OST_DuctCurves));
-                    categories.Add(new ElementId(BuiltInCategory.OST_DuctFitting));
-                    categories.Add(new ElementId(BuiltInCategory.OST_DuctInsulations));
-                    categories.Add(new ElementId(BuiltInCategory.OST_DuctTerminal));
-                    categories.Add(new ElementId(BuiltInCategory.OST_FlexDuctCurves));
-                    categories.Add(new ElementId(BuiltInCategory.OST_PlaceHolderDucts));
-            }
+                IList<ElementId> categories = new List<ElementId>();
+
+                categories.Add(new ElementId(BuiltInCategory.OST_DuctAccessory));
+                categories.Add(new ElementId(BuiltInCategory.OST_DuctCurves));
+                categories.Add(new ElementId(BuiltInCategory.OST_DuctFitting));
+                categories.Add(new ElementId(BuiltInCategory.OST_DuctInsulations));
+                categories.Add(new ElementId(BuiltInCategory.OST_DuctTerminal));
+                categories.Add(new ElementId(BuiltInCategory.OST_FlexDuctCurves));
+                categories.Add(new ElementId(BuiltInCategory.OST_PlaceHolderDucts));
+
+
                 categories.Add(new ElementId(BuiltInCategory.OST_DuctAccessory));
                 categories.Add(new ElementId(BuiltInCategory.OST_DuctCurves));
                 categories.Add(new ElementId(BuiltInCategory.OST_DuctFitting));
@@ -106,8 +109,9 @@ namespace DuctSystemRevitPlugin
 
                 tr.Commit();
             }
-
         }
+
+
 
 
 
@@ -119,6 +123,7 @@ namespace DuctSystemRevitPlugin
                 .Select(s => s.Name)
                 .ToList();
         }
+
         public void CreateDuctSystemViews()
         {
             Document doc = this._document;
@@ -135,12 +140,14 @@ namespace DuctSystemRevitPlugin
                             .ToList();
                         if (elementsByCat.Count > 0)
                         {
-                           // CopySystemNameValue(doc, elementsByCat);
+                            // CopySystemNameValue(doc, elementsByCat);
                         }
 
                     }
+
                     trg.Assimilate();
                 }
+
                 TaskDialog td = new TaskDialog("Copy views");
 
                 td.Id = "ID_TaskDialog_Copy_Views";
@@ -148,7 +155,8 @@ namespace DuctSystemRevitPlugin
                 td.Title = "Создание копий видов с применением фильтра";
                 td.TitleAutoPrefix = false;
                 td.AllowCancellation = true;
-                td.MainInstruction = "Данные из параметра Имя системы для всех элементов систем воздуховодов скопированы";
+                td.MainInstruction =
+                    "Данные из параметра Имя системы для всех элементов систем воздуховодов скопированы";
                 td.MainContent = "Хотите создать копии текущего вида с применением фильтров по системам?";
                 td.AddCommandLink(TaskDialogCommandLinkId.CommandLink1, "Да, создать фильтры и виды");
                 td.AddCommandLink(TaskDialogCommandLinkId.CommandLink2, "Нет");
@@ -173,6 +181,7 @@ namespace DuctSystemRevitPlugin
             }
 
         }
+
         private void CopySystemNameValue(Document _doc, IList<Element> _elements)
         {
             using (Transaction tr = new Transaction(_doc, "CopyNames"))
@@ -186,7 +195,9 @@ namespace DuctSystemRevitPlugin
                     {
                         if (null != fInstance.SuperComponent)
                         {
-                            rbs_name = fInstance.SuperComponent.get_Parameter(BuiltInParameter.RBS_SYSTEM_NAME_PARAM).AsString();
+                            rbs_name = fInstance.SuperComponent
+                                .get_Parameter(BuiltInParameter.RBS_SYSTEM_NAME_PARAM)
+                                .AsString();
                             fInstance.LookupParameter("ИмяСистемы").Set(rbs_name);
                         }
                         else
@@ -200,9 +211,11 @@ namespace DuctSystemRevitPlugin
                     }
 
                 }
+
                 tr.Commit();
             }
         }
+
         private IList<BuiltInCategory> GetDuctCategories()
         {
             IList<BuiltInCategory> cats = new List<BuiltInCategory>();
@@ -220,6 +233,7 @@ namespace DuctSystemRevitPlugin
         #endregion
     }
 }
+
 
 
 

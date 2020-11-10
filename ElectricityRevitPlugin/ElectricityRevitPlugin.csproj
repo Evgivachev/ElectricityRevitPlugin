@@ -142,7 +142,6 @@
     </Compile>
     <Compile Include="Extensions\KeySchelduleExtension.cs" />
     <Compile Include="Extensions\ParameterExtension.cs" />
-    <Compile Include="GroupByGost\GroupByGostDynamicUpdater.cs" />
     <Compile Include="GroupByGost\GroupByGostExternalCommand.cs" />
     <Compile Include="GroupByGost\UpdaterParametersOfShields.cs" />
     <Compile Include="IUpdaterParameters.cs" />
@@ -168,16 +167,14 @@
     <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
     <Compile Include="MarkingOpeningExternalCommand.cs" />
     <Compile Include="Temp10.cs" />
+    <Compile Include="Temp11.cs" />
     <Compile Include="Tepm9.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\LossVoltageCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\RateCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\StandardCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\ReserveAndControlCircuitsSetFalseForAddedSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsDynamicModelUpdater.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
@@ -192,11 +189,8 @@
     <Compile Include="Temp4.cs" />
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetToFalseBooleanParametersForAddedElementsDynamicModelUpdater.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateLossVoltageOfElectricalCircuitsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateLengthOfElectricalSystemsDynamicModelUpdater.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExernalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
     <Compile Include="Updaters\GroupByGost.cs" />
@@ -205,6 +199,7 @@
     <Compile Include="Updaters\LossVoltage.cs" />
     <Compile Include="Updaters\MyUpdater.cs" />
     <Compile Include="Updaters\UpdateAddedElectricalSystems.cs" />
+    <Compile Include="Updaters\UpdateLocker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

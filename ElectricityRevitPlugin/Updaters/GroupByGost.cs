@@ -23,9 +23,7 @@ namespace ElectricityRevitPlugin.Updaters
             {
                 var doc = data.GetDocument();
                 var ids = data.GetModifiedElementIds();
-                var updater = new GroupByGostExternalCommand();
-                updater.Doc = doc;
-              
+                var updater = new GroupByGostExternalCommand {Doc = doc};
                 var fis = new List<FamilyInstance>();
 
                 foreach (var id in ids)
@@ -39,8 +37,6 @@ namespace ElectricityRevitPlugin.Updaters
                     else if (el is FamilyInstance fi)
                     {
                         fis.Add(fi);
-
-
                     }
                 }
                 doc.Regenerate();
@@ -48,7 +44,6 @@ namespace ElectricityRevitPlugin.Updaters
                 {
                     updater.SetValuesToElement(fi);
                 }
-                //}
             }
             catch (Exception e)
             {
@@ -57,7 +52,7 @@ namespace ElectricityRevitPlugin.Updaters
         }
 
         protected override string Name { get; } = "Обновление групп по ГОСТ";
-        protected override ChangePriority ChangePriority { get; } = ChangePriority.MEPSystems;
+        protected override ChangePriority ChangePriority { get; } = ChangePriority.Annotations;
         protected override string AdditionalInformation { get; } = "Обновление групп по ГОСТ";
 
         public override ElementFilter ElementFilter =>

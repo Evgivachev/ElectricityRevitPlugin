@@ -10,7 +10,7 @@ namespace ElectricityRevitPlugin.Updaters
 {
     public abstract class MyUpdater : IUpdater
     {
-        public MyUpdater(AddInId id)
+        protected MyUpdater(AddInId id)
         {
             AppId = id;
         }
@@ -29,43 +29,43 @@ namespace ElectricityRevitPlugin.Updaters
 
         public abstract ElementFilter ElementFilter { get; }
 
-
         public void Execute(UpdaterData data)
         {
-#if DEBUG
-            
-            var infoStringBuilder = new StringBuilder();
-            infoStringBuilder.AppendLine($"Запуск обновления {Name}");
-            infoStringBuilder.AppendLine($"Добавленные элементы:");
             var doc = data.GetDocument();
-            foreach (var addedElementId in data.GetAddedElementIds())
+            var updateLocker = UpdateLocker.GetUpdateLocker();
+            if (!updateLocker.IsLocked(doc))
             {
-                var el = doc.GetElement(addedElementId);
-                infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
-            }
-            infoStringBuilder.AppendLine($"Модифицированные элементы:");
-            foreach (var addedElementId in data.GetModifiedElementIds())
-            {
-                var el = doc.GetElement(addedElementId);
-                infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
-            }
-            infoStringBuilder.AppendLine($"Удаленные элементы:");
-            foreach (var addedElementId in data.GetDeletedElementIds())
-            {
-                var el = doc.GetElement(addedElementId);
-                infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
-            }
-            MessageBox.Show(infoStringBuilder.ToString());
-
-
-#endif
-            ExecuteInner(data);
-
+                using (updateLocker.Lock())
+                {
 #if DEBUG
-            MessageBox.Show($"Конец обновления {Name}");
+                    var infoStringBuilder = new StringBuilder();
+                    infoStringBuilder.AppendLine($"Запуск обновления {Name}");
+                    infoStringBuilder.AppendLine($"Добавленные элементы:");
+                    
+                    foreach (var addedElementId in data.GetAddedElementIds())
+                    {
+                        var el = doc.GetElement(addedElementId);
+                        infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
+                    }
+                    infoStringBuilder.AppendLine($"Модифицированные элементы:");
+                    foreach (var addedElementId in data.GetModifiedElementIds())
+                    {
+                        var el = doc.GetElement(addedElementId);
+                        infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
+                    }
+                    infoStringBuilder.AppendLine($"Удаленные элементы:");
+                    foreach (var addedElementId in data.GetDeletedElementIds())
+                    {
+                        var el = doc.GetElement(addedElementId);
+                        infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
+                    }
+                    MessageBox.Show(infoStringBuilder.ToString());
+                    MessageBox.Show($"Конец обновления {Name}");
 #endif
 
-
+                    ExecuteInner(data);
+                }
+            }
         }
 
         public UpdaterId GetUpdaterId()
@@ -86,6 +86,34 @@ namespace ElectricityRevitPlugin.Updaters
         public string GetAdditionalInformation()
         {
             return AdditionalInformation;
+        }
+
+        public static List<IUpdater> RegistredUpdaters = new List<IUpdater>();
+        public void RegisterUpdater(Document doc)
+        {
+            //зарегистрированнык обновления
+            var registredUpdaters =
+                UpdaterRegistry.GetRegisteredUpdaterInfos(doc)
+                    .ToDictionary(x => x.UpdaterName);
+            if (registredUpdaters.ContainsKey(this.Name))
+                UpdaterRegistry.UnregisterUpdater(UpdaterId);
+            registredUpdaters =
+                UpdaterRegistry.GetRegisteredUpdaterInfos()
+                    .ToDictionary(x => x.UpdaterName);
+            if (registredUpdaters.ContainsKey(this.Name))
+                UpdaterRegistry.UnregisterUpdater(UpdaterId);
+            try
+            {
+                UpdaterRegistry.RegisterUpdater(this, doc, true);
+                RegistredUpdaters.Add(this);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Не удалось зарегестрировать средство обновления {Name}");
+            }
+
+
+
         }
     }
 }
