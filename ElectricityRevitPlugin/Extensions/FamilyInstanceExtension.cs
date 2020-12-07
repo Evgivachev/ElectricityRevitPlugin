@@ -42,7 +42,7 @@ namespace ElectricityRevitPlugin.Extensions
             }
         }
 
-        public static void GetElectricalParameters(this FamilyInstance familyInstance, out double activePower,
+        public static bool TryGetElectricalParameters(this FamilyInstance familyInstance, out double activePower,
             out double powerFactor,
             out ElementId loadClassification)
         {
@@ -53,14 +53,14 @@ namespace ElectricityRevitPlugin.Extensions
             Parameter powerFactorParameter = null;
             Parameter loadClassificationParameter;
             loadClassification = ElementId.InvalidElementId;
-
+            //Коэффициент для перевода кВт в Вт
             if (familyInstance.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment)
             {
                 activePowerParameter = familyInstance.get_Parameter(_installedPowerShield);
                 powerFactorParameter = familyInstance.get_Parameter(_powerFactorShield);
-                activePower = activePowerParameter.AsDouble();
+                activePower = activePowerParameter.AsDouble()*1000;
                 powerFactor = powerFactorParameter.AsDouble();
-                return;
+                return true;
             }
 
             var instanceActivePowerParameter = familyInstance.get_Parameter(_installedPower);
@@ -89,13 +89,14 @@ namespace ElectricityRevitPlugin.Extensions
 
                 activePower = 0;
                 powerFactor = 0;
-                return;
+                return false;
                 throw new ArgumentException($"Ошибка в электрическом соединителе семейства id=\"{familyInstance.Id}\"");
             }
             activePower =
                 UnitUtils.ConvertFromInternalUnits(activePowerParameter.AsDouble(), DisplayUnitType.DUT_WATTS);
             powerFactor = powerFactorParameter.AsDouble();
             loadClassification = loadClassificationParameter.AsElementId();
+            return true;
         }
 
     }

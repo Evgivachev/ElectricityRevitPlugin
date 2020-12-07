@@ -36,14 +36,11 @@ namespace ElectricityRevitPlugin.Extensions
                     type = fi
                         .get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_NAME)?
                         .AsString();
-
-
-
                 }
                 else
                 {
-                    fi.GetElectricalParameters(out var activePower, out _, out var loadClassification);
-                    if (activePower <= 0)
+                    var tryGetElectricalParameters = fi.TryGetElectricalParameters(out var activePower, out _, out var loadClassification);
+                    if (!tryGetElectricalParameters)
                         continue;
                     type = doc.GetElement(loadClassification).Name;
                 }

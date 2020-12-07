@@ -106,7 +106,53 @@ namespace ElectricityRevitPlugin
                 //UpdaterRegistry.RegisterUpdater(lossVoltageUpdater,  doc,true);
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
-                    Element.GetChangeTypeAny());
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_VOLTAGE)));
+                //Полная установленная мощность
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_APPARENT_LOAD)));
+                //Активная мощность в щитах
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Aktivnaya_Moshchnost_V_SHCHitakh].Id));
+                //Реактивная мощность в щитах
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Reaktivnaya_Moshchnost_V_SHCHitakh].Id));
+                //Коэффициент спроса в щитах
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Koeffitsient_Sprosa_V_SHCHitakh].Id));
+                //Полная мощность в щитах
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Polnaya_Moshchnost_V_SHCHitakh].Id));
+                //постоянный ток
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_TRUE_CURRENT_PARAM)));
+               
+                //Тип провода
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(projectParameters["Марка кабеля"].Id));
+                //cos F
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.cos_F].Id));
+                //Длина
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_LENGTH_PARAM)));
+                //Количество пар кабелей в одной группе
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(projectParameters["Кол-во кабелей (провод) в одной группе"].Id));
+                //Полное сопротивление цепи фаза нуль
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(projectParameters["Полное сопротивление петли фаза-нуль"].Id));
+
                 #region Наименование нагрузки
                 var loadNameUpdater = new LoadName(uicApp.ActiveAddInId);
                 loadNameUpdater.RegisterUpdater(doc);

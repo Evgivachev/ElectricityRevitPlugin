@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using ElectricityRevitPlugin.UpdateParametersInCircuits;
+using RevitParametersCodeGenerator;
 
 namespace ElectricityRevitPlugin.Updaters
 {
@@ -39,6 +40,7 @@ namespace ElectricityRevitPlugin.Updaters
                             parameter.UserModifiable && parameter.Definition.ParameterType == ParameterType.YesNo)
                             parameter.Set(0);
                     }
+                    system.get_Parameter(SharedParametersFile.Koeffitsient_Sprosa_V_SHCHitakh).Set(1.0);
                 }
             }
             catch (Exception e)
