@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Extensions\KeySchelduleExtension.cs" />
     <Compile Include="Extensions\ParameterExtension.cs" />
+    <Compile Include="GroupByGost\GeneralSubjectGroupByGost.cs" />
     <Compile Include="GroupByGost\GroupByGostExternalCommand.cs" />
     <Compile Include="GroupByGost\UpdaterParametersOfShields.cs" />
     <Compile Include="IUpdaterParameters.cs" />

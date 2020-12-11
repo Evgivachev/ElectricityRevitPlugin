@@ -121,7 +121,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
                 var du = CalculateLossVoltage(activePower, reactivePower, r, x, l, voltage, n, polesNumber);
                 Debug.Print($"Реактивная Мощность приемника {reactivePower}");
 
-                if (double.IsNaN(du))
+                if (double.IsNaN(du) || double.IsInfinity(du))
                 {
                     du = 0;
                     isTrueCalculating = false;
