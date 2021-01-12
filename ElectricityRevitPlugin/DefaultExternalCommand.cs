@@ -25,7 +25,7 @@ namespace ElectricityRevitPlugin
             {
                 UiApp = commandData.Application;
                 UiDoc = UiApp.ActiveUIDocument;
-                Doc = UiDoc.Document;
+                Doc = UiDoc?.Document;
                 App = UiApp.Application;
             }
             Result result;

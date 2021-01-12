@@ -171,6 +171,7 @@
     <Compile Include="Temp11.cs" />
     <Compile Include="Tepm9.cs" />
     <Compile Include="TubeMarking.cs" />
+    <Compile Include="UpdateModels\SaveLocalCopyExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\LossVoltageCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\RateCalculator.cs" />
     <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\StandardCalculator.cs" />
