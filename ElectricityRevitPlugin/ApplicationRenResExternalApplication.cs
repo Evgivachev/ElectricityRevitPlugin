@@ -93,6 +93,8 @@ namespace ElectricityRevitPlugin
                     })
                     .Distinct(new ProjectParameterNameComparer())
                     .ToDictionary(x=>x.Name);
+
+                #region Группы по ГОСТ
                 //обновление групп по ГОСТ
                 var groupByGostUpdater = new Updaters.GroupByGost(uicApp.ActiveAddInId);
                 groupByGostUpdater.RegisterUpdater(doc);
@@ -100,7 +102,12 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(groupByGostUpdater.GetUpdaterId(),
                     groupByGostUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
-                //TODO Потери напряжения
+
+
+                #endregion
+
+
+                #region Потери напряжения
                 var lossVoltageUpdater = new LossVoltage(uicApp.ActiveAddInId);
                 lossVoltageUpdater.RegisterUpdater(doc);
                 //UpdaterRegistry.RegisterUpdater(lossVoltageUpdater,  doc,true);
@@ -131,7 +138,6 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
                     Element.GetChangeTypeParameter(new ElementId(BuiltInParameter.RBS_ELEC_TRUE_CURRENT_PARAM)));
-               
                 //Тип провода
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
@@ -152,6 +158,15 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
                     Element.GetChangeTypeParameter(projectParameters["Полное сопротивление петли фаза-нуль"].Id));
+                //Способ расчета потерь напряжения в цепи
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(projectParameters["Способ расчета потерь напряжения в цепи"].Id));
+                //Запретить изменение
+                UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
+                    lossVoltageUpdater.ElementFilter,
+                    Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Zapretit_Izmenenie].Id));
+                #endregion
 
                 #region Наименование нагрузки
                 var loadNameUpdater = new LoadName(uicApp.ActiveAddInId);
@@ -233,7 +248,8 @@ namespace ElectricityRevitPlugin
                     Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Kontrolnye_TSepi].Id)
                 );
                 //Установка приоритетов
-                UpdaterRegistry.SetExecutionOrder(electricalSystemLengthUpdater.GetUpdaterId(),lossVoltageUpdater.GetUpdaterId());
+                UpdaterRegistry.SetExecutionOrder(electricalSystemLengthUpdater.GetUpdaterId(), lossVoltageUpdater.GetUpdaterId());
+
                 #endregion
             }
             catch (Exception exception)
@@ -248,11 +264,6 @@ namespace ElectricityRevitPlugin
 
             return Result.Succeeded;
         }
-
-        //private void RegisterUpdater(IUpdater updater, Document doc,)
-        //{
-
-        //}
 
         public class ProjectParameterNameComparer : EqualityComparer<ParameterElement>
         {
