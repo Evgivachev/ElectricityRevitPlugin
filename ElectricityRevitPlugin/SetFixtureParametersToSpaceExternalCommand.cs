@@ -36,14 +36,19 @@ namespace ElectricityRevitPlugin
                             //var flag = x.MEPModel?.ElectricalSystems?.IsEmpty;
                             //return flag.HasValue && !flag.Value;
                         });
-
+                    var viewphaseId = doc.ActiveView.get_Parameter(BuiltInParameter.VIEW_PHASE).AsElementId();
+                    var viewPhase = (Phase) doc.GetElement(viewphaseId);
                     foreach (var element in allFixtures)
                     {
                         var fixture = (FamilyInstance)element;
                         var fixtureName = fixture.Name;
-                        var phase = doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_CREATED).AsElementId()) as Phase;
+                        var fixturePhaseCreated = doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_CREATED).AsElementId()) as Phase;
+                        //Стадия сноса
+                        var fixturePhaseDemolished =(Phase) doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_DEMOLISHED).AsElementId());
+                        if(fixturePhaseDemolished !=null && viewPhase.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger() > fixturePhaseDemolished.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger())
+                            continue;
                         //var space = fixture.Space;
-                        var space = fixture.get_Space(phase);
+                        var space = fixture.get_Space(viewPhase);
                         if (space is null)
                             continue;
                         var spaceIdInt = space.Id.IntegerValue;
