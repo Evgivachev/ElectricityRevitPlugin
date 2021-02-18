@@ -117,6 +117,7 @@
     <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleViewModel.cs" />
     <Compile Include="CopyElementsInSameViewSchedule\ExternalCommand.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
+    <Compile Include="CreateCablesScheduleExternalCommand.cs" />
     <Compile Include="DefaultExternalCommand.cs" />
     <Compile Include="ApplicationRenResExternalApplication.cs" />
     <Compile Include="Extensions\ElectricalSystemExtension.cs" />

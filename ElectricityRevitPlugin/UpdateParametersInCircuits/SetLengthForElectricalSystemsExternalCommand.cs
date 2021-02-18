@@ -92,7 +92,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var isReserveGroupGuid = new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
             var isReserveGroup = el.get_Parameter(isReserveGroupGuid).AsInteger() == 1;
             var isControlGroup = el.get_Parameter(SharedParametersFile.Kontrolnye_TSepi).AsInteger() == 1;
-            if (isReserveGroup|| isControlGroup)
+            if (isReserveGroup || isControlGroup)
                 lengthForDiagrams = 0;
             else if (type == "(нет)")
             {
@@ -223,7 +223,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         }
 
-      
+
         /// <summary>
         /// Метрика Матхеттен
         /// </summary>

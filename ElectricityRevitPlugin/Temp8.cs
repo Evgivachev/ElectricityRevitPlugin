@@ -36,15 +36,17 @@ namespace ElectricityRevitPlugin
 
 
                         var first = 4;
+                        //Копорование Длины и Потель напряжения во временные параметры
                         if (first==1)
                         {
                             var d = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d")).AsDouble();
                             var isParsing = double.TryParse(
-                                system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46")).AsString(),
+                                system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46")).AsString(), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                                 out var du);
                             tmbDParameter.Set(UnitUtils.ConvertToInternalUnits(d, DisplayUnitType.DUT_METERS));
                             tmbPParameter.Set(du);
                         }
+                        //Копирование длины и потерь обратно в параметры
                         else if(first ==2)
                         {
                             var dParameter = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d"));
@@ -72,22 +74,12 @@ namespace ElectricityRevitPlugin
                             var dontChangeLoadName = system.get_Parameter(new Guid("5de14719-6968-4655-9457-94825e70b623")).Set(0);
 
                         }
-
-
-
-
-
                     }
                     tr.Commit();
                 }
-
-                
             }
-
             catch (Exception e)
             {
-
-
                 MessageBox.Show(e.Message + "\n" + e.StackTrace);
             }
             return Result.Succeeded;
