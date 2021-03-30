@@ -163,6 +163,7 @@
     <Compile Include="SelectSheetFormatAndAlignExternalCommand.cs" />
     <Compile Include="SetElementCoordinatesExternalCommand.cs" />
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
+    <Compile Include="SetFixtureParametersToSpaceExternalCommand_VarietyTheater.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
     <Compile Include="SharedParameterFile.cs" />
