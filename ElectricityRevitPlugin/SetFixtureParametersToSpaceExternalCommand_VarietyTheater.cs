@@ -58,7 +58,8 @@ namespace ElectricityRevitPlugin
                             adsk_zonaParameter.SetEmptyValue();
                             continue;
                         }
-                        adsk_zonaParameter.Set(space.Number);
+
+                        adsk_zonaParameter.Set($"Пом. {space.Number}");
                     }
                     tr.Commit();
                 }
