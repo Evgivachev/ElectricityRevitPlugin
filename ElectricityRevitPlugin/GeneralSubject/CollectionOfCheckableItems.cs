@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Documents;
 
 namespace ElectricityRevitPlugin.GeneralSubject
 {
-    public class CollectionOfCheckableItems : List<CheckableItem>
+    public class CollectionOfCheckableItems : ObservableCollection<CheckableItem>
     {
 
     }

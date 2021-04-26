@@ -17,14 +17,26 @@ namespace ElectricityRevitPlugin.GeneralSubject
 {
     public class GeneralSubjectViewModel : INotifyPropertyChanged
     {
+        public static GeneralSubjectViewModel GeneralSubjectViewModelSingleton;
         private Document _doc;
         private UIDocument _uiDoc;
         public bool IsHideExistingElements = false;
         //public IList<TreeNode> TreeNodes => GetTreeView(SelectedFamilySymbol);
-        public GeneralSubjectViewModel(UIDocument uiDocument)
+        private GeneralSubjectViewModel(UIDocument uiDocument)
         {
             _uiDoc = uiDocument;
             _doc = uiDocument.Document;
+        }
+        public GeneralSubjectViewModel()
+        {
+
+        }
+
+        public static GeneralSubjectViewModel GetGeneralSubjectViewModel(UIDocument uiDocument)
+        {
+            if (GeneralSubjectViewModelSingleton is null)
+                GeneralSubjectViewModelSingleton = new GeneralSubjectViewModel(uiDocument);
+            return GeneralSubjectViewModelSingleton;
         }
 
 
@@ -66,12 +78,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
         private CollectionOfCheckableItems _treeCollectionOfCheckableItems;
         public CollectionOfCheckableItems TreeCollectionOfCheckableItems
         {
-            get
-            {
-                if(_treeCollectionOfCheckableItems is null)
-                    UpdateTreeCollectionOfCheckableItems();
-                return _treeCollectionOfCheckableItems;
-            } 
+            get => _treeCollectionOfCheckableItems;
         }
 
         private void UpdateTreeCollectionOfCheckableItems()
