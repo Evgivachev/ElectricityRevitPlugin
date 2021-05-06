@@ -43,22 +43,21 @@ namespace UpdateNameSpace
                         return true;
                     });
 
-                foreach (var shield in shields)
+                using (var tr = new Transaction(doc))
                 {
-                    var (maxCurrent, countOfModuls) = GetValuesFromShield(shield);
-
-                    var maxCurrentParameter = shield.LookupParameter("Максимальный ток ОУ на группах в щитах");
-                    var countOfModulsParameter = shield.LookupParameter("Количество модулей в щитах");
-                    if (maxCurrentParameter is null || countOfModulsParameter is null)
+                    tr.Start("Установка параметров в щитах");
+                    foreach (var shield in shields)
                     {
-                        message =
-                            $"Отсутствуют параметры \"Максимальный ток ОУ на группах в щитах\" или \"Количество модулей в щитах\"";
-                        return Result.Failed;
-                    }
+                        var (maxCurrent, countOfModuls) = GetValuesFromShield(shield);
 
-                    using (var tr = new Transaction(doc))
-                    {
-                        tr.Start("Установка параметров в щитах");
+                        var maxCurrentParameter = shield.LookupParameter("Максимальный ток ОУ на группах в щитах");
+                        var countOfModulsParameter = shield.LookupParameter("Количество модулей в щитах");
+                        if (maxCurrentParameter is null || countOfModulsParameter is null)
+                        {
+                            message =
+                                $"Отсутствуют параметры \"Максимальный ток ОУ на группах в щитах\" или \"Количество модулей в щитах\"";
+                            return Result.Failed;
+                        }
                         if (!maxCurrentParameter.Set(maxCurrent) || !countOfModulsParameter.Set(countOfModuls))
                         {
                             message =
@@ -66,9 +65,10 @@ namespace UpdateNameSpace
                             return Result.Failed;
                         }
 
-                        tr.Commit();
+
                     }
-                   
+                    tr.Commit();
+
                 }
                 return Result.Succeeded;
             }
