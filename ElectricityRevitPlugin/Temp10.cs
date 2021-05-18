@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitParametersCodeGenerator;
 
 namespace ElectricityRevitPlugin
 {
@@ -16,27 +17,20 @@ namespace ElectricityRevitPlugin
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            var selection = UiDoc.Selection;
-            var viewIds = selection.GetElementIds();
-            var views = viewIds
-                .Select(Doc.GetElement)
-                .OfType<ViewDrafting>();
             using (var tr = new Transaction(Doc, "Rename"))
             {
                 tr.Start();
 
-
-                foreach (var view in views)
+                var fm = Doc.FamilyManager;
+                foreach (FamilyType type in fm.Types)
                 {
-                    var name = view.Name;
-                    var endWithPattern = new Regex(@"копия 1$");
-                    if (endWithPattern.IsMatch(name))
-                        view.Name = endWithPattern.Replace(name, "");
-                    else
-                    {
-                        view.Name = name + " " + "Стадия П";
-                    }
+                    var typeName = type.Name;
+                    fm.CurrentType = type;
+                    var m = fm.get_Parameter(SharedParametersFile.ADSK_Marka);
+                    fm.Set(m, typeName);
                 }
+
+               
                 tr.Commit();
             }
 
