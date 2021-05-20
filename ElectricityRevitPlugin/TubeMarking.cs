@@ -16,7 +16,12 @@ namespace ElectricityRevitPlugin
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             var allTubes = new FilteredElementCollector(Doc)
-                .OfCategory(BuiltInCategory.OST_Conduit);
+                .OfCategory(BuiltInCategory.OST_Conduit)
+                .WhereElementIsNotElementType();
+
+            var allTrays = new FilteredElementCollector(Doc)
+                .OfCategory(BuiltInCategory.OST_CableTray)
+                .WhereElementIsNotElementType();
             using (var tr = new Transaction(Doc))
             {
                 tr.Start("Маркировка труб");
@@ -26,9 +31,14 @@ namespace ElectricityRevitPlugin
                     if (name is null)
                         name = "";
                     var parameter = tube.LookupParameter("Лотки");
-                    if(parameter is null)
-                        continue;
-                    parameter.Set(name);
+                    parameter?.Set(name);
+                }
+                foreach (var element in allTrays)
+                {
+                    var name = element.LookupParameter("Лотки Тип, марка, обозначение документа, опросного листа")?.AsString() ??
+                               "";
+                    var parameter = element.LookupParameter("Лотки");
+                    parameter?.Set(name);
                 }
                 tr.Commit();
             }
