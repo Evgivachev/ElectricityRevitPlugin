@@ -25,7 +25,6 @@ namespace ElectricityRevitPlugin
             {
                 tr.Start();
 
-
                 foreach (var group in circuitsGroup)
                 {
                     var pathName = group.Key;
@@ -55,31 +54,19 @@ namespace ElectricityRevitPlugin
                         var nameInCableSchedule = $"{groupByGost}-{number}";
                         nameInCableScheduleParameter.Set(nameInCableSchedule);
                         nameTubeInCableScheduleParameter.Set($"T-{number}");
-
-
                         number++;
-
-
-
-
-
-
                     }
-
                 }
-
                 tr.Commit();
             }
-
             return Result.Succeeded;
         }
-
         private bool IsNotInSchedule(ElectricalSystem es)
         {
             var isReserve = es.get_Parameter(SharedParametersFile.Rezervnaya_Gruppa).AsInteger()>0;
             var isControl = es.get_Parameter(SharedParametersFile.Kontrolnye_TSepi).AsInteger()>0;
-            var voltage = es.get_Parameter(BuiltInParameter.RBS_ELEC_VOLTAGE).AsDouble();
-            voltage = UnitUtils.ConvertFromInternalUnits(voltage, DisplayUnitType.DUT_VOLTS);
+            //var voltage = es.get_Parameter(BuiltInParameter.RBS_ELEC_VOLTAGE).AsDouble();
+            //voltage = UnitUtils.ConvertFromInternalUnits(voltage, DisplayUnitType.DUT_VOLTS);
             return isReserve || isControl;
         }
     }

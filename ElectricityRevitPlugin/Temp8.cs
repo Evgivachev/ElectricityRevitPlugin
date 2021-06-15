@@ -31,7 +31,9 @@ namespace ElectricityRevitPlugin
                     tr.Start("sdsdsds");
                     foreach (var system in els)
                     {
+                        //Создать в проекте временный параметр с типом длина
                         var tmbDParameter = system.LookupParameter("ТЭ Д");
+                        //Создать в проекте временный параметр с типом число
                         var tmbPParameter = system.LookupParameter("ТЭ П");
 
 
@@ -46,6 +48,8 @@ namespace ElectricityRevitPlugin
                             tmbDParameter.Set(UnitUtils.ConvertToInternalUnits(d, DisplayUnitType.DUT_METERS));
                             tmbPParameter.Set(du);
                         }
+                        //TODO
+                        //Удвлить из проекта параметры Длина для ОС и Потери напряжения для ОС и добавить одноименные общие параметры
                         //Копирование длины и потерь обратно в параметры
                         else if(first ==2)
                         {
@@ -55,6 +59,7 @@ namespace ElectricityRevitPlugin
                             duParameter.Set(tmbPParameter.AsDouble());
 
                         }
+                        //TODO Добавить общие параметры Резерввная группа и Контрольные цепи и Запретить изменение и Запретить изменение для наименования нагрузки
                         else if (first == 3)
                         {
                             var reserve0 = system.GetParameters("Резервная группа").First(p => !p.IsShared);
