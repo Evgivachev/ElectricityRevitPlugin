@@ -135,7 +135,7 @@
     <Compile Include="GeneralSubject\ParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ShieldParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ShowGeneralSubjectWindowExternalCommand.cs" />
-    <Compile Include="GeneralSubject\Test1.cs" />
+    <Compile Include="GeneralSubject\UpdateGeneralSubjectDiagramExternalCommand.cs" />
     <Compile Include="GeneralSubject\TestPasteElectricalSystems.cs" />
     <Compile Include="GeneralSubject\TestPastleAnnotation.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
@@ -202,7 +202,7 @@
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
     <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExernalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExternalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
     <Compile Include="Updaters\GroupByGost.cs" />
     <Compile Include="Updaters\LengthOfElectricalSystem.cs" />
@@ -266,6 +266,14 @@
   <ItemGroup>
     <None Include="Resources\icons8-house-stark-32.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\icons8-морти-смит-36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-рик-санчес-36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-манускрипт-36.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

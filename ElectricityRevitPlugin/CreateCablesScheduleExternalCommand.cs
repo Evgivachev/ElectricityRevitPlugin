@@ -44,9 +44,6 @@ namespace ElectricityRevitPlugin
                         {
                             nameInCableScheduleParameter.SetEmptyValue();
                             nameTubeInCableScheduleParameter.SetEmptyValue();
-
-
-
                             continue;
 
                         }

@@ -225,7 +225,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
 
         /// <summary>
-        /// Метрика Матхеттен
+        /// Метрика Манхеттен
         /// </summary>
         /// <param name="point1"></param>
         /// <param name="point2"></param>

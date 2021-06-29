@@ -8,7 +8,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    internal class UpdateParametersOfElectricalSystemIExernalCommand :  IExternalCommand
+    //Тринити
+    internal class UpdateParametersOfElectricalSystemIExternalCommand :  IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -19,8 +20,10 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var result = Result.Succeeded;
 
             var parameterUpdater = new UpdaterParameters<ElectricalSystem>(doc, BuiltInCategory.OST_ElectricalCircuit);
+
             //Длина труб для спецификации
             parameterUpdater.AddAction(new SetLengthForElectricalSystemsExternalCommand());
+
             ////Режим траектории электрической цепи
             //parameterUpdater.AddAction(new SetModeOfElectricalSystemToAllElementsExternalCommand());
 
@@ -28,7 +31,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             parameterUpdater.AddAction(new SetParametersOfElSystemsCurrentPowerSystemAndType());
             //Обновление параметра Марка кабелей для выносок
             parameterUpdater.AddAction(new UpdateCablesMarkExternalCommand());
-
+            //способ прокладки для схем - переписывает параметр из ключевой спецификации в параметр цепи
             parameterUpdater.AddAction(new UpdateCableManagementMethodExternalCommand());
 
             try

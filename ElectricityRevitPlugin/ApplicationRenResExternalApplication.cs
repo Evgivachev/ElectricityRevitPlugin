@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using ElectricityRevitPlugin.GeneralSubject;
 using ElectricityRevitPlugin.UpdateParametersInCircuits;
 using ElectricityRevitPlugin.Updaters;
 using RevitParametersCodeGenerator;
@@ -38,15 +41,15 @@ namespace ElectricityRevitPlugin
                                             "https://www.revitapidocs.com/2019/"))
                     );
                 MyRibbon.GetApplicationRibbon(uicApp)
-                .Tab("ЭОМ")
+                .Tab("REN_ЭОМ")
                 .Panel("Обновление")
-                .CreateButton<UpdateParametersOfElectricalSystemIExernalCommand>("Обновить цепи", "Обновить цепи",
+                .CreateButton<UpdateParametersOfElectricalSystemIExternalCommand>("Обновить цепи", "Обновить цепи",
                             bt =>
 
                                 bt.SetLargeImage(Resource1.icons8_тринити_32)
                                     .SetLongDescription<MyButton>("Обновить цепи")
                                     .SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                        "https://www.revitapidocs.com/2019/")
+                                        "https://docs.google.com/document/d/12FDWErbZzqZW9zFcJyGWHskHpuK17_H5opv4hSh2JpY/edit?usp=sharing")
                     );
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("REN_ЭОМ")
@@ -57,6 +60,37 @@ namespace ElectricityRevitPlugin
                             .SetHelpUrl<MyButton>("www.werfau.ru")
                             .SetLongDescription<MyButton>("Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
                             .SetLargeImage(Resource1.icons8_house_stark_32);
+                    });
+
+                MyRibbon.GetApplicationRibbon(uicApp)
+                    .Tab("REN_ЭОМ")
+                    .Panel("ВРУ")
+                    .CreateButton<ShowGeneralSubjectWindowExternalCommand>(nameof(ShowGeneralSubjectWindowExternalCommand), "Схема ВРУ", b =>
+                    {
+                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
+                         
+                            .SetLongDescription<MyButton>("Для справки нажмите F1")
+                            .SetLargeImage(Resource1.icons8_рик_санчес_36);
+                    })
+                    .CreateButton<UpdateGeneralSubjectDiagramExternalCommand>(nameof(UpdateGeneralSubjectDiagramExternalCommand), "Обновить схему", b =>
+                    {
+                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
+                            .SetLongDescription<MyButton>("Для справки нажмите F1")
+                            .SetLargeImage(Resource1.icons8_морти_смит_36);
+                    })
+                    ;
+                MyRibbon.GetApplicationRibbon(uicApp)
+                    .Tab("REN_ЭОМ")
+                    .Panel("Отчеты")
+                    .CreateButton<CreateCablesScheduleExternalCommand>(nameof(CreateCablesScheduleExternalCommand), "КЖ", b =>
+                    {
+                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                "https://docs.google.com/document/d/11eNpoQNb67qe4aBVHmzjrJBWqPL6Fa2uDjlQThxx49Y/edit?usp=sharing")
+
+                            .SetLongDescription<MyButton>("Для справки нажмите F1")
+                            .SetLargeImage(Resource1.icons8_манускрипт_36);
                     });
 
                 uicApp.ControlledApplication.DocumentOpened += RegisterUpdaters;

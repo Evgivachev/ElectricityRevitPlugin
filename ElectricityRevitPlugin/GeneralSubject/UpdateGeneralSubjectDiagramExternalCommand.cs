@@ -15,7 +15,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    class Test1 : DefaultExternalCommand
+    class UpdateGeneralSubjectDiagramExternalCommand : DefaultExternalCommand
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
