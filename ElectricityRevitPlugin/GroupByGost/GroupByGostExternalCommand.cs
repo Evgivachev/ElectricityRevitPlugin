@@ -81,11 +81,13 @@ namespace ElectricityRevitPlugin.GroupByGost
             if (parameter is null)
                 return;
             Element powerCable = fi.GetPowerElectricalSystem();
+
             if (powerCable is null)
             {
-                var linkedElementParameterId = fi.get_Parameter(_idLinkElement)?.AsString();
-                if (linkedElementParameterId != null)
-                    powerCable = Doc.GetElement(linkedElementParameterId);
+                var parsing = int.TryParse(fi.get_Parameter(_idLinkElement)?.AsString(),
+                    out var linkedElementParameterId);
+                if (parsing)
+                    powerCable = Doc.GetElement(new ElementId(linkedElementParameterId));
                 else
                 {
                     parameter.Set(_defaultGroupByGost);

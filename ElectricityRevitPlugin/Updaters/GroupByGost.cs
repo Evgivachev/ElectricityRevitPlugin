@@ -10,7 +10,7 @@ using ElectricityRevitPlugin.GroupByGost;
 
 namespace ElectricityRevitPlugin.Updaters
 {
-    class GroupByGost :MyUpdater
+    class GroupByGost : MyUpdater
     {
         public GroupByGost(AddInId id) : base(id)
         {
@@ -23,7 +23,7 @@ namespace ElectricityRevitPlugin.Updaters
             {
                 var doc = data.GetDocument();
                 var ids = data.GetModifiedElementIds();
-                var updater = new GroupByGostExternalCommand {Doc = doc};
+                var updater = new GroupByGostExternalCommand { Doc = doc };
                 var fis = new List<FamilyInstance>();
 
                 foreach (var id in ids)
@@ -40,10 +40,7 @@ namespace ElectricityRevitPlugin.Updaters
                     }
                 }
                 doc.Regenerate();
-                foreach (var fi in fis)
-                {
-                    updater.SetValuesToElement(fi);
-                }
+                fis.ForEach(updater.SetValuesToElement);
             }
             catch (Exception e)
             {
