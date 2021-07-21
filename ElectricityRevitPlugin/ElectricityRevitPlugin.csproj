@@ -275,9 +275,5 @@
   <ItemGroup>
     <None Include="Resources\icons8-манускрипт-36.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="master_addedFile.txt" />
-    <Content Include="fix_addedFile.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
