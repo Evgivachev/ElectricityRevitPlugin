@@ -77,9 +77,9 @@ namespace ElectricityRevitPlugin
 
                             param.Set(value);
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-
+                            // ignored
                         }
                     }
                     tr.Commit();

@@ -26,7 +26,6 @@ namespace ElectricityRevitPlugin
             //var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
             //Смещение по высоте, есть не у всех элементов но работает
             var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
-
             var shift = shiftParam.AsDouble();
             if (displayUnitType.HasValue)
                 shift = UnitUtils.ConvertFromInternalUnits(shift, displayUnitType.Value);
@@ -86,8 +85,7 @@ namespace ElectricityRevitPlugin
         }
         private static Result SetInstallationHeightRelativeToLevel(this Element element,double heigth, DisplayUnitType? displayUnitType = null)
         {
-            var elementPoint = element.Location as LocationPoint;
-            if (elementPoint is null)
+            if (!(element.Location is LocationPoint _))
                 throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
             var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
             if (displayUnitType.HasValue)
@@ -208,6 +206,8 @@ namespace ElectricityRevitPlugin
                     if (excludedParams.Contains(toParam.Definition.Name))
                         continue;
                     var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
+                    if(!fromParam.HasValue)
+                        continue;
                     var value = fromParam.GetValueDynamic();
                     if (value is null)
                         continue;

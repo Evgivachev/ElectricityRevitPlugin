@@ -79,8 +79,7 @@ namespace ElectricityRevitPlugin
         private XYZ[] GetLocationOfReserveGroup(FamilyInstance shield,int n)
         {
             var d = 1;
-            var l = shield.Location as LocationPoint;
-            if(l is null)
+            if(!(shield.Location is LocationPoint l))
                 throw new NullReferenceException();
             var r = l.Rotation;
             var basePoint = l.Point.Add(new XYZ(d * Math.Sin(r), d * Math.Cos(r),  0));

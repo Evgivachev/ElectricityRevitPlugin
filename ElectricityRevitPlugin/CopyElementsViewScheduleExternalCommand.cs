@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using MoreLinq;
+//using MoreLinq;
+//using MoreLinq.Extensions;
 using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace ElectricityRevitPlugin
@@ -60,8 +61,6 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Temp");
-
-                   
                     var nElements = new FilteredElementCollector(OpenedDocument, SimilarViewSchedule.Id)
                         .ToElements();
                     var ownElements = new FilteredElementCollector(doc, ActiveViewSchedule.Id)

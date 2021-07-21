@@ -16,7 +16,7 @@ namespace ElectricityRevitPlugin
     {
         protected UIApplication UiApp;
         protected UIDocument UiDoc;
-        protected Document Doc;
+        public Document Doc { get; set; }
         protected Application App;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -25,7 +25,7 @@ namespace ElectricityRevitPlugin
             {
                 UiApp = commandData.Application;
                 UiDoc = UiApp.ActiveUIDocument;
-                Doc = UiDoc.Document;
+                Doc = UiDoc?.Document;
                 App = UiApp.Application;
             }
             Result result;

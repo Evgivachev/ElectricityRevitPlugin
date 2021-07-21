@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ElectricityRevitPlugin</RootNamespace>
     <AssemblyName>ElectricityRevitPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -31,6 +31,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows">
@@ -86,14 +107,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddReserveElectricalSystemExternalCommand.cs" />
-    <Compile Include="AppSetting.cs" />
     <Compile Include="ConnectElectricalSystemToPanelExternalCommand.cs" />
     <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
     <Compile Include="CoordinateModelMVC.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\CheckableItem.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml.cs">
+      <DependentUpon>CopyElementsInSameScheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleViewModel.cs" />
+    <Compile Include="CopyElementsInSameViewSchedule\ExternalCommand.cs" />
     <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
-    <Compile Include="CopySheetsExternalCommand.cs" />
+    <Compile Include="CreateCablesScheduleExternalCommand.cs" />
     <Compile Include="DefaultExternalCommand.cs" />
-    <Compile Include="ElectricityPluginApp.cs" />
     <Compile Include="ApplicationRenResExternalApplication.cs" />
     <Compile Include="Extensions\ElectricalSystemExtension.cs" />
     <Compile Include="Extensions\ElementExtension.cs" />
@@ -105,12 +130,12 @@
     <Compile Include="GeneralSubject\GeneralSubjectWpf.xaml.cs">
       <DependentUpon>GeneralSubjectWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GeneralSubject\MyCollectionOfCheckableItems.cs" />
+    <Compile Include="GeneralSubject\CollectionOfCheckableItems.cs" />
     <Compile Include="GeneralSubject\OutgoingLineParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ShieldParameterUpdater.cs" />
     <Compile Include="GeneralSubject\ShowGeneralSubjectWindowExternalCommand.cs" />
-    <Compile Include="GeneralSubject\Test1.cs" />
+    <Compile Include="GeneralSubject\UpdateGeneralSubjectDiagramExternalCommand.cs" />
     <Compile Include="GeneralSubject\TestPasteElectricalSystems.cs" />
     <Compile Include="GeneralSubject\TestPastleAnnotation.cs" />
     <Compile Include="GetCoordinateFromUser.xaml.cs">
@@ -118,8 +143,10 @@
     </Compile>
     <Compile Include="Extensions\KeySchelduleExtension.cs" />
     <Compile Include="Extensions\ParameterExtension.cs" />
+    <Compile Include="GroupByGost\GeneralSubjectGroupByGost.cs" />
+    <Compile Include="GroupByGost\GroupByGostExternalCommand.cs" />
+    <Compile Include="GroupByGost\UpdaterParametersOfShields.cs" />
     <Compile Include="IUpdaterParameters.cs" />
-    <Compile Include="PluginParametersSet.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -136,35 +163,63 @@
     <Compile Include="SelectSheetFormatAndAlignExternalCommand.cs" />
     <Compile Include="SetElementCoordinatesExternalCommand.cs" />
     <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
+    <Compile Include="SetFixtureParametersToSpaceExternalCommand_VarietyTheater.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
     <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
-    <Compile Include="SetLenghtForTubeOfElectricalSystemsExternalCommand.cs" />
-    <Compile Include="SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
-    <Compile Include="SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
+    <Compile Include="SharedParameterFile.cs" />
+    <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
+    <Compile Include="MarkingOpeningExternalCommand.cs" />
+    <Compile Include="Temp10.cs" />
+    <Compile Include="Temp11.cs" />
+    <Compile Include="Tepm9.cs" />
+    <Compile Include="TubeMarking.cs" />
+    <Compile Include="UpdateModels\CreateLocalCopyExternalCommand.cs" />
+    <Compile Include="UpdateModels\CreatorRevitLocalCopy.cs" />
+    <Compile Include="UpdateModels\ModelFromServerListGetter.cs" />
+    <Compile Include="UpdateModels\ModelUpdater.cs" />
+    <Compile Include="UpdateModels\SaveLocalCopyExternalCommand.cs" />
+    <Compile Include="UpdateModels\UpTo21VersionExternalCommand.cs" />
+    <Compile Include="UpdateParameterADSK_Floor.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\LossVoltageCalculator.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\RateCalculator.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\StandardCalculator.cs" />
+    <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
     <Compile Include="SetProjectSectionExternalCommand.cs" />
     <Compile Include="SetProjectSectionForElectricalSystems.cs" />
+    <Compile Include="Short-Circuits\ShortCircuits.cs" />
     <Compile Include="SortSheets.cs" />
-    <Compile Include="DuplicateElementInViewScheduleExternalCommand.cs" />
     <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
       <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Temp7.cs" />
-    <Compile Include="TempDUCT.cs" />
+    <Compile Include="Temp8.cs" />
     <Compile Include="Temp2.cs" />
-    <Compile Include="Temp3.cs" />
     <Compile Include="Temp4.cs" />
     <Compile Include="Temp5.cs" />
     <Compile Include="SetHeightForSpaceExternalCommand.cs" />
-    <Compile Include="Temp6.cs" />
-    <Compile Include="UpdateCableManagementMethodExternalCommand.cs" />
-    <Compile Include="UpdateCablesMarkExternalCommand.cs" />
-    <Compile Include="UpdateParametersOfElectricalSystemIExernalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
+    <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExternalCommand.cs" />
     <Compile Include="UpdaterParameters.cs" />
+    <Compile Include="Updaters\GroupByGost.cs" />
+    <Compile Include="Updaters\LengthOfElectricalSystem.cs" />
+    <Compile Include="Updaters\LoadName.cs" />
+    <Compile Include="Updaters\LossVoltage.cs" />
+    <Compile Include="Updaters\MyUpdater.cs" />
+    <Compile Include="Updaters\UpdateAddedElectricalSystems.cs" />
+    <Compile Include="Updaters\UpdateLocker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GeneralSubject\GeneralSubjectWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +263,17 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\icons8-house-stark-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-морти-смит-36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-рик-санчес-36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-манускрипт-36.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

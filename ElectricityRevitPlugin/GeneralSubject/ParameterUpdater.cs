@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
 
         }
 
-        public abstract MyCollectionOfCheckableItems GetValidateElements(Document document);
+        public abstract CollectionOfCheckableItems GetValidateElements(Document document);
 
         protected Dictionary<dynamic, dynamic> ParametersDictionary = new Dictionary<dynamic, dynamic>();
 
@@ -86,7 +87,9 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 var toP = toElement.get_Parameter(fromGuid);
                 if(toP is null || toP.IsReadOnly ||!toP.IsShared)
                     continue;
-                toP.Set(fromP.GetValueDynamic());
+                var flag = toP.Set(fromP.GetValueDynamic());
+                if(!flag)
+                    Debug.Print($"{toP.Definition.Name} is wrong" );
             }
             toElement.get_Parameter(ConnectedElementId).Set(_fromElement.Id.IntegerValue.ToString());
         }

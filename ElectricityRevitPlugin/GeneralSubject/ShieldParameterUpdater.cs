@@ -39,17 +39,20 @@ namespace ElectricityRevitPlugin.GeneralSubject
             };
         }
 
-        public override MyCollectionOfCheckableItems GetValidateElements(Document document)
+        public override CollectionOfCheckableItems GetValidateElements(Document document)
         {
             var elss = new FilteredElementCollector(document)
                     .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
                     .WhereElementIsNotElementType()
                     .OfType<FamilyInstance>()
-                    .OrderBy(x=>x.GetPowerElectricalSystem()?.GetGroupByGost())
-                    .GroupBy(x=>x.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_SUPPLY_FROM_PARAM).AsString())
-                    .OrderBy(x=>x.Key)
+                    .Select(x=> new {Family= x, Group= x.GetPowerElectricalSystem()?.GetGroupByGost()})
+                    .OrderBy(x => x.Group?.Length)
+                    .ThenBy(x => x.Group)
+                    .Select(x=>x.Family)
+                    .GroupBy(x => x.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_SUPPLY_FROM_PARAM).AsString())
+                    .OrderBy(x => x.Key)
                 ;
-            var result = new MyCollectionOfCheckableItems();
+            var result = new CollectionOfCheckableItems();
             foreach (var group in elss)
             {
                 var item = new CheckableItem()
