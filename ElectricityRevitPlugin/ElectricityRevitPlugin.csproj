@@ -276,11 +276,8 @@
     <None Include="Resources\icons8-манускрипт-36.png" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Content Include="master_addedFile.txt" />
-=======
     <Content Include="fix_addedFile.txt" />
->>>>>>> 120a0eb265e9d347ab1f8c815de6b3d8c9fe276a
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
