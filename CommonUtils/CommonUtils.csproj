@@ -2,18 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Version>2.0.0</Version>
-        <Description>Плагин ЭОМ.</Description>
+        <Description>Утилиты.</Description>
         <LangVersion>9</LangVersion>
         <TargetFramework>net48</TargetFramework>
         <Nullable>enable</Nullable>
-        <UseWpf>true</UseWpf>
         <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="AdWindows, Version=3.1.7.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\ref\AdWindows.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="Microsoft.CSharp" />
         <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\ref\RevitAPI.dll</HintPath>
@@ -34,9 +29,6 @@
         <Reference Include="RevitAPIUIMacros, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
             <Private>False</Private>
-        </Reference>
-        <Reference Include="VCRevitRibbonUtilCustom, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>

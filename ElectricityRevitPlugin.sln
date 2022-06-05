@@ -3,30 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricityRevitPlugin", "ElectricityRevitPlugin\ElectricityRevitPlugin.csproj", "{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectricityRevitPlugin", "ElectricityRevitPlugin\ElectricityRevitPlugin.csproj", "{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diagrams", "OneLineDiagram\Diagrams.csproj", "{DF281064-7D13-4E41-8648-FA6EE1073A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtils", "CommonUtils\CommonUtils.csproj", "{40D08074-22B1-498A-8101-86BF1315FFA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug via Revit Add-In Manager|Any CPU = Debug via Revit Add-In Manager|Any CPU
-		Debug via Revit Add-In Manager|x64 = Debug via Revit Add-In Manager|x64
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug via Revit Add-In Manager|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug via Revit Add-In Manager|Any CPU.Build.0 = Debug|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug via Revit Add-In Manager|x64.ActiveCfg = Debug|x64
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug via Revit Add-In Manager|x64.Build.0 = Debug|x64
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.ActiveCfg = Debug|x64
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.Build.0 = Debug|x64
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.ActiveCfg = Release|x64
-		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.Build.0 = Release|x64
+		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Debug|x64.Build.0 = Debug|Any CPU
+		{40D08074-22B1-498A-8101-86BF1315FFA1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{40D08074-22B1-498A-8101-86BF1315FFA1}.Debug|x64.Build.0 = Debug|Any CPU
+		{40D08074-22B1-498A-8101-86BF1315FFA1}.Release|x64.ActiveCfg = Release|Any CPU
+		{40D08074-22B1-498A-8101-86BF1315FFA1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
