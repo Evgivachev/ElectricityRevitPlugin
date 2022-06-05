@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using ElectricityRevitPlugin.Extensions;
-using MoreLinq;
-using RevitParametersCodeGenerator;
-
-namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator
 {
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Extensions;
+    using MoreLinq;
+    using RevitParametersCodeGenerator;
+
     class StandardCalculator : LossVoltageCalculator
 
     {
@@ -19,7 +16,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
 
         internal override double CalculateLossVoltage(ElectricalSystem el)
         {
-            
             var devices = el
                 .Elements
                 .Cast<Element>()
@@ -27,7 +23,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
             Debug.Print($"Цепь {el.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST).AsString()}");
             var baseDevice = el.BaseEquipment ?? devices.First().Value as FamilyInstance;
             Debug.Print($"shield is {baseDevice.Name}");
-
             var baseDeviceLocation = baseDevice.Location as LocationPoint;
             var baseDevicePoint = baseDeviceLocation.Point;
             Debug.Print($"Location {baseDevicePoint}");
@@ -38,7 +33,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
             Debug.Print($"polesNumber {polesNumber}");
             //Напряжение
             var voltage = UnitUtils.ConvertFromInternalUnits(el.get_Parameter(BuiltInParameter.RBS_ELEC_VOLTAGE).AsDouble(),
-                DisplayUnitType.DUT_VOLTS);
+                UnitTypeId.Volts);
             Debug.Print($"Voltage {voltage}");
             //Сечение кабеля
             var crossSection = el.LookupParameter("Сечение кабеля").AsDouble();
@@ -51,7 +46,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
             //Количество параллельных кабелей
             var n = el.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
             Debug.Print($"Количество пар кабелей {n}");
-
             double activePower = 0, cosPhi = 0, reactivePower = 0, tgPhi = 0;
             var loadFactor = el.get_Parameter(SharedParametersFile.Koeffitsient_Sprosa_V_SHCHitakh).AsDouble();
             foreach (Element element in el.Elements)
@@ -59,9 +53,9 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
                 if (element is FamilyInstance fi)
                 {
                     var tryGetElectricalParameters = fi.TryGetElectricalParameters(out double ap, out var cosP, out _);
-                    if(!tryGetElectricalParameters)
+                    if (!tryGetElectricalParameters)
                         continue;
-                    activePower += ap*loadFactor;
+                    activePower += ap * loadFactor;
                     var _tgP = Math.Sqrt(1 / cosP / cosP - 1);
                     var _q = ap * _tgP;
                     reactivePower += _q;
@@ -113,14 +107,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
                 Debug.Print($"\nЭлектроприемник {fi.Name}");
                 devices.Remove(fi.Id);
                 //Расчет потерь напряжения
-                var l = previousL + UnitUtils.ConvertFromInternalUnits(nearest.Item2, DisplayUnitType.DUT_METERS);
+                var l = previousL + UnitUtils.ConvertFromInternalUnits(nearest.Item2, UnitTypeId.Meters);
                 Debug.Print($"Длина до предыдущего,м {l}");
                 Debug.Print($"Активная мощность по участку, {activePower}");
                 Debug.Print($"Реактивная мощность по участку, {reactivePower}");
-
                 var du = CalculateLossVoltage(activePower, reactivePower, r, x, l, voltage, n, polesNumber);
                 Debug.Print($"Реактивная Мощность приемника {reactivePower}");
-
                 if (double.IsNaN(du) || double.IsInfinity(du))
                 {
                     du = 0;
@@ -130,8 +122,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
 
                 Debug.Print($"Потери до предыдущего, В {du}");
                 //Мощность приемника
-                var tryGetElectricalParameters =  fi.TryGetElectricalParameters(out var activePowerFi, out var powerFactorFi, out _);
-                if (!tryGetElectricalParameters||activePower < _tolerance || powerFactorFi < _tolerance)
+                var tryGetElectricalParameters = fi.TryGetElectricalParameters(out var activePowerFi, out var powerFactorFi, out _);
+                if (!tryGetElectricalParameters || activePower < _tolerance || powerFactorFi < _tolerance)
                 {
                     previousL = l;
                     continue;
@@ -140,7 +132,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
                 previousL = 0;
                 var tgPhiFi = Math.Sqrt(1 / powerFactorFi / powerFactorFi - 1);
                 var reactivePowerFi = activePowerFi * tgPhiFi;
-
                 activePower -= activePowerFi;
                 reactivePower -= reactivePowerFi;
                 du0 += du;
@@ -157,7 +148,14 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
             return du0;
         }
 
-        private double CalculateLossVoltage(double p, double q, double r, double x, double l, double u0, double n,
+        private double CalculateLossVoltage(
+            double p,
+            double q,
+            double r,
+            double x,
+            double l,
+            double u0,
+            double n,
             int polesNumber)
         {
             var du = (polesNumber == 1 ? 2 : 1) * l * (p * r + q * x) / u0 / n;

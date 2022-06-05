@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-namespace UpdateNameSpace
+﻿namespace UpdateNameSpace
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class UpdaterParametersOfShields : IExternalCommand
@@ -23,7 +20,6 @@ namespace UpdateNameSpace
                 var uiDoc = uiApp?.ActiveUIDocument;
                 var app = uiApp?.Application;
                 var doc = uiDoc?.Document;
-
                 var shields = new FilteredElementCollector(doc)
                     .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
                     .OfClass(typeof(FamilyInstance))
@@ -42,14 +38,12 @@ namespace UpdateNameSpace
                             return false;
                         return true;
                     });
-
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Установка параметров в щитах");
                     foreach (var shield in shields)
                     {
                         var (maxCurrent, countOfModuls) = GetValuesFromShield(shield);
-
                         var maxCurrentParameter = shield.LookupParameter("Максимальный ток ОУ на группах в щитах");
                         var countOfModulsParameter = shield.LookupParameter("Количество модулей в щитах");
                         if (maxCurrentParameter is null || countOfModulsParameter is null)
@@ -58,18 +52,18 @@ namespace UpdateNameSpace
                                 $"Отсутствуют параметры \"Максимальный ток ОУ на группах в щитах\" или \"Количество модулей в щитах\"";
                             return Result.Failed;
                         }
+
                         if (!maxCurrentParameter.Set(maxCurrent) || !countOfModulsParameter.Set(countOfModuls))
                         {
                             message =
                                 $"Не удалось установить параметры \"Максимальный ток ОУ на группах в щитах\" или \"Количество модулей в щитах\" в щите {shield.Name}";
                             return Result.Failed;
                         }
-
-
                     }
-                    tr.Commit();
 
+                    tr.Commit();
                 }
+
                 return Result.Succeeded;
             }
             catch (Exception e)
@@ -86,7 +80,7 @@ namespace UpdateNameSpace
             var countOfModulsInpupDevice = shield.LookupParameter("Количество модулей вводного устройства")?.AsDouble();
             if (countOfModulsInpupDevice.HasValue)
                 result.CountOfModuls += (int)countOfModulsInpupDevice;
-            var assignedSystems = shield?.MEPModel?.AssignedElectricalSystems;
+            var assignedSystems = shield?.MEPModel?.GetAssignedElectricalSystems();
             if (assignedSystems is null)
                 return result;
             foreach (ElectricalSystem system in assignedSystems)
@@ -108,6 +102,7 @@ namespace UpdateNameSpace
                 if (current.HasValue && current > result.MaxCurrent)
                     result.MaxCurrent = current.Value;
             }
+
             return result;
         }
     }

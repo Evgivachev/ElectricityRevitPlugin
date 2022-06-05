@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.Exceptions;
-using Autodesk.Revit.UI;
-using ArgumentException = System.ArgumentException;
-
-namespace ElectricityRevitPlugin.Short_Circuits
+﻿namespace ElectricityRevitPlugin.Short_Circuits
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class ShortCircuits : DefaultExternalCommand
@@ -19,6 +14,7 @@ namespace ElectricityRevitPlugin.Short_Circuits
         private double _lowVoltage;
         private double _resistanceOfElectricalAcr;
         private double _resistanceOfElectricalContacts;
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             //Получить значения общих параметров
@@ -40,15 +36,15 @@ namespace ElectricityRevitPlugin.Short_Circuits
                 var x = transformer.Symbol.get_Parameter(new Guid("f7dfafba-c368-43c1-b37d-4e1b8b5ebb3f")).AsDouble();
                 _lowVoltage =
                     UnitUtils.ConvertFromInternalUnits(transformer.Symbol.LookupParameter("Uнн").AsDouble(),
-                        DisplayUnitType.DUT_VOLTS);
+                        UnitTypeId.Volts);
                 using (var tr = new Transaction(Doc))
                 {
                     tr.Start("Расчёт токов 3кз");
-
-                    SetParametersToElectricalSystemsInShield(null,transformer,r, x);
+                    SetParametersToElectricalSystemsInShield(null, transformer, r, x);
                     tr.Commit();
                 }
             }
+
             return Result.Succeeded;
         }
 
@@ -66,22 +62,22 @@ namespace ElectricityRevitPlugin.Short_Circuits
                 r += _resistanceOfElectricalContacts;
             }
 
-            var connectedSystems = panel.MEPModel?.AssignedElectricalSystems;
+            var connectedSystems = panel.MEPModel?.GetAssignedElectricalSystems();
             if (connectedSystems == null) return;
             foreach (ElectricalSystem system in connectedSystems)
             {
                 var device1 = system.LookupParameter("Отключающее устройство 1").AsString();
                 if (device1 != null && device1 != "-")
                     r += _resistanceOfElectricalContacts;
-                var i = CalculateShortCircuits(system, r+_resistanceOfElectricalAcr, x);
+                var i = CalculateShortCircuits(system, r + _resistanceOfElectricalAcr, x);
                 //Подключенное оборудование к цепи
                 var connectedShields = system
                     .Elements
                     .Cast<FamilyInstance>()
-                    .Where(shield => shield.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
+                    .Where(shield => shield.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment);
                 foreach (var shield in connectedShields)
                 {
-                    SetParametersToElectricalSystemsInShield(system,shield,r,x);
+                    SetParametersToElectricalSystemsInShield(system, shield, r, x);
                 }
             }
         }
@@ -89,9 +85,9 @@ namespace ElectricityRevitPlugin.Short_Circuits
         private double CalculateShortCircuits(ElectricalSystem system, double r, double x)
         {
             //в амперах
-            var i = _lowVoltage / Math.Sqrt(3 * (r * r + x * x)) *Math.Pow(10,3);
+            var i = _lowVoltage / Math.Sqrt(3 * (r * r + x * x)) * Math.Pow(10, 3);
             var p = system.get_Parameter(new Guid("2202784b-0ccb-4569-91b7-6f8d98fb7b72"));
-            var internalCurrent = UnitUtils.ConvertToInternalUnits(i, DisplayUnitType.DUT_AMPERES);
+            var internalCurrent = UnitUtils.ConvertToInternalUnits(i, UnitTypeId.Amperes);
             var flag = p.Set(internalCurrent);
             return i;
         }

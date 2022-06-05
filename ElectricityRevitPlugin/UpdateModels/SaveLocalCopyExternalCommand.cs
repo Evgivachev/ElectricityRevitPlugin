@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin.UpdateModels
+﻿namespace ElectricityRevitPlugin.UpdateModels
 {
+    using System;
+    using System.IO;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-     class SaveLocalCopyExternalCommand : DefaultExternalCommand
+    class SaveLocalCopyExternalCommand : DefaultExternalCommand
     {
         private OpenOptions _openOptions = new OpenOptions()
         {
@@ -22,13 +16,12 @@ namespace ElectricityRevitPlugin.UpdateModels
             Audit = true,
             DetachFromCentralOption = DetachFromCentralOption.DetachAndPreserveWorksets
         };
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            
             var modelGetter = new ModelFromServerListGetter();
             var textPath = @"C:\Users\iev\Documents\Список моделей для теста.txt";
             var modelsPath = modelGetter.GetModels(textPath);
-
             foreach (var revitModelPath in modelsPath)
             {
                 var fileInfo = new FileInfo(revitModelPath);
@@ -46,8 +39,6 @@ namespace ElectricityRevitPlugin.UpdateModels
                 ////modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(revitModel.FullName);
                 var modelPath = new FilePath(revitModelPath);
                 Doc = App.OpenDocumentFile(modelPath, _openOptions);
-
-
                 var saveAsOption = new SaveAsOptions()
                 {
                     Compact = false,
@@ -61,7 +52,6 @@ namespace ElectricityRevitPlugin.UpdateModels
                 //UiDoc = UiApp.OpenAndActivateDocument(modelPath, openOption, true);
                 //break;
             }
-
 
             //var modelPath = new ServerPath()
             //var doc = App.OpenDocumentFile()

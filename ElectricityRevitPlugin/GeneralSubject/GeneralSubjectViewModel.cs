@@ -1,46 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using ElectricityRevitPlugin.Annotations;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Selection;
+
     public class GeneralSubjectViewModel : INotifyPropertyChanged
     {
         public static GeneralSubjectViewModel GeneralSubjectViewModelSingleton;
         private Document _doc;
+
+
+        private FamilySymbol _selectedFamilySymbol;
+
+        private CollectionOfCheckableItems _treeCollectionOfCheckableItems;
         private UIDocument _uiDoc;
+
         public bool IsHideExistingElements = false;
+
         //public IList<TreeNode> TreeNodes => GetTreeView(SelectedFamilySymbol);
         private GeneralSubjectViewModel(UIDocument uiDocument)
         {
             _uiDoc = uiDocument;
             _doc = uiDocument.Document;
         }
+
         public GeneralSubjectViewModel()
         {
-
         }
-
-        public static GeneralSubjectViewModel GetGeneralSubjectViewModel(UIDocument uiDocument)
-        {
-            if (GeneralSubjectViewModelSingleton is null)
-                GeneralSubjectViewModelSingleton = new GeneralSubjectViewModel(uiDocument);
-            return GeneralSubjectViewModelSingleton;
-        }
-
-
-        private FamilySymbol _selectedFamilySymbol;
 
         public FamilySymbol SelectedFamilySymbol
         {
@@ -73,12 +65,21 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 return allElements;
             }
         }
+
         public bool IsHideExistingElementsCheckBox { get; set; }
 
-        private CollectionOfCheckableItems _treeCollectionOfCheckableItems;
         public CollectionOfCheckableItems TreeCollectionOfCheckableItems
         {
             get => _treeCollectionOfCheckableItems;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static GeneralSubjectViewModel GetGeneralSubjectViewModel(UIDocument uiDocument)
+        {
+            if (GeneralSubjectViewModelSingleton is null)
+                GeneralSubjectViewModelSingleton = new GeneralSubjectViewModel(uiDocument);
+            return GeneralSubjectViewModelSingleton;
         }
 
         private void UpdateTreeCollectionOfCheckableItems()
@@ -88,6 +89,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 _treeCollectionOfCheckableItems = null;
                 return;
             }
+
             var currentAssembly = Assembly.GetCallingAssembly();
             var updaterClassName = SelectedFamilySymbol.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
             var parameterUpdater = (ParameterUpdater)currentAssembly.CreateInstance(updaterClassName, false,
@@ -96,13 +98,13 @@ namespace ElectricityRevitPlugin.GeneralSubject
             _treeCollectionOfCheckableItems = validateElements;
             OnPropertyChanged(nameof(TreeCollectionOfCheckableItems));
         }
+
         public List<FamilyInstance> InsertInstances(IEnumerable<Element> selectedElements)
         {
             var insertedElement = new List<FamilyInstance>();
             var currentAssembly = Assembly.GetCallingAssembly();
             var fs = SelectedFamilySymbol;
             var updaterClassName = fs.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
-
             using (var tr = new Transaction(_doc, "Вставка элементов схемы ВРУ"))
             {
                 tr.Start();
@@ -116,8 +118,10 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     parameterUpdater.SetParameters(instance);
                     _doc.Regenerate();
                 }
+
                 tr.Commit();
             }
+
             return insertedElement;
         }
 
@@ -134,9 +138,6 @@ namespace ElectricityRevitPlugin.GeneralSubject
             var dialogResult = window.ShowDialog();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-
-namespace ElectricityRevitPlugin.Updaters
+﻿namespace ElectricityRevitPlugin.Updaters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Windows;
+    using Autodesk.Revit.DB;
+
     public abstract class MyUpdater : IUpdater
     {
+        public static List<IUpdater> RegistredUpdaters = new List<IUpdater>();
+
+        private UpdaterId _updaterId;
+        protected AddInId AppId;
+
         protected MyUpdater(AddInId id)
         {
             AppId = id;
         }
-        protected AddInId AppId;
-
-        private UpdaterId _updaterId;
 
         protected UpdaterId UpdaterId => _updaterId ?? (_updaterId = new UpdaterId(AppId, UpdaterGuid));
 
         protected abstract Guid UpdaterGuid { get; }
-        protected abstract void ExecuteInner(UpdaterData data);
         protected abstract string Name { get; }
         protected abstract ChangePriority ChangePriority { get; }
 
@@ -41,28 +41,29 @@ namespace ElectricityRevitPlugin.Updaters
                     var infoStringBuilder = new StringBuilder();
                     infoStringBuilder.AppendLine($"Запуск обновления {Name}");
                     infoStringBuilder.AppendLine($"Добавленные элементы:");
-                    
                     foreach (var addedElementId in data.GetAddedElementIds())
                     {
                         var el = doc.GetElement(addedElementId);
                         infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
                     }
+
                     infoStringBuilder.AppendLine($"Модифицированные элементы:");
                     foreach (var addedElementId in data.GetModifiedElementIds())
                     {
                         var el = doc.GetElement(addedElementId);
                         infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
                     }
+
                     infoStringBuilder.AppendLine($"Удаленные элементы:");
                     foreach (var addedElementId in data.GetDeletedElementIds())
                     {
                         var el = doc.GetElement(addedElementId);
                         infoStringBuilder.AppendLine($"id \"{addedElementId}\", name: \"{el.Name}\"");
                     }
+
                     MessageBox.Show(infoStringBuilder.ToString());
                     MessageBox.Show($"Конец обновления {Name}");
 #endif
-
                     ExecuteInner(data);
                 }
             }
@@ -88,19 +89,20 @@ namespace ElectricityRevitPlugin.Updaters
             return AdditionalInformation;
         }
 
-        public static List<IUpdater> RegistredUpdaters = new List<IUpdater>();
+        protected abstract void ExecuteInner(UpdaterData data);
+
         public void RegisterUpdater(Document doc)
         {
             //зарегистрированнык обновления
             var registredUpdaters =
                 UpdaterRegistry.GetRegisteredUpdaterInfos(doc)
                     .ToDictionary(x => x.UpdaterName);
-            if (registredUpdaters.ContainsKey(this.Name))
+            if (registredUpdaters.ContainsKey(Name))
                 UpdaterRegistry.UnregisterUpdater(UpdaterId);
             registredUpdaters =
                 UpdaterRegistry.GetRegisteredUpdaterInfos()
                     .ToDictionary(x => x.UpdaterName);
-            if (registredUpdaters.ContainsKey(this.Name))
+            if (registredUpdaters.ContainsKey(Name))
                 UpdaterRegistry.UnregisterUpdater(UpdaterId);
             try
             {
@@ -111,9 +113,6 @@ namespace ElectricityRevitPlugin.Updaters
             {
                 MessageBox.Show($"Не удалось зарегестрировать средство обновления {Name}");
             }
-
-
-
         }
     }
 }

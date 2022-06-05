@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
-using Autodesk.Revit.UI;
-using ElectricityRevitPlugin.GeneralSubject;
-using ElectricityRevitPlugin.UpdateParametersInCircuits;
-using ElectricityRevitPlugin.Updaters;
-using RevitParametersCodeGenerator;
-using UpdateNameSpace;
-using VCRevitRibbonUtilCustom;
-using Application = Autodesk.Revit.ApplicationServices.Application;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Events;
+    using Autodesk.Revit.UI;
+    using GeneralSubject;
+    using RevitParametersCodeGenerator;
+    using UpdateNameSpace;
+    using UpdateParametersInCircuits;
+    using Updaters;
+    using VCRevitRibbonUtilCustom;
+    using Application = Autodesk.Revit.ApplicationServices.Application;
+
     class ApplicationRenResExternalApplication : IExternalApplication
     {
         public Result OnStartup(UIControlledApplication uicApp)
@@ -27,59 +25,61 @@ namespace ElectricityRevitPlugin
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("ЭОМ")
                     .Panel("Общая")
-                    .CreateStackedItems(si => si.CreateButton<SetElementCoordinatesExternalCommand>("Задать координаты", "Задать координаты",
-                                bt =>
-                                    bt.SetSmallImage(Resource1.icons8_капитан_америка_16)
-                                        .SetLongDescription<MyButton>("Задать координаты")
-                                        .SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                            "https://www.revitapidocs.com/2019/"))
-                    .CreateButton<SetInstallationHeightExternalRelativeToLevelExternalCommand>("Высота установки", "Высота установки",
-                                bt =>
-                                    bt.SetSmallImage(Resource1.icons8_халк_16)
-                                        .SetLongDescription<MyButton>("Высота установки")
-                                        .SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                            "https://www.revitapidocs.com/2019/"))
+                    .CreateStackedItems(si => si.CreateButton<SetElementCoordinatesExternalCommand>("Задать координаты",
+                            "Задать координаты",
+                            bt =>
+                                bt.SetSmallImage(Resource1.icons8_капитан_америка_16)
+                                    .SetLongDescription<MyButton>("Задать координаты")
+                                    .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                        "https://www.revitapidocs.com/2019/"))
+                        .CreateButton<SetInstallationHeightExternalRelativeToLevelExternalCommand>("Высота установки", "Высота установки",
+                            bt =>
+                                bt.SetSmallImage(Resource1.icons8_халк_16)
+                                    .SetLongDescription<MyButton>("Высота установки")
+                                    .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                        "https://www.revitapidocs.com/2019/"))
                     );
                 MyRibbon.GetApplicationRibbon(uicApp)
-                .Tab("REN_ЭОМ")
-                .Panel("Обновление")
-                .CreateButton<UpdateParametersOfElectricalSystemIExternalCommand>("Обновить цепи", "Обновить цепи",
-                            bt =>
-
-                                bt.SetLargeImage(Resource1.icons8_тринити_32)
-                                    .SetLongDescription<MyButton>("Обновить цепи")
-                                    .SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                        "https://docs.google.com/document/d/12FDWErbZzqZW9zFcJyGWHskHpuK17_H5opv4hSh2JpY/edit?usp=sharing")
+                    .Tab("REN_ЭОМ")
+                    .Panel("Обновление")
+                    .CreateButton<UpdateParametersOfElectricalSystemIExternalCommand>("Обновить цепи", "Обновить цепи",
+                        bt =>
+                            bt.SetLargeImage(Resource1.icons8_тринити_32)
+                                .SetLongDescription<MyButton>("Обновить цепи")
+                                .SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                    "https://docs.google.com/document/d/12FDWErbZzqZW9zFcJyGWHskHpuK17_H5opv4hSh2JpY/edit?usp=sharing")
                     );
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("REN_ЭОМ")
                     .Panel("Обновление")
                     .CreateButton<UpdaterParametersOfShields>("Обновить параметры в щитах", "Обновить параметры в щитах", b =>
                     {
-                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url, "https://docs.google.com/document/d/1fyB0MJm0YujIILterNRl4a_bm4gCdKuK8uN3iU6MpMw/edit?usp=sharing")
+                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                "https://docs.google.com/document/d/1fyB0MJm0YujIILterNRl4a_bm4gCdKuK8uN3iU6MpMw/edit?usp=sharing")
                             .SetHelpUrl<MyButton>("www.werfau.ru")
-                            .SetLongDescription<MyButton>("Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
+                            .SetLongDescription<MyButton>(
+                                "Обновление параметров \"Максимальный ток ОУ на группах в щитах\" и \"Количество модулей в щитах\"")
                             .SetLargeImage(Resource1.icons8_house_stark_32);
                     });
-
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("REN_ЭОМ")
                     .Panel("ВРУ")
-                    .CreateButton<ShowGeneralSubjectWindowExternalCommand>(nameof(ShowGeneralSubjectWindowExternalCommand), "Схема ВРУ", b =>
-                    {
-                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
-                         
-                            .SetLongDescription<MyButton>("Для справки нажмите F1")
-                            .SetLargeImage(Resource1.icons8_рик_санчес_36);
-                    })
-                    .CreateButton<UpdateGeneralSubjectDiagramExternalCommand>(nameof(UpdateGeneralSubjectDiagramExternalCommand), "Обновить схему", b =>
-                    {
-                        b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
-                                "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
-                            .SetLongDescription<MyButton>("Для справки нажмите F1")
-                            .SetLargeImage(Resource1.icons8_морти_смит_36);
-                    })
+                    .CreateButton<ShowGeneralSubjectWindowExternalCommand>(nameof(ShowGeneralSubjectWindowExternalCommand), "Схема ВРУ",
+                        b =>
+                        {
+                            b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                    "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
+                                .SetLongDescription<MyButton>("Для справки нажмите F1")
+                                .SetLargeImage(Resource1.icons8_рик_санчес_36);
+                        })
+                    .CreateButton<UpdateGeneralSubjectDiagramExternalCommand>(nameof(UpdateGeneralSubjectDiagramExternalCommand),
+                        "Обновить схему", b =>
+                        {
+                            b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
+                                    "https://docs.google.com/document/d/1HDGaPHQJo4ZcUP6EQtYn3ttqASKUQoNzL6gI1JQQQQA/edit?usp=sharing")
+                                .SetLongDescription<MyButton>("Для справки нажмите F1")
+                                .SetLargeImage(Resource1.icons8_морти_смит_36);
+                        })
                     ;
                 MyRibbon.GetApplicationRibbon(uicApp)
                     .Tab("REN_ЭОМ")
@@ -88,11 +88,9 @@ namespace ElectricityRevitPlugin
                     {
                         b.SetContextualHelp<MyButton>(ContextualHelpType.Url,
                                 "https://docs.google.com/document/d/11eNpoQNb67qe4aBVHmzjrJBWqPL6Fa2uDjlQThxx49Y/edit?usp=sharing")
-
                             .SetLongDescription<MyButton>("Для справки нажмите F1")
                             .SetLargeImage(Resource1.icons8_манускрипт_36);
                     });
-
                 uicApp.ControlledApplication.DocumentOpened += RegisterUpdaters;
             }
             catch (Exception e)
@@ -100,21 +98,25 @@ namespace ElectricityRevitPlugin
                 MessageBox.Show(e.Message + "\n" + e.StackTrace);
                 return Result.Failed;
             }
+
             return result;
         }
-        
+
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            return Result.Succeeded;
+        }
+
         private void RegisterUpdaters(object sender, DocumentOpenedEventArgs e)
         {
             try
             {
                 var doc = e.Document;
                 var uicApp = sender as Application;
-
                 var sharedParameters = new FilteredElementCollector(doc)
                     .OfClass(typeof(SharedParameterElement))
                     .Cast<SharedParameterElement>()
                     .ToDictionary(p => p.GuidValue);
-
                 var projectParameters = new FilteredElementCollector(doc)
                     .OfClass(typeof(ParameterElement))
                     .Cast<ParameterElement>()
@@ -126,9 +128,10 @@ namespace ElectricityRevitPlugin
                         return true;
                     })
                     .Distinct(new ProjectParameterNameComparer())
-                    .ToDictionary(x=>x.Name);
+                    .ToDictionary(x => x.Name);
 
                 #region Группы по ГОСТ
+
                 //обновление групп по ГОСТ
                 var groupByGostUpdater = new Updaters.GroupByGost(uicApp.ActiveAddInId);
                 groupByGostUpdater.RegisterUpdater(doc);
@@ -137,11 +140,10 @@ namespace ElectricityRevitPlugin
                     groupByGostUpdater.ElementFilter,
                     Element.GetChangeTypeAny());
 
-
                 #endregion
 
-
                 #region Потери напряжения
+
                 var lossVoltageUpdater = new LossVoltage(uicApp.ActiveAddInId);
                 lossVoltageUpdater.RegisterUpdater(doc);
                 //UpdaterRegistry.RegisterUpdater(lossVoltageUpdater,  doc,true);
@@ -200,9 +202,11 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(lossVoltageUpdater.GetUpdaterId(),
                     lossVoltageUpdater.ElementFilter,
                     Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Zapretit_Izmenenie].Id));
+
                 #endregion
 
                 #region Наименование нагрузки
+
                 var loadNameUpdater = new LoadName(uicApp.ActiveAddInId);
                 loadNameUpdater.RegisterUpdater(doc);
                 //UpdaterRegistry.RegisterUpdater(loadNameUpdater,  doc,true);
@@ -243,6 +247,7 @@ namespace ElectricityRevitPlugin
                     Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Zapretit_Izmenenie_Naimenovaniya_Nagruzki].Id));
 
                 #endregion
+
                 ////Регистрация изменений для новых цепей. Установка значения bool-параметров в false
                 var booleanParameterUpdaterForAddedElements = new UpdateAddedElectricalSystems(uicApp.ActiveAddInId);
                 booleanParameterUpdaterForAddedElements.RegisterUpdater(doc);
@@ -250,7 +255,9 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(booleanParameterUpdaterForAddedElements.GetUpdaterId(),
                     booleanParameterUpdaterForAddedElements.ElementFilter,
                     Element.GetChangeTypeElementAddition());
+
                 #region Обновление длины цепи
+
                 //Регистрация изменений Обновление длин кабелей
                 var electricalSystemLengthUpdater = new LengthOfElectricalSystem(uicApp.ActiveAddInId);
                 electricalSystemLengthUpdater.RegisterUpdater(doc);
@@ -275,7 +282,7 @@ namespace ElectricityRevitPlugin
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.ElementFilter,
                     Element.GetChangeTypeParameter(sharedParameters[SharedParametersFile.Rezervnaya_Gruppa].Id)
-                    );
+                );
                 //Параметр Контрольные цепи
                 UpdaterRegistry.AddTrigger(electricalSystemLengthUpdater.GetUpdaterId(),
                     electricalSystemLengthUpdater.ElementFilter,
@@ -290,13 +297,6 @@ namespace ElectricityRevitPlugin
             {
                 MessageBox.Show(exception.Message + "\n" + exception.StackTrace);
             }
-        }
-
-        public Result OnShutdown(UIControlledApplication application)
-        {
-            
-
-            return Result.Succeeded;
         }
 
         public class ProjectParameterNameComparer : EqualityComparer<ParameterElement>

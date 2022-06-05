@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI.Selection;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI.Selection;
+
     class RevitLinkSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)

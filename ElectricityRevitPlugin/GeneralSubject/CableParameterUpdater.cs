@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using ElectricityRevitPlugin.Extensions;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Extensions;
+
     public class CableParameterUpdater : ParameterUpdater
     {
-        public CableParameterUpdater() : base()
-        { }
-        public CableParameterUpdater(Element fromElement) : base(fromElement)
+        public CableParameterUpdater()
+        {
+        }
+
+        public CableParameterUpdater(Element fromElement)
+            : base(fromElement)
         {
             ParametersDictionary = new Dictionary<dynamic, dynamic>
             {
@@ -25,54 +24,55 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 //{ BuiltInParameter.RBS_ELEC_APPARENT_CURRENT_PARAM, new Guid("3e12a7ce-cfff-44d3-8c9b-8a08095f6fcd") },
 
                 //Коэффициент мощности
-                { BuiltInParameter.RBS_ELEC_POWER_FACTOR, new Guid("2ca28edf-3aaf-486a-830a-fae82079832d")},
+                { BuiltInParameter.RBS_ELEC_POWER_FACTOR, new Guid("2ca28edf-3aaf-486a-830a-fae82079832d") },
             };
-
             FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>
             {
-                {"Расчетный ток", e =>
                 {
-                    var es = (ElectricalSystem) e;
-                    //Ток в щитах
-                    var p = es.get_Parameter(new Guid("86d2b171-cfb3-4fcf-811f-38d9a253a297")).AsDouble();
-                    //Питающая сеть (не групповая)
-                    var isPowerSystem = es
-                        .Elements
-                        .Cast<Element>()
-                        .Any(el => el.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
-                    if (isPowerSystem)
-                        return p;
-                    return es
-                        .get_Parameter(BuiltInParameter.RBS_ELEC_APPARENT_CURRENT_PARAM)
-                        .AsDouble();
-                }  },
-                {"Расчетная активная мощность" , obj =>
+                    "Расчетный ток", e =>
+                    {
+                        var es = (ElectricalSystem)e;
+                        //Ток в щитах
+                        var p = es.get_Parameter(new Guid("86d2b171-cfb3-4fcf-811f-38d9a253a297")).AsDouble();
+                        //Питающая сеть (не групповая)
+                        var isPowerSystem = es
+                            .Elements
+                            .Cast<Element>()
+                            .Any(el => el.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment);
+                        if (isPowerSystem)
+                            return p;
+                        return es
+                            .get_Parameter(BuiltInParameter.RBS_ELEC_APPARENT_CURRENT_PARAM)
+                            .AsDouble();
+                    }
+                },
                 {
-                    var es = (ElectricalSystem) obj;
-                    var isPowerSystem = es
-                        .Elements
-                        .Cast<Element>()
-                        .Any(el => el.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
-                    if (isPowerSystem)
-                        //Активная мощность в щитах
-                        return   UnitUtils.ConvertToInternalUnits(es.get_Parameter(new Guid("1a63996b-777a-471f-aa56-b91d1c1f7232")).AsDouble(),DisplayUnitType.DUT_KILOWATTS);
-                    //Установленная мощность
-                    return  es.get_Parameter(BuiltInParameter.RBS_ELEC_TRUE_LOAD).AsDouble();
-                } }
-
-
+                    "Расчетная активная мощность", obj =>
+                    {
+                        var es = (ElectricalSystem)obj;
+                        var isPowerSystem = es
+                            .Elements
+                            .Cast<Element>()
+                            .Any(el => el.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment);
+                        if (isPowerSystem)
+                            //Активная мощность в щитах
+                            return UnitUtils.ConvertToInternalUnits(
+                                es.get_Parameter(new Guid("1a63996b-777a-471f-aa56-b91d1c1f7232")).AsDouble(), UnitTypeId.Kilowatts);
+                        //Установленная мощность
+                        return es.get_Parameter(BuiltInParameter.RBS_ELEC_TRUE_LOAD).AsDouble();
+                    }
+                }
             };
-
         }
 
         public override CollectionOfCheckableItems GetValidateElements(Document document)
         {
             var elss = new FilteredElementCollector(document)
-                .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
-                .OfType<ElectricalSystem>()
-                .OrderBy(x => x.PanelName)
-                .ThenBy(x => x.GetGroupByGost(), new RevitNameComparer())
-                .GroupBy(x => x.PanelName ?? "???")
+                    .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
+                    .OfType<ElectricalSystem>()
+                    .OrderBy(x => x.PanelName)
+                    .ThenBy(x => x.GetGroupByGost(), new RevitNameComparer())
+                    .GroupBy(x => x.PanelName ?? "???")
                 //.GroupBy(x => x.PanelName)
                 ;
             var result = new CollectionOfCheckableItems();
@@ -96,6 +96,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     item.Children.Add(child);
                 }
             }
+
             return result;
         }
 

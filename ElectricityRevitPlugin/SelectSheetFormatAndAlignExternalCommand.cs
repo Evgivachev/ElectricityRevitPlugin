@@ -1,20 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB.Analysis;
-using MoreLinq;
-
 namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
     public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
     {
         protected XYZ ShiftTitleBlock = new XYZ(
-            UnitUtils.ConvertToInternalUnits(-10, DisplayUnitType.DUT_MILLIMETERS), 0,
+            UnitUtils.ConvertToInternalUnits(-10, UnitTypeId.Millimeters), 0,
             0);
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -28,13 +26,13 @@ namespace ElectricityRevitPlugin
             {
                 using (var trGr = new TransactionGroup(doc))
                 {
-                    trGr.Start(this.ToString());
+                    trGr.Start(ToString());
                     var selection = uiDoc.Selection
                         .GetElementIds();
                     var sheets = selection.Select(x => doc.GetElement(x))
                         .OfType<ViewSheet>()
                         .ToArray();
-                    if(!sheets.Any())
+                    if (!sheets.Any())
                         throw new Exception("Следует выделить листы в диспетчере проекта");
                     foreach (var view in sheets)
                     {
@@ -49,28 +47,30 @@ namespace ElectricityRevitPlugin
                 message += e.Message + '\n' + e.StackTrace;
                 result = Result.Failed;
             }
+
             return result;
         }
 
-        private Result ExecuteOnTheViewSheet(ExternalCommandData commandData, ref string message,
+        private Result ExecuteOnTheViewSheet(
+            ExternalCommandData commandData,
+            ref string message,
             ElementSet elements,
-            ViewSheet view, XYZ shiftTitleBlock)
+            ViewSheet view,
+            XYZ shiftTitleBlock)
         {
             var uiApp = commandData.Application;
             var app = uiApp.Application;
             var uiDoc = uiApp.ActiveUIDocument;
             var doc = uiDoc.Document;
-
             var result = Result.Succeeded;
-
             using (var tr = new Transaction(doc))
             {
                 tr.Start("Move Title Block");
                 if (view is null)
                     throw new Exception("Active View is not ViewSheet");
                 var allElementsOnView = new FilteredElementCollector(doc, view.Id).ToElements();
-                var titleBlock = (FamilyInstance) allElementsOnView
-                    .FirstOrDefault(x => x.Category.Id.IntegerValue == (int) BuiltInCategory.OST_TitleBlocks);
+                var titleBlock = (FamilyInstance)allElementsOnView
+                    .FirstOrDefault(x => x.Category.Id.IntegerValue == (int)BuiltInCategory.OST_TitleBlocks);
                 if (titleBlock is null)
                     throw new Exception("TitleBlock is null");
                 var bb = GetBoundingBoxXyz(view, allElementsOnView);
@@ -87,7 +87,6 @@ namespace ElectricityRevitPlugin
                 titleBlock.Location.Move(viewPortCenter - titleBlockCenter);
                 if (shiftTitleBlock != null)
                     titleBlock.Location.Move(shiftTitleBlock);
-
                 result = tr.Commit() == TransactionStatus.Committed ? Result.Succeeded : Result.Failed;
             }
 
@@ -106,12 +105,14 @@ namespace ElectricityRevitPlugin
             foreach (var type in allTypes)
             {
                 var typeName = type.Name;
-                var length = type.LookupParameter("Ширина").AsDouble()-UnitUtils.ConvertToInternalUnits(25,DisplayUnitType.DUT_MILLIMETERS);
-                var height = type.LookupParameter("Высота").AsDouble()-UnitUtils.ConvertToInternalUnits(10,DisplayUnitType.DUT_MILLIMETERS);
+                var length = type.LookupParameter("Ширина").AsDouble() -
+                             UnitUtils.ConvertToInternalUnits(25, UnitTypeId.Millimeters);
+                var height = type.LookupParameter("Высота").AsDouble() -
+                             UnitUtils.ConvertToInternalUnits(10, UnitTypeId.Millimeters);
                 var dl = (length - length0);
                 var dh = (height - height0);
 //                var value = Math.Abs(dl) * Math.Abs(dh);
-                var value = dl * dl + dh * dh*10;
+                var value = dl * dl + dh * dh * 10;
                 if (dl < 0)
                     value *= 1000;
                 if (dh < 0)
@@ -129,7 +130,7 @@ namespace ElectricityRevitPlugin
         protected virtual BoundingBoxXYZ GetBoundingBoxXyz(ViewSheet viewSheet, IEnumerable<Element> elements)
         {
             var doc = viewSheet.Document;
-            var allElements = elements.Where(x => x.Category.Id.IntegerValue != (int) BuiltInCategory.OST_TitleBlocks);
+            var allElements = elements.Where(x => x.Category.Id.IntegerValue != (int)BuiltInCategory.OST_TitleBlocks);
             var bbs = allElements.Select(x => x.get_BoundingBox(viewSheet)).ToArray();
             if (!bbs.Any())
                 return new BoundingBoxXYZ();
@@ -145,7 +146,7 @@ namespace ElectricityRevitPlugin
                 maxY = Math.Max(maxY, bb.Max.Y);
             }
 
-            var result = new BoundingBoxXYZ {Min = new XYZ(minX, minY, 0), Max = new XYZ(maxX, maxY, 0)};
+            var result = new BoundingBoxXYZ { Min = new XYZ(minX, minY, 0), Max = new XYZ(maxX, maxY, 0) };
             return result;
         }
     }
@@ -157,8 +158,8 @@ namespace ElectricityRevitPlugin
         public SelectSheetFormatAndAlignOnDiagramExternalCommand()
         {
             ShiftTitleBlock = new XYZ(
-                UnitUtils.ConvertToInternalUnits(-10, DisplayUnitType.DUT_MILLIMETERS),
-                UnitUtils.ConvertToInternalUnits(-55.0 / 2, DisplayUnitType.DUT_MILLIMETERS),
+                UnitUtils.ConvertToInternalUnits(-10, UnitTypeId.Millimeters),
+                UnitUtils.ConvertToInternalUnits(-55.0 / 2, UnitTypeId.Millimeters),
                 0);
         }
     }

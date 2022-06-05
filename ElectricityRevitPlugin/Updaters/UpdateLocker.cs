@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-
-namespace ElectricityRevitPlugin.Updaters
+﻿namespace ElectricityRevitPlugin.Updaters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public class UpdateLocker : IDisposable
     {
         private static UpdateLocker _updateLocker;
-
-        public static UpdateLocker GetUpdateLocker()
-        {
-            if(_updateLocker is null)
-                _updateLocker = new UpdateLocker();
-            return _updateLocker;
-        }
-        public ICollection<Tuple<ElementId, ChangeType>> ElementsIds { get; set; }
+        private bool _isLocked = false;
 
         private UpdateLocker()
         {
             ElementsIds = new List<Tuple<ElementId, ChangeType>>();
+        }
+
+        public ICollection<Tuple<ElementId, ChangeType>> ElementsIds { get; set; }
+
+
+        public void Dispose()
+        {
+            _isLocked = false;
+            ElementsIds = null;
+        }
+
+        public static UpdateLocker GetUpdateLocker()
+        {
+            if (_updateLocker is null)
+                _updateLocker = new UpdateLocker();
+            return _updateLocker;
         }
 
         public UpdateLocker Lock()
@@ -30,7 +36,7 @@ namespace ElectricityRevitPlugin.Updaters
             _isLocked = true;
             return this;
         }
-        private bool _isLocked = false;
+
         public bool IsLocked(Document doc)
         {
             if (_isLocked)
@@ -43,13 +49,6 @@ namespace ElectricityRevitPlugin.Updaters
                 var el = doc.GetElement(id);
                 return el != null && el.IsValidObject;
             });
-        }
-
-
-        public void Dispose()
-        {
-            _isLocked = false;
-            ElementsIds = null;
         }
     }
 }

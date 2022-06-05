@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Documents;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System.Collections.ObjectModel;
+
     public class CollectionOfCheckableItems : ObservableCollection<CheckableItem>
     {
-
     }
 }

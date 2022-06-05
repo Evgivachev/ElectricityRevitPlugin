@@ -1,15 +1,24 @@
-﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public class CoordinateModelMvc
     {
+        private readonly CultureInfo _cultureInfo = CultureInfo.InvariantCulture;
+        private readonly int _elementsCount;
+        private Element[] _elements;
+        private bool _isMeterUnits = true;
+        private double[] _rField;
+        private bool _useShift = false;
+
+        private double[] _xField;
+        private double[] _yField;
+        private double[] _zField;
+        private int tolerance = 3;
+
         public CoordinateModelMvc(Element[] elements)
         {
             _elements = elements;
@@ -18,7 +27,6 @@ namespace ElectricityRevitPlugin
             _yField = new double[_elementsCount];
             _zField = new double[_elementsCount];
             _rField = new double[_elementsCount];
-
             for (var i = 0; i < _elementsCount; i++)
             {
                 var element = elements[i];
@@ -31,26 +39,8 @@ namespace ElectricityRevitPlugin
                 _rField[i] = Math.Round(r, tolerance);
             }
         }
-        private readonly CultureInfo _cultureInfo = CultureInfo.InvariantCulture;
-        private int tolerance = 3;
-        private Element[] _elements;
-        private readonly int _elementsCount;
+
         public string IsNotSimilar => "*РАЗЛИЧНЫЕ*";
-        public void SetCoordinate()
-        {
-
-            var points = new XYZ[_elementsCount];
-            for (var i = 0; i < _elementsCount; i++)
-            {
-                XYZ point = new XYZ(_xField[i], _yField[i], _zField[i]);
-
-                points[i] = point;
-                _elements[i].SetElementCoordinate(point, true);
-                if (UseShift)
-                    _elements[i].SetInstallationHeightRelativeToLevel(point.Z, null, true);
-                _elements[i].SetElementRotation(_rField[i], null, true);
-            }
-        }
 
         public string XField
         {
@@ -61,7 +51,7 @@ namespace ElectricityRevitPlugin
                     return;
                 var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
-                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, UnitTypeId.Meters);
                 _xField = Enumerable.Repeat(doubleValue, _xField.Length).ToArray();
                 ModelChanged.Invoke(this);
             }
@@ -76,10 +66,9 @@ namespace ElectricityRevitPlugin
                     return;
                 var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
-                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, UnitTypeId.Meters);
                 _yField = Enumerable.Repeat(doubleValue, _yField.Length).ToArray();
                 ModelChanged.Invoke(this);
-
             }
         }
 
@@ -92,11 +81,12 @@ namespace ElectricityRevitPlugin
                     return;
                 var doubleValue = double.Parse(value, NumberStyles.Number, CultureInfo.InvariantCulture);
                 if (IsMeterUnits)
-                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, DisplayUnitType.DUT_METERS);
+                    doubleValue = UnitUtils.ConvertToInternalUnits(doubleValue, UnitTypeId.Meters);
                 _zField = Enumerable.Repeat(doubleValue, _zField.Length).ToArray();
                 ModelChanged.Invoke(this);
             }
         }
+
         /// <summary>
         /// в градусах
         /// </summary>
@@ -113,20 +103,6 @@ namespace ElectricityRevitPlugin
             }
         }
 
-        private string GetValueToRField(double[] rField)
-        {
-            var isSimilar = IsSimilar(rField, tolerance);
-            if (!isSimilar)
-                return IsNotSimilar;
-            var result = rField.First();
-            return Math.Round(result, tolerance).ToString(_cultureInfo);
-        }
-
-        private double[] _xField;
-        private double[] _yField;
-        private double[] _zField;
-        private double[] _rField;
-        private bool _isMeterUnits = true;
         public bool IsMeterUnits
         {
             get => _isMeterUnits;
@@ -136,7 +112,7 @@ namespace ElectricityRevitPlugin
                 ModelChanged.Invoke(this);
             }
         }
-        private bool _useShift = false;
+
         public bool UseShift
         {
             get => _useShift;
@@ -144,8 +120,30 @@ namespace ElectricityRevitPlugin
             {
                 _useShift = value;
                 ModelChanged.Invoke(this);
-
             }
+        }
+
+        public void SetCoordinate()
+        {
+            var points = new XYZ[_elementsCount];
+            for (var i = 0; i < _elementsCount; i++)
+            {
+                XYZ point = new XYZ(_xField[i], _yField[i], _zField[i]);
+                points[i] = point;
+                _elements[i].SetElementCoordinate(point, true);
+                if (UseShift)
+                    _elements[i].SetInstallationHeightRelativeToLevel(point.Z, null, true);
+                _elements[i].SetElementRotation(_rField[i], null, true);
+            }
+        }
+
+        private string GetValueToRField(double[] rField)
+        {
+            var isSimilar = IsSimilar(rField, tolerance);
+            if (!isSimilar)
+                return IsNotSimilar;
+            var result = rField.First();
+            return Math.Round(result, tolerance).ToString(_cultureInfo);
         }
 
         public event Action<CoordinateModelMvc> ModelChanged;
@@ -160,8 +158,9 @@ namespace ElectricityRevitPlugin
             {
                 result = _elements.First().GetInstallationHeightRelativeToLevel();
             }
+
             if (IsMeterUnits)
-                result = UnitUtils.ConvertFromInternalUnits(result, DisplayUnitType.DUT_METERS);
+                result = UnitUtils.ConvertFromInternalUnits(result, UnitTypeId.Meters);
             return Math.Round(result, tolerance).ToString(_cultureInfo);
         }
 
@@ -177,6 +176,7 @@ namespace ElectricityRevitPlugin
                     return false;
                 }
             }
+
             return true;
         }
     }

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using RevitParametersCodeGenerator;
-using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Windows;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class Temp8 : DefaultExternalCommand
@@ -35,29 +29,27 @@ namespace ElectricityRevitPlugin
                         var tmbDParameter = system.LookupParameter("ТЭ Д");
                         //Создать в проекте временный параметр с типом число
                         var tmbPParameter = system.LookupParameter("ТЭ П");
-
-
                         var first = 4;
                         //Копорование Длины и Потель напряжения во временные параметры
-                        if (first==1)
+                        if (first == 1)
                         {
                             var d = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d")).AsDouble();
                             var isParsing = double.TryParse(
-                                system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46")).AsString(), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+                                system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46")).AsString(),
+                                NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                                 out var du);
-                            tmbDParameter.Set(UnitUtils.ConvertToInternalUnits(d, DisplayUnitType.DUT_METERS));
+                            tmbDParameter.Set(UnitUtils.ConvertToInternalUnits(d, UnitTypeId.Meters));
                             tmbPParameter.Set(du);
                         }
                         //TODO
                         //Удвлить из проекта параметры Длина для ОС и Потери напряжения для ОС и добавить одноименные общие параметры
                         //Копирование длины и потерь обратно в параметры
-                        else if(first ==2)
+                        else if (first == 2)
                         {
                             var dParameter = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d"));
                             var duParameter = system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46"));
                             dParameter.Set(tmbDParameter.AsDouble());
                             duParameter.Set(tmbPParameter.AsDouble());
-
                         }
                         //TODO Добавить общие параметры Резерввная группа и Контрольные цепи и Запретить изменение и Запретить изменение для наименования нагрузки
                         else if (first == 3)
@@ -66,7 +58,6 @@ namespace ElectricityRevitPlugin
                             var control0 = system.GetParameters("Контрольные цепи").First(p => !p.IsShared);
                             var reserve = system.get_Parameter(new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348"));
                             var control = system.get_Parameter(new Guid("0f13e1e5-71bb-4b0f-b3dc-18054c25e1ee"));
-
                             reserve.Set(reserve0.AsInteger());
                             control.Set(control0.AsInteger());
                         }
@@ -77,9 +68,9 @@ namespace ElectricityRevitPlugin
                                 .Set(0);
                             //Запретить изменение наименование нагрузки
                             var dontChangeLoadName = system.get_Parameter(new Guid("5de14719-6968-4655-9457-94825e70b623")).Set(0);
-
                         }
                     }
+
                     tr.Commit();
                 }
             }
@@ -87,6 +78,7 @@ namespace ElectricityRevitPlugin
             {
                 MessageBox.Show(e.Message + "\n" + e.StackTrace);
             }
+
             return Result.Succeeded;
         }
     }

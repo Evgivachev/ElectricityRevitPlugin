@@ -1,20 +1,17 @@
-using System;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using ElectricityRevitPlugin.Extensions;
-using MoreLinq;
-
 namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SortSheets : IExternalCommand
     {
-        private Guid _listManuallyNumberParameterGuid = new Guid("c7687445-c508-4eb1-aefd-3ae0c9e6abfa");
         private Guid _endToEndNumberingParameterGuid = new Guid("88cb0f2b-89b8-4158-8f56-eb605da286c6");
-
+        private Guid _listManuallyNumberParameterGuid = new Guid("c7687445-c508-4eb1-aefd-3ae0c9e6abfa");
 
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -23,7 +20,6 @@ namespace ElectricityRevitPlugin
             var app = uiApp.Application;
             var uiDoc = uiApp.ActiveUIDocument;
             var doc = uiDoc.Document;
-
             var result = Result.Succeeded;
             try
             {
@@ -39,10 +35,8 @@ namespace ElectricityRevitPlugin
                     .WhereElementIsNotElementType()
                     .OfType<ViewSheet>()
                     .Where(x => x.LookupParameter(grName).AsString() == gr).ToArray();
-                
                 if (!allSheet.Any())
                     return result;
-
                 var numbers = allSheet
                     .Select(x => x.get_Parameter(_listManuallyNumberParameterGuid)
                         .AsDouble())
@@ -63,7 +57,6 @@ namespace ElectricityRevitPlugin
                 var currentNumber = minNumber;
                 var eneToEndNumberingCurrent =
                     sortedSheets[0].get_Parameter(_endToEndNumberingParameterGuid).AsDouble();
-
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Задание номеров листов");
@@ -75,7 +68,6 @@ namespace ElectricityRevitPlugin
                         var sheetName = sheet.Name;
                         var flag = param.Set(newNumber);
                         var grOfSheet = sheet.LookupParameter(grName).AsString();
-
                         var repeat = 0;
                         while (true)
                         {
@@ -89,6 +81,7 @@ namespace ElectricityRevitPlugin
                                 repeat++;
                             }
                         }
+
                         var endToEndNumberingParam = sheet.get_Parameter(_endToEndNumberingParameterGuid);
                         endToEndNumberingParam.Set(eneToEndNumberingCurrent++);
                     }

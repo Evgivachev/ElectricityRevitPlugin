@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class SetProjectSectionForElectricalSystems : IExternalCommand
     {
         private Guid _projectSectionParameterGuid = new Guid("ffe3351b-555f-40fb-86fd-4e5a4a446d27");
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var uiApp = commandData.Application;
@@ -29,16 +27,14 @@ namespace ElectricityRevitPlugin
                     tr.Start("Установка параметров раздел проектирования для цепей");
                     var sharedParameterApplicableRule = new SharedParameterApplicableRule("Раздел проектирования");
                     var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
-
                     var allElements = new FilteredElementCollector(doc)
                         .WherePasses(elementParameterFilter)
                         .OfClass(typeof(ElectricalSystem))
                         .OfType<ElectricalSystem>();
-
                     foreach (var el in allElements)
                     {
                         var param = el.get_Parameter(_projectSectionParameterGuid);
-                        if (param is null )
+                        if (param is null)
                             continue;
                         var shield = el.BaseEquipment;
                         var shPS = shield.get_Parameter(_projectSectionParameterGuid).AsString();
@@ -49,6 +45,7 @@ namespace ElectricityRevitPlugin
                             param.Set(shPS);
                         }
                     }
+
                     tr.Commit();
                 }
             }
@@ -59,10 +56,9 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
-            return result;
 
+            return result;
         }
     }
 }

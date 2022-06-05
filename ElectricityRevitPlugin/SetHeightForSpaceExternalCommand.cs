@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Architecture;
+    using Autodesk.Revit.DB.Mechanical;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Selection;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SetHeightForSpaceExternalCommand : IExternalCommand
@@ -27,7 +23,6 @@ namespace ElectricityRevitPlugin
             var app = uiApp.Application;
             var doc = uiDoc.Document;
             var result = Result.Succeeded;
-
             try
             {
                 var spaces = new FilteredElementCollector(doc)
@@ -38,23 +33,16 @@ namespace ElectricityRevitPlugin
                 //    .Select(x=>x.Name)
                 //    .ToArray();
                 SelectLink(uiDoc);
-
-              
-
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("Установка высоты пространств");
-
-
                     foreach (var space in spaces)
                     {
                         SetHeightOfSpace(space);
                     }
+
                     tr.Commit();
                 }
-
-
-
             }
             catch (Exception e)
             {
@@ -63,10 +51,9 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
-            return result;
 
+            return result;
         }
 
         private void SelectLink(UIDocument uiDoc)
@@ -80,13 +67,13 @@ namespace ElectricityRevitPlugin
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .OfType<Room>();
             _rooms = roomsInLinkDoc.ToArray();
-
         }
+
         private void SetHeightOfSpace(Space space)
         {
             var spaceNumber = space.Number;
             var spaceName = space.Name;
-            if(string.IsNullOrEmpty(spaceName) || string.IsNullOrEmpty(spaceNumber))
+            if (string.IsNullOrEmpty(spaceName) || string.IsNullOrEmpty(spaceNumber))
                 return;
             var spaceLevel = space.Level;
             var room = _rooms.FirstOrDefault(r =>
@@ -95,13 +82,12 @@ namespace ElectricityRevitPlugin
                     return false;
                 return r.Name == spaceName && spaceNumber.StartsWith(r.Number);
             });
-            if(room is null)
+            if (room is null)
                 return;
             var sb = space.BaseOffset;
             var su = space.LimitOffset;
-
             var result = space.get_Parameter(BuiltInParameter.ROOM_LOWER_OFFSET).Set(room.BaseOffset) &&
-            space.get_Parameter(BuiltInParameter.ROOM_UPPER_OFFSET).Set( room.LimitOffset);
+                         space.get_Parameter(BuiltInParameter.ROOM_UPPER_OFFSET).Set(room.LimitOffset);
         }
     }
 }

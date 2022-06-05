@@ -1,41 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using ElectricityRevitPlugin.Extensions;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Extensions;
+
     class ShieldParameterUpdater : ParameterUpdater
     {
         public ShieldParameterUpdater()
         {
         }
-        public ShieldParameterUpdater(Element fromElement) : base(fromElement)
+
+        public ShieldParameterUpdater(Element fromElement)
+            : base(fromElement)
         {
             FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>
             {
-                { "Имя панели", (s) =>
+                {
+                    "Имя панели", (s) =>
                     {
-                        var shield = (FamilyInstance) s;
+                        var shield = (FamilyInstance)s;
                         var value = shield.Name;
                         return value;
                     }
                 },
-
-                { "Тип ОУ1", (s) =>
+                {
+                    "Тип ОУ1", (s) =>
                     {
-                        var shield = (FamilyInstance) s;
-
-                        var value = shield.LookupParameter("Тип вводного автомата")?.AsString()??"";
+                        var shield = (FamilyInstance)s;
+                        var value = shield.LookupParameter("Тип вводного автомата")?.AsString() ?? "";
                         return value;
                     }
                 },
-
             };
         }
 
@@ -45,10 +42,10 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
                     .WhereElementIsNotElementType()
                     .OfType<FamilyInstance>()
-                    .Select(x=> new {Family= x, Group= x.GetPowerElectricalSystem()?.GetGroupByGost()})
+                    .Select(x => new { Family = x, Group = x.GetPowerElectricalSystem()?.GetGroupByGost() })
                     .OrderBy(x => x.Group?.Length)
                     .ThenBy(x => x.Group)
-                    .Select(x=>x.Family)
+                    .Select(x => x.Family)
                     .GroupBy(x => x.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_SUPPLY_FROM_PARAM).AsString())
                     .OrderBy(x => x.Key)
                 ;
@@ -73,6 +70,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     item.Children.Add(child);
                 }
             }
+
             return result;
         }
     }

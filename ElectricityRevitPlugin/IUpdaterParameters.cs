@@ -1,13 +1,8 @@
-﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
-    public interface IUpdaterParameters<in T> where T:Element
+    using Autodesk.Revit.DB;
+
+    public interface IUpdaterParameters<in T> where T : Element
     {
         string UpdateParameters(T el);
     }

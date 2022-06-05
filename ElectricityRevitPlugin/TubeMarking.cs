@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class TubeMarking : DefaultExternalCommand
@@ -18,7 +13,6 @@ namespace ElectricityRevitPlugin
             var allTubes = new FilteredElementCollector(Doc)
                 .OfCategory(BuiltInCategory.OST_Conduit)
                 .WhereElementIsNotElementType();
-
             var allTrays = new FilteredElementCollector(Doc)
                 .OfCategory(BuiltInCategory.OST_CableTray)
                 .WhereElementIsNotElementType();
@@ -33,6 +27,7 @@ namespace ElectricityRevitPlugin
                     var parameter = tube.LookupParameter("Лотки");
                     parameter?.Set(name);
                 }
+
                 foreach (var element in allTrays)
                 {
                     var name = element.LookupParameter("Лотки Тип, марка, обозначение документа, опросного листа")?.AsString() ??
@@ -40,6 +35,7 @@ namespace ElectricityRevitPlugin
                     var parameter = element.LookupParameter("Лотки");
                     parameter?.Set(name);
                 }
+
                 tr.Commit();
             }
 

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using MoreLinq;
-
-namespace ElectricityRevitPlugin.UpdateParametersInCircuits
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+    using MoreLinq;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class UpdateCableManagementMethodExternalCommand : IExternalCommand, IUpdaterParameters<ElectricalSystem>
@@ -19,7 +19,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var doc = uiDoc.Document;
             var app = uiApp.Application;
             var result = Result.Succeeded;
-
             var electricalSystems = new FilteredElementCollector(doc)
                 .OfClass(typeof(ElectricalSystem))
                 .WhereElementIsNotElementType()
@@ -29,7 +28,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 using (var tr = new Transaction(doc))
                 {
                     tr.Start("UpdateParametersOfElectricalSystem");
-                    electricalSystems.ForEach(el=>UpdateParameters(el));
+                    electricalSystems.ForEach(el => UpdateParameters(el));
                     tr.Commit();
                 }
             }
@@ -40,8 +39,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             }
             finally
             {
-
             }
+
             return result;
         }
 

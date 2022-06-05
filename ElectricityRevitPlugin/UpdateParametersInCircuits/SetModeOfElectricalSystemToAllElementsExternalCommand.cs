@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin.UpdateParametersInCircuits
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SetModeOfElectricalSystemToAllElementsExternalCommand : IExternalCommand, IUpdaterParameters<ElectricalSystem>
@@ -29,10 +29,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                         .WhereElementIsNotElementType()
                         .OfType<ElectricalSystem>();
                     SetModeOfElectricalSystem(electricalSystems);
-                    
-
                     tr.Commit();
-
                 }
             }
             catch (Exception e)
@@ -42,8 +39,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             }
             finally
             {
-
             }
+
             return result;
         }
 
@@ -55,7 +52,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         private void SetModeOfElectricalSystem(IEnumerable<ElectricalSystem> electricalSystems)
         {
-            foreach(var system in electricalSystems)
+            foreach (var system in electricalSystems)
             {
                 var mode = system.CircuitPathMode;
                 if (mode == ElectricalCircuitPathMode.FarthestDevice)
@@ -65,9 +62,9 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 
         private void SetModeOfElectricalSystem(ElectricalSystem system)
         {
-                var mode = system.CircuitPathMode;
-                if (mode == ElectricalCircuitPathMode.FarthestDevice)
-                    system.CircuitPathMode = ElectricalCircuitPathMode.AllDevices;
+            var mode = system.CircuitPathMode;
+            if (mode == ElectricalCircuitPathMode.FarthestDevice)
+                system.CircuitPathMode = ElectricalCircuitPathMode.AllDevices;
         }
     }
 }

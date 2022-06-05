@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-
-namespace ElectricityRevitPlugin.Extensions
+﻿namespace ElectricityRevitPlugin.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+
     public static class ElectricalSystemExtension
     {
-        private static readonly Guid ByGost  = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
+        private static readonly Guid ByGost = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
 
         public static string GetGroupByGost(this ElectricalSystem es)
         {
@@ -26,7 +24,6 @@ namespace ElectricityRevitPlugin.Extensions
             var elements = es
                 .Elements
                 .Cast<FamilyInstance>();
-
             foreach (var fi in elements)
             {
                 var type = string.Empty;
@@ -44,14 +41,14 @@ namespace ElectricityRevitPlugin.Extensions
                         continue;
                     type = doc.GetElement(loadClassification).Name;
                 }
-                
+
                 if (!string.IsNullOrEmpty(type) && (type != "/" && type != "\\" && type != "Соединитель"))
                 {
                     types.Add(type);
                 }
+
                 var space = fi.Space?
                     .Number;
-
                 if (!string.IsNullOrEmpty(space))
                     spaces.Add(space);
             }

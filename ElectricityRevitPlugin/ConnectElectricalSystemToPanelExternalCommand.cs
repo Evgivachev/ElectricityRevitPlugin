@@ -1,15 +1,13 @@
-﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Selection;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class ConnectElectricalSystemToPanelExternalCommand : IExternalCommand
@@ -32,15 +30,17 @@ namespace ElectricityRevitPlugin
                         .Select(x => doc.GetElement(x))
                         .OfType<ElectricalSystem>()
                         .ToArray();
-                    var shield =(FamilyInstance)doc.GetElement( selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Element).ElementId);
+                    var shield = (FamilyInstance)doc.GetElement(selection.PickObject(ObjectType.Element).ElementId);
                     if (shield is null)
                     {
                         throw new NullReferenceException("Следует выбрать щит и элементы");
                     }
+
                     foreach (var element in selectedElements)
                     {
                         element.SelectPanel(shield);
                     }
+
                     tr.Commit();
                 }
             }
@@ -51,8 +51,8 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
+
             return result;
         }
     }

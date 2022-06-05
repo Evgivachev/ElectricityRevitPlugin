@@ -1,279 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElectricityRevitPlugin</RootNamespace>
-    <AssemblyName>ElectricityRevitPlugin</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AdWindows">
-      <HintPath>..\ref\AdWindows.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MoreLinq, Version=3.2.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d">
-      <HintPath>..\packages\morelinq.3.2.0\lib\net451\MoreLinq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>..\ref\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIIFC">
-      <HintPath>..\ref\RevitAPIIFC.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIMacros">
-      <HintPath>..\ref\RevitAPIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\ref\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUIMacros">
-      <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="VCRevitRibbonUtilCustom">
-      <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
-    </Reference>
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AddReserveElectricalSystemExternalCommand.cs" />
-    <Compile Include="ConnectElectricalSystemToPanelExternalCommand.cs" />
-    <Compile Include="ConnectElementsToShieldExternalCommand.cs" />
-    <Compile Include="CoordinateModelMVC.cs" />
-    <Compile Include="CopyElementsInSameViewSchedule\CheckableItem.cs" />
-    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml.cs">
-      <DependentUpon>CopyElementsInSameScheduleView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleViewModel.cs" />
-    <Compile Include="CopyElementsInSameViewSchedule\ExternalCommand.cs" />
-    <Compile Include="CopyElementsViewScheduleExternalCommand.cs" />
-    <Compile Include="CreateCablesScheduleExternalCommand.cs" />
-    <Compile Include="DefaultExternalCommand.cs" />
-    <Compile Include="ApplicationRenResExternalApplication.cs" />
-    <Compile Include="Extensions\ElectricalSystemExtension.cs" />
-    <Compile Include="Extensions\ElementExtension.cs" />
-    <Compile Include="Extensions\FamilyInstanceExtension.cs" />
-    <Compile Include="GeneralSubject\CableParameterUpdater.cs" />
-    <Compile Include="GeneralSubject\CheckableItem.cs" />
-    <Compile Include="GeneralSubject\DisconnectingDeviceParameterUpdater.cs" />
-    <Compile Include="GeneralSubject\GeneralSubjectViewModel.cs" />
-    <Compile Include="GeneralSubject\GeneralSubjectWpf.xaml.cs">
-      <DependentUpon>GeneralSubjectWpf.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GeneralSubject\CollectionOfCheckableItems.cs" />
-    <Compile Include="GeneralSubject\OutgoingLineParameterUpdater.cs" />
-    <Compile Include="GeneralSubject\ParameterUpdater.cs" />
-    <Compile Include="GeneralSubject\ShieldParameterUpdater.cs" />
-    <Compile Include="GeneralSubject\ShowGeneralSubjectWindowExternalCommand.cs" />
-    <Compile Include="GeneralSubject\UpdateGeneralSubjectDiagramExternalCommand.cs" />
-    <Compile Include="GeneralSubject\TestPasteElectricalSystems.cs" />
-    <Compile Include="GeneralSubject\TestPastleAnnotation.cs" />
-    <Compile Include="GetCoordinateFromUser.xaml.cs">
-      <DependentUpon>GetCoordinateFromUser.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Extensions\KeySchelduleExtension.cs" />
-    <Compile Include="Extensions\ParameterExtension.cs" />
-    <Compile Include="GroupByGost\GeneralSubjectGroupByGost.cs" />
-    <Compile Include="GroupByGost\GroupByGostExternalCommand.cs" />
-    <Compile Include="GroupByGost\UpdaterParametersOfShields.cs" />
-    <Compile Include="IUpdaterParameters.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Resource1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
-    <Compile Include="RevitLinkSelectionFilter.cs" />
-    <Compile Include="RevitNameComparer.cs" />
-    <Compile Include="RotateElementsExternalCommand.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectElectricalSystemsFromAnnotation.cs" />
-    <Compile Include="SelectFramesFromSelectedSheets.cs" />
-    <Compile Include="SelectPowerElectricalSystemsFromSelectionExternalCommand.cs" />
-    <Compile Include="SelectSheetFormatAndAlignExternalCommand.cs" />
-    <Compile Include="SetElementCoordinatesExternalCommand.cs" />
-    <Compile Include="SetFixtureParametersToSpaceExternalCommand.cs" />
-    <Compile Include="SetFixtureParametersToSpaceExternalCommand_VarietyTheater.cs" />
-    <Compile Include="SetInstallationHeightExternalRelativeToLevelExternalCommand.cs" />
-    <Compile Include="SetInstallationHeightExternalRelativeToZeroExternalCommand.cs" />
-    <Compile Include="SharedParameterFile.cs" />
-    <Compile Include="SpotDimensionCreatorExternalCommand.cs" />
-    <Compile Include="MarkingOpeningExternalCommand.cs" />
-    <Compile Include="Temp10.cs" />
-    <Compile Include="Temp11.cs" />
-    <Compile Include="Tepm9.cs" />
-    <Compile Include="TubeMarking.cs" />
-    <Compile Include="UpdateModels\CreateLocalCopyExternalCommand.cs" />
-    <Compile Include="UpdateModels\CreatorRevitLocalCopy.cs" />
-    <Compile Include="UpdateModels\ModelFromServerListGetter.cs" />
-    <Compile Include="UpdateModels\ModelUpdater.cs" />
-    <Compile Include="UpdateModels\SaveLocalCopyExternalCommand.cs" />
-    <Compile Include="UpdateModels\UpTo21VersionExternalCommand.cs" />
-    <Compile Include="UpdateParameterADSK_Floor.cs" />
-    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\LossVoltageCalculator.cs" />
-    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\RateCalculator.cs" />
-    <Compile Include="UpdateParametersInCircuits\LossVoltageCalculator\StandardCalculator.cs" />
-    <Compile Include="UpdateParametersInCircuits\LossVoltageOfElectricalSystemExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetLengthForElectricalSystemsExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetLoadNameForElectricalSystemsExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetModeOfElectricalSystemToAllElementsExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\SetParametersOfElSystemsCurrentPowerSystemAndType.cs" />
-    <Compile Include="SetProjectSectionExternalCommand.cs" />
-    <Compile Include="SetProjectSectionForElectricalSystems.cs" />
-    <Compile Include="Short-Circuits\ShortCircuits.cs" />
-    <Compile Include="SortSheets.cs" />
-    <Compile Include="CopyElementsInViewScheduleWPF.xaml.cs">
-      <DependentUpon>CopyElementsInViewScheduleWPF.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Temp8.cs" />
-    <Compile Include="Temp2.cs" />
-    <Compile Include="Temp4.cs" />
-    <Compile Include="Temp5.cs" />
-    <Compile Include="SetHeightForSpaceExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateCableManagementMethodExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateCablesMarkExternalCommand.cs" />
-    <Compile Include="UpdateParametersInCircuits\UpdateParametersOfElectricalSystemIExternalCommand.cs" />
-    <Compile Include="UpdaterParameters.cs" />
-    <Compile Include="Updaters\GroupByGost.cs" />
-    <Compile Include="Updaters\LengthOfElectricalSystem.cs" />
-    <Compile Include="Updaters\LoadName.cs" />
-    <Compile Include="Updaters\LossVoltage.cs" />
-    <Compile Include="Updaters\MyUpdater.cs" />
-    <Compile Include="Updaters\UpdateAddedElectricalSystems.cs" />
-    <Compile Include="Updaters\UpdateLocker.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="CopyElementsInSameViewSchedule\CopyElementsInSameScheduleView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GeneralSubject\GeneralSubjectWpf.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GetCoordinateFromUser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CopyElementsInViewScheduleWPF.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource1.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-futurama-professor-farnsworth-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-futurama-fry-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-futurama-bender-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-futurama-zoidberg-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-капитан-америка-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-халк-16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-тринити-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-house-stark-32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-морти-смит-36.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-рик-санчес-36.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons8-манускрипт-36.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <PropertyGroup>
+        <Version>2.0.0</Version>
+        <Description>Плагин ЭОМ.</Description>
+        <LangVersion>9</LangVersion>
+        <TargetFramework>net48</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWpf>true</UseWpf>
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="AdWindows, Version=3.1.7.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\AdWindows.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\RevitAPI.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIIFC, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\RevitAPIIFC.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIMacros, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\RevitAPIMacros.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\RevitAPIUI.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUIMacros, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="VCRevitRibbonUtilCustom, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="morelinq" Version="3.3.2" />
+    </ItemGroup>
 </Project>

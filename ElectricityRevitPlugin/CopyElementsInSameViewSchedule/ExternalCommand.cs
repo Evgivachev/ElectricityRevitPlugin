@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
+﻿namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
 {
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
     public class ExternalCommand : DefaultExternalCommand
@@ -16,7 +11,6 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
-            
             var model = new CopyElementsInSameScheduleViewModel(Doc);
             var view = new CopyElementsInSameScheduleView(model);
             if (view.ShowDialog() == true)
@@ -26,14 +20,14 @@ namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
                     tr.Start("Копирование элементов ключевой спецификации");
                     foreach (var element in model.CheckedElements)
                     {
-
                         var activeView = Doc.ActiveView as ViewSchedule;
                         activeView.AddElement(element, false);
                     }
+
                     tr.Commit();
                 }
-
             }
+
             return Result.Succeeded;
         }
     }

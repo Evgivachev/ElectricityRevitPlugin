@@ -1,14 +1,10 @@
-﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ExternalCommands
+﻿namespace ExternalCommands
 {
+    using System;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class RotateElementsExternalCommand : IExternalCommand
@@ -27,7 +23,6 @@ namespace ExternalCommands
                     tr.Start("Установка поворота элементов");
                     var selection = uiDoc.Selection;
                     var elementIds = selection.GetElementIds();
-
                     foreach (var elId in elementIds)
                     {
                         try
@@ -42,9 +37,9 @@ namespace ExternalCommands
                         }
                         catch
                         {
-
                         }
                     }
+
                     tr.Commit();
                 }
             }
@@ -55,12 +50,9 @@ namespace ExternalCommands
             }
             finally
             {
-
             }
+
             return result;
         }
     }
 }
-
-
-

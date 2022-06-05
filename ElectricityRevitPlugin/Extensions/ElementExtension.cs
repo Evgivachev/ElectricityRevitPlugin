@@ -1,14 +1,10 @@
-﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     public static class ElementExtension
     {
         /// <summary>
@@ -16,8 +12,9 @@ namespace ElectricityRevitPlugin
         /// по умолчанию во внутренних единицах
         /// </summary>
         /// <param name="element"></param>
+        /// <param name="forgeTypeId"></param>
         /// <returns></returns>
-        public static double GetInstallationHeightRelativeToLevel(this Element element, DisplayUnitType? displayUnitType=null)
+        public static double GetInstallationHeightRelativeToLevel(this Element element, ForgeTypeId? forgeTypeId = null)
         {
             //var elementPoint = element.Location as LocationPoint;
             //if (elementPoint is null)
@@ -27,8 +24,8 @@ namespace ElectricityRevitPlugin
             //Смещение по высоте, есть не у всех элементов но работает
             var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
             var shift = shiftParam.AsDouble();
-            if (displayUnitType.HasValue)
-                shift = UnitUtils.ConvertFromInternalUnits(shift, displayUnitType.Value);
+            if (forgeTypeId is not null && forgeTypeId.IsValidObject)
+                shift = UnitUtils.ConvertFromInternalUnits(shift, forgeTypeId);
             return shift;
 
                 
@@ -63,7 +60,7 @@ namespace ElectricityRevitPlugin
             //var heigthInMillimeters = UnitUtils.ConvertFromInternalUnits(height, DisplayUnitType.DUT_MILLIMETERS);
             //return heigthInMillimeters;
         }
-        public static Result SetInstallationHeightRelativeToLevel(this Element element, double heigth, DisplayUnitType? displayUnitType = null, bool openTransaction = false)
+        public static Result SetInstallationHeightRelativeToLevel(this Element element, double height, ForgeTypeId? forgeTypeId = null, bool openTransaction = false)
         {
 
             var result = Result.Failed;
@@ -72,40 +69,38 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(element.Document))
                 {
                     tr.Start("SetElementShift");
-                    result = element.SetInstallationHeightRelativeToLevel(heigth,displayUnitType);
+                    result = element.SetInstallationHeightRelativeToLevel(height,forgeTypeId);
                     tr.Commit();
                 }
             }
             else
             {
-                result = element.SetInstallationHeightRelativeToLevel(heigth, displayUnitType);
+                result = element.SetInstallationHeightRelativeToLevel(height, forgeTypeId);
             }
 
             return result;
         }
-        private static Result SetInstallationHeightRelativeToLevel(this Element element,double heigth, DisplayUnitType? displayUnitType = null)
+        private static Result SetInstallationHeightRelativeToLevel(this Element element,double height, ForgeTypeId? forgeTypeId = null)
         {
             if (!(element.Location is LocationPoint _))
                 throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
             var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
-            if (displayUnitType.HasValue)
-                heigth = UnitUtils.ConvertToInternalUnits(heigth, displayUnitType.Value);
-            var flag =  shiftParam.Set(heigth);
+            if (forgeTypeId is not null)
+                height = UnitUtils.ConvertToInternalUnits(height, forgeTypeId);
+            var flag =  shiftParam.Set(height);
             return flag?Result.Succeeded:Result.Failed;
 
         }
 
-            public static Result SetElementCoordinate(this Element element,XYZ point, bool openTransaction = true)
+        public static Result SetElementCoordinate(this Element element, XYZ point, bool openTransaction = true)
         {
             var result = Result.Failed;
             if (openTransaction)
             {
-                using (var tr = new Transaction(element.Document))
-                {
-                    tr.Start("SetElementCoordinate");
-                    result = element.SetElementCoordinate(point);
-                    tr.Commit();
-                }
+                using var tr = new Transaction(element.Document);
+                tr.Start("SetElementCoordinate");
+                result = element.SetElementCoordinate(point);
+                tr.Commit();
             }
             else
             {
@@ -114,20 +109,22 @@ namespace ElectricityRevitPlugin
 
             return result;
         }
+
         private static Result SetElementCoordinate(this Element element, XYZ point)
         {
             if (!(element.Location is LocationPoint currentLocation))
-                    return Result.Failed;
+                return Result.Failed;
             var flag = element.Location.Move(point.Subtract(currentLocation.Point));
             return flag ? Result.Succeeded : Result.Failed;
         }
+
         /// <summary>
         /// Установить поворот элемента в градусах
         /// </summary>
         /// <param name="element"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public static Result SetElementRotation(this Element element, double rotation, Line line , bool openTransaction = false)
+        public static Result SetElementRotation(this Element element, double rotation, Line line, bool openTransaction = false)
         {
             var result = Result.Failed;
             if (openTransaction)
@@ -135,7 +132,7 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(element.Document))
                 {
                     tr.Start("SetElementRotation");
-                    result = element.SetElementRotation(rotation,line);
+                    result = element.SetElementRotation(rotation, line);
                     tr.Commit();
                 }
             }
@@ -146,6 +143,7 @@ namespace ElectricityRevitPlugin
 
             return result;
         }
+
         private static Result SetElementRotation(this Element element, double rotation, Line line)
         {
             if (!(element.Location is LocationPoint currentLocation))
@@ -156,30 +154,10 @@ namespace ElectricityRevitPlugin
                 var locatiom = element.Location as LocationPoint;
                 line = Line.CreateUnbound(locatiom.Point, new XYZ(0, 0, 1));
             }
-                
+
             var flag = element.Location.Rotate(line, rotation / 180 * Math.PI - currentRotation);
             return flag ? Result.Succeeded : Result.Failed;
         }
-
-        //private static Result CopyParameters(this Element to, Element from, params string[] excludedParams)
-        //{
-        //    var result = Result.Succeeded;
-        //    var fromParametersMap = from.ParametersMap;
-        //    var toParameterMap = to.ParametersMap;
-        //    foreach (Parameter toParam in toParameterMap)
-        //    {
-        //        if(toParam.IsReadOnly)
-        //            continue;
-        //        if(!fromParametersMap.Contains(toParam.Definition.Name))
-        //            continue;
-        //        var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
-        //        var value = fromParam.GetValueDynamic();
-        //        if(value is null)
-        //            continue;
-        //        var flag = toParam.Set(value);
-        //    }
-        //    return result;
-        //}
 
         public static Result CopyParameters(this Element to, Element from, bool openTransaction = false, params string[] excludedParams)
         {
@@ -189,7 +167,7 @@ namespace ElectricityRevitPlugin
                 using (var tr = new Transaction(from.Document))
                 {
                     tr.Start("CopyParameters");
-                    result = to.CopyParameters(from,false, excludedParams);
+                    result = to.CopyParameters(from, false, excludedParams);
                     tr.Commit();
                 }
             }
@@ -206,7 +184,7 @@ namespace ElectricityRevitPlugin
                     if (excludedParams.Contains(toParam.Definition.Name))
                         continue;
                     var fromParam = fromParametersMap.get_Item(toParam.Definition.Name);
-                    if(!fromParam.HasValue)
+                    if (!fromParam.HasValue)
                         continue;
                     var value = fromParam.GetValueDynamic();
                     if (value is null)
@@ -214,6 +192,7 @@ namespace ElectricityRevitPlugin
                     var flag = toParam.Set(value);
                 }
             }
+
             return result;
         }
     }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using RevitParametersCodeGenerator;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using RevitParametersCodeGenerator;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class UpdateParameterADSK_Floor : DefaultExternalCommand
@@ -48,26 +45,23 @@ namespace ElectricityRevitPlugin
                         //if (projectParameter is null)
                         //    continue;
                         var adskFloor = element.get_Parameter(floorGuid)?.AsString() ?? "";
-                        if(!(element is FamilyInstance fi))
+                        if (!(element is FamilyInstance fi))
                             continue;
                         foreach (var subElementId in fi.GetSubComponentIds())
                         {
                             var subElement = Doc.GetElement(subElementId);
-
                             var floorParameter = subElement.get_Parameter(floorGuid);
-                            if(floorParameter.IsReadOnly)
+                            if (floorParameter.IsReadOnly)
                                 continue;
                             floorParameter?.Set(adskFloor);
                         }
                     }
                 }
+
                 tr.Commit();
             }
 
             return Result.Succeeded;
-
-
-
         }
     }
 }

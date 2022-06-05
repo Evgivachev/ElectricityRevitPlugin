@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Structure;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class ConnectElementsToShieldExternalCommand : IExternalCommand
@@ -34,20 +31,21 @@ namespace ElectricityRevitPlugin
                         .OfType<FamilyInstance>()
                         .ToArray();
                     var shield = selectedElements.FirstOrDefault(x =>
-                        x.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
+                        x.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment);
                     if (shield is null)
                     {
                         throw new NullReferenceException("Следует выбрать щит и элементы");
                     }
+
                     foreach (var element in selectedElements)
                     {
-                        if(element == shield)
+                        if (element == shield)
                             continue;
-
                         var nEs = ElectricalSystem.Create(doc, new List<ElementId>() { element.Id },
                             ElectricalSystemType.PowerCircuit);
                         nEs.SelectPanel(shield);
                     }
+
                     tr.Commit();
                 }
             }
@@ -58,8 +56,8 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
+
             return result;
         }
     }

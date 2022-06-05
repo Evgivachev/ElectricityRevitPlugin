@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System;
+    using Autodesk.Revit.DB;
+
     class OutgoingLineParameterUpdater : CableParameterUpdater
     {
-        public OutgoingLineParameterUpdater(Element fromElement) : base(fromElement)
+        public OutgoingLineParameterUpdater(Element fromElement)
+            : base(fromElement)
         {
-
         }
 
         public override CollectionOfCheckableItems GetValidateElements(Document document)

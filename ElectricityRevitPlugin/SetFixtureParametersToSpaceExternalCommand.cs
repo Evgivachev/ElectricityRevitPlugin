@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Documents;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.UI;
-
 namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Mechanical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SetFixtureParametersToSpaceExternalCommand : IExternalCommand
@@ -37,15 +36,18 @@ namespace ElectricityRevitPlugin
                             //return flag.HasValue && !flag.Value;
                         });
                     var viewphaseId = doc.ActiveView.get_Parameter(BuiltInParameter.VIEW_PHASE).AsElementId();
-                    var viewPhase = (Phase) doc.GetElement(viewphaseId);
+                    var viewPhase = (Phase)doc.GetElement(viewphaseId);
                     foreach (var element in allFixtures)
                     {
                         var fixture = (FamilyInstance)element;
                         var fixtureName = fixture.Name;
-                        var fixturePhaseCreated = doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_CREATED).AsElementId()) as Phase;
+                        var fixturePhaseCreated =
+                            doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_CREATED).AsElementId()) as Phase;
                         //Стадия сноса
-                        var fixturePhaseDemolished =(Phase) doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_DEMOLISHED).AsElementId());
-                        if(fixturePhaseDemolished !=null && viewPhase.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger() > fixturePhaseDemolished.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger())
+                        var fixturePhaseDemolished =
+                            (Phase)doc.GetElement(element.get_Parameter(BuiltInParameter.PHASE_DEMOLISHED).AsElementId());
+                        if (fixturePhaseDemolished != null && viewPhase.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger() >
+                            fixturePhaseDemolished.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger())
                             continue;
                         //var space = fixture.Space;
                         var space = fixture.get_Space(viewPhase);
@@ -55,10 +57,12 @@ namespace ElectricityRevitPlugin
                         if (!spaces.ContainsKey(spaceIdInt))
                             spaces[spaceIdInt] = new Dictionary<string, (int Count, double Heigth)>();
                         if (!spaces[spaceIdInt].ContainsKey(fixtureName))
-                            spaces[spaceIdInt][fixtureName] = (0, Heigth: element.GetInstallationHeightRelativeToLevel(DisplayUnitType.DUT_MILLIMETERS));
-
-                        spaces[spaceIdInt][fixtureName] = (spaces[spaceIdInt][fixtureName].Count + 1, spaces[spaceIdInt][fixtureName].Heigth);
+                            spaces[spaceIdInt][fixtureName] = (0,
+                                Heigth: element.GetInstallationHeightRelativeToLevel(UnitTypeId.Millimeters));
+                        spaces[spaceIdInt][fixtureName] =
+                            (spaces[spaceIdInt][fixtureName].Count + 1, spaces[spaceIdInt][fixtureName].Heigth);
                     }
+
                     var allSpaces = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_MEPSpaces)
                         .OfType<Space>();
@@ -73,7 +77,6 @@ namespace ElectricityRevitPlugin
                     foreach (var pair in spaces)
                     {
                         var spaceId = pair.Key;
-
                         var space = doc.GetElement(new ElementId(pair.Key));
                         var types = new[]
                         {
@@ -96,17 +99,15 @@ namespace ElectricityRevitPlugin
                             space.LookupParameter("Высота светильников 2")
                         };
                         var fixtures = pair.Value?.Take(2).ToArray();
-
                         for (var i = 0; i < 2; i++)
                         {
                             var flag1 = new[]
                             {
-
-                                    types[i].SetEmptyValue(),
-                                    counts[i].SetEmptyValue(),
-                                    countsLamp[i].SetEmptyValue(),
-                                    fixtureHeight[i].SetEmptyValue()
-                                };
+                                types[i].SetEmptyValue(),
+                                counts[i].SetEmptyValue(),
+                                countsLamp[i].SetEmptyValue(),
+                                fixtureHeight[i].SetEmptyValue()
+                            };
                             if (fixtures is null || i == 1 && fixtures.Length < 2)
                                 continue;
                             var type = fixtures[i].Key;
@@ -114,15 +115,14 @@ namespace ElectricityRevitPlugin
                             var h = fixtures[i].Value.Heigth;
                             var flag = new[]
                             {
-
-                                    types[i].Set(type),
-                                    counts[i].Set(count),
-                                    countsLamp[i].Set(1),
-                                    fixtureHeight[i].Set(h)
-                                };
+                                types[i].Set(type),
+                                counts[i].Set(count),
+                                countsLamp[i].Set(1),
+                                fixtureHeight[i].Set(h)
+                            };
                         }
-
                     }
+
                     tr.Commit();
                 }
             }
@@ -133,10 +133,9 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
+
             return result;
         }
-
     }
 }

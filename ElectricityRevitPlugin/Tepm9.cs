@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using RevitParametersCodeGenerator;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using System.Windows;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Selection;
+    using RevitParametersCodeGenerator;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
     class Tepm9 : DefaultExternalCommand
@@ -22,11 +19,9 @@ namespace ElectricityRevitPlugin
             var selection = UiDoc.Selection;
             var panelFromReference = selection.PickObject(ObjectType.Element, "First");
             var panelToReference = selection.PickObject(ObjectType.Element, "Second");
-
             var panelFrom = Doc.GetElement(panelFromReference) as FamilyInstance;
             var panelTo = Doc.GetElement(panelToReference) as FamilyInstance;
-            var sortedSystem = panelFrom.MEPModel.AssignedElectricalSystems
-                .OfType<ElectricalSystem>()
+            var sortedSystem = panelFrom?.MEPModel.GetAssignedElectricalSystems()
                 .OrderBy(s =>
                 {
                     var gg = s.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST).AsString();
@@ -47,10 +42,11 @@ namespace ElectricityRevitPlugin
                         MessageBox.Show(elS.Name + "\n" + e.Message + '\n' + e.StackTrace);
                         throw;
                     }
-
                 }
+
                 tr.Commit();
             }
+
             return Result.Succeeded;
         }
     }

@@ -1,14 +1,11 @@
-﻿using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SetInstallationHeightExternalRelativeToLevelExternalCommand : IExternalCommand
@@ -27,19 +24,18 @@ namespace ElectricityRevitPlugin
                     tr.Start("Установка высоты установки элементов относительно уровня");
                     var sharedParameterApplicableRule = new SharedParameterApplicableRule("Высота установки");
                     var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
-
                     var allElements = new FilteredElementCollector(doc)
                         .OfClass(typeof(FamilyInstance))
                         .WherePasses(elementParameterFilter)
                         .Cast<Element>();
-
-                    foreach(var el in allElements)
+                    foreach (var el in allElements)
                     {
                         var param = el.LookupParameter("Высота установки");
-                        var value = el.GetInstallationHeightRelativeToLevel(DisplayUnitType.DUT_MILLIMETERS);
-                       // value = Math.Round(value, 0);
+                        var value = el.GetInstallationHeightRelativeToLevel(UnitTypeId.Millimeters);
+                        // value = Math.Round(value, 0);
                         param.Set(value);
                     }
+
                     tr.Commit();
                 }
             }
@@ -50,8 +46,8 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
+
             return result;
         }
     }

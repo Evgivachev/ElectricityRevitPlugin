@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB.Electrical;
-
-namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator
 {
-    class RateCalculator :StandardCalculator
+    using Autodesk.Revit.DB.Electrical;
+
+    class RateCalculator : StandardCalculator
     {
         private double _k;
 
@@ -21,6 +16,5 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculato
             var standard = base.CalculateLossVoltage(el);
             return _k * standard;
         }
-
     }
 }

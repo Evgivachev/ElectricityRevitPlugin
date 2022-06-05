@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
+﻿
+
 //using MoreLinq.Extensions;
 
 namespace ElectricityRevitPlugin
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class Temp2 : IExternalCommand
@@ -38,7 +36,6 @@ namespace ElectricityRevitPlugin
                     .Where(x => x != null)
                     .Select(x => x.Id.IntegerValue)
                     .ToHashSet();
-
                 var framesIds = new List<ElementId>();
                 var allFrames = new FilteredElementCollector(doc)
                     .OfCategory(BuiltInCategory.OST_TitleBlocks)
@@ -64,19 +61,21 @@ namespace ElectricityRevitPlugin
                         var ien = ownerView.LookupParameter($"{i}{editNumber}").AsString();
                         if (string.IsNullOrEmpty(ien))
                             break;
-
                         var iedit = ownerView.LookupParameter($"{i}{editName}").AsString();
                         if (string.IsNullOrEmpty(iedit))
                             break;
                         edit = iedit;
                         en = ien;
                     }
+
                     if (string.IsNullOrEmpty(en) || string.IsNullOrEmpty(edit))
                         continue;
                     ownerView.LookupParameter("Примечание").Set($"Изм.{en} ({edit}) ");
                 }
+
                 tr.Commit();
             }
+
             return result;
         }
     }

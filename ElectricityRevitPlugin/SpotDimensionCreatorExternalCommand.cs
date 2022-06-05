@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
     class SpotDimensionCreatorExternalCommand : DefaultExternalCommand
@@ -18,12 +14,11 @@ namespace ElectricityRevitPlugin
             var selection = UiDoc.Selection;
             var lightingFixtures = selection.GetElementIds()
                 .Select(id => Doc.GetElement(id))
-                .Where(el => el.Category.Id.IntegerValue == (int) BuiltInCategory.OST_LightingFixtures)
+                .Where(el => el.Category.Id.IntegerValue == (int)BuiltInCategory.OST_LightingFixtures)
                 .Cast<FamilyInstance>();
             using (var tr = new Transaction(Doc))
             {
                 tr.Start("Создание высотной отметки");
-
                 foreach (var fixture in lightingFixtures)
                 {
                     var view = Doc.ActiveView;
@@ -32,11 +27,10 @@ namespace ElectricityRevitPlugin
                     var origin = originLocationPoint.Point;
                     var bend = origin + new XYZ(0, 1, 4);
                     var end = bend + new XYZ(0, 2, 4);
-
                     var spotDimension = Doc.Create.NewSpotElevation(view, reference, origin, bend, end, origin, false);
                 }
-                tr.Commit();
 
+                tr.Commit();
             }
 
             return Result.Succeeded;

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Events;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public static class KeyScheduleExtension
     {
         public static void AddElement(this ViewSchedule schedule, Element el, bool openTransaction)
@@ -18,12 +13,12 @@ namespace ElectricityRevitPlugin
             var td = schedule.GetTableData();
             var body = td.GetSectionData(SectionType.Body);
             var flag = body.CanInsertRow(body.FirstRowNumber);
-            if(!flag)
+            if (!flag)
                 throw new Exception("Невозможно вставить строку в данную спецификацию");
             body.InsertRow(body.FirstRowNumber);
             var addedElement = new FilteredElementCollector(doc, schedule.Id)
                 .FirstOrDefault(x => int.TryParse(x.Name, out _));
-            addedElement?.CopyParameters(el,openTransaction);
+            addedElement?.CopyParameters(el, openTransaction);
         }
     }
 }

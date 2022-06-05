@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
-    class RevitNameComparer :IComparer<string>
+    using System.Collections.Generic;
+    using Autodesk.Revit.DB;
+
+    class RevitNameComparer : IComparer<string>
     {
         public int Compare(string x, string y)
         {

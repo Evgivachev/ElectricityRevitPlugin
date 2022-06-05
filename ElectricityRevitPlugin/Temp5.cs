@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     class Temp5 : IExternalCommand
     {
         private Guid _projectSectionParameterGuid = new Guid("ffe3351b-555f-40fb-86fd-4e5a4a446d27");
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var uiApp = commandData.Application;
@@ -29,10 +25,8 @@ namespace ElectricityRevitPlugin
                     tr.Start("Установка параметров раздел проектирования для цепей");
                     var sharedParameterApplicableRule = new SharedParameterApplicableRule("Раздел проектирования");
                     var elementParameterFilter = new ElementParameterFilter(sharedParameterApplicableRule);
-
                     var allElements = new FilteredElementCollector(doc)
                         .WherePasses(elementParameterFilter);
-
                     foreach (var el in allElements)
                     {
                         var param = el.get_Parameter(_projectSectionParameterGuid);
@@ -72,9 +66,9 @@ namespace ElectricityRevitPlugin
                             default:
                                 continue;
                         }
+
                         try
                         {
-
                             param.Set(value);
                         }
                         catch (Exception)
@@ -82,6 +76,7 @@ namespace ElectricityRevitPlugin
                             // ignored
                         }
                     }
+
                     tr.Commit();
                 }
             }
@@ -92,10 +87,9 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
-            return result;
 
+            return result;
         }
     }
 }

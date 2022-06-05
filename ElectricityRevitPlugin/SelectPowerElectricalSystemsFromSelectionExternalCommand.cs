@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using ElectricityRevitPlugin.Extensions;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Extensions;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
-    class SelectPowerElectricalSystemsFromSelectionExternalCommand :IExternalCommand
+    class SelectPowerElectricalSystemsFromSelectionExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -31,21 +28,19 @@ namespace ElectricityRevitPlugin
                     .Where(e => e != null)
                     .OfType<FamilyInstance>()
                     .Select(f => f.GetPowerElectricalSystem())
-                    .Where(x=>x!=null);
-
+                    .Where(x => x != null);
                 var elSystemIds = elSystems
-                    .Select(x=>x.Id)
+                    .Select(x => x.Id)
                     .ToArray();
                 selection.SetElementIds(elSystemIds);
-
             }
             catch (Exception e)
             {
                 message += e.Message + '\n' + e.StackTrace;
                 result = Result.Failed;
             }
-            return result;
 
+            return result;
         }
     }
 }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
-[Transaction(TransactionMode.Manual)]
-[Regeneration(RegenerationOption.Manual)]
-    public class SetElementCoordinatesExternalCommand :IExternalCommand
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    public class SetElementCoordinatesExternalCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -19,18 +15,15 @@ namespace ElectricityRevitPlugin
             var app = uiApp.Application;
             var uiDoc = uiApp.ActiveUIDocument;
             var doc = uiDoc.Document;
-
             var selection = uiDoc.Selection;
             var selectedElementsIds = selection.GetElementIds();
-            var selectedElements =selectedElementsIds.Select(id
-            => doc.GetElement(id))
+            var selectedElements = selectedElementsIds.Select(id
+                    => doc.GetElement(id))
                 .ToArray();
             var model = new CoordinateModelMvc(selectedElements);
-            var q = new GetCoordinateFromUserWpf(model);
+            var q = new GetCoordinateFromUserWindow(model);
             q.ShowDialog();
             return Result.Succeeded;
-            
-
         }
     }
 }

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin.UpdateModels
+﻿namespace ElectricityRevitPlugin.UpdateModels
 {
+    using System.IO;
+    using System.Windows;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class CreateLocalCopyExternalCommand :DefaultExternalCommand
+    public class CreateLocalCopyExternalCommand : DefaultExternalCommand
     {
         protected override Result DoWork(ref string message, ElementSet elements)
         {
@@ -27,7 +22,6 @@ namespace ElectricityRevitPlugin.UpdateModels
             };
             creator.Overwrite = true;
             creator.ServerPath = "192.168.10.205";
-
             var models = File.ReadLines(@"C:\Users\iev\Documents\Список моделей для теста.txt");
             var flag = creator.CreateLocalCopy(models);
             MessageBox.Show(flag.ToString());

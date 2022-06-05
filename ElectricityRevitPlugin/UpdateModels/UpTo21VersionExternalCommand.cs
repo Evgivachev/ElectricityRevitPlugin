@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin.UpdateModels
+﻿namespace ElectricityRevitPlugin.UpdateModels
 {
+    using System.IO;
+    using System.Linq;
+    using System.Windows;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Events;
+
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]
     public class UpTo21Version : DefaultExternalCommand
@@ -38,12 +35,9 @@ namespace ElectricityRevitPlugin.UpdateModels
             {
                 //UiApp.DialogBoxShowing -= UiApp_DialogBoxShowing;
             }
-
-
-
         }
 
-        private void UiApp_DialogBoxShowing(object sender, Autodesk.Revit.UI.Events.DialogBoxShowingEventArgs e)
+        private void UiApp_DialogBoxShowing(object sender, DialogBoxShowingEventArgs e)
         {
             e.OverrideResult(1);
         }

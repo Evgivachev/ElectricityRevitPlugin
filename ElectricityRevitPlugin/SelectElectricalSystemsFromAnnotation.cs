@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SelectElectricalSystemsFromAnnotation : IExternalCommand
@@ -21,7 +18,7 @@ namespace ElectricityRevitPlugin
             var app = uiApp.Application;
             var doc = uiDoc.Document;
             var result = Result.Succeeded;
-            var systems = new Dictionary<string,ElectricalSystem>();
+            var systems = new Dictionary<string, ElectricalSystem>();
             var systems1 = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
                 .Cast<ElectricalSystem>();
@@ -41,13 +38,8 @@ namespace ElectricityRevitPlugin
                     return null;
                 })
                 .Where(x => x != null);
-
-            uiDoc.Selection.SetElementIds(selection.Select(x=>x.Id).ToArray());
+            uiDoc.Selection.SetElementIds(selection.Select(x => x.Id).ToArray());
             return result;
-
         }
-
     }
-
 }
-

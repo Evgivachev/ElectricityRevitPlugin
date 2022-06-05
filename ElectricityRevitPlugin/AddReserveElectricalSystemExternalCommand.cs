@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.DB.Structure;
-using Autodesk.Revit.UI;
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.DB.Structure;
+    using Autodesk.Revit.UI;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     //Добавить резервные группы к электрическому щиту
@@ -45,12 +43,11 @@ namespace ElectricityRevitPlugin
                             var nEs = ElectricalSystem.Create(doc, new List<ElementId>() { nGr.Id },
                                 ElectricalSystemType.PowerCircuit);
                             nEs.SelectPanel(element);
-
                         }
-                       
-                        //var flag = element.MEPModel.AssignedElectricalSystems.Insert(nEs);
 
+                        //var flag = element.MEPModel.AssignedElectricalSystems.Insert(nEs);
                     }
+
                     tr.Commit();
                 }
             }
@@ -61,34 +58,34 @@ namespace ElectricityRevitPlugin
             }
             finally
             {
-
             }
+
             return result;
         }
 
         private int GetCountOfReserveGroup(FamilyInstance shield)
         {
-            var assigned = shield.MEPModel.AssignedElectricalSystems;
+            var assigned = shield.MEPModel.GetAssignedElectricalSystems();
             if (assigned is null)
                 return 0;
-            var count = assigned.Size;
-            var n =(int) Math.Min(4, Math.Ceiling(count / 10.0));
+            var count = assigned.Count;
+            var n = (int)Math.Min(4, Math.Ceiling(count / 10.0));
             return n;
         }
 
-        private XYZ[] GetLocationOfReserveGroup(FamilyInstance shield,int n)
+        private XYZ[] GetLocationOfReserveGroup(FamilyInstance shield, int n)
         {
             var d = 1;
-            if(!(shield.Location is LocationPoint l))
+            if (!(shield.Location is LocationPoint l))
                 throw new NullReferenceException();
             var r = l.Rotation;
-            var basePoint = l.Point.Add(new XYZ(d * Math.Sin(r), d * Math.Cos(r),  0));
-            var dd = UnitUtils.ConvertToInternalUnits(20, DisplayUnitType.DUT_MILLIMETERS);
+            var basePoint = l.Point.Add(new XYZ(d * Math.Sin(r), d * Math.Cos(r), 0));
+            var dd = UnitUtils.ConvertToInternalUnits(20, UnitTypeId.Millimeters);
             var deltaAngle0 = Math.PI / 2;
             var result = new XYZ[n];
             for (var i = 0; i < result.Length; i++)
             {
-                result[i] = basePoint.Add(new XYZ(dd*Math.Sin(deltaAngle0*i),dd*Math.Cos(deltaAngle0*i),0));
+                result[i] = basePoint.Add(new XYZ(dd * Math.Sin(deltaAngle0 * i), dd * Math.Cos(deltaAngle0 * i), 0));
             }
 
             return result;

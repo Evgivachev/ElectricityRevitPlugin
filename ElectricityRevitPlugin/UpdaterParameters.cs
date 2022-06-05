@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-
-
-namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public sealed class UpdaterParameters<T> where T : Element
     {
-        private readonly Document _doc;
+        private readonly List<Func<T, string>> _actions = new List<Func<T, string>>();
         private readonly BuiltInCategory _category;
+        private readonly Document _doc;
 
         public UpdaterParameters(Document document, BuiltInCategory category)
         {
             _doc = document;
             _category = category;
         }
-        private readonly List<Func<T,string>> _actions = new List<Func<T, string>>();
 
         private IEnumerable<T> GetElements()
         {
@@ -31,7 +25,6 @@ namespace ElectricityRevitPlugin
                 .WhereElementIsNotElementType()
                 .OfType<T>();
             return fec;
-
         }
 
         public void AddAction(IUpdaterParameters<T> updater)
@@ -50,6 +43,5 @@ namespace ElectricityRevitPlugin
                 }
             }
         }
-
     }
 }

@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
+    using Autodesk.Revit.UI.Selection;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class TestPasteElectricalSystems : DefaultExternalCommand
     {
-        protected ElementId famId = 
+        protected ElementId famId =
             //new ElementId(24793778);
             new ElementId(24795719);
+
         protected override Result DoWork(ref string message, ElementSet elements)
         {
             var family = (Family)Doc.GetElement(famId);
             var familySymbol = (FamilySymbol)Doc.GetElement(family.GetFamilySymbolIds().First());
-
             using (var tr = new Transaction(Doc, "test1"))
             {
-
                 tr.Start();
                 var currentAssembly = Assembly.GetCallingAssembly();
                 var updaterClassName = familySymbol.get_Parameter(ParameterUpdater.ReflectionClassNameGuid).AsString();
@@ -37,7 +29,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                     BindingFlags.CreateInstance, null, null, CultureInfo.InvariantCulture, null);
                 var validateElements = parameterUpdater
                     .GetValidateElements(Doc);
-                   // .First(x=>x.Name == "ППУ");
+                // .First(x=>x.Name == "ППУ");
 
                 //foreach (Element treeNode in validateElements)
                 //{
@@ -61,6 +53,7 @@ namespace ElectricityRevitPlugin.GeneralSubject
                 //}
                 tr.Commit();
             }
+
             return Result.Succeeded;
         }
 

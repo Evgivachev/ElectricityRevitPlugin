@@ -1,31 +1,40 @@
-﻿using System;
-using System.Linq;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using ElectricityRevitPlugin.Annotations;
-using MoreLinq;
-using RevitParametersCodeGenerator;
-
-namespace ElectricityRevitPlugin.UpdateParametersInCircuits
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.Attributes;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+    using Autodesk.Revit.UI;
+    using MoreLinq;
+    using RevitParametersCodeGenerator;
+
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
     public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalCommand, IUpdaterParameters<ElectricalSystem>
     {
-        //Длина цепи до ближайшего устройства
-        readonly Guid _lengthToNearestDeviceGuid = new Guid("1be3a6d5-8647-4044-be28-833b56f39086");
-        //Длина до наиболее удаленного устройства
-        readonly Guid _lengthToMostRemoteDeviceGuid = new Guid("541bbad9-d80d-48b1-b0b5-1460a13a8d66");
-        //Длина через все устройства
-        readonly Guid _lengthThrowAllDevicesGuid = new Guid("43387d31-d9b2-4374-916d-69ce7cec588f");
         //Запретить изменение
         readonly Guid _isUnEditable = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
+
+        //Длина через все устройства
+        readonly Guid _lengthThrowAllDevicesGuid = new Guid("43387d31-d9b2-4374-916d-69ce7cec588f");
+
         //Длина через все элементы со смещением
         readonly Guid _lengthThrowAllDevicesWithShiftGuid = new Guid("48cb22b9-5f47-4d45-978d-4a5749462053");
+
+        //Длина до наиболее удаленного устройства
+        readonly Guid _lengthToMostRemoteDeviceGuid = new Guid("541bbad9-d80d-48b1-b0b5-1460a13a8d66");
+
+        //Длина цепи до ближайшего устройства
+        readonly Guid _lengthToNearestDeviceGuid = new Guid("1be3a6d5-8647-4044-be28-833b56f39086");
+
         //смещение для электрической цепи
         readonly Guid _shiftForElectricalCircuit = new Guid("8598960d-1bdb-4e68-82e0-f5202c76bce1");
+
+        public string UpdateParameters(ElectricalSystem el)
+        {
+            return SetLengthElectricalSystems(el);
+        }
 
         protected override Result DoWork(ref string message, ElementSet elements)
         {
@@ -35,7 +44,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             using (var tr = new Transaction(Doc))
             {
                 tr.Start("Установка длин кабелей и труб для электрических цепей");
-
                 foreach (var el in electricalSystems)
                 {
                     var isUnEditable = el.get_Parameter(_isUnEditable).AsInteger() == 1;
@@ -43,8 +51,10 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                         continue;
                     SetLengthElectricalSystems(el);
                 }
+
                 tr.Commit();
             }
+
             return Result.Succeeded;
         }
 
@@ -54,29 +64,25 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var calculateLengthType = el.LookupParameter("Способ расчета длины")?.AsValueString();
             calculateLengthType = calculateLengthType ?? "(нет)";
             var k = el.LookupParameter("Коэффициент для длины электрической цепи")?.AsDouble() ?? 0.0;
-
             var lengthToNearestDeviceParameter = el.get_Parameter(_lengthToNearestDeviceGuid);
             var lengthToMostRemoteDeviceParameter = el.get_Parameter(_lengthToMostRemoteDeviceGuid);
             var lengthThrowAllDeviceParameter = el.get_Parameter(_lengthThrowAllDevicesGuid);
             var lengthTrowAllDevicesWithShiftParameter = el.get_Parameter(_lengthThrowAllDevicesWithShiftGuid);
             var shiftForElectricalCircuits = el.get_Parameter(_shiftForElectricalCircuit).AsDouble();
-
-
             var isCalculated = CalculateLengthsOfElSystem(el,
                 shiftForElectricalCircuits,
                 out var lengthToNearestDevice,
                 out var lengthToMostRemote,
                 out var lengthTrowAllDevice,
                 out var lengthThrowAllDevicesWithShift);
-
             var q = new[]
             {
                 !lengthToNearestDeviceParameter.IsReadOnly && lengthToNearestDeviceParameter.Set(lengthToNearestDevice),
                 !lengthToMostRemoteDeviceParameter.IsReadOnly && lengthToMostRemoteDeviceParameter.Set(lengthToMostRemote),
                 !lengthThrowAllDeviceParameter.IsReadOnly && lengthThrowAllDeviceParameter.Set(lengthTrowAllDevice),
-                    !lengthTrowAllDevicesWithShiftParameter .IsReadOnly && lengthTrowAllDevicesWithShiftParameter.Set(lengthThrowAllDevicesWithShift)
+                !lengthTrowAllDevicesWithShiftParameter.IsReadOnly &&
+                lengthTrowAllDevicesWithShiftParameter.Set(lengthThrowAllDevicesWithShift)
             };
-
             SetLengthOfCableForDiagrams(el, calculateLengthType, k);
             //
             return null;
@@ -114,6 +120,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             {
                 lengthForDiagrams = el.get_Parameter(_lengthThrowAllDevicesWithShiftGuid).AsDouble();
             }
+
             //Длина кабелей для ОС
             if (!(lengthForDiagramsParameter.IsReadOnly))
                 lengthForDiagramsParameter.Set(lengthForDiagrams);
@@ -126,7 +133,8 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             return true;
         }
 
-        private bool CalculateLengthsOfElSystem(ElectricalSystem el,
+        private bool CalculateLengthsOfElSystem(
+            ElectricalSystem el,
             double shift,
             out double lengthToNearestDevice,
             out double lengthToMostRemoteDevice,
@@ -138,8 +146,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 .Elements
                 .Cast<Element>()
                 .ToDictionary(element => element.Id);
-
-
             var baseDevice = el.BaseEquipment;
             lengthToNearestDevice = 0;
             lengthToMostRemoteDevice = 0;
@@ -150,14 +156,12 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             //TODO взять точку семейства
             var baseDevicePoint = ((LocationPoint)baseDevice.Location).Point;
             //GetCoordinateOfElectricalConnector(baseDevice);
-
             foreach (var pair in devices)
             {
                 var device = (FamilyInstance)pair.Value;
                 var familyInstanceLocationPoint = ((LocationPoint)device.Location).Point;
                 var electricalConnectorLocation = GetCoordinateOfElectricalConnector(device);
                 var point = electricalConnectorLocation;
-
                 var distanceToBaseDevice = CalculateDistanceBetweenPoints2(point, baseDevicePoint);
 
                 //(point - baseDevicePoint);
@@ -191,7 +195,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 var nearest = devices.Select(pair => pair.Value)
                     .Select(element =>
                     {
-
                         var p = GetCoordinateOfElectricalConnector((FamilyInstance)element);
                         var d = CalculateDistanceBetweenPoints2(point, p);
                         return Tuple.Create(element, d, p);
@@ -202,6 +205,7 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 lengthThrowAllDevice += nearest.Item2;
                 devices.Remove(nearest.Item1.Id);
             }
+
             //TODO считает с соединителями
             var connectedElementsCount = el.Elements.Size;
             lengthThrowAllDevicesWithShift = lengthThrowAllDevice + shift * connectedElementsCount;
@@ -220,7 +224,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
                 .CoordinateSystem
                 .Origin;
             return p;
-
         }
 
 
@@ -236,11 +239,6 @@ namespace ElectricityRevitPlugin.UpdateParametersInCircuits
             var dy = point2.Y - point1.Y;
             var dz = point2.Z - point1.Z;
             return Math.Abs(dx) + Math.Abs(dy) + Math.Abs(dz);
-        }
-
-        public string UpdateParameters(ElectricalSystem el)
-        {
-            return SetLengthElectricalSystems(el);
         }
     }
 }

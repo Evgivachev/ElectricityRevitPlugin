@@ -1,37 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI.Selection;
-
-namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace ElectricityRevitPlugin.GeneralSubject
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Autodesk.Revit.DB;
+
     public abstract class ParameterUpdater
     {
         public static Guid ReflectionClassNameGuid = new Guid("6c36d5e8-7863-4efb-accf-894a5aa95cc1");
         public static Guid ConnectedElementId = new Guid("dca1fe51-4090-4178-9f12-a83aa5986266");
-        private readonly ElementId _id;
         private readonly Element _fromElement;
+        private readonly ElementId _id;
         protected readonly Document Doc;
+        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>();
+
+        protected Dictionary<dynamic, dynamic> ParametersDictionary = new Dictionary<dynamic, dynamic>();
+
         protected ParameterUpdater(Element fromElement)
         {
             _fromElement = fromElement;
             _id = _fromElement.Id;
-            Doc= _fromElement.Document;
+            Doc = _fromElement.Document;
         }
+
         protected ParameterUpdater()
         {
-
         }
 
         public abstract CollectionOfCheckableItems GetValidateElements(Document document);
-
-        protected Dictionary<dynamic, dynamic> ParametersDictionary = new Dictionary<dynamic, dynamic>();
 
         public virtual FamilyInstance InsertInstance(FamilySymbol familySymbol, XYZ point)
         {
@@ -39,7 +35,6 @@ namespace ElectricityRevitPlugin.GeneralSubject
             SetParameters(instance);
             return instance;
         }
-        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>();
 
         public virtual void SetParameters(Element toElement)
         {
@@ -51,15 +46,16 @@ namespace ElectricityRevitPlugin.GeneralSubject
             SetParametersFromParametersDictionary(toElement);
             SetParametersFromFuncDictionary(toElement);
         }
+
         protected virtual void SetParametersFromParametersDictionary(Element toElement)
         {
             foreach (var pair in ParametersDictionary)
             {
                 var fromP = (Parameter)_fromElement.get_Parameter(pair.Key);
-                var toP =(Parameter) toElement.get_Parameter(pair.Value);
-                if(fromP is null || toP is null)
+                var toP = (Parameter)toElement.get_Parameter(pair.Value);
+                if (fromP is null || toP is null)
                     throw new NullReferenceException();
-                var flag  = toP.Set(fromP.GetValueDynamic());
+                var flag = toP.Set(fromP.GetValueDynamic());
             }
         }
 
@@ -68,10 +64,10 @@ namespace ElectricityRevitPlugin.GeneralSubject
             foreach (var func in FuncParametricDictionary)
             {
                 var toP = toElement.LookupParameter(func.Key);
-                if(toP is null)
+                if (toP is null)
                     throw new NullReferenceException();
                 var value = func.Value.Invoke(_fromElement);
-                if(value is null)
+                if (value is null)
                     continue;
                 toP.Set(value);
             }
@@ -81,16 +77,17 @@ namespace ElectricityRevitPlugin.GeneralSubject
         {
             foreach (Parameter fromP in _fromElement.Parameters)
             {
-                if(!fromP.IsShared)
+                if (!fromP.IsShared)
                     continue;
                 var fromGuid = fromP.GUID;
                 var toP = toElement.get_Parameter(fromGuid);
-                if(toP is null || toP.IsReadOnly ||!toP.IsShared)
+                if (toP is null || toP.IsReadOnly || !toP.IsShared)
                     continue;
                 var flag = toP.Set(fromP.GetValueDynamic());
-                if(!flag)
-                    Debug.Print($"{toP.Definition.Name} is wrong" );
+                if (!flag)
+                    Debug.Print($"{toP.Definition.Name} is wrong");
             }
+
             toElement.get_Parameter(ConnectedElementId).Set(_fromElement.Id.IntegerValue.ToString());
         }
 
