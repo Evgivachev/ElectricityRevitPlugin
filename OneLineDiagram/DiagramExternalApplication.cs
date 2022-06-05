@@ -1,9 +1,11 @@
 ﻿namespace Diagrams
 {
     using System;
+    using System.Reflection;
     using System.Windows.Forms;
     using Autodesk.Revit.UI;
     using ExternalCommands.OneLineDiagram;
+    using Microsoft.Xaml.Behaviors;
     using ModelUpdate;
     using OneLineDiagram;
     using VCRevitRibbonUtilCustom;
@@ -16,6 +18,7 @@
         Result IExternalApplication.OnStartup(UIControlledApplication uicApp)
         {
             var result = Result.Succeeded;
+            Assembly.Load(typeof(Behavior).Assembly.Location);
             try
             {
                 MyRibbon.GetApplicationRibbon(uicApp).Tab("ЭОМ")
