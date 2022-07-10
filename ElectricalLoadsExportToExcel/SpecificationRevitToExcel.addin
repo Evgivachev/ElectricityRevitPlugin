@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- SpecificationRevitToExcel
+     https://revit-addins.blogspot.ru
+     © EvgIv, 2018
+	 
+	 The manifest file. -->
+<RevitAddIns>
+  <AddIn Type="Application">
+  	<AddInId>adedca41-7753-49d3-9927-761de69f90a6</AddInId>
+    <Name>SpecificationRevitToExcel</Name>
+    <Assembly>SpecificationRevitToExcel/SpecificationRevitToExcel.dll</Assembly>
+    <FullClassName>EvgIv.SpecificationRevitToExcel.ExternalApplication</FullClassName>
+    <VendorId>ru.blogspot.revit-addins</VendorId>
+    <VendorDescription>EvgIv, https://revit-addins.blogspot.ru</VendorDescription>
+  </AddIn>
+</RevitAddIns>

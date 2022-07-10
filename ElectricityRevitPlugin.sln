@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diagrams", "OneLineDiagram\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtils", "CommonUtils\CommonUtils.csproj", "{40D08074-22B1-498A-8101-86BF1315FFA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsExportToExcel", "ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj", "{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsImportFromExcel", "ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj", "{19E5F9C4-0EF9-48C0-8015-A50466E677CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -17,12 +21,24 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.Build.0 = Debug|Any CPU
+		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.ActiveCfg = Release|Any CPU
+		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.Build.0 = Release|Any CPU
 		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF281064-7D13-4E41-8648-FA6EE1073A74}.Release|x64.Build.0 = Release|Any CPU
 		{40D08074-22B1-498A-8101-86BF1315FFA1}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{40D08074-22B1-498A-8101-86BF1315FFA1}.Debug|x64.Build.0 = Debug|Any CPU
 		{40D08074-22B1-498A-8101-86BF1315FFA1}.Release|x64.ActiveCfg = Release|Any CPU
 		{40D08074-22B1-498A-8101-86BF1315FFA1}.Release|x64.Build.0 = Release|Any CPU
+		{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9}.Release|x64.Build.0 = Release|Any CPU
+		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Debug|x64.Build.0 = Debug|Any CPU
+		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
