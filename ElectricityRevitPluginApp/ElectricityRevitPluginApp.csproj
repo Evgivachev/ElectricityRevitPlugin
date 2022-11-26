@@ -7,10 +7,7 @@
         <UseSimpleInjector>true</UseSimpleInjector>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="img" />
+        <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="img\*.png">

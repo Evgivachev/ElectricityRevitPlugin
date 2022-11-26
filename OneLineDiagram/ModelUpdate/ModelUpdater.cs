@@ -96,7 +96,7 @@
             var device = FindElement(InputDevice, deviceFromDiagramString);
             if (device is null)
             {
-                Console.WriteLine($"Не удалось найти аппарта из спецификации");
+                Console.WriteLine($"Не удалось найти тип вводного аппарата из спецификации");
                 goto UpdateCable;
             }
 
