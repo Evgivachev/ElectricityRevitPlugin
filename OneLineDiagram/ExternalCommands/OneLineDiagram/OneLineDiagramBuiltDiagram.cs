@@ -9,9 +9,9 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Diagrams.View;
-    using Diagrams.ViewContext;
     using Services;
+    using View;
+    using ViewContext;
 
     /// <summary>
     /// Revit external command.

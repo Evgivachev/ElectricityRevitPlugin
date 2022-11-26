@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{3B07EE3C-EEB3-4C09-9BA0-7041D2D87C2B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectricityRevitPlugin", "ElectricityRevitPlugin\ElectricityRevitPlugin.csproj", "{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Diagrams", "OneLineDiagram\Diagrams.csproj", "{DF281064-7D13-4E41-8648-FA6EE1073A74}"
@@ -15,8 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsImportFromEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkingElectricalSystems", "MarkingElectricalSystems\MarkingElectricalSystems.csproj", "{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{BDB8CFB5-151B-46BF-9032-A3157BEB3188}"
-EndProject
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B1F4DBB3-A09B-4BC4-9F58-798F52520233}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{FFB3DE09-634C-4BE6-8D6D-8D738E9362FB}"
@@ -29,14 +30,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{201C15
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricityRevitPluginApp", "ElectricityRevitPluginApp\ElectricityRevitPluginApp.csproj", "{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}"
 EndProject
+
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BDB8CFB5-151B-46BF-9032-A3157BEB3188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDB8CFB5-151B-46BF-9032-A3157BEB3188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.Build.0 = Debug|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.ActiveCfg = Release|Any CPU

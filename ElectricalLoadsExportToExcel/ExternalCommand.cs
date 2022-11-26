@@ -96,6 +96,7 @@ namespace ElectricalLoadsExportToExcel
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error");
                 result = Result.Failed;
             }
+
             return result;
         }
     }

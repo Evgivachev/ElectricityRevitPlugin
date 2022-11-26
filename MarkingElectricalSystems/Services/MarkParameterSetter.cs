@@ -9,32 +9,12 @@ using Autodesk.Revit.DB.Electrical;
 
 public class MarkParameterSetter
 {
-    class Line
-    {
-        public Line(string id, string number, string numberGost, string cable, string panel)
-        {
-            Id = id;
-            Number = number;
-            NumberGost = numberGost;
-            Cable = cable;
-            Panel = panel;
-        }
-        public string Id;
-        public string Number;
-        public string NumberGost;
-        public string Cable;
-        public string Panel;
-    }
     public void SetParameters(Document doc, IEnumerable<ElementId> elements, IEnumerable<ElectricalSystem> systems)
     {
         var lines = new SortedList<string, Line>();
-
-
         var numberOfSymbols1 = 0;
         var numberOfSymbols2 = 0;
         var numberOfSymbols3 = 0;
-
-
         foreach (var system in systems)
         {
             var id = system.UniqueId;
@@ -44,17 +24,17 @@ public class MarkParameterSetter
             {
                 throw new Exception($"Пустой номер группы по ГОСТ у цепи {number}");
             }
+
             var cable = system.LookupParameter("Марка кабеля").AsValueString();
             var panelName = system.BaseEquipment?.Name;
             if (string.IsNullOrEmpty(panelName))
                 panelName = "Не подключено";
-
-
             numberOfSymbols1 = Math.Max(numberOfSymbols1, numberGost.Length);
             numberOfSymbols2 = Math.Max(numberOfSymbols2, (panelName is null) ? 0 : panelName.Length);
             numberOfSymbols3 = Math.Max(numberOfSymbols3, cable.Length);
             lines[numberGost] = new Line(id, number, numberGost, cable, panelName);
         }
+
         var k = 7 / 1000.0;
         var numberOfSymbols = new[]
         {
@@ -65,28 +45,27 @@ public class MarkParameterSetter
         foreach (var id in elements)
         {
             var element = doc.GetElement(id) as AnnotationSymbol;
-            if(element is null)
+            if (element is null)
                 continue;
             var circuitIdParameter = element.LookupParameter("ID цепей");
             var numbersParameter = element.LookupParameter("Номера цепей");
             var numberGostParameter = element.LookupParameter("Номера цепей по ГОСТ");
             var cableParameter = element.LookupParameter("Кабели");
             var panelParameter = element.LookupParameter("Панель");
-            var width = new[] {
+            var width = new[]
+            {
                 element.LookupParameter("Ширина столбца 1"),
                 element.LookupParameter("Ширина столбца 2"),
                 element.LookupParameter("Ширина столбца 3"),
             };
             var countOfLineParameter = element.LookupParameter("Количество строк");
             var headParameter = element.LookupParameter("Заголовок");
-
-
-
             var sbs = new StringBuilder[5];
             for (var i = 0; i < sbs.Length; i++)
             {
                 sbs[i] = new StringBuilder();
             }
+
             foreach (var line in lines)
             {
                 sbs[0].AppendLine(line.Value.Id);
@@ -104,10 +83,6 @@ public class MarkParameterSetter
             countOfLineParameter.Set(lines.Count);
             if (headParameter.AsString() == "Заголовок")
                 headParameter.Set("");
-
-
-
-
             for (var i = 0; i < width.Length && i < numberOfSymbols.Length; i++)
             {
                 var value = numberOfSymbols[i] * k;
@@ -140,10 +115,30 @@ public class MarkParameterSetter
                     deletedElements.Add(an.Id);
                     continue;
                 }
+
                 SetParameters(doc, new[] { an.Id }, systems);
             }
+
             doc.Delete(deletedElements);
             tr.Commit();
+        }
+    }
+
+    class Line
+    {
+        public string Cable;
+        public string Id;
+        public string Number;
+        public string NumberGost;
+        public string Panel;
+
+        public Line(string id, string number, string numberGost, string cable, string panel)
+        {
+            Id = id;
+            Number = number;
+            NumberGost = numberGost;
+            Cable = cable;
+            Panel = panel;
         }
     }
 }

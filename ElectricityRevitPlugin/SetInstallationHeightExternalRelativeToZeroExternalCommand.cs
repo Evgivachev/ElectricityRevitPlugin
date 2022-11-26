@@ -56,7 +56,7 @@
                 message += e.Message + '\n' + e.StackTrace;
                 result = Result.Failed;
             }
-            
+
             return result;
         }
     }

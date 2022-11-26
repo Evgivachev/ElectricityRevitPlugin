@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <UseCommand>true</UseCommand>
-    <UseMoreLinq>true</UseMoreLinq>
-    <UseWpf>true</UseWpf>
-    <UseLogWindow>true</UseLogWindow>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Resources" />
-    <Folder Include="ViewModels" />
-  </ItemGroup>
-  <PropertyGroup>
-    <PackageGuid>e4d6c467-c112-4fe0-865d-be1499a12299</PackageGuid>
-    <UpgradeCode>b10b86c0-e192-46ab-9f6e-09d3fee822b9</UpgradeCode>
-    <Command__MarkingElectricalSystems_Cmd>423aadb9-10da-4023-aeb7-5f7c0034667c</Command__MarkingElectricalSystems_Cmd>
-  </PropertyGroup>
+    <PropertyGroup>
+        <UseCommand>true</UseCommand>
+        <UseMoreLinq>true</UseMoreLinq>
+        <UseWpf>true</UseWpf>
+        <UseLogWindow>true</UseLogWindow>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Resources"/>
+        <Folder Include="ViewModels"/>
+    </ItemGroup>
+    <PropertyGroup>
+        <PackageGuid>e4d6c467-c112-4fe0-865d-be1499a12299</PackageGuid>
+        <UpgradeCode>b10b86c0-e192-46ab-9f6e-09d3fee822b9</UpgradeCode>
+        <Command__MarkingElectricalSystems_Cmd>423aadb9-10da-4023-aeb7-5f7c0034667c</Command__MarkingElectricalSystems_Cmd>
+    </PropertyGroup>
 </Project>

@@ -7,6 +7,7 @@
             Row = row;
             Column = column;
         }
+
         public Cell(Cell cell)
         {
             Row = cell.Row;
@@ -14,7 +15,7 @@
         }
 
         public int Row { get; set; }
-        public int Column{get;set;}
+        public int Column { get; set; }
 
         public void NextRow()
         {
@@ -28,8 +29,8 @@
 
         public override string ToString()
         {
-            var col = (byte)'A'-1 + Column;
-            return (char)col +Row.ToString();
+            var col = (byte)'A' - 1 + Column;
+            return (char)col + Row.ToString();
         }
     }
 }

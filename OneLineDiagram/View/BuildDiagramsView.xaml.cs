@@ -1,7 +1,6 @@
-﻿using System.Windows;
-
-namespace Diagrams.View
+﻿namespace Diagrams.View
 {
+    using System.Windows;
     using ViewContext;
 
     public partial class BuildDiagramsView : Window
@@ -13,4 +12,3 @@ namespace Diagrams.View
         }
     }
 }
-

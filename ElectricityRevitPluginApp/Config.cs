@@ -1,6 +1,7 @@
 ﻿namespace ElectricityRevitPluginApp;
 
 using System.Reflection;
+using MarkingElectricalSystems;
 using RxBim.Application.Ribbon;
 using RxBim.Di;
 
@@ -18,7 +19,7 @@ public class Config : IApplicationConfiguration
                     .Panel("Цепи", panelBuilder => panelBuilder
                             .CommandButton(
                                 nameof(MarkingElectricalSystems),
-                                typeof(MarkingElectricalSystems.Cmd),
+                                typeof(Cmd),
                                 button => button
                                     .Text("Маркировка цепей")
                                     .LargeImage(@"img\icons8-нео-32.png")

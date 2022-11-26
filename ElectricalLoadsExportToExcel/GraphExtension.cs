@@ -1,7 +1,4 @@
-﻿using Excel = Microsoft.Office.Interop.Excel;
-
-
-namespace ElectricalLoadsExportToExcel
+﻿namespace ElectricalLoadsExportToExcel
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +6,7 @@ namespace ElectricalLoadsExportToExcel
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
+    using Microsoft.Office.Interop.Excel;
 
     public static class GraphExtension
     {
@@ -180,15 +178,15 @@ namespace ElectricalLoadsExportToExcel
 
         public static void ExportToExcel(this Graph graph, string filePath)
         {
-            var objExcel = new Excel.Application();
+            var objExcel = new Application();
             try
             {
                 var objWorkBook = objExcel.Workbooks.Open(
                     filePath,
                     0, false,
-                    5, "", "", false, Excel.XlPlatform.xlWindows,
+                    5, "", "", false, XlPlatform.xlWindows,
                     "", true, false, 0, true, false, false);
-                var objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets.Add();
+                var objWorkSheet = (Worksheet)objWorkBook.Sheets.Add();
                 //TODO имя листа
                 objWorkSheet.Name = DateTime.Now.ToString("yy-MM-dd-HH-mm");
                 //var objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];

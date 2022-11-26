@@ -8,6 +8,7 @@
  *
  * The 'ExternalCommand' command availability.
  */
+
 #region Namespaces
 
 #endregion
@@ -22,10 +23,9 @@ namespace ElectricalLoadsImportFromExcel
     /// This class provides an accessibility checking for an 
     /// external command of Revit.
     /// </summary>	
-	public sealed partial class ExternalCommandAvailability
+    public sealed partial class ExternalCommandAvailability
         : IExternalCommandAvailability
     {
-
         /// <summary>
         /// This method provides the control over whether an 
         /// external command is enabled or disabled.
@@ -46,32 +46,25 @@ namespace ElectricalLoadsImportFromExcel
             UIApplication applicationData,
             CategorySet selectedCategories)
         {
-
             //ResourceManager res_mng = new ResourceManager(
             //      GetType());
-
             bool result = false;
-
             try
             {
-
                 // ============================================
                 // TODO: delete these code rows and put your code 
                 // here.
                 if (applicationData.ActiveUIDocument != null &&
-                selectedCategories.IsEmpty)
+                    selectedCategories.IsEmpty)
                 {
-
                     result = true;
                 }
                 // ============================================
             }
             catch (Exception ex)
             {
-
                 TaskDialog.Show("Error"
                     , ex.Message);
-
                 result = false;
             }
             finally

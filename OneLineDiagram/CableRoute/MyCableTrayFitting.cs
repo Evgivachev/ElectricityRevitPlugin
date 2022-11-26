@@ -6,7 +6,6 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Mechanical;
 
-
     public class MyCableTrayFitting : ICableTray
     {
         private readonly FamilyInstance _familyInstance;

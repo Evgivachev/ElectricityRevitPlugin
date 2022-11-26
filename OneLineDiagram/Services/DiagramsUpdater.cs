@@ -5,12 +5,12 @@ namespace Diagrams.Services
     using Abstractions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Diagrams.Models;
+    using Models;
 
     public class DiagramsUpdater : IDiagramsUpdater
     {
-        private readonly UIApplication _uiApplication;
         private readonly IDiagramsDrawer _diagramsDrawer;
+        private readonly UIApplication _uiApplication;
 
         public DiagramsUpdater(UIApplication uiApplication, IDiagramsDrawer diagramsDrawer)
         {

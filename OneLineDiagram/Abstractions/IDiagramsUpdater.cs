@@ -5,6 +5,5 @@
     public interface IDiagramsUpdater
     {
         public void UpdateDiagram(View view);
-
     }
 }

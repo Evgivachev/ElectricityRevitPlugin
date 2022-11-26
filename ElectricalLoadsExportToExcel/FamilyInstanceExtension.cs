@@ -15,7 +15,6 @@
             {
                 var allElectricalSystem = familyInstance.MEPModel?.GetElectricalSystems();
                 var assignedElectricalSystem = familyInstance.MEPModel?.GetAssignedElectricalSystems();
-                
                 if (allElectricalSystem is null || allElectricalSystem.Count == 0)
                     return null;
                 if (assignedElectricalSystem is null)

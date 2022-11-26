@@ -28,9 +28,6 @@
                 shift = UnitUtils.ConvertFromInternalUnits(shift, forgeTypeId);
             return shift;
 
-                
-
-
             //var doc = element.Document;
             //var levelId = element.LevelId;
             //var level = doc.GetElement(levelId) as Level;
@@ -60,16 +57,20 @@
             //var heigthInMillimeters = UnitUtils.ConvertFromInternalUnits(height, DisplayUnitType.DUT_MILLIMETERS);
             //return heigthInMillimeters;
         }
-        public static Result SetInstallationHeightRelativeToLevel(this Element element, double height, ForgeTypeId? forgeTypeId = null, bool openTransaction = false)
-        {
 
+        public static Result SetInstallationHeightRelativeToLevel(
+            this Element element,
+            double height,
+            ForgeTypeId? forgeTypeId = null,
+            bool openTransaction = false)
+        {
             var result = Result.Failed;
             if (openTransaction)
             {
                 using (var tr = new Transaction(element.Document))
                 {
                     tr.Start("SetElementShift");
-                    result = element.SetInstallationHeightRelativeToLevel(height,forgeTypeId);
+                    result = element.SetInstallationHeightRelativeToLevel(height, forgeTypeId);
                     tr.Commit();
                 }
             }
@@ -80,16 +81,16 @@
 
             return result;
         }
-        private static Result SetInstallationHeightRelativeToLevel(this Element element,double height, ForgeTypeId? forgeTypeId = null)
+
+        private static Result SetInstallationHeightRelativeToLevel(this Element element, double height, ForgeTypeId? forgeTypeId = null)
         {
             if (!(element.Location is LocationPoint _))
                 throw new ArgumentException($"У элемента {element.Id} LocationPoint is null");
             var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
             if (forgeTypeId is not null)
                 height = UnitUtils.ConvertToInternalUnits(height, forgeTypeId);
-            var flag =  shiftParam.Set(height);
-            return flag?Result.Succeeded:Result.Failed;
-
+            var flag = shiftParam.Set(height);
+            return flag ? Result.Succeeded : Result.Failed;
         }
 
         public static Result SetElementCoordinate(this Element element, XYZ point, bool openTransaction = true)

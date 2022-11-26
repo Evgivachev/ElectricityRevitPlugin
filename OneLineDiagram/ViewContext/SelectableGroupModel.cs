@@ -16,11 +16,11 @@
 
         public new bool? IsChecked
         {
-            get => this._isChecked;
+            get => _isChecked;
             set
             {
-                this._isChecked = value;
-                this.RaisePropertyChanged(nameof(IsChecked));
+                _isChecked = value;
+                RaisePropertyChanged(nameof(IsChecked));
             }
         }
     }

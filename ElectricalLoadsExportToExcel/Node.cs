@@ -7,9 +7,13 @@
 
     public class Node
     {
-        public readonly FamilyInstance Shield;
+        private readonly List<Node> _nodes = new List<Node>();
         public readonly SortedDictionary<string, Load> Loads = new SortedDictionary<string, Load>();
+        public readonly FamilyInstance PowerFamilyInstance;
+        public readonly FamilyInstance Shield;
         public readonly double U;
+        public Node PowerNode;
+
         public Node(FamilyInstance shield)
         {
             Name = shield.Name;
@@ -17,27 +21,16 @@
             var prefix = shield
                 .LookupParameter("Префикс цепи")?
                 .AsString();
-
-            var powerCable =  shield.GetPowerElectricalSystem();
+            var powerCable = shield.GetPowerElectricalSystem();
             var powerNode = powerCable?.BaseEquipment;
             PowerFamilyInstance = powerNode;
-
             var uString = shield.LookupParameter("Напряжение в щите").AsValueString().Split(' ')[0];
             //if (double.TryParse(uString, out var u)&&u<100 || uString=="0") return false;
             double.TryParse(uString, out var u);
             U = u;
         }
 
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
         public string Name { get; }
-        private readonly List<Node> _nodes = new List<Node>();
-        public Node PowerNode;
-        public readonly FamilyInstance PowerFamilyInstance;
         public double CountOfElements { get; set; }
 
         public IEnumerable<Node> IncidentNodes
@@ -50,6 +43,13 @@
                 }
             }
         }
+
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public static void Connect(Node childNode, Node parentNode, Graph graph)
         {
             if (!graph.Nodes.Contains(childNode) || !graph.Nodes.Contains(parentNode)) throw new ArgumentException();
@@ -68,10 +68,11 @@
                 var newLoad = new Load(load);
                 Loads.Add(load.Classification, newLoad);
             }
-            CountOfElements++;
 
+            CountOfElements++;
             return load;
         }
+
         public void AddLoad(IEnumerable<Load> loads)
         {
             foreach (var load in loads)

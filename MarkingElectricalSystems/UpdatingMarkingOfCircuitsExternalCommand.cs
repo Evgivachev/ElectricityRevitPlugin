@@ -17,22 +17,19 @@ public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand
         var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Failed;
-
         using (var trGr = new TransactionGroup(doc))
         {
             trGr.Start("Обновление параметров");
-
             var annotations = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_GenericAnnotation)
                 .WhereElementIsNotElementType()
                 .Where(x => x.Name == "Марка групп цепей")
                 .Cast<AnnotationSymbol>();
             var parameterSetter = new MarkParameterSetter();
-
             parameterSetter.SetParameters(doc, annotations);
-            result = trGr.Assimilate()==TransactionStatus.Committed?Result.Succeeded:Result.Failed;
-
+            result = trGr.Assimilate() == TransactionStatus.Committed ? Result.Succeeded : Result.Failed;
         }
+
         return result;
     }
 }

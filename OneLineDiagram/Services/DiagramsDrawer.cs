@@ -50,100 +50,6 @@
             }
         }
 
-
-        private static ViewDrafting CreateViewDrafting(string name)
-        {
-            #region MyRegion
-
-            if (OneLineDiagramBuiltDiagram.CommandData is null)
-                throw new NullReferenceException();
-            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
-            var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
-            var doc = uiDoc?.Document;
-
-            #endregion
-
-            //все чертёжные виды
-            var view = new FilteredElementCollector(doc)
-                .OfCategory(BuiltInCategory.OST_Views)
-                .OfClass(typeof(ViewDrafting))
-                .Cast<ViewDrafting>().ToDictionary(x => x.Name);
-            var i = 1;
-            if (view.ContainsKey(name))
-            {
-                name += $"({i})";
-                i++;
-                while (view.ContainsKey(name))
-                {
-                    var number = i.ToString(CultureInfo.InvariantCulture);
-                    var index = name.IndexOf('(');
-                    name = name.Substring(0, index + 1) + number + ')';
-                    i++;
-                }
-            }
-
-            var viewFamilyType = new FilteredElementCollector(doc)
-                .OfClass(typeof(ViewFamilyType))
-                .Cast<ViewFamilyType>().FirstOrDefault(vft => vft.ViewFamily == ViewFamily.Drafting);
-            if (viewFamilyType is null)
-            {
-                throw new NullReferenceException("Нет вида Drafting");
-            }
-
-            ViewDrafting currentView = null;
-            using (var tr = new Transaction(doc))
-            {
-                tr.Start($"Создание вида {name}");
-                currentView = ViewDrafting.Create(doc, viewFamilyType.Id);
-                currentView.LookupParameter("Назначение вида")?.Set("Однолинейные схемы");
-                var index1 = name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
-                var subName = name.Substring(0, index1 > 0 ? index1 : name.Length - 1);
-                currentView.LookupParameter("Группа вида")?.Set(subName);
-                currentView.Name = name;
-                currentView.Scale = 1;
-                tr.Commit();
-            }
-
-            return currentView;
-        }
-
-        private FamilyInstance DrawHead(Shield shield, View view)
-        {
-            #region MyRegion
-
-            if (OneLineDiagramBuiltDiagram.CommandData is null)
-                throw new NullReferenceException();
-            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
-            var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
-            var doc = uiDoc?.Document;
-
-            #endregion
-
-            var nameOfFamilyOfHead = "ЭОМ-Схемы однолинейные-Шапка (ГОСТ 2.708-81)";
-            var familyHead = new FilteredElementCollector(doc)
-                    .OfClass(typeof(Family))
-                    .FirstOrDefault(x => x.Name == nameOfFamilyOfHead)
-                as Family;
-            if (familyHead == null)
-                throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
-            var familySymbolHead = (FamilySymbol)doc?.GetElement(familyHead?.GetFamilySymbolIds().First());
-            using (var tr = new Transaction(doc))
-            {
-                tr.Start($"Вставка семейсва шапки {shield.Name}");
-                var familyInstanceHead = doc?.Create.NewFamilyInstance(new XYZ(), familySymbolHead, view);
-                if (familyInstanceHead == null)
-                    throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
-                var sb = new StringBuilder();
-                //Вычисление перекола фаз
-                //CalculateCurrentImbalance(shield);
-                SetParametersToHead(familyInstanceHead, shield);
-                tr.Commit();
-                return familyInstanceHead;
-            }
-        }
-
         public void SetParametersToHead(FamilyInstance familyInstanceHead, Shield shield)
         {
             var shieldFi = shield.InitialInstance;
@@ -1125,6 +1031,100 @@
             var tempFolder = Path.GetTempPath();
             var name = "RevitDiagram";
             File.WriteAllText(tempFolder + $"\\{name}.txt", q1);
+        }
+
+
+        private static ViewDrafting CreateViewDrafting(string name)
+        {
+            #region MyRegion
+
+            if (OneLineDiagramBuiltDiagram.CommandData is null)
+                throw new NullReferenceException();
+            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
+            var uiDoc = uiApp?.ActiveUIDocument;
+            var app = uiApp?.Application;
+            var doc = uiDoc?.Document;
+
+            #endregion
+
+            //все чертёжные виды
+            var view = new FilteredElementCollector(doc)
+                .OfCategory(BuiltInCategory.OST_Views)
+                .OfClass(typeof(ViewDrafting))
+                .Cast<ViewDrafting>().ToDictionary(x => x.Name);
+            var i = 1;
+            if (view.ContainsKey(name))
+            {
+                name += $"({i})";
+                i++;
+                while (view.ContainsKey(name))
+                {
+                    var number = i.ToString(CultureInfo.InvariantCulture);
+                    var index = name.IndexOf('(');
+                    name = name.Substring(0, index + 1) + number + ')';
+                    i++;
+                }
+            }
+
+            var viewFamilyType = new FilteredElementCollector(doc)
+                .OfClass(typeof(ViewFamilyType))
+                .Cast<ViewFamilyType>().FirstOrDefault(vft => vft.ViewFamily == ViewFamily.Drafting);
+            if (viewFamilyType is null)
+            {
+                throw new NullReferenceException("Нет вида Drafting");
+            }
+
+            ViewDrafting currentView = null;
+            using (var tr = new Transaction(doc))
+            {
+                tr.Start($"Создание вида {name}");
+                currentView = ViewDrafting.Create(doc, viewFamilyType.Id);
+                currentView.LookupParameter("Назначение вида")?.Set("Однолинейные схемы");
+                var index1 = name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+                var subName = name.Substring(0, index1 > 0 ? index1 : name.Length - 1);
+                currentView.LookupParameter("Группа вида")?.Set(subName);
+                currentView.Name = name;
+                currentView.Scale = 1;
+                tr.Commit();
+            }
+
+            return currentView;
+        }
+
+        private FamilyInstance DrawHead(Shield shield, View view)
+        {
+            #region MyRegion
+
+            if (OneLineDiagramBuiltDiagram.CommandData is null)
+                throw new NullReferenceException();
+            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
+            var uiDoc = uiApp?.ActiveUIDocument;
+            var app = uiApp?.Application;
+            var doc = uiDoc?.Document;
+
+            #endregion
+
+            var nameOfFamilyOfHead = "ЭОМ-Схемы однолинейные-Шапка (ГОСТ 2.708-81)";
+            var familyHead = new FilteredElementCollector(doc)
+                    .OfClass(typeof(Family))
+                    .FirstOrDefault(x => x.Name == nameOfFamilyOfHead)
+                as Family;
+            if (familyHead == null)
+                throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
+            var familySymbolHead = (FamilySymbol)doc?.GetElement(familyHead?.GetFamilySymbolIds().First());
+            using (var tr = new Transaction(doc))
+            {
+                tr.Start($"Вставка семейсва шапки {shield.Name}");
+                var familyInstanceHead = doc?.Create.NewFamilyInstance(new XYZ(), familySymbolHead, view);
+                if (familyInstanceHead == null)
+                    throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
+                var sb = new StringBuilder();
+                //Вычисление перекола фаз
+                //CalculateCurrentImbalance(shield);
+                SetParametersToHead(familyInstanceHead, shield);
+                tr.Commit();
+                return familyInstanceHead;
+            }
         }
 
         private static string GetGostNameOfCircuit(ElectricalSystem es)

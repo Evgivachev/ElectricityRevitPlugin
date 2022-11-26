@@ -14,7 +14,7 @@
             <HintPath>..\ref\AdWindows.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.CSharp"/>
         <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\ref\RevitAPI.dll</HintPath>
             <Private>False</Private>
@@ -40,6 +40,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="morelinq" Version="3.3.2" />
+        <PackageReference Include="morelinq" Version="3.3.2"/>
     </ItemGroup>
 </Project>

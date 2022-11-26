@@ -10,7 +10,7 @@
         {
             Name = initialInstance.Name;
         }
-        
+
         public string Name { get; }
     }
 }

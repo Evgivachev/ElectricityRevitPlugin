@@ -1,5 +1,3 @@
-
-
 //using MoreLinq.Extensions;
 
 namespace ElectricityRevitPlugin

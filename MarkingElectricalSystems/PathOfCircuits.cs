@@ -8,8 +8,8 @@ public class PathOfCircuits
 {
     //с точностью 1е-9 не работает
     private const double Tolerance = 1e-3;
-    public List<XYZ> Points { get; } = new List<XYZ>();
     private XYZ _lastPoint = null;
+    public List<XYZ> Points { get; } = new List<XYZ>();
     public int Count => Points.Count;
 
     private void Add(XYZ p)
@@ -53,14 +53,13 @@ public class PathOfCircuits
             Add(p1);
             Add(p);
         }
-
-
     }
 
     private bool LengthLessTolerance(XYZ p1, XYZ p2)
     {
         return p1.Subtract(p2).GetLength() < Tolerance;
     }
+
     private bool LengthLessTolerance(double p1, double p2)
     {
         return Math.Abs(p1 - p2) < Tolerance;

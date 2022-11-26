@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 
-internal class ElementEqualityComparer<T> : IEqualityComparer<T> where T:Element
+internal class ElementEqualityComparer<T> : IEqualityComparer<T> where T : Element
 {
     public bool Equals(T x, T y)
     {

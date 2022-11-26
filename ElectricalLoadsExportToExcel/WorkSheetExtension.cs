@@ -8,9 +8,8 @@
  * This updater is used to create an updater capable of reacting
  * to changes in the Revit model.
  */
-#region Namespaces
 
-using Excel = Microsoft.Office.Interop.Excel;
+#region Namespaces
 
 #endregion
 
@@ -18,10 +17,12 @@ namespace ElectricalLoadsExportToExcel
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.Office.Interop.Excel;
 
     public static class WorkSheetExtension
     {
-        public static bool Decor = true; 
+        public static bool Decor = true;
+
         private static readonly string[] HeadStringArray = new[]
         {
             "Pу, кВт",
@@ -34,22 +35,22 @@ namespace ElectricalLoadsExportToExcel
             "I, А",
             "Кол-во"
         };
-        public static void PutShieldName(this Excel.Worksheet worksheet, Cell startCell, string name)
+
+        public static void PutShieldName(this Worksheet worksheet, Cell startCell, string name)
         {
             worksheet.Range[startCell.ToString()].Value2 = name;
             var endCell = new Cell(startCell.Row, startCell.Column + 10);
             var excelCells = worksheet.Range[startCell.ToString(), endCell.ToString()];
             if (Decor)
             {
-
                 //Текст по центру
-                excelCells.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                excelCells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                 //Размер шрифта
                 excelCells.Font.Size = 14;
                 //Высота строки
                 excelCells.RowHeight = 25;
                 //Обводка
-                excelCells.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                excelCells.Borders.Weight = XlBorderWeight.xlMedium;
                 //excelCells.Name = name;
                 // Производим объединение
                 excelCells.Merge(Type.Missing);
@@ -57,22 +58,22 @@ namespace ElectricalLoadsExportToExcel
             }
 
             startCell.Row++;
-
         }
-        public static void PutHead(this Excel.Worksheet worksheet, Cell startCell)
+
+        public static void PutHead(this Worksheet worksheet, Cell startCell)
         {
             var endCell = new Cell(startCell.Row, startCell.Column + 10);
             var excelCells = worksheet.Range[startCell.ToString(), endCell.ToString()];
             if (Decor)
             {
                 //Текст по центру
-                excelCells.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                excelCells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                 //Размер шрифта
                 excelCells.Font.Size = 12;
                 //Высота строки
                 excelCells.RowHeight = 20;
                 //Обводка
-                excelCells.Borders.Weight = Excel.XlBorderWeight.xlMedium;
+                excelCells.Borders.Weight = XlBorderWeight.xlMedium;
             }
 
             startCell.Column++;
@@ -85,14 +86,10 @@ namespace ElectricalLoadsExportToExcel
 
             startCell.Column = 1;
             startCell.Row++;
-
         }
 
-        private delegate void Format();
-
-        public static void PutLoads(this Excel.Worksheet worksheet, Cell startCell, IEnumerable<Load> loads, int phaseCount=1)
+        public static void PutLoads(this Worksheet worksheet, Cell startCell, IEnumerable<Load> loads, int phaseCount = 1)
         {
-           
             void SetFormat(Cell currentCell, object value, int columnWidth = 10)
             {
                 var currentExcelCell = worksheet.Range[currentCell.ToString()];
@@ -106,16 +103,15 @@ namespace ElectricalLoadsExportToExcel
 
                 if (Decor)
                 {
-
                     //Текст по центру
-                    currentExcelCell.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                    currentExcelCell.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                     //Ширина столбца
                     currentExcelCell.ColumnWidth = columnWidth;
                     //Границы
-                    currentExcelCell.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                    currentExcelCell.Borders.Weight = XlBorderWeight.xlThin;
                 }
-
             }
+
             var startRow = startCell.Row;
             //Cell numberCell, nameCell, ksCell, pyCell, cosPhiCell, tanPhiCell, ppCell, qpCell, sCell, iCell, countCell;
             var i = 1;
@@ -137,14 +133,15 @@ namespace ElectricalLoadsExportToExcel
                 };
                 for (var j = 0; j < 11; j++)
                 {
-                    var cell = new Cell(startCell.Row, j+1);
-                    if(j==1)
-                        SetFormat(cell, values[j],35);
+                    var cell = new Cell(startCell.Row, j + 1);
+                    if (j == 1)
+                        SetFormat(cell, values[j], 35);
                     else
-                    SetFormat(cell,values[j]);
+                        SetFormat(cell, values[j]);
                 }
 
                 #region MyRegion
+
                 //numberCell = new Cell(startCell.Row, 1);
                 //nameCell = new Cell(startCell.Row, 2);
                 //pyCell = new Cell(startCell.Row, 3);
@@ -156,7 +153,6 @@ namespace ElectricalLoadsExportToExcel
                 //sCell = new Cell(startCell.Row, 9);
                 //iCell = new Cell(startCell.Row, 10);
                 //countCell = new Cell(startCell.Row, 11);
-
 
                 ////1
                 //var currentExcelCell = worksheet.Range[numberCell.ToString()];
@@ -191,7 +187,6 @@ namespace ElectricalLoadsExportToExcel
                 ////N
                 //worksheet.Range[countCell.ToString()].Value2 = load.Count;
 
-
                 #endregion
 
                 i++;
@@ -200,9 +195,9 @@ namespace ElectricalLoadsExportToExcel
 
             var currentI = phaseCount == 1 ? "4.55" : "1.52";
             //Итого по щиту
-            var  valuesResult = new Object[]
+            var valuesResult = new Object[]
             {
-               null,
+                null,
                 "Итого по щиту",
                 $"=SUM({new Cell(startRow, 3)}:{new Cell(startCell.Row - 1, 3)})",
                 $"={new Cell(startCell.Row, 7)}/{new Cell(startCell.Row, 3)}",
@@ -258,12 +253,9 @@ namespace ElectricalLoadsExportToExcel
                 }
                 */
             }
-
-
             startCell.Row++;
-
-
-
         }
+
+        private delegate void Format();
     }
 }

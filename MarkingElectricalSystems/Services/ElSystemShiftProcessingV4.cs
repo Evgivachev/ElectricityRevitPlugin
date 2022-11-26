@@ -19,23 +19,22 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
         var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-
         foreach (var electricalSystem in electricalSystems)
         {
             var baseElement = electricalSystem.BaseEquipment;
             var devices = electricalSystem.Elements
                 .OfType<FamilyInstance>()
                 .ToArray();
-            var circuitPath  = new PathOfCircuits();
+            var circuitPath = new PathOfCircuits();
             circuitPath.Add(baseElement);
             var unconnectedDevices = new List<FamilyInstance>(devices);
             var previous = baseElement;
             var errorsStringBuilder = new StringBuilder();
-            while (unconnectedDevices.Count>0)
+            while (unconnectedDevices.Count > 0)
             {
                 var previousLevelId = previous.LevelId;
                 var devicesOnThisLevel = unconnectedDevices
-                    .Where(d => d.LevelId.IntegerValue == previousLevelId.IntegerValue || d.LevelId.IntegerValue ==-1);
+                    .Where(d => d.LevelId.IntegerValue == previousLevelId.IntegerValue || d.LevelId.IntegerValue == -1);
                 FamilyInstance nearest = null;
                 if (devicesOnThisLevel.Any())
                 {
@@ -53,16 +52,17 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
                         nearest.get_Parameter(BuiltInParameter.INSTANCE_SCHEDULE_ONLY_LEVEL_PARAM)
                             .AsElementId();
                 }
-                var nearestDeviceLevel =(Level) doc.GetElement(nearestDeviceLevelId);
+
+                var nearestDeviceLevel = (Level)doc.GetElement(nearestDeviceLevelId);
                 if (nearestDeviceLevel is null)
                 {
                     var message = $"У элемента {nearest.Id.IntegerValue}-{nearest.Name} следует определить уровень";
                     // throw new Exception($"У элемента {nearest.Id.IntegerValue}-{nearest.Name} следует определить уровень");
                     errorsStringBuilder.AppendLine(message);
                     break;
-                        
                 }
-                circuitPath.Add(nearest,nearestDeviceLevel.Elevation+shift);
+
+                circuitPath.Add(nearest, nearestDeviceLevel.Elevation + shift);
                 unconnectedDevices.Remove(nearest);
                 previous = nearest;
             }
@@ -79,13 +79,15 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
             else
             {
                 var count = circuitPath.Points.Count;
-                while (count>0&&!electricalSystem.IsCircuitPathValid(circuitPath.Points.Take(count).ToList()))
+                while (count > 0 && !electricalSystem.IsCircuitPathValid(circuitPath.Points.Take(count).ToList()))
                 {
                     count--;
                 }
+
                 MessageBox.Show($@"{count}Ошибка в установлении траектории цепи {electricalSystem?.Id?.IntegerValue}");
             }
         }
+
         return Result.Succeeded;
     }
 
@@ -93,7 +95,7 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
     {
         var p1 = (f1.Location as LocationPoint)?.Point;
         var p2 = (f2.Location as LocationPoint)?.Point;
-        if(p2 is null || p1 is null)
+        if (p2 is null || p1 is null)
             throw new NullReferenceException("Не удалось определить позицию элемента");
         return p2.Subtract(p1).GetLength();
     }

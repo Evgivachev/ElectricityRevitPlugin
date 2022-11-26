@@ -15,10 +15,8 @@ public class SelectionElSystemsProvider : IElSystemsProvider
         var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-
         var selection = uiDoc.Selection;
         var selectedElements = selection.GetElementIds();
-
         var systems = selectedElements.Select(elId =>
                 {
                     var el = doc.GetElement((ElementId)elId) as FamilyInstance;
@@ -29,7 +27,6 @@ public class SelectionElSystemsProvider : IElSystemsProvider
                 .Distinct(new ElementComparer())
                 .Select(x => x as ElectricalSystem)
             ;
-
         return systems;
     }
 }

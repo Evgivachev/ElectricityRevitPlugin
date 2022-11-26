@@ -4,8 +4,7 @@
 
     public class Graph
     {
-
-        private readonly Dictionary<string,Node> _nodesDict=new Dictionary<string, Node>();
+        private readonly Dictionary<string, Node> _nodesDict = new Dictionary<string, Node>();
         public List<Node> BaseNodes = new List<Node>();
 
         public int Length => _nodesDict.Count;
@@ -28,28 +27,24 @@
             }
         }
 
-        public Node AddNode(Node node,bool baseNode = false)
+        public Node AddNode(Node node, bool baseNode = false)
         {
             if (baseNode)
             {
                 BaseNodes.Add(node);
             }
 
-            _nodesDict.Add(node.Name,node);
-
+            _nodesDict.Add(node.Name, node);
             if (Contain(node.PowerNode))
             {
-                Connect(node.Name,node.PowerNode.Name);
+                Connect(node.Name, node.PowerNode.Name);
             }
-
-
 
             return node;
         }
 
         public bool Contain(Node node)
         {
-
             return !(node is null) && _nodesDict.ContainsKey(node.Name);
         }
 

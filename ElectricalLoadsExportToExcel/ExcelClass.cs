@@ -9,21 +9,21 @@
  * to changes in the Revit model.
  */
 
-using Excel = Microsoft.Office.Interop.Excel;
-
 namespace ElectricalLoadsExportToExcel
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Forms;
     using Autodesk.Revit.UI;
-    using MessageBox = System.Windows.Forms.MessageBox;
+    using Microsoft.Office.Interop.Excel;
+    using Application = Microsoft.Office.Interop.Excel.Application;
 
     public sealed partial class ExcelClass
     {
-        public static Dictionary<string,List<Load>> ReadExcelFile(string file)
+        public static Dictionary<string, List<Load>> ReadExcelFile(string file)
         {
             var result = new Dictionary<string, List<Load>>();
-            var objExcel = new Excel.Application();
+            var objExcel = new Application();
             try
             {
                 var objWorkBook = objExcel.Workbooks.Open(
@@ -34,11 +34,10 @@ namespace ElectricalLoadsExportToExcel
                     "",
                     "",
                     false,
-                    Excel.XlPlatform.xlWindows,
+                    XlPlatform.xlWindows,
                     "", true, false, 0, true, false, false);
-                var objWorkSheet = (Excel.Worksheet)objWorkBook.Sheets[1];
+                var objWorkSheet = (Worksheet)objWorkBook.Sheets[1];
                 var sheetName = objWorkSheet.Name;
-
                 var currentCell = new Cell(1, 1);
                 var flag = true;
                 while (flag)
@@ -60,6 +59,7 @@ namespace ElectricalLoadsExportToExcel
                         emptyCells++;
                         currentCell.Row++;
                     }
+
                     if (!flag) break;
                     result[nameOfShield] = new List<Load>();
 
@@ -72,7 +72,6 @@ namespace ElectricalLoadsExportToExcel
                     loadCell.Row++;
                     loadCell.Row++;
                     emptyCells = 0;
-
                     while (!IsResult(objWorkSheet.Range[loadCell.ToString()].Text.ToString()))
                     {
                         if (emptyCells == 500)
@@ -81,17 +80,16 @@ namespace ElectricalLoadsExportToExcel
                             break;
                         }
 
-                        var loadName  = objWorkSheet.Range[loadCell.ToString()].Text.ToString();
-                        var ksCell = new Cell(loadCell.Row,loadCell.Column+2);
+                        var loadName = objWorkSheet.Range[loadCell.ToString()].Text.ToString();
+                        var ksCell = new Cell(loadCell.Row, loadCell.Column + 2);
                         var ksString = objWorkSheet.Range[ksCell.ToString()].Value2.ToString();
-
-                        if (string.IsNullOrEmpty(loadName)||!double.TryParse(ksString, out var ks))
+                        if (string.IsNullOrEmpty(loadName) || !double.TryParse(ksString, out var ks))
                         {
                             emptyCells++;
                             continue;
-
                         }
-                        var load = new Load(loadName,ks);
+
+                        var load = new Load(loadName, ks);
                         result[nameOfShield].Add(load);
                         emptyCells = 0;
                         loadCell.Row++;
@@ -114,11 +112,7 @@ namespace ElectricalLoadsExportToExcel
             {
                 objExcel.Quit();
             }
-
         }
-
-
-
 
 
         private static bool IsShield(string str)
@@ -126,11 +120,10 @@ namespace ElectricalLoadsExportToExcel
             var q3 = !(int.TryParse(str, out _));
             return (str != "" && str != " " && q3);
         }
+
         private static bool IsResult(string str)
         {
             return (str == "Итого по щиту");
         }
-
-
     }
 }

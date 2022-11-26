@@ -14,9 +14,8 @@ public class AllElectricalSystemOnPlanProvider : IElSystemsProvider
         var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-
         var plan = doc.ActiveView;
-        var ess = new FilteredElementCollector(doc,plan.Id).OfCategory(BuiltInCategory.OST_ElectricalCircuit)
+        var ess = new FilteredElementCollector(doc, plan.Id).OfCategory(BuiltInCategory.OST_ElectricalCircuit)
                 .OfType<ElectricalSystem>()
             ;
         return ess;

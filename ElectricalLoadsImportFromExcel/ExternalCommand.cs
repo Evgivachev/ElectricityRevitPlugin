@@ -8,6 +8,7 @@
  *
  * The external command.
  */
+
 #region Namespaces
 
 #endregion
@@ -23,7 +24,7 @@ namespace ElectricalLoadsImportFromExcel
     /// <summary>
     /// Revit external command.
     /// </summary>	
-	[Transaction(TransactionMode.Manual)]
+    [Transaction(TransactionMode.Manual)]
     public sealed partial class ExternalCommand : IExternalCommand
     {
         Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -37,7 +38,6 @@ namespace ElectricalLoadsImportFromExcel
                 var uiDoc = uiApp?.ActiveUIDocument;
                 var app = uiApp?.Application;
                 var doc = uiDoc?.Document;
-
                 using (var trGr = new TransactionGroup(doc, "trGrName"))
                 {
                     if (TransactionStatus.Started == trGr.Start())
@@ -45,7 +45,7 @@ namespace ElectricalLoadsImportFromExcel
                         /* Here do your work or the set of 
                          * works... */
                         if (DoWork(commandData, ref message,
-                            elements))
+                                elements))
                         {
                             if (TransactionStatus.Committed == trGr.Assimilate())
                                 result = Result.Succeeded;
@@ -70,7 +70,5 @@ namespace ElectricalLoadsImportFromExcel
 
             return result;
         }
-
-
     }
 }

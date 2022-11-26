@@ -3,7 +3,6 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Windows.Forms;
     using System.Windows.Input;
     using Abstractions;
     using Autodesk.Revit.DB;
@@ -12,14 +11,13 @@
     using MoreLinq;
     using PikTools.Ui.Commands;
     using PikTools.Ui.ViewModels;
-    using View = Autodesk.Revit.DB.View;
 
     public class BuildDiagramsContext : MainViewModelBase
     {
-        private readonly IShieldsProvider _shieldsProvider;
-        private readonly UIApplication _uiApplication;
         private readonly IDiagramsDrawer _diagramsDrawer;
         private readonly IDiagramsUpdater _diagramsUpdater;
+        private readonly IShieldsProvider _shieldsProvider;
+        private readonly UIApplication _uiApplication;
         private ObservableCollection<SelectableGroupModel<string, Shield>> _shields;
 
         public BuildDiagramsContext(
@@ -34,22 +32,6 @@
             _diagramsDrawer = diagramsDrawer;
             _diagramsUpdater = diagramsUpdater;
             InitializeCommand = new RelayCommand(Initialize);
-        }
-
-        private void Initialize()
-        {
-            var allShields = _shieldsProvider.GetShields();
-            Shields = new ObservableCollection<SelectableGroupModel<string, Shield>>(allShields
-                .GroupBy(s =>
-                {
-                    var index = s.Name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
-                    var subName = s.Name.Substring(0, index > 0 ? index : s.Name.Length - 1);
-                    return subName;
-                })
-                .Select(g => new SelectableGroupModel<string, Shield>(g.Key, false)
-                {
-                    InnerItems = g.Select(s => new SelectableViewModel<Shield>(s, false)).ToList()
-                }));
         }
 
         public ICommand SelectAllCommand => new RelayCommand(SelectAll);
@@ -68,6 +50,22 @@
 
         public ICommand CheckCommand => new RelayCommand<object>(CheckMethod);
 
+        private void Initialize()
+        {
+            var allShields = _shieldsProvider.GetShields();
+            Shields = new ObservableCollection<SelectableGroupModel<string, Shield>>(allShields
+                .GroupBy(s =>
+                {
+                    var index = s.Name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+                    var subName = s.Name.Substring(0, index > 0 ? index : s.Name.Length - 1);
+                    return subName;
+                })
+                .Select(g => new SelectableGroupModel<string, Shield>(g.Key, false)
+                {
+                    InnerItems = g.Select(s => new SelectableViewModel<Shield>(s, false)).ToList()
+                }));
+        }
+
         private void CheckMethod(object item)
         {
             switch (item)
@@ -81,7 +79,7 @@
 
                 case SelectableGroupModel<string, Shield> groupModel:
                 {
-                    if(groupModel.IsChecked is null)
+                    if (groupModel.IsChecked is null)
                         break;
                     foreach (var innerItem in groupModel.InnerItems)
                     {

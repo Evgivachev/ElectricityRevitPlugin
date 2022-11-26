@@ -16,7 +16,8 @@ public partial class GetShiftView : Window
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
         var text = TextBox.Text;
-        if (double.TryParse(text, NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture, out var shift))
+        if (double.TryParse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture,
+                out var shift))
         {
             TextBox.Tag = shift;
             Close();
