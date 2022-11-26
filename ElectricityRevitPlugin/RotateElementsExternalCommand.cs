@@ -1,4 +1,4 @@
-﻿namespace ExternalCommands
+﻿namespace ElectricityRevitPlugin
 {
     using System;
     using Autodesk.Revit.Attributes;

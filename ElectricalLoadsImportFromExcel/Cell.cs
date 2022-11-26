@@ -1,4 +1,4 @@
-﻿namespace ElectricalLoadsImportToExcel
+﻿namespace ElectricalLoadsImportFromExcel
 {
     public class Cell
     {

@@ -1,11 +1,11 @@
-namespace Diagrams.Abstractions
+namespace Diagrams.Services
 {
     using System;
     using System.Linq;
+    using Abstractions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using Models;
-    using OneLineDiagram;
+    using Diagrams.Models;
 
     public class DiagramsUpdater : IDiagramsUpdater
     {

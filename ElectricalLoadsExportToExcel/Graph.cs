@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricalLoadsImportToExcel
+﻿namespace ElectricalLoadsExportToExcel
 {
+    using System.Collections.Generic;
+
     public class Graph
     {
 

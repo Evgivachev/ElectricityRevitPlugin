@@ -1,13 +1,10 @@
-﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Electrical;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ElectricalLoadsImportToExcel
+﻿namespace ElectricalLoadsExportToExcel
 {
+    using System;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.DB.Electrical;
+
     public static class FamilyInstanceExtension
     {
         public static ElectricalSystem? GetPowerElectricalSystem(this FamilyInstance familyInstance)

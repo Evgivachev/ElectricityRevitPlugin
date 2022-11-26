@@ -7,7 +7,6 @@
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
     using MoreLinq;
-    using RevitParametersCodeGenerator;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]

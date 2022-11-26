@@ -13,12 +13,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsExportToExce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsImportFromExcel", "ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj", "{19E5F9C4-0EF9-48C0-8015-A50466E677CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkingElectricalSystems", "MarkingElectricalSystems\MarkingElectricalSystems.csproj", "{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{BDB8CFB5-151B-46BF-9032-A3157BEB3188}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B1F4DBB3-A09B-4BC4-9F58-798F52520233}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{FFB3DE09-634C-4BE6-8D6D-8D738E9362FB}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{201C15FB-A2D7-4C9A-ACA2-202BF2C607F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricityRevitPluginApp", "ElectricityRevitPluginApp\ElectricityRevitPluginApp.csproj", "{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDB8CFB5-151B-46BF-9032-A3157BEB3188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDB8CFB5-151B-46BF-9032-A3157BEB3188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Debug|x64.Build.0 = Debug|Any CPU
 		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB}.Release|x64.ActiveCfg = Release|Any CPU
@@ -39,11 +57,27 @@ Global
 		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Debug|x64.Build.0 = Debug|Any CPU
 		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Release|x64.ActiveCfg = Release|Any CPU
 		{19E5F9C4-0EF9-48C0-8015-A50466E677CE}.Release|x64.Build.0 = Release|Any CPU
+		{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}.Debug|x64.Build.0 = Debug|Any CPU
+		{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}.Release|x64.ActiveCfg = Release|Any CPU
+		{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}.Release|x64.Build.0 = Release|Any CPU
+		{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}.Debug|x64.Build.0 = Debug|Any CPU
+		{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}.Release|x64.ActiveCfg = Release|Any CPU
+		{BD93EF6F-3A58-4497-936A-A05DCE0A3CA7}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EFBA517-36B4-4893-95AF-3A6EF2CF16BE}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{C2560EDD-A8FD-4EDE-9B81-13FA79F9FFFB} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{FE6F471F-0F88-4D24-9A6A-EE8BF4A9B0A9} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{19E5F9C4-0EF9-48C0-8015-A50466E677CE} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{DF281064-7D13-4E41-8648-FA6EE1073A74} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{40D08074-22B1-498A-8101-86BF1315FFA1} = {201C15FB-A2D7-4C9A-ACA2-202BF2C607F4}
 	EndGlobalSection
 EndGlobal

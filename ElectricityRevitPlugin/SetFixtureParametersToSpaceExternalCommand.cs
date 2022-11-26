@@ -7,6 +7,7 @@ namespace ElectricityRevitPlugin
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Mechanical;
     using Autodesk.Revit.UI;
+    using Extensions;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]

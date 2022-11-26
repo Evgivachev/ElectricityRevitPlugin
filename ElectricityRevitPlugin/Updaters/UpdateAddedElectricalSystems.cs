@@ -5,7 +5,6 @@
     using System.Windows;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
-    using RevitParametersCodeGenerator;
     using UpdateParametersInCircuits;
 
     /// <summary>

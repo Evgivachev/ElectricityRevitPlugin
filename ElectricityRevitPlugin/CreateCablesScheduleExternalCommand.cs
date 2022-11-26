@@ -5,7 +5,7 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
-    using RevitParametersCodeGenerator;
+    using Extensions;
 
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]

@@ -1,4 +1,4 @@
-﻿namespace UpdateNameSpace
+﻿namespace ElectricityRevitPlugin.GroupByGost
 {
     using System;
     using System.Globalization;

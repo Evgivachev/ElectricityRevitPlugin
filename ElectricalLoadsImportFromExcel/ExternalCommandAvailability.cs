@@ -10,15 +10,13 @@
  */
 #region Namespaces
 
-using System;
-using System.Resources;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-
 #endregion
 
-namespace ElectricalLoads
+namespace ElectricalLoadsImportFromExcel
 {
+    using System;
+    using Autodesk.Revit.DB;
+    using Autodesk.Revit.UI;
 
     /// <summary>
     /// This class provides an accessibility checking for an 

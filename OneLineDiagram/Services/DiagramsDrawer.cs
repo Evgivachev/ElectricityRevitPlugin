@@ -11,6 +11,7 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
+    using ExternalCommands.OneLineDiagram;
     using Models;
     using View = Autodesk.Revit.DB.View;
 
@@ -54,9 +55,9 @@
         {
             #region MyRegion
 
-            if (Diagrams.OneLineDiagram.OneLineDiagramBuiltDiagram.CommandData is null)
+            if (OneLineDiagramBuiltDiagram.CommandData is null)
                 throw new NullReferenceException();
-            var uiApp = Diagrams.OneLineDiagram.OneLineDiagramBuiltDiagram.CommandData.Application;
+            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
             var app = uiApp?.Application;
             var doc = uiDoc?.Document;
@@ -111,9 +112,9 @@
         {
             #region MyRegion
 
-            if (Diagrams.OneLineDiagram.OneLineDiagramBuiltDiagram.CommandData is null)
+            if (OneLineDiagramBuiltDiagram.CommandData is null)
                 throw new NullReferenceException();
-            var uiApp = Diagrams.OneLineDiagram.OneLineDiagramBuiltDiagram.CommandData.Application;
+            var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
             var app = uiApp?.Application;
             var doc = uiDoc?.Document;

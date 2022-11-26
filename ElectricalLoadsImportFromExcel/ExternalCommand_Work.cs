@@ -3,7 +3,7 @@
 #endregion
 
 
-namespace ElectricalLoadsImportToExcel
+namespace ElectricalLoadsImportFromExcel
 {
     using System;
     using System.Collections.Generic;

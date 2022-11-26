@@ -1,13 +1,14 @@
-﻿namespace Diagrams
+﻿/*
+namespace Diagrams
 {
     using System;
     using System.Reflection;
     using System.Windows.Forms;
     using Autodesk.Revit.UI;
+    using ExternalCommands;
     using ExternalCommands.OneLineDiagram;
     using Microsoft.Xaml.Behaviors;
     using ModelUpdate;
-    using OneLineDiagram;
     using VCRevitRibbonUtilCustom;
 
     /// <summary>
@@ -67,3 +68,4 @@
         }
     }
 }
+*/

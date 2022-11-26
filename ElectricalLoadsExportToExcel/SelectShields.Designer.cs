@@ -1,4 +1,4 @@
-﻿namespace ElectricalLoadsImportToExcel
+﻿namespace ElectricalLoadsExportToExcel
 {
     partial class SelectShields
     {

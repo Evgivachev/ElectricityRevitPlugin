@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Math;
+﻿using static System.Math;
 
-namespace ElectricalLoadsImportToExcel
+namespace ElectricalLoadsExportToExcel
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Load
     {
         public string Classification { get; set; }

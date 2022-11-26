@@ -1,4 +1,5 @@
-﻿namespace ElectricityRevitPlugin
+﻿/*
+namespace ElectricityRevitPlugin
 {
     using System;
     using System.Collections.Generic;
@@ -8,8 +9,7 @@
     using Autodesk.Revit.DB.Events;
     using Autodesk.Revit.UI;
     using GeneralSubject;
-    using RevitParametersCodeGenerator;
-    using UpdateNameSpace;
+    using GroupByGost;
     using UpdateParametersInCircuits;
     using Updaters;
     using VCRevitRibbonUtilCustom;
@@ -315,3 +315,4 @@
         }
     }
 }
+*/

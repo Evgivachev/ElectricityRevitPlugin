@@ -10,7 +10,6 @@
     using Autodesk.Revit.UI;
     using Models;
     using MoreLinq;
-    using OneLineDiagram;
     using PikTools.Ui.Commands;
     using PikTools.Ui.ViewModels;
     using View = Autodesk.Revit.DB.View;

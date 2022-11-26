@@ -9,29 +9,15 @@
  * to changes in the Revit model.
  */
 #region Namespaces
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using System.Resources;
-using System.Reflection;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using System.Windows.Interop;
-using WPF = System.Windows;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+
 using Excel = Microsoft.Office.Interop.Excel;
 
 #endregion
 
-namespace ElectricalLoadsImportToExcel
+namespace ElectricalLoadsExportToExcel
 {
+    using System;
+    using System.Collections.Generic;
 
     public static class WorkSheetExtension
     {

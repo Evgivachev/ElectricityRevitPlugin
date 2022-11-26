@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <UseApplication>true</UseApplication>
+    <UseLogs>true</UseLogs>
+    <UseRibbonMenu>true</UseRibbonMenu>
+    <UseSimpleInjector>true</UseSimpleInjector>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PackageGuid>37e5471b-ffb4-4b5a-bc50-69262e3d52f1</PackageGuid>
+    <UpgradeCode>f273beea-0f78-4222-9db1-5b0e175dbd34</UpgradeCode>
+    <Application__ElectricityRevitPluginApp_App>ace9d964-d6d5-495d-845a-ec2574dc35aa</Application__ElectricityRevitPluginApp_App>
+  </PropertyGroup>
+</Project>

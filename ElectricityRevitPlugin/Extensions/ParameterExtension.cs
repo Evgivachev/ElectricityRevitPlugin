@@ -1,4 +1,4 @@
-namespace ElectricityRevitPlugin
+namespace ElectricityRevitPlugin.Extensions
 {
     using System;
     using Autodesk.Revit.DB;

@@ -1,11 +1,10 @@
-namespace Diagrams
+namespace Diagrams.ExternalCommands
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
 
     [Transaction(TransactionMode.Manual)]

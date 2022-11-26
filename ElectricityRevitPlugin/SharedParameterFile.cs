@@ -1,4 +1,4 @@
-namespace RevitParametersCodeGenerator
+namespace ElectricityRevitPlugin
 {
     using System;
 

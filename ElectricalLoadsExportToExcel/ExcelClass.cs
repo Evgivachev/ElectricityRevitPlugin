@@ -8,27 +8,15 @@
  * This updater is used to create an updater capable of reacting
  * to changes in the Revit model.
  */
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using System.Resources;
-using System.Reflection;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using System.Windows.Interop;
-using WPF = System.Windows;
-using System.Linq;
-using System.Windows.Forms;
+
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace ElectricalLoadsImportToExcel
+namespace ElectricalLoadsExportToExcel
 {
+    using System;
+    using System.Collections.Generic;
+    using Autodesk.Revit.UI;
+    using MessageBox = System.Windows.Forms.MessageBox;
 
     public sealed partial class ExcelClass
     {

@@ -12,7 +12,6 @@ namespace ElectricalLoadsExportToExcel
     using System.Windows.Forms;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
-    using ElectricalLoadsImportToExcel;
 
     public sealed partial class ExternalCommand
     {

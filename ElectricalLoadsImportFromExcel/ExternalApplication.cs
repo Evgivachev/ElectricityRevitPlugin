@@ -1,12 +1,11 @@
-﻿namespace ElectricalLoadsImportFromExcel
+﻿/*
+namespace ElectricalLoadsImportFromExcel
 {
     using System;
     using System.IO;
     using System.Reflection;
     using System.Windows.Forms;
     using Autodesk.Revit.UI;
-    using ElectricalLoads;
-    using ElectricalLoadsImportToExcel;
     using VCRevitRibbonUtilCustom;
 
     /// <summary>
@@ -48,3 +47,4 @@
         }
     }
 }
+*/

@@ -1,0 +1,59 @@
+<Project>
+  <PropertyGroup Condition=" '$(ProjectName)' != '_build' ">
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <IsPackable>false</IsPackable>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+ <!-- <ItemGroup Condition=" '$(ProjectName)' != '_build' And !'$(ProjectName.EndsWith(`Tests`))'">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>-->
+  <!--<PropertyGroup>
+    <MsiFilePrefix>PIKTools.Revit.</MsiFilePrefix>
+    <ProductVersion>2022</ProductVersion>
+    <Company>pik-group.com</Company>
+    <Authors>BIMTeam</Authors>
+    <Product>BIMTools</Product>
+    <Copyright>Copyright ©2021 PIK Group</Copyright>
+    <PackageTags>BIM BIMTeam BIMTools</PackageTags>
+  </PropertyGroup>-->
+  <ItemGroup Condition=" '$(UseCommand)' == 'true' ">
+    <PackageReference Include="RxBim.Command.Revit" Version="2019.1.0.7"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseApplication)' == 'true' ">
+    <PackageReference Include="RxBim.Application.Revit" Version="2019.1.0.7"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseRibbonMenu)' == 'true' ">
+    <PackageReference Include="PikTools.Application.Ribbon.About.Revit" Version="1.0.2"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseLogs)' == 'true' ">
+    <PackageReference Include="RxBim.Logs.Revit" Version="2019.1.0.7"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseRevitTools)' == 'true' ">
+    <PackageReference Include="RxBim.Tools.Revit" Version="2019.3.3"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseSimpleInjector)' == 'true' ">
+    <PackageReference Include="RxBim.Di.SimpleInjector" Version="1.1.0"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseLogWindow)' == 'true' ">
+    <PackageReference Include="PikTools.LogWindow" Version="1.0.10"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UsePikUi)' == 'true' ">
+    <PackageReference Include="PikTools.Ui" Version="3.3.3"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseTableBuilder)' == 'true' ">
+    <PackageReference Include="RxBim.Tools.TableBuilder.Excel" Version="1.0.1"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseSharedTools)' == 'true' ">
+    <PackageReference Include="PikTools.Shared" Version="1.0.0"/>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(UseMoreLinq)' == 'true' ">
+    <PackageReference Include="morelinq" Version="3.3.2"/>
+  </ItemGroup>
+</Project>

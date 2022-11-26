@@ -8,7 +8,6 @@
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Selection;
-    using RevitParametersCodeGenerator;
 
     [Regeneration(RegenerationOption.Manual)]
     [Transaction(TransactionMode.Manual)]

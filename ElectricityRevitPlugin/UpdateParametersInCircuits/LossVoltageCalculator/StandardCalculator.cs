@@ -7,7 +7,6 @@
     using Autodesk.Revit.DB.Electrical;
     using Extensions;
     using MoreLinq;
-    using RevitParametersCodeGenerator;
 
     class StandardCalculator : LossVoltageCalculator
 
