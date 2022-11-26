@@ -11,7 +11,7 @@ public class Config : IApplicationConfiguration
     /// <inheritdoc />
     public void Configure(IContainer container)
     {
-        var tabName = "ЭОМ";
+        var tabName = "ЭОМnew";
         container.AddRevitMenu(
             ribbon => ribbon
                 .EnableDisplayVersion()

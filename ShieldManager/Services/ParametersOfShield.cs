@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-
-namespace ShieldPanel.ViewOfDevicesOfShield
+﻿namespace ShieldManager.ViewOfDevicesOfShield
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Autodesk.Revit.DB;
+
     public class ParametersOfShield
     {
         private Dictionary<string, Parameter> _cl1Parameter = new Dictionary<string, Parameter>();

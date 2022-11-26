@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Autodesk.Revit.DB;
-using MoreLinq;
-using ShieldPanel.ViewOfDevicesOfShield;
-using Grid = System.Windows.Controls.Grid;
-
-namespace ShieldPanel.SelectModelOfShield
+﻿namespace ShieldManager.Views
 {
+    using System;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using Autodesk.Revit.DB;
+    using MoreLinq;
+    using ViewModels;
+    using ViewOfDevicesOfShield;
+    using Grid = System.Windows.Controls.Grid;
+
     /// <summary>
     /// Логика взаимодействия для SelectModelOfShieldWPF.xaml
     /// </summary>
@@ -30,9 +20,13 @@ namespace ShieldPanel.SelectModelOfShield
         private bool _isAllSelected = false;
         private bool _isVisibleOfLineOfGrid = false;
         private bool _visibleOfDoors = false;
-        public SelectModelOfShieldWPF(FamilyInstance[] shields, Element[] catalog, HashSet<int> selection)
+        /*public SelectModelOfShieldWPF(ShieldWrapper[] shields, Element[] catalog, HashSet<int> selection)*/
+        public SelectModelOfShieldWPF(ShieldsManagerViewModel shieldsManagerViewModel)
         {
-            _catalog = catalog;
+            DataContext = shieldsManagerViewModel;
+            InitializeComponent();
+            
+            /*_catalog = catalog;
             _doc = shields.First().Document;
             InitializeComponent();
             var groups = shields.GroupBy(x => x.Name.Split("- .".ToCharArray()).First());
@@ -51,32 +45,13 @@ namespace ShieldPanel.SelectModelOfShield
                     item.Header = grid;
                     parentItem.Items.Add(item);
                 }
-                //    var text = new TextBlock();
-                //    text.Text = shield.Name;
-                //    text.Tag = shield;
-                //    var grid = new Grid();
-                //    var cd = new ColumnDefinition();
-                //    cd.Width = new GridLength(1, GridUnitType.Star);
-                //    grid.ColumnDefinitions.Add(cd);
-                //    grid.Children.Add(text);
-                //    var comboBox = new ComboBox();
-                //    comboBox.ItemsSource = catalog;
-                //    comboBox.DisplayMemberPath = "Name";
-                //    var valueId = shield.LookupParameter("Оболочка щита").AsElementId();
-                //    comboBox.SelectedItem = catalog.FirstOrDefault(sh => sh.Id.IntegerValue == valueId.IntegerValue);
-
-                //    //grid.ShowGridLines = true;
-                //    grid.Children.Add(comboBox);
-
-                //    comboBox.Parent.SetValue(Grid.ColumnSpanProperty, 1);
-                //    //StackPanel.Children.Add(grid);
             }
 
             var manufactures = catalog.Select(m => m
                 .LookupParameter("Изготовитель щита для спецификации")
                 .AsString())
                 .Distinct();
-            ManufactureGroupBox.ItemsSource = manufactures;
+            ManufactureGroupBox.ItemsSource = manufactures;*/
 
         }
 
@@ -180,7 +155,7 @@ namespace ShieldPanel.SelectModelOfShield
         }
         private void SelectionButton_Click(object sender, RoutedEventArgs e)
         {
-            var manuf = ManufactureGroupBox.Text;
+            /*var manuf = ManufactureGroupBox.Text;
             if (manuf is null)
                 return;
             foreach (TreeViewItem parentItem in TreeView.Items)
@@ -221,7 +196,7 @@ namespace ShieldPanel.SelectModelOfShield
                     //}
                     //}
                 }
-            }
+            }*/
         }
 
         private void SelectionTreeButton_Click(object sender, RoutedEventArgs e)
