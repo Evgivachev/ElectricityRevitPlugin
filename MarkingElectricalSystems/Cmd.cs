@@ -3,33 +3,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Models;
-using PikTools.LogWindow.Abstractions;
-using PikTools.LogWindow.Models;
-using RxBim.Command.Revit;
-using RxBim.Shared;
+using PikTools.Ui.Abstractions;
+using RxBim.Di;
 using Services;
 
 /// <inheritdoc />
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
-public class Cmd : RxBimCommand
+public class Cmd : IExternalCommand, IExternalCommandAvailability
 {
     private readonly List<ElementId> _addedElementIds = new();
 
-    /// <summary>
-    /// Команда плагина
-    /// </summary>
-    public PluginResult ExecuteCommand(Application app, UIDocument uiDoc, IDisplayLogger displayLogger)
+    /// <inheritdoc />
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
+        var container = new SimpleInjectorContainer();
+        new Config().Configure(container);
+        var notificationService = container.GetService<INotificationService>();
+        var uiApp = commandData.Application;
+        var uiDoc = uiApp.ActiveUIDocument;
+        var app = uiApp.Application;
         var doc = uiDoc.Document;
-        var result = PluginResult.Failed;
+        var result = Result.Failed;
         var trueCategories = new HashSet<BuiltInCategory>()
         {
             BuiltInCategory.OST_ElectricalEquipment,
@@ -52,11 +53,10 @@ public class Cmd : RxBimCommand
             .SelectMany(el =>
                 {
                     if (el is not AnnotationSymbol)
-                        return
-                            el?.MEPModel?.ElectricalSystems?
-                                .OfType<ElectricalSystem>()
-                                .Where(s => s.BaseEquipment.Id.IntegerValue != el.Id.IntegerValue)
-                            ?? Enumerable.Empty<ElectricalSystem>();
+                        return el?.MEPModel?
+                                   .GetElectricalSystems()
+                                   .Where(s => s.BaseEquipment.Id.IntegerValue != el.Id.IntegerValue)
+                               ?? Enumerable.Empty<ElectricalSystem>();
                     var ids = el.LookupParameter("ID цепей")?.AsString();
                     if (string.IsNullOrEmpty(ids))
                         return Enumerable.Empty<ElectricalSystem>();
@@ -72,8 +72,8 @@ public class Cmd : RxBimCommand
             .ToArray();
         if (elSystems.Length == 0)
         {
-            displayLogger.AddMessage(new CommonErrorMessage("Отсутствуют выделенные подключенные элементы электрических цепей", "Ошибка"));
-            displayLogger.Show(GetType().Name, true);
+            notificationService.ShowMessage(GetType().Name, "Отсутствуют выделенные подключенные элементы электрических цепей",
+                NotificationType.Error);
             return result;
         }
 
@@ -101,8 +101,8 @@ public class Cmd : RxBimCommand
         tr.Start("Установка параметров");
         parameterSetter.SetParameters(doc, _addedElementIds, elSystems);
         result = tr.Commit() == TransactionStatus.Committed
-            ? PluginResult.Succeeded
-            : PluginResult.Failed;
+            ? Result.Succeeded
+            : Result.Failed;
         return result;
     }
 
@@ -110,5 +110,11 @@ public class Cmd : RxBimCommand
     {
         _addedElementIds.AddRange(
             e.GetAddedElementIds());
+    }
+
+    /// <inheritdoc />
+    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+    {
+        return applicationData.ActiveUIDocument?.Document is not null;
     }
 }

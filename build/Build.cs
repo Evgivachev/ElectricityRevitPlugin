@@ -1,9 +1,11 @@
+using DefaultNamespace;
 using Nuke.Common;
 using Nuke.Common.CI;
-using RxBim.Nuke.Revit;
+using RxBim.Nuke.Builds;
+using RxBim.Nuke.Revit.Generators;
 
 [ShutdownDotNetAfterServerBuild]
-class Build : RevitRxBimBuild
+class Build : RxBimBuild<RevitWixBuilder2022, RevitPackageContentsGenerator, RevitProjectPropertiesGenerator>
 {
     /// Support plugins are available for:
     ///   - JetBrains ReSharper        https://nuke.build/resharper

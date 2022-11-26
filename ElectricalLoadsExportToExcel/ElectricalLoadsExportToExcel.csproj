@@ -15,7 +15,7 @@
             <HintPath>..\ref\AdWindows.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
             <HintPath>..\ref\Microsoft.Office.Interop.Excel.dll</HintPath>
         </Reference>
@@ -44,11 +44,11 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39"/>
-        <PackageReference Include="morelinq" Version="3.3.2"/>
-        <PackageReference Include="PikTools.Ui" Version="3.3.0"/>
+        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+        <PackageReference Include="morelinq" Version="3.3.2" />
+        <PackageReference Include="PikTools.Ui" Version="3.3.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\CommonUtils\CommonUtils.csproj"/>
+        <ProjectReference Include="..\CommonUtils\CommonUtils.csproj" />
     </ItemGroup>
 </Project>

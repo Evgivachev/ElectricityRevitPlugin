@@ -3,16 +3,20 @@
 using System.Collections.Generic;
 using Autodesk.Revit.DB;
 
-public class ElementComparer : IEqualityComparer<Element>
+/// <inheritdoc />
+public class ElementComparer<T> : IEqualityComparer<T>
+    where T : Element
 {
-    public bool Equals(Element x, Element y)
+    /// <inheritdoc />
+    public bool Equals(T? x, T? y)
     {
         if (x == null && y == null) return true;
         if (x == null || y == null) return false;
         return x.Id.IntegerValue == y.Id.IntegerValue;
     }
 
-    public int GetHashCode(Element obj)
+    /// <inheritdoc />
+    public int GetHashCode(T? obj)
     {
         if (obj is null)
             return 0;

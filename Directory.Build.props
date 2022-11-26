@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup Condition=" '$(ProjectName)' != '_build' ">
-        <TargetFramework>net472</TargetFramework>
+        <TargetFramework>net48</TargetFramework>
         <LangVersion>10</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
         <IsPackable>false</IsPackable>
@@ -23,7 +23,26 @@
         <PackageTags>BIM ElectricityRevitPlugin</PackageTags>
     </PropertyGroup>
     <ItemGroup Condition=" '$(UseCommand)' == 'true' ">
-        <PackageReference Include="RxBim.Command.Revit" Version="2019.1.0.7"/>
+        <Reference Include="RevitAPI">
+            <HintPath>..\ref\RevitAPI.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIIFC">
+            <HintPath>..\ref\RevitAPIIFC.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIMacros">
+            <HintPath>..\ref\RevitAPIMacros.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUI">
+            <HintPath>..\ref\RevitAPIUI.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="RevitAPIUIMacros">
+            <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
     </ItemGroup>
     <ItemGroup Condition=" '$(UseApplication)' == 'true' ">
         <PackageReference Include="RxBim.Application.Revit" Version="2019.1.0.7"/>

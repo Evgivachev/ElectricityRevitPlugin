@@ -17,16 +17,13 @@ public class SelectionElSystemsProvider : IElSystemsProvider
         var doc = uiDoc.Document;
         var selection = uiDoc.Selection;
         var selectedElements = selection.GetElementIds();
-        var systems = selectedElements.Select(elId =>
-                {
-                    var el = doc.GetElement((ElementId)elId) as FamilyInstance;
-                    return el?.MEPModel?.ElectricalSystems;
-                })
-                .Where(el => el != null)
-                .SelectMany(ss => ss.OfType<Element>())
-                .Distinct(new ElementComparer())
-                .Select(x => x as ElectricalSystem)
-            ;
+        var systems = selectedElements.SelectMany(elId =>
+            {
+                var el = doc.GetElement((ElementId)elId) as FamilyInstance;
+                return el?.MEPModel?.GetElectricalSystems();
+            })
+            .Where(es => es is not null)
+            .Distinct(new ElementComparer<ElectricalSystem>());
         return systems;
     }
 }
