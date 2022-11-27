@@ -21,49 +21,49 @@ namespace InitialValues
     public sealed partial class ExternalCommand
     {
         private readonly Dictionary<string, Action<Parameter>> _changeParametersDict = new Dictionary<string, Action<Parameter>>()
-            {
         {
+            {
                 "Раздел проектирования", x =>
                 {
-                    if(CheckParameter(x))
-                    x.Set("ЭОМ@");
+                    if (CheckParameter(x))
+                        x.Set("ЭОМ@");
                 }
             },
             {
                 "Кол-во кабелей (провод) в одной группе", x =>
                 {
-                    if(CheckParameter(x))
-                    x.Set(1.0);
+                    if (CheckParameter(x))
+                        x.Set(1.0);
                 }
             },
             {
                 "Количество НП", x =>
                 {
-                    if(CheckParameter(x))
-                    x.Set(1.0);
+                    if (CheckParameter(x))
+                        x.Set(1.0);
                 }
             },
+            {
+                "Третья гармоника", x =>
                 {
-                    "Третья гармоника", x =>
-                    {
-                        if(CheckParameter(x))
-                            x.Set(0.0);
-                    }
-                },
+                    if (CheckParameter(x))
+                        x.Set(0.0);
+                }
+            },
+            {
+                "Содержание третьей гармоники, %", x =>
                 {
-                    "Содержание третьей гармоники, %", x =>
-                    {
-                        if(CheckParameter(x))
-                            x.Set(0.0);
-                    }
-                },
+                    if (CheckParameter(x))
+                        x.Set(0.0);
+                }
+            },
+            {
+                "Поправочной коэф. для групп кабелей", x =>
                 {
-                    "Поправочной коэф. для групп кабелей", x =>
-                    {
-                        if(CheckParameter(x))
-                            x.Set(1.0);
-                    }
-                },
+                    if (CheckParameter(x))
+                        x.Set(1.0);
+                }
+            },
         };
 
         InitialValues formInitialValues = new InitialValues();
@@ -71,6 +71,7 @@ namespace InitialValues
         private bool DoWork(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             #region MyRegion
+
             if (null == commandData) throw new ArgumentNullException(nameof(commandData));
             if (null == message) throw new ArgumentNullException(nameof(message));
             if (null == elements) throw new ArgumentNullException(nameof(elements));
@@ -78,21 +79,21 @@ namespace InitialValues
             var uiDoc = uiApp?.ActiveUIDocument;
             var app = uiApp?.Application;
             var doc = uiDoc?.Document;
+
             #endregion
+
             try
             {
                 using (var tr = new Transaction(doc, "trName"))
                 {
                     if (TransactionStatus.Started == tr.Start())
                     {
-
                         //Все цепи
                         var arrayOfCircuits = new FilteredElementCollector(doc)
                             .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
                             .OfClass(typeof(ElectricalSystem))
                             .ToElements()
                             .ToArray();
-
                         var shields = new FilteredElementCollector(doc)
                             .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
                             .OfClass(typeof(FamilyInstance))
@@ -110,62 +111,55 @@ namespace InitialValues
                                 if (q is null) return new List<ElectricalSystem>();
                                 return q;
                             }
-                                ).ToArray();
+                        ).ToArray();
 
                         #region lists
+
                         var device1Scheldule = new FilteredElementCollector(doc)
                             .OfClass(typeof(ViewSchedule))
                             .First(x => x.Name.Equals("* Отключающее устройство 1")) as ViewSchedule;
                         if (device1Scheldule == null) throw new Exception("Не удалось найти вид ОУ1");
-
                         var device1Array = new FilteredElementCollector(doc, device1Scheldule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.Device1comboBox.DataSource = device1Array;
                         formInitialValues.Device1comboBox.DisplayMember = "Name";
-
                         var device2Schedule = new FilteredElementCollector(doc)
                             .OfClass(typeof(ViewSchedule))
                             .First(x => x.Name.Equals("* Отключающее устройство 2")) as ViewSchedule;
                         if (device2Schedule == null) throw new Exception("Не удалось найти вид ОУ2");
-
                         var device2Array = new FilteredElementCollector(doc, device2Schedule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.Device2comboBox.DataSource = device2Array;
                         formInitialValues.Device2comboBox.DisplayMember = "Name";
-
                         var сablesSchedule = new FilteredElementCollector(doc)
                             .OfClass(typeof(ViewSchedule))
                             .First(x => x.Name.Equals("* Кабели")) as ViewSchedule;
                         if (сablesSchedule == null) throw new Exception("Не удалось найти вид Кабели");
-
                         var cablesArray = new FilteredElementCollector(doc, сablesSchedule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.CablesComboBox.DataSource = cablesArray;
                         formInitialValues.CablesComboBox.DisplayMember = "Name";
-
                         var tubeSchedule = new FilteredElementCollector(doc)
                             .OfClass(typeof(ViewSchedule))
                             .First(x => x.Name.Equals("* Трубы")) as ViewSchedule;
                         if (tubeSchedule == null) throw new Exception("Не удалось найти вид Трубы");
-
                         var tubeArray = new FilteredElementCollector(doc, tubeSchedule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.TubeComboBox.DataSource = tubeArray;
                         formInitialValues.TubeComboBox.DisplayMember = "Name";
-
                         var installSchedule = new FilteredElementCollector(doc)
                             .OfClass(typeof(ViewSchedule))
                             .First(x => x.Name.Equals("* Монтаж")) as ViewSchedule;
                         if (installSchedule == null) throw new Exception("Не удалось найти вид Монтаж");
-
                         var installArray = new FilteredElementCollector(doc, installSchedule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.InstallationСomboBox.DataSource = installArray;
                         formInitialValues.InstallationСomboBox.DisplayMember = "Name";
-
                         var temperatureSchedule = new FilteredElementCollector(doc)
-                            .OfClass(typeof(ViewSchedule))
-                            .First(x => x.Name.Equals("* Поправочные коэффициенты для определения допустимых токовых нагрузок кабелей, проложенных в воздухе при температуре окружающей среды, отличной от 30 °С")) as ViewSchedule;
+                                .OfClass(typeof(ViewSchedule))
+                                .First(x => x.Name.Equals(
+                                    "* Поправочные коэффициенты для определения допустимых токовых нагрузок кабелей, проложенных в воздухе при температуре окружающей среды, отличной от 30 °С"))
+                            as ViewSchedule;
                         if (temperatureSchedule == null) throw new Exception("Не удалось найти вид Попр.коэф.");
-
                         var temperatureArray = new FilteredElementCollector(doc, temperatureSchedule.Id).OrderBy(x => x.Name).ToArray();
                         formInitialValues.TemperatureComboBox.DataSource = temperatureArray;
                         formInitialValues.TemperatureComboBox.DisplayMember = "Name";
+
                         #endregion
 
                         formInitialValues.OkButton.Click += (sender, args) =>
@@ -182,8 +176,8 @@ namespace InitialValues
                             var shieldsDictionary = shields.ToDictionary(x => x.UniqueId);
                             var q = shields.GroupBy(x =>
                             {
-                                var index = x.Name.IndexOfAny(new []{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
-                                var subName = x.Name.Substring(0, index>0? index: x.Name.Length-1); 
+                                var index = x.Name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+                                var subName = x.Name.Substring(0, index > 0 ? index : x.Name.Length - 1);
                                 return subName;
                             });
                             foreach (var pair in q)
@@ -197,11 +191,9 @@ namespace InitialValues
 
                             updateForm.comboBox1.DataSource = installArray;
                             updateForm.comboBox1.DisplayMember = "Name";
-
                             updateForm.RefreshButton.Click += (o, eventArgs) =>
                             {
                                 var install = updateForm.comboBox1.SelectedItem as Element;
-
                                 var shieldsList = new List<FamilyInstance>();
                                 foreach (TreeNode node in updateForm.shieldsTreeView.Nodes)
                                 {
@@ -211,18 +203,14 @@ namespace InitialValues
                                         if (sheetNode.Checked) shieldsList.Add(shieldsDictionary[sheetNode.Name]);
                                     }
                                 }
-                               
-                                UpdateShields(shieldsList,updateForm.Flags, install);
+
+                                UpdateShields(shieldsList, updateForm.Flags, install);
                                 updateForm.Close();
                             };
                             updateForm.ShowDialog();
-
                             formInitialValues.Close();
-
                         };
-
                         Application.Run(formInitialValues);
-
                         return TransactionStatus.Committed == tr.Commit();
                     }
                 }
@@ -235,12 +223,11 @@ namespace InitialValues
             }
             finally
             {
-
             }
 
             return false;
         }
-        
+
 
         private void SetValues(IEnumerable<FamilyInstance> shields)
         {
@@ -251,10 +238,10 @@ namespace InitialValues
                 //Напряжение в щите
                 //if 
                 var u = 380;
-                int.TryParse(shield.LookupParameter("Напряжение в щите")?.AsValueString().Split(' ')[0], out u) ;
-                    //||
-                 //u == 0);
-                    //continue;
+                int.TryParse(shield.LookupParameter("Напряжение в щите")?.AsValueString().Split(' ')[0], out u);
+                //||
+                //u == 0);
+                //continue;
                 var circuits = shield
                     .MEPModel?
                     .GetAssignedElectricalSystems()?
@@ -262,7 +249,6 @@ namespace InitialValues
                     .OrderBy(x => x.Name.Split(',')[0].Length)
                     .ThenBy(x => x.Name).ToArray();
                 if (circuits is null) continue;
-
                 var prefix = shield.LookupParameter("Префикс цепи").AsString();
                 var number = 1;
                 var circuitPhase = new PhaseNumber();
@@ -276,17 +262,14 @@ namespace InitialValues
 
                     var param = circuit.LookupParameter("Номер группы по ГОСТ");
                     if (CheckParameter(param)) param.Set($"{prefix}.{number}");
-
                     var numberQFParam = circuit.LookupParameter("Номер QF");
                     if (CheckParameter(numberQFParam)) numberQFParam.Set($"QF{number}");
                     number++;
-
                     var phaseParameter = circuit.LookupParameter("Фаза");
                     if (CheckParameter(phaseParameter))
                     {
                         if (u == 380)
                         {
-
                             if (circuit.LookupParameter("Номер цепи").AsString().Split(',').Length > 1)
                             {
                                 phaseParameter.Set("L1,L2,L3");
@@ -321,9 +304,7 @@ namespace InitialValues
                 circuit.LookupParameter("Обозначение трубы"),
                 circuit.LookupParameter("Способ монтажа по ГОСТ"),
                 circuit.LookupParameter("Поправочные коэфф для категорий кроме D"),
-
             };
-
             var initialValues = new[]
             {
                 (formInitialValues.Device1comboBox.SelectedItem as Element)?.Id,
@@ -333,14 +314,11 @@ namespace InitialValues
                 (formInitialValues.InstallationСomboBox.SelectedItem as Element)?.Id,
                 (formInitialValues.TemperatureComboBox.SelectedItem as Element)?.Id
             };
-
-
-
             var shieldName = circuit.LookupParameter("Панель").AsString();
-            ElementId[] values1;
+            ElementId?[] values1;
             if (shieldName.Contains("ЩО-"))
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
                     (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("S201 C10")))?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
@@ -352,11 +330,12 @@ namespace InitialValues
             }
             else if (shieldName.Contains("ЩОA-") || shieldName.Contains("ЩАО-"))
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
                     (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("S201 C10")))?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
-                    (formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-FRLSLTx 3x1.5"))?.Id),
+                    (formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-FRLSLTx 3x1.5"))
+                        ?.Id),
                     (formInitialValues.TubeComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ОКЛ FRLine 25 скрыто"))?.Id),
                     (formInitialValues.InstallationСomboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("A2"))?.Id),
                     (formInitialValues.TemperatureComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("30"))?.Id),
@@ -364,11 +343,12 @@ namespace InitialValues
             }
             else if (shieldName.Contains("РТ-"))
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
                     (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("S202 C10")))?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
-                    (formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-FRLSLTx 2x1.5"))?.Id),
+                    (formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-FRLSLTx 2x1.5"))
+                        ?.Id),
                     (formInitialValues.TubeComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ОКЛ FRLine 25 скрыто"))?.Id),
                     (formInitialValues.InstallationСomboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("A2"))?.Id),
                     (formInitialValues.TemperatureComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("30"))?.Id),
@@ -376,9 +356,10 @@ namespace InitialValues
             }
             else if (shieldName.Contains("ЩC-") || shieldName.Contains("ЩС-"))
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
-                    (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("DS201 C16 A30, 30 мА")))?.Id,
+                    (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("DS201 C16 A30, 30 мА")))
+                    ?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
                     (formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-LSLTx 3x2.5"))?.Id),
                     (formInitialValues.TubeComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ПВХ 20 скрыто"))?.Id),
@@ -388,7 +369,7 @@ namespace InitialValues
             }
             else if (shieldName.Contains("ЩС-В"))
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
                     (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("S203 C16")))?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
@@ -400,9 +381,10 @@ namespace InitialValues
             }
             else
             {
-                values1 = new ElementId[]
+                values1 = new ElementId?[]
                 {
-                    (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("DS201 C16 A30, 30 мА")))?.Id,
+                    (formInitialValues.Device1comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("DS201 C16 A30, 30 мА")))
+                    ?.Id,
                     (formInitialValues.Device2comboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("-"))?.Id),
                     formInitialValues.CablesComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ВВГнг(А)-LSLTx 3x2.5"))?.Id,
                     (formInitialValues.TubeComboBox.Items.Cast<Element>().FirstOrDefault(x => x.Name.Equals("ПВХ 20 скрыто"))?.Id),
@@ -423,7 +405,6 @@ namespace InitialValues
                     {
                         Console.WriteLine(e);
                     }
-                    
                 }
             }
         }
@@ -453,7 +434,6 @@ namespace InitialValues
                 shieldPhase.Flag = false;
                 //Напряжение в щите
                 if (!int.TryParse(shield.LookupParameter("Напряжение в щите").AsValueString().Split(' ')[0], out var u) || u == 0) continue;
-
                 var circuits = shield
                     .MEPModel?
                     .GetAssignedElectricalSystems()?
@@ -461,7 +441,6 @@ namespace InitialValues
                     .OrderBy(x => x.Name.Split(',')[0].Length)
                     .ThenBy(x => x.Name).ToArray();
                 if (circuits is null) continue;
-
                 var prefix = shield.LookupParameter("Префикс цепи").AsString();
                 var number = 1;
                 var circuitPhase = new PhaseNumber();
@@ -479,8 +458,8 @@ namespace InitialValues
                         //if (CheckParameter(param))
                         param.Set($"{prefix}.{number}");
                     }
-                    number++;
 
+                    number++;
                     if (flags[2])
                     {
                         var phaseParameter = circuit.LookupParameter("Фаза");
@@ -503,9 +482,8 @@ namespace InitialValues
                         }
                     }
 
-                    if(flags[3])
-                    circuit.LookupParameter("Способ монтажа по ГОСТ").Set(element.Id);
-
+                    if (flags[3])
+                        circuit.LookupParameter("Способ монтажа по ГОСТ").Set(element.Id);
                 }
 
                 if (shieldPhase.Flag) shieldPhase.Up();
@@ -516,6 +494,7 @@ namespace InitialValues
     internal class PhaseNumber
     {
         private int _n;
+
         internal void Up()
         {
             _n++;
@@ -523,7 +502,7 @@ namespace InitialValues
 
         internal int Get()
         {
-            return _n%3+1;
+            return _n % 3 + 1;
         }
 
         internal bool Flag;

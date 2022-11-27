@@ -1,9 +1,14 @@
-﻿namespace ShieldManager.SelectModelOfShield
-{
-    using System;
-    using System.Windows;
-    using Autodesk.Revit.DB;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using Autodesk.Revit.DB;
 
+namespace ShieldPanel.SelectModelOfShield
+{
     public class ShieldParametersIUpdater : IUpdater
     {
         private UpdaterId _uId;
@@ -82,7 +87,7 @@
                     {
                         var value = GetValue(from[i]);
                         bool? flag;
-                        to[i]?.Set(value);
+                        flag = to[i]?.Set(value);
                     }
                     else
                     {

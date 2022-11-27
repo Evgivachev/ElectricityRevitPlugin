@@ -24,7 +24,7 @@ namespace InitialValues
     /// Revit external command.
     /// </summary>	
 	[Transaction(TransactionMode.Manual)]
-    public sealed partial class ExternalCommand : IExternalCommand
+    public sealed partial class ExternalCommand : IExternalCommand, IExternalCommandAvailability
     {
         Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -72,5 +72,11 @@ namespace InitialValues
         }
 
 
+        /// <inheritdoc />
+        public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+        {
+            return applicationData.ActiveUIDocument?.Document is not null;
+
+        }
     }
 }

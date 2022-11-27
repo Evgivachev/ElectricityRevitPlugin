@@ -7,15 +7,14 @@
         <UseSimpleInjector>true</UseSimpleInjector>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\InitialValues\InitialValues.csproj" />
         <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
+        <ProjectReference Include="..\ShieldPanel\ShieldPanel.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="img\*.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <AdditionalFiles Include="img\Microsoft_Office_Excel.png" />
     </ItemGroup>
     <PropertyGroup>
         <PackageGuid>37e5471b-ffb4-4b5a-bc50-69262e3d52f1</PackageGuid>

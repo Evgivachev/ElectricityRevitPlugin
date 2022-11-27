@@ -1,36 +1,36 @@
-﻿namespace ShieldManager.ViewOfDevicesOfShield
+﻿namespace ShieldPanel.ViewOfDevicesOfShield
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
-    using Extensions;
 
     public class ShieldProcessing
     {
-        private readonly ElectricalSystem[] _assignedElectricalSystems;
-        private readonly double _countOfModulsOfShield;
-        private readonly double _heightOfShield;
-
-        private readonly FamilyInstance _shield;
-        private readonly double _widthOfShield;
-        private readonly double _lengthOfInputDevice = 85;
-
-        private readonly ParametersOfShield _parameters;
-        private readonly double _widthOfModule = 18;
-        private const double LengthFromWall = 35;
-
         public ShieldProcessing(FamilyInstance sh)
         {
             _shield = sh;
-            _assignedElectricalSystems = sh.MEPModel
-                .GetAssignedElectricalSystems()
-                .OrderBy(es => es.StartSlot)
+            _assignedElectricalSystems = sh?.MEPModel.GetAssignedElectricalSystems()?.OfType<ElectricalSystem>().OrderBy(es => es.StartSlot)
                 .ToArray();
-            _widthOfShield = _shield.LookupParameter("Ширина щита по каталогу").AsDouble().FootToMillimeters();
-            _heightOfShield = _shield.LookupParameter("Высота щита по каталогу").AsDouble().FootToMillimeters();
+            _widthOfShield = _shield.LookupParameter("Ширина щита по каталогу").AsDouble().FromFootToMillimeters();
+            _heightOfShield = _shield.LookupParameter("Высота щита по каталогу").AsDouble().FromFootToMillimeters();
             _countOfModulsOfShield = _shield.LookupParameter("Всего модулей на щит для спецификации").AsDouble();
             _parameters = new ParametersOfShield(sh);
         }
+
+        protected readonly FamilyInstance _shield;
+        protected int Id => _shield.Id.IntegerValue;
+        private IEnumerable<ElectricalSystem> ElectricalSystems => _shield.MEPModel.GetElectricalSystems().OfType<ElectricalSystem>();
+        private readonly ElectricalSystem[] _assignedElectricalSystems;
+        protected ElectricalSystem InputElectricalSystem => ElectricalSystems.FirstOrDefault(s => s.BaseEquipment.Id.IntegerValue != Id);
+
+        private ParametersOfShield _parameters;
+        private readonly double _widthOfShield;
+        private readonly double _heightOfShield;
+        private readonly double _countOfModulsOfShield;
+        private double lengthFromWall = 35;
+        private double _lengthOfInputDevice = 85;
+        private double _widthOfModule = 18;
 
         public void SetParametersOfThis()
         {
@@ -38,31 +38,32 @@
             var numberOfLine = 1;
             var numberOfDeviceInShield = 1;
             SetParametersOfInputDevice();
-            for (var i = 1; i <= _assignedElectricalSystems.Length; i++)
-            {
-                var currentElS = _assignedElectricalSystems[i - 1];
-                var device1Cl = currentElS.LookupParameter("Классификатор ОУ1").AsDouble();
-                var device1Nm = currentElS.LookupParameter("Количество модулей ОУ1").AsDouble();
-                var device2Cl = currentElS.LookupParameter("Классификатор ОУ2").AsDouble();
-                var device2Nm = currentElS.LookupParameter("Количество модулей ОУ2").AsDouble();
-                var deltaOfWidthRow = _widthOfModule * (device1Nm + device2Nm);
-                var newWidthRow = widthOfCurrentRow + deltaOfWidthRow;
-                if (i == 35)
+            if (_assignedElectricalSystems != null)
+                for (var i = 1; i <= _assignedElectricalSystems.Length; i++)
                 {
-                }
+                    var currentElS = _assignedElectricalSystems[i - 1];
+                    var device1Cl = currentElS.LookupParameter("Классификатор ОУ1").AsDouble();
+                    var device1Nm = currentElS.LookupParameter("Количество модулей ОУ1").AsDouble();
+                    var device2Cl = currentElS.LookupParameter("Классификатор ОУ2").AsDouble();
+                    var device2Nm = currentElS.LookupParameter("Количество модулей ОУ2").AsDouble();
+                    var deltaOfWidthRow = _widthOfModule * (device1Nm + device2Nm);
+                    var newWidthRow = widthOfCurrentRow + deltaOfWidthRow;
+                    if (i == 35)
+                    {
+                    }
 
-                while (!TrySetParametersToCurrentDevice(ref numberOfDeviceInShield, ref numberOfLine, ref widthOfCurrentRow,
-                           deltaOfWidthRow, new[] { device1Cl, device1Nm, device2Cl, device2Nm }))
-                {
-                    _parameters.ToZero(numberOfDeviceInShield);
-                    numberOfDeviceInShield++;
-                    if (numberOfDeviceInShield > _countOfModulsOfShield)
-                        break;
-                    CheckRowLength(ref numberOfLine, ref widthOfCurrentRow, numberOfDeviceInShield);
-                    if (numberOfLine > 10)
-                        break;
+                    while (!TrySetParametersToCurrentDevice(ref numberOfDeviceInShield, ref numberOfLine, ref widthOfCurrentRow,
+                               deltaOfWidthRow, new[] { device1Cl, device1Nm, device2Cl, device2Nm }))
+                    {
+                        _parameters.ToZero(numberOfDeviceInShield);
+                        numberOfDeviceInShield++;
+                        if (numberOfDeviceInShield > _countOfModulsOfShield)
+                            break;
+                        CheckRowLength(ref numberOfLine, ref widthOfCurrentRow, numberOfDeviceInShield);
+                        if (numberOfLine > 10)
+                            break;
+                    }
                 }
-            }
 
             _parameters.ToZeroToEnd(numberOfDeviceInShield);
         }
@@ -100,11 +101,11 @@
         {
             if (row == 1)
             {
-                var result = _widthOfShield > (LengthFromWall * 2 + _lengthOfInputDevice + width);
+                var result = _widthOfShield > (lengthFromWall * 2 + _lengthOfInputDevice + width);
                 return result;
             }
 
-            return _widthOfShield > LengthFromWall * 2 + width;
+            return _widthOfShield > lengthFromWall * 2 + width;
         }
 
         /// <summary>
