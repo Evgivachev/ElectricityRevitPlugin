@@ -7,6 +7,7 @@
         <UseSimpleInjector>true</UseSimpleInjector>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
         <ProjectReference Include="..\InitialValues\InitialValues.csproj" />
         <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
         <ProjectReference Include="..\ShieldPanel\ShieldPanel.csproj" />

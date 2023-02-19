@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <UseCommand>true</UseCommand>
+        <UseMoreLinq>true</UseMoreLinq>
+        <UseSimpleInjector>true</UseSimpleInjector>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="RxBim.Di" Version="1.1.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CommonUtils\CommonUtils.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+    </ItemGroup>
+</Project>

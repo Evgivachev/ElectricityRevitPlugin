@@ -42,6 +42,9 @@
   <ItemGroup>
     <PackageReference Include="morelinq" Version="3.3.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <PackageGuid>25eecf96-13a7-4bc4-8cde-4635ba9fe732</PackageGuid>
     <UpgradeCode>7026386e-3d98-4c4a-929f-060232385280</UpgradeCode>

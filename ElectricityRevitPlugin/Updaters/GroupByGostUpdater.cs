@@ -6,10 +6,11 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using ElectricityRevitPlugin.GroupByGost;
+    using global::GroupByGost;
 
-    class GroupByGost : MyUpdater
+    class GroupByGostUpdater : MyUpdater
     {
-        public GroupByGost(AddInId id)
+        public GroupByGostUpdater(AddInId id)
             : base(id)
         {
         }
@@ -30,7 +31,7 @@
             {
                 var doc = data.GetDocument();
                 var ids = data.GetModifiedElementIds();
-                var updater = new GroupByGostExternalCommand { Doc = doc };
+                var updater = new Cmd();
                 var fis = new List<FamilyInstance>();
                 foreach (var id in ids)
                 {

@@ -13,7 +13,7 @@
 
 #endregion
 
-namespace ElectricityRevitPlugin.GroupByGost
+namespace GroupByGost
 {
     using System;
     using System.Collections.Generic;
@@ -22,14 +22,15 @@ namespace ElectricityRevitPlugin.GroupByGost
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
-    using Extensions;
+    using CommonUtils.Extensions;
+    using RxBim.Di;
 
     /// <summary>
     /// Revit external command.
     /// </summary>	
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public sealed class GroupByGostExternalCommand : DefaultExternalCommand
+    public class Cmd : IExternalCommand, IExternalCommandAvailability
     {
         private readonly string _defaultGroupByGost = "???";
         private readonly Guid _disableChangeGuid = new Guid("be64f474-c030-40cf-9975-6eaebe087a84");
@@ -39,37 +40,52 @@ namespace ElectricityRevitPlugin.GroupByGost
 
         private Guid _isReserveGroupGuid = new Guid("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
 
-        protected override Result DoWork(ref string message, ElementSet elements)
+        /// <inheritdoc />
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            using (var tr = new Transaction(Doc, "trName"))
+            var container = CreateContainer(commandData);
+            var doc = container.GetService<Document>();
+            using var tr = new Transaction(doc, "trName");
+            if (TransactionStatus.Started == tr.Start())
             {
-                if (TransactionStatus.Started == tr.Start())
+                //Добавить быстрый фильтр
+                var allElements = new FilteredElementCollector(doc)
+                    .WherePasses(new ElementParameterFilter(
+                        ParameterFilterRuleFactory.CreateSharedParameterApplicableRule("Номер группы по ГОСТ")))
+                    .OfType<FamilyInstance>();
+                var shields = new FilteredElementCollector(doc)
+                    .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
+                    .OfClass(typeof(FamilyInstance))
+                    .Cast<FamilyInstance>();
+                SetValuesToShield(shields);
+                foreach (var element in allElements)
                 {
-                    //Добавить быстрый фильтр
-                    var allElements = new FilteredElementCollector(Doc)
-                        .WherePasses(new ElementParameterFilter(
-                            ParameterFilterRuleFactory.CreateSharedParameterApplicableRule("Номер группы по ГОСТ")))
-                        .OfType<FamilyInstance>();
-                    var shields = new FilteredElementCollector(Doc)
-                        .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
-                        .OfClass(typeof(FamilyInstance))
-                        .Cast<FamilyInstance>();
-                    SetValuesToShield(shields);
-                    foreach (var element in allElements)
-                    {
-                        //Не брать элементы типовых аннотаций (Однолинейные схемы)
-                        var category = element.Category;
-                        if (category.Id.IntegerValue == (int)BuiltInCategory.OST_GenericAnnotation)
-                            continue;
-                        SetValuesToElement(element);
-                    }
-
-                    tr.Commit();
-                    return Result.Succeeded;
+                    //Не брать элементы типовых аннотаций (Однолинейные схемы)
+                    var category = element.Category;
+                    if (category.Id.IntegerValue == (int)BuiltInCategory.OST_GenericAnnotation)
+                        continue;
+                    SetValuesToElement(element);
                 }
 
-                return Result.Failed;
+                tr.Commit();
+                return Result.Succeeded;
             }
+
+            return Result.Failed;
+        }
+
+        private IContainer CreateContainer(ExternalCommandData commandData)
+        {
+            var container = new SimpleInjectorContainer();
+            container.AddBaseRevitDependences(commandData);
+            new Config().Configure(container);
+            return container;
+        }
+
+        /// <inheritdoc />
+        public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+        {
+            return applicationData.ActiveUIDocument?.Document is not null;
         }
 
         public void SetValuesToElement(FamilyInstance fi)
@@ -83,7 +99,7 @@ namespace ElectricityRevitPlugin.GroupByGost
                 var parsing = int.TryParse(fi.get_Parameter(_idLinkElement)?.AsString(),
                     out var linkedElementParameterId);
                 if (parsing)
-                    powerCable = Doc.GetElement(new ElementId(linkedElementParameterId)) as ElectricalSystem;
+                    powerCable = fi.Document.GetElement(new ElementId(linkedElementParameterId)) as ElectricalSystem;
                 else
                 {
                     parameter.Set(_defaultGroupByGost);
@@ -93,7 +109,7 @@ namespace ElectricityRevitPlugin.GroupByGost
 
             var circuitName = powerCable?.Name;
             var circuitGost = powerCable?.get_Parameter(_groupByGostGuid)?.AsString();
-            parameter?.Set(string.IsNullOrEmpty(circuitGost) ? circuitName : circuitGost);
+            parameter?.Set(string.IsNullOrEmpty(circuitGost) ? circuitName ?? string.Empty : circuitGost);
         }
 
         public void SetValuesToElement(ElectricalSystem electricalSystem)

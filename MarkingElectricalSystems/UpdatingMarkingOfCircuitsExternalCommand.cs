@@ -6,10 +6,12 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Services;
 
+/// <inheritdoc cref="Autodesk.Revit.UI.IExternalCommand" />
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
-public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand
+public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand, IExternalCommandAvailability
 {
+    /// <inheritdoc />
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var uiApp = commandData.Application;
@@ -31,5 +33,11 @@ public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand
         }
 
         return result;
+    }
+
+    /// <inheritdoc />
+    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+    {
+        return applicationData.ActiveUIDocument?.Document is not null;
     }
 }
