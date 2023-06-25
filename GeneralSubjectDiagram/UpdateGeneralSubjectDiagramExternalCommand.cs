@@ -1,4 +1,5 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿/*
+namespace GeneralSubjectDiagram
 {
     using System;
     using System.Diagnostics;
@@ -60,3 +61,4 @@
         }
     }
 }
+*/

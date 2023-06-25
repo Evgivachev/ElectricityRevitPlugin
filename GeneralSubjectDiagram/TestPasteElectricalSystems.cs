@@ -1,4 +1,5 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿/*
+namespace GeneralSubjectDiagram
 {
     using System.Globalization;
     using System.Linq;
@@ -65,3 +66,4 @@
         }
     }
 }
+*/

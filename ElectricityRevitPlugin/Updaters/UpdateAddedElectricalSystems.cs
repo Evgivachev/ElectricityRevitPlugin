@@ -40,8 +40,9 @@
                     command.UpdateParameters(system);
                     foreach (Parameter parameter in system.Parameters)
                     {
-                        if (!parameter.HasValue && parameter.StorageType == StorageType.Integer &&
-                            parameter.UserModifiable && parameter.Definition.ParameterType == ParameterType.YesNo)
+                        if (!parameter.HasValue && parameter.StorageType == StorageType.Integer
+                                                && parameter.UserModifiable
+                                                && parameter.Definition.GetDataType() == SpecTypeId.Boolean.YesNo)
                             parameter.Set(0);
                     }
 

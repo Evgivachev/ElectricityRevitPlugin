@@ -1,12 +1,13 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
+    using GalaSoft.MvvmLight;
     using MoreLinq.Extensions;
 
-    public class CheckableItem : INotifyPropertyChanged
+    /// <inheritdoc />
+    public class CheckableItem : ObservableObject
     {
         private readonly CheckableItem _parent;
         private bool? _isChecked = false;
@@ -18,16 +19,15 @@
 
         public object Item { get; set; }
         public string Name { get; set; }
-        public ObservableCollection<CheckableItem> Children { get; } = new ObservableCollection<CheckableItem>();
+        public ObservableCollection<CheckableItem> Children { get; } = new();
         bool IsInitiallySelected { get; }
 
         public bool? IsChecked
         {
-            get { return _isChecked; }
-            set { SetIsChecked(value, true, true); }
+            get => _isChecked;
+            set => SetIsChecked(value, true, true);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         void SetIsChecked(bool? value, bool updateChildren, bool updateParent)
         {
@@ -38,7 +38,7 @@
                 Children.ForEach(c => c.SetIsChecked(_isChecked, true, false));
             if (updateParent)
                 _parent?.VerifyCheckState();
-            OnPropertyChanged("IsChecked");
+            RaisePropertyChanged(nameof(IsChecked));
         }
 
         void VerifyCheckState()
@@ -77,11 +77,6 @@
                     queue.Enqueue(child);
                 }
             }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

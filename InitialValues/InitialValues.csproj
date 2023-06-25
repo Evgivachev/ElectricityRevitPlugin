@@ -1,15 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <UseDi>true</UseDi>
+    <UseSimpleInjector>true</UseSimpleInjector>
     <UseCommand>true</UseCommand>
     <UseMoreLinq>true</UseMoreLinq>
     <UsePikUi>true</UsePikUi>
     <UseWpf>true</UseWpf>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="RxBim.Di" Version="1.1.1" />
-    <PackageReference Include="RxBim.Di.SimpleInjector" Version="1.1.0" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonUtils\CommonUtils.csproj" />
   </ItemGroup>

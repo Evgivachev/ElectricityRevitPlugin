@@ -1,10 +1,11 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.ParametersUpdaters
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using Autodesk.Revit.DB;
-    using Extensions;
+    using CommonUtils.Extensions;
+    using ViewModels;
 
     public abstract class ParameterUpdater
     {

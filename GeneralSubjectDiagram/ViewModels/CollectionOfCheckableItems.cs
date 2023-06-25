@@ -1,4 +1,4 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.ViewModels
 {
     using System.Collections.ObjectModel;
 

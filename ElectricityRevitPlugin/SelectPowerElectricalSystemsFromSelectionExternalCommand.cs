@@ -5,6 +5,7 @@
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using CommonUtils.Extensions;
     using Extensions;
 
     [Regeneration(RegenerationOption.Manual)]
@@ -27,7 +28,7 @@
                     .Select(e => doc.GetElement(e))
                     .Where(e => e != null)
                     .OfType<FamilyInstance>()
-                    .Select(f => f.GetPowerElectricalSystem())
+                    .Select(f => FamilyInstanceExtension.GetPowerElectricalSystem(f))
                     .Where(x => x != null);
                 var elSystemIds = elSystems
                     .Select(x => x.Id)

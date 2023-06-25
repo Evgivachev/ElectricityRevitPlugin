@@ -5,6 +5,7 @@
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
+    using CommonUtils.Extensions;
     using Extensions;
     using MoreLinq;
 

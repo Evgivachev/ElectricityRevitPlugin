@@ -5,6 +5,7 @@
     using System.Windows;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
+    using CommonUtils.Extensions;
     using Extensions;
     using UpdateParametersInCircuits;
 
@@ -43,7 +44,7 @@
                     if (el is ElectricalSystem electricalSystem)
                         system = electricalSystem;
                     else if (el is FamilyInstance fi)
-                        system = fi.GetPowerElectricalSystem();
+                        system = FamilyInstanceExtension.GetPowerElectricalSystem(fi);
                     if (system != null)
                     {
                         var isProhibitChanges = system.get_Parameter(_isProhibitChangesGuid);

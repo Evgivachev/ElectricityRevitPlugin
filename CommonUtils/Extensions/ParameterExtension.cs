@@ -1,7 +1,10 @@
-namespace Diagrams
+namespace CommonUtils.Extensions
 {
     using Autodesk.Revit.DB;
 
+    /// <summary>
+    /// Методы расширения для <see cref="Parameter"/>
+    /// </summary>
     public static class ParameterExtension
     {
         public static dynamic GetValueDynamic(this Parameter parameter)
@@ -20,19 +23,14 @@ namespace Diagrams
         public static bool SetEmptyValue(this Parameter parameter)
         {
             var type = parameter.StorageType;
-            switch (type)
+            return type switch
             {
-                case StorageType.Double:
-                    return parameter.Set(0.0);
-                case StorageType.Integer:
-                    return parameter.Set(0);
-                case StorageType.String:
-                    return parameter.Set("");
-                case StorageType.ElementId:
-                    return parameter.Set(new ElementId(-1));
-                default:
-                    return parameter.SetValueString("");
-            }
+                StorageType.Double => parameter.Set(0.0),
+                StorageType.Integer => parameter.Set(0),
+                StorageType.String => parameter.Set(""),
+                StorageType.ElementId => parameter.Set(ElementId.InvalidElementId),
+                _ => parameter.SetValueString(string.Empty)
+            };
         }
 
         public static bool SetDynamicValue(this Parameter parameter, dynamic value)
@@ -56,7 +54,7 @@ namespace Diagrams
                     return parameter.Set((ElementId)value);
                 case StorageType.None:
                 default:
-                    return parameter.SetValueString(value);
+                    return parameter.SetValueString(value.ToString());
             }
         }
     }

@@ -1,6 +1,9 @@
 ﻿namespace CommonUtils.Extensions;
 
 using Autodesk.Revit.UI;
+using PikTools.Ui.Abstractions;
+using PikTools.Ui.Services;
+using PikTools.Ui.ViewModels;
 using RxBim.Di;
 
 public static class ContainerExtensions
@@ -13,6 +16,14 @@ public static class ContainerExtensions
             .AddTransient(() => commandData.Application.ActiveUIDocument)
             .AddTransient(() => commandData.Application.ActiveUIDocument?.Document)
             .AddTransient(() => commandData.Application.ActiveUIDocument.Selection);
+        return container;
+    }
+
+    public static IContainer AddUi(this IContainer container)
+    {
+        container.AddSingleton<IUIDispatcher, UIDispatcher>().AddSingleton<IExternalDialogs, ExternalDialogsService>()
+            .AddSingleton<INotificationService, NotificationService>();
+        container.AddInstance((INotificationViewModel)new NotificationViewModel());
         return container;
     }
 }

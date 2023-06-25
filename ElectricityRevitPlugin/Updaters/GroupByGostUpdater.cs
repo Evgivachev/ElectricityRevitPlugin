@@ -5,7 +5,6 @@
     using System.Windows;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
-    using ElectricityRevitPlugin.GroupByGost;
     using global::GroupByGost;
 
     class GroupByGostUpdater : MyUpdater

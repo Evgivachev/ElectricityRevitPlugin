@@ -11,6 +11,7 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
+    using CommonUtils.Extensions;
     using ExternalCommands.OneLineDiagram;
     using Models;
     using View = Autodesk.Revit.DB.View;

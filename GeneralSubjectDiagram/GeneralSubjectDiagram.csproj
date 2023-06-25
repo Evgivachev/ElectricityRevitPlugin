@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <UseCommand>true</UseCommand>
+        <UseSimpleInjector>true</UseSimpleInjector>
+        <UseWpf>true</UseWpf>
+        <UseMoreLinq>true</UseMoreLinq>
+        <UseSimpleInjector>true</UseSimpleInjector>
+        <Nullable>enable</Nullable>
+        <UsePikUi>true</UsePikUi>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Microsoft.CSharp"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\CommonUtils\CommonUtils.csproj"/>
+    </ItemGroup>
+</Project>

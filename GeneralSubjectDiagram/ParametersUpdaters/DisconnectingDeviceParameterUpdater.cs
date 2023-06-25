@@ -1,18 +1,21 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.ParametersUpdaters
 {
     using System;
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
-    using Extensions;
+    using CommonUtils.Extensions;
 
+    /// <inheritdoc />
     public class DisconnectingDeviceParameterUpdater : CableParameterUpdater
     {
+        /// <inheritdoc />
         public DisconnectingDeviceParameterUpdater()
             : base()
         {
         }
 
+        /// <inheritdoc />
         public DisconnectingDeviceParameterUpdater(Element fromElement)
             : base(fromElement)
         {
@@ -42,6 +45,7 @@
             };
         }
 
+        /// <inheritdoc />
         public override FamilyInstance InsertInstance(FamilySymbol familySymbol, XYZ xyz)
         {
             var instance = Doc.Create.NewFamilyInstance(xyz, familySymbol, Doc.ActiveView);

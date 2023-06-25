@@ -1,11 +1,11 @@
-﻿namespace ElectricityRevitPlugin
+﻿namespace CommonUtils.Helpers
 {
     using System.Collections.Generic;
     using Autodesk.Revit.DB;
 
-    class RevitNameComparer : IComparer<string>
+    public class RevitNameComparer : IComparer<string>
     {
-        public int Compare(string x, string y)
+        public int Compare(string? x, string? y)
         {
             if (x is null || y is null)
                 return 0;

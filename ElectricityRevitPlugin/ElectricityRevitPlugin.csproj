@@ -1,52 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Version>2.0.0</Version>
-    <Description>Плагин ЭОМ.</Description>
-    <LangVersion>9</LangVersion>
-    <TargetFramework>net48</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWpf>true</UseWpf>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AdWindows, Version=3.1.7.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\AdWindows.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIIFC, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\RevitAPIIFC.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIMacros, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\RevitAPIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUIMacros, Version=22.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\RevitAPIUIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="VCRevitRibbonUtilCustom, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="morelinq" Version="3.3.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
-  </ItemGroup>
-  <PropertyGroup>
-    <PackageGuid>25eecf96-13a7-4bc4-8cde-4635ba9fe732</PackageGuid>
-    <UpgradeCode>7026386e-3d98-4c4a-929f-060232385280</UpgradeCode>
-  </PropertyGroup>
+    <PropertyGroup>
+        <UseCommand>true</UseCommand>
+        <Version>2.0.0</Version>
+        <Description>Плагин ЭОМ.</Description>
+        <UseWpf>true</UseWpf>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="VCRevitRibbonUtilCustom, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
+    </ItemGroup>
+    <PropertyGroup>
+        <PackageGuid>25eecf96-13a7-4bc4-8cde-4635ba9fe732</PackageGuid>
+        <UpgradeCode>7026386e-3d98-4c4a-929f-060232385280</UpgradeCode>
+    </PropertyGroup>
 </Project>

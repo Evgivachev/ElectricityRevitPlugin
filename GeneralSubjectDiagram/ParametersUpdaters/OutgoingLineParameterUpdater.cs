@@ -1,7 +1,8 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.ParametersUpdaters
 {
     using System;
     using Autodesk.Revit.DB;
+    using ViewModels;
 
     class OutgoingLineParameterUpdater : CableParameterUpdater
     {

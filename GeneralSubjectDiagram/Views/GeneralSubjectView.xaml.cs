@@ -1,17 +1,18 @@
-﻿namespace ElectricityRevitPlugin.GeneralSubject
+﻿namespace GeneralSubjectDiagram.Views
 {
     using System.Linq;
     using System.Windows;
     using Autodesk.Revit.DB;
+    using ViewModels;
 
     /// <summary>
     /// Логика взаимодействия для GeneralSubjectWpf.xaml
     /// </summary>
-    public partial class GeneralSubjectWpf : Window
+    public partial class GeneralSubjectView : Window
     {
-        private GeneralSubjectViewModel _viewModel;
+        private readonly GeneralSubjectViewModel _viewModel;
 
-        public GeneralSubjectWpf(GeneralSubjectViewModel viewModel)
+        public GeneralSubjectView(GeneralSubjectViewModel viewModel)
         {
             _viewModel = viewModel;
             DataContext = _viewModel;
@@ -26,12 +27,7 @@
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItems = (_viewModel.TreeCollectionOfCheckableItems)
-                .SelectMany(x => x.GetSelectedCheckableItems())
-                .Where(x => x.Item is Element)
-                .Select(x => (Element)x.Item);
-            Close();
-            _viewModel.InsertInstances(selectedItems);
+          
         }
     }
 }

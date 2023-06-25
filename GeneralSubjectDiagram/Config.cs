@@ -1,4 +1,4 @@
-﻿namespace MarkingElectricalSystems;
+﻿namespace GeneralSubjectDiagram;
 
 using CommonUtils.Extensions;
 using RxBim.Di;
@@ -10,5 +10,7 @@ public class Config : ICommandConfiguration
     public void Configure(IContainer container)
     {
         container.AddUi();
+        container.AddSingleton<Views.GeneralSubjectView>()
+            .AddSingleton<ViewModels.GeneralSubjectViewModel>();
     }
 }

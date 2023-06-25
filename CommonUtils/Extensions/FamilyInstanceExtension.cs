@@ -1,9 +1,10 @@
-﻿namespace ElectricityRevitPlugin.Extensions
+﻿namespace CommonUtils.Extensions
 {
     using System;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
+    using Comparer;
 
     public static class FamilyInstanceExtension
     {
@@ -19,22 +20,28 @@
         private static readonly Guid _powerFactorShield = new Guid("ddc9d5f2-202b-4f16-a5d8-f1180c8b7984");
         private static Guid _loadClassificationGuid = new Guid("fa6ed58d-6a37-4060-9cd2-a16c5d110afe");
 
+        /// <summary>
+        /// Возвращает питающую сеть элемента
+        /// </summary>
+        /// <param name="familyInstance">"Элемент</param>
         public static ElectricalSystem? GetPowerElectricalSystem(this FamilyInstance familyInstance)
         {
             try
             {
-                if (familyInstance?.MEPModel?.GetElectricalSystems() is null
-                    || familyInstance.MEPModel.GetElectricalSystems().Count == 0)
+                var allSystems = familyInstance.MEPModel?.GetElectricalSystems();
+                if (allSystems is null
+                    || allSystems.Count == 0)
                     return null;
-                if (familyInstance.MEPModel.GetAssignedElectricalSystems() is null)
-                    return familyInstance.MEPModel.GetElectricalSystems()?.First()!;
-                if (familyInstance.MEPModel.GetElectricalSystems().Count
-                    == familyInstance.MEPModel.GetAssignedElectricalSystems().Count)
+                var assignedElectricalSystems =
+                    familyInstance.MEPModel!.GetAssignedElectricalSystems().ToHashSet(new ElectricalSystemsComparer());
+                if (assignedElectricalSystems is null)
+                    return allSystems.First();
+                if (allSystems.Count == assignedElectricalSystems.Count)
                     return null;
-                return familyInstance.MEPModel.GetElectricalSystems()
-                    .First(x => !familyInstance.MEPModel.GetAssignedElectricalSystems().Contains(x));
+                return allSystems
+                    .First(x => !assignedElectricalSystems.Contains(x));
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }
