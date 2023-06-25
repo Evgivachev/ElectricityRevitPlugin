@@ -1,8 +1,6 @@
 ﻿namespace GeneralSubjectDiagram.Views
 {
-    using System.Linq;
     using System.Windows;
-    using Autodesk.Revit.DB;
     using ViewModels;
 
     /// <summary>
@@ -27,7 +25,6 @@
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-          
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace GeneralSubjectDiagram.ParametersUpdaters
+﻿namespace GeneralSubjectDiagram.Services.ParametersUpdaters
 {
     using System;
     using System.Collections.Generic;
@@ -6,6 +6,7 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using CommonUtils.Extensions;
+    using CommonUtils.Helpers;
     using ViewModels;
 
     public class CableParameterUpdater : ParameterUpdater
@@ -72,7 +73,7 @@
                     .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
                     .OfType<ElectricalSystem>()
                     .OrderBy(x => x.PanelName)
-                    .ThenBy(x => x.GetGroupByGost(), new CommonUtils.Helpers.RevitNameComparer())
+                    .ThenBy(x => x.GetGroupByGost(), new RevitNameComparer())
                     .GroupBy(x => x.PanelName ?? "???")
                 //.GroupBy(x => x.PanelName)
                 ;

@@ -25,12 +25,12 @@
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>
     </ItemGroup>
-    
+
     <ItemGroup Condition=" '$(UseApplication)' == 'true' ">
         <PackageReference Include="RxBim.Application.Revit.2024" Version="1.9.2"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(UseRibbonMenu)' == 'true' ">
-        <PackageReference Include="RxBim.Application.Ribbon.Revit.2024" Version="2.3.2" />
+        <PackageReference Include="RxBim.Application.Ribbon.Revit.2024" Version="2.3.2"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(UseSimpleInjector)' == 'true' ">
         <PackageReference Include="RxBim.Di.SimpleInjector" Version="1.1.3"/>
@@ -50,5 +50,5 @@
     <ItemGroup Condition=" '$(UseCommand)' == 'true' ">
         <PackageReference Include="RxBim.Command.Revit.2024" Version="1.9.2"/>
     </ItemGroup>
-    
+
 </Project>

@@ -4,12 +4,13 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using CommonUtils.Extensions;
+using JetBrains.Annotations;
 using RxBim.Di;
 using Views;
-using Result = Autodesk.Revit.UI.Result;
 
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
+[UsedImplicitly]
 public class Cmd : IExternalCommand
 {
     private static GeneralSubjectView? _view;

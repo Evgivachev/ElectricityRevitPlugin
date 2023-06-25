@@ -1,30 +1,26 @@
 ﻿namespace GeneralSubjectDiagram.ViewModels
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
     using Autodesk.Revit.UI.Selection;
     using GalaSoft.MvvmLight;
-    using ParametersUpdaters;
     using PikTools.Ui.Abstractions;
     using PikTools.Ui.Commands;
-    using Views;
+    using Services.ParametersUpdaters;
 
     /// <inheritdoc />
     public class GeneralSubjectViewModel : ViewModelBase
     {
         private readonly Document _doc;
-        private FamilySymbol _selectedFamilySymbol;
         private readonly UIDocument _uiDoc;
         private bool _isHideExistingElementsCheckBox;
+        private FamilySymbol _selectedFamilySymbol;
 
         public GeneralSubjectViewModel(UIApplication uiApplication)
         {

@@ -2,6 +2,8 @@
 
 using CommonUtils.Extensions;
 using RxBim.Di;
+using ViewModels;
+using Views;
 
 /// <inheritdoc />
 public class Config : ICommandConfiguration
@@ -10,7 +12,7 @@ public class Config : ICommandConfiguration
     public void Configure(IContainer container)
     {
         container.AddUi();
-        container.AddSingleton<Views.GeneralSubjectView>()
-            .AddSingleton<ViewModels.GeneralSubjectViewModel>();
+        container.AddSingleton<GeneralSubjectView>()
+            .AddSingleton<GeneralSubjectViewModel>();
     }
 }
