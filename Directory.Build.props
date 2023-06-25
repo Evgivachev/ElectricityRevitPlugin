@@ -45,7 +45,7 @@
         <PackageReference Include="PikTools.Ui" Version="3.3.3"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(UseMoreLinq)' == 'true' ">
-        <PackageReference Include="morelinq" Version="3.3.2"/>
+        <PackageReference Include="morelinq" Version="3.4.2"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(UseCommand)' == 'true' ">
         <PackageReference Include="RxBim.Command.Revit.2024" Version="1.9.2"/>

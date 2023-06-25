@@ -1,5 +1,6 @@
 ﻿namespace GeneralSubjectDiagram.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -20,18 +21,32 @@
         private readonly Document _doc;
         private readonly UIDocument _uiDoc;
         private bool _isHideExistingElementsCheckBox;
-        private FamilySymbol _selectedFamilySymbol;
+        private FamilySymbol? _selectedFamilySymbol;
+        private FamilySymbol[] _availableFamilySymbols = Array.Empty<FamilySymbol>();
+        private CollectionOfCheckableItems _treeCollectionOfCheckableItems = new();
 
+        /// <inheritdoc />
         public GeneralSubjectViewModel(UIApplication uiApplication)
         {
             _uiDoc = uiApplication.ActiveUIDocument;
             _doc = _uiDoc.Document;
         }
 
+        /// <summary>
+        /// Создание семейств
+        /// </summary>
         public ICommand ExecuteCommand => new RelayAsyncCommand<IClosable>(Execute);
 
+        /// <summary>
+        /// Инициализация
+        /// </summary>
+        public ICommand InitializeCommand => new RelayAsyncCommand<IClosable>(Initialize);
 
-        public FamilySymbol SelectedFamilySymbol
+
+        /// <summary>
+        /// Выбранное семейство для вставки
+        /// </summary>
+        public FamilySymbol? SelectedFamilySymbol
         {
             get => _selectedFamilySymbol;
             set
@@ -42,25 +57,13 @@
             }
         }
 
+        /// <summary>
+        /// Доступные семейства для выбора
+        /// </summary>
         public FamilySymbol[] AvailableFamilySymbols
         {
-            get
-            {
-                var elementParameterFilter =
-                    new ElementParameterFilter(new SharedParameterApplicableRule("ReflectionClassName"));
-                var allElements = new FilteredElementCollector(_doc)
-                    .OfClass(typeof(FamilySymbol))
-                    .WhereElementIsElementType()
-                    //.WherePasses(elementParameterFilter)
-                    .OfType<FamilySymbol>()
-                    .Where(x =>
-                    {
-                        var updaterClassName = x.get_Parameter(ParameterUpdater.ReflectionClassNameGuid)?.AsString();
-                        return !string.IsNullOrEmpty(updaterClassName);
-                    })
-                    .ToArray();
-                return allElements;
-            }
+            get => _availableFamilySymbols;
+            private set => Set(ref _availableFamilySymbols, value);
         }
 
         /// <summary>
@@ -75,7 +78,29 @@
         /// <summary>
         /// Коллекция элементов
         /// </summary>
-        public CollectionOfCheckableItems TreeCollectionOfCheckableItems { get; private set; }
+        public CollectionOfCheckableItems TreeCollectionOfCheckableItems
+        {
+            get => _treeCollectionOfCheckableItems;
+            private set => Set(ref _treeCollectionOfCheckableItems, value);
+        }
+
+        private Task Initialize(IClosable arg)
+        {
+            var elementParameterFilter =
+                new ElementParameterFilter(new SharedParameterApplicableRule("ReflectionClassName"));
+            AvailableFamilySymbols = new FilteredElementCollector(_doc)
+                .OfClass(typeof(FamilySymbol))
+                .WhereElementIsElementType()
+                //.WherePasses(elementParameterFilter)
+                .OfType<FamilySymbol>()
+                .Where(x =>
+                {
+                    var updaterClassName = x.get_Parameter(ParameterUpdater.ReflectionClassNameGuid)?.AsString();
+                    return !string.IsNullOrEmpty(updaterClassName);
+                })
+                .ToArray();
+            return Task.CompletedTask;
+        }
 
         private Task Execute(IClosable closable)
         {
@@ -123,7 +148,6 @@
                 BindingFlags.CreateInstance, null, null, CultureInfo.InvariantCulture, null)!;
             var validateElements = parameterUpdater?.GetValidateElements(_doc);
             TreeCollectionOfCheckableItems = validateElements;
-            RaisePropertyChanged(nameof(TreeCollectionOfCheckableItems));
         }
 
         private XYZ PickPoint()

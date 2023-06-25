@@ -1,30 +1,21 @@
 ﻿namespace GeneralSubjectDiagram.Views
 {
-    using System.Windows;
+    using PikTools.Ui.Abstractions;
     using ViewModels;
 
     /// <summary>
     /// Логика взаимодействия для GeneralSubjectWpf.xaml
     /// </summary>
-    public partial class GeneralSubjectView : Window
+    public partial class GeneralSubjectView : IClosable
     {
         private readonly GeneralSubjectViewModel _viewModel;
 
+        /// <inheritdoc />
         public GeneralSubjectView(GeneralSubjectViewModel viewModel)
         {
             _viewModel = viewModel;
             DataContext = _viewModel;
             InitializeComponent();
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            Close();
-        }
-
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
         }
     }
 }
