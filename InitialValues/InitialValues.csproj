@@ -7,6 +7,8 @@
     <UseMoreLinq>true</UseMoreLinq>
     <UsePikUi>true</UsePikUi>
     <UseWpf>true</UseWpf>
+    <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonUtils\CommonUtils.csproj" />

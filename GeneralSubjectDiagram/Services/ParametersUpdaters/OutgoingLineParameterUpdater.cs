@@ -1,4 +1,5 @@
-﻿namespace GeneralSubjectDiagram.Services.ParametersUpdaters
+﻿/*
+namespace GeneralSubjectDiagram.Services.ParametersUpdaters
 {
     using System;
     using Autodesk.Revit.DB;
@@ -17,3 +18,4 @@
         }
     }
 }
+*/

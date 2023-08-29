@@ -11,10 +11,11 @@ using Views;
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
 [UsedImplicitly]
-public class Cmd : IExternalCommand
+public class Cmd : IExternalCommand, IExternalCommandAvailability
 {
     private static GeneralSubjectView? _view;
 
+    /// <inheritdoc />
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var container = CreateContainer(commandData);
@@ -37,5 +38,11 @@ public class Cmd : IExternalCommand
         var config = new Config();
         config.Configure(container);
         return container;
+    }
+
+    /// <inheritdoc />
+    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+    {
+        return true;
     }
 }

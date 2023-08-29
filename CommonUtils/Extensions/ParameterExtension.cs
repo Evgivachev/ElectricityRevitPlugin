@@ -1,5 +1,6 @@
 namespace CommonUtils.Extensions
 {
+    using System;
     using Autodesk.Revit.DB;
 
     /// <summary>
@@ -20,16 +21,21 @@ namespace CommonUtils.Extensions
             };
         }
 
-        public static bool SetEmptyValue(this Parameter parameter)
+        /// <summary>
+        /// Сбрасывает значение параметра
+        /// </summary>
+        /// <param name="parameter">Параметр</param>
+        /// <returns></returns>
+        public static bool ResetValue(this Parameter parameter)
         {
-            var type = parameter.StorageType;
-            return type switch
+            return parameter.StorageType switch
             {
-                StorageType.Double => parameter.Set(0.0),
-                StorageType.Integer => parameter.Set(0),
-                StorageType.String => parameter.Set(""),
+                StorageType.None => parameter.SetValueString(string.Empty),
+                StorageType.Integer => parameter.Set(default(int)),
+                StorageType.Double => parameter.Set(default(double)),
+                StorageType.String => parameter.Set(string.Empty),
                 StorageType.ElementId => parameter.Set(ElementId.InvalidElementId),
-                _ => parameter.SetValueString(string.Empty)
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 

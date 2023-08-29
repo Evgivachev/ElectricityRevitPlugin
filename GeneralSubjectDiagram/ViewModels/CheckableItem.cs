@@ -8,18 +8,17 @@
     /// <inheritdoc />
     public class CheckableItem : ObservableObject
     {
-        private readonly CheckableItem _parent;
+        private readonly CheckableItem? _parent;
         private bool? _isChecked = false;
 
-        public CheckableItem(CheckableItem parent = null)
+        public CheckableItem(CheckableItem? parent = null)
         {
             _parent = parent;
         }
 
-        public object Item { get; set; }
-        public string Name { get; set; }
+        public object? Item { get; set; }
+        public string? Name { get; set; }
         public ObservableCollection<CheckableItem> Children { get; } = new();
-        bool IsInitiallySelected { get; }
 
         public bool? IsChecked
         {

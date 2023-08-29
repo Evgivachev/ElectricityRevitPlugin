@@ -1,7 +1,6 @@
 ﻿namespace ElectricityRevitPluginApp;
 
 using System.Reflection;
-using MarkingElectricalSystems;
 using RxBim.Application.Ribbon;
 using RxBim.Di;
 using ShieldPanel.SelectModelOfShield;
@@ -34,7 +33,7 @@ public class Config : IApplicationConfiguration
                                 .ToolTip("Группы по ГОСТ"))
                         .StackedItems(builder => builder.CommandButton(
                                 nameof(MarkingElectricalSystems),
-                                typeof(Cmd),
+                                typeof(MarkingElectricalSystems.Cmd),
                                 button => button
                                     .Text("Маркировка цепей")
                                     .LargeImage(@"img\icons8-нео-32.png")
@@ -42,8 +41,8 @@ public class Config : IApplicationConfiguration
                                         "Плагин для сгруппированного маркирования цепей по выделенным элементам")
                                     .ToolTip("Маркировка цепей по выделенным элементам"))
                             .CommandButton(
-                                nameof(UpdatingMarkingOfCircuitsExternalCommand),
-                                typeof(UpdatingMarkingOfCircuitsExternalCommand),
+                                nameof(MarkingElectricalSystems.UpdatingMarkingOfCircuitsExternalCommand),
+                                typeof(MarkingElectricalSystems.UpdatingMarkingOfCircuitsExternalCommand),
                                 button => button
                                     .Text("Обновление маркировок цепей")
                                     .LargeImage(@"img\icons8-морфеус-32.png")
@@ -59,6 +58,15 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Плагин для задания начальных значений электрическим цепям")
                                 .ToolTip("Плагин для задания начальных значений электрическим цепям"))
+                        .CommandButton(
+                            nameof(GeneralSubjectDiagram),
+                            typeof(GeneralSubjectDiagram.Cmd),
+                            button => button
+                                .Text("Схема ВРУ")
+                                .LargeImage(@"img\icons8-паутина-32.png")
+                                .Description(
+                                    "Плагин создания схемы ВРУ")
+                                .ToolTip("Плагин создания схемы ВРУ"))
                     )
                     .Panel("Щиты", builder => builder
                         .CommandButton(

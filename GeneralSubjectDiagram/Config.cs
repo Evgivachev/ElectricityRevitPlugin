@@ -1,8 +1,10 @@
 ﻿namespace GeneralSubjectDiagram;
 
+using System.Collections.Generic;
 using System.Reflection;
 using CommonUtils.Extensions;
 using RxBim.Di;
+using Services.ParametersUpdaters;
 using ViewModels;
 using Views;
 
@@ -16,5 +18,12 @@ public class Config : ICommandConfiguration
         container.AddUi();
         container.AddSingleton<GeneralSubjectView>()
             .AddSingleton<GeneralSubjectViewModel>();
+        container.AddInstance(new RevitTask());
+        container.AddSingleton(() => (IEnumerable<ParameterUpdater>)new[]
+        {
+            (ParameterUpdater)new CableParameterUpdater(),
+            new DisconnectingDeviceParameterUpdater(),
+            new ShieldParameterUpdater()
+        });
     }
 }

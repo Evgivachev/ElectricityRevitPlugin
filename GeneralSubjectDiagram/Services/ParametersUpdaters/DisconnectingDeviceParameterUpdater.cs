@@ -5,19 +5,15 @@
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using CommonUtils.Extensions;
+    using JetBrains.Annotations;
+
 
     /// <inheritdoc />
+    [UsedImplicitly]
     public class DisconnectingDeviceParameterUpdater : CableParameterUpdater
     {
         /// <inheritdoc />
         public DisconnectingDeviceParameterUpdater()
-            : base()
-        {
-        }
-
-        /// <inheritdoc />
-        public DisconnectingDeviceParameterUpdater(Element fromElement)
-            : base(fromElement)
         {
             ParametersDictionary = new Dictionary<dynamic, dynamic>
             {
@@ -46,9 +42,13 @@
         }
 
         /// <inheritdoc />
+        public override string FamilyNameToInsert => "ВРУ.Отходящая линия";
+
+        /// <inheritdoc />
         public override FamilyInstance InsertInstance(FamilySymbol familySymbol, XYZ xyz)
         {
-            var instance = Doc.Create.NewFamilyInstance(xyz, familySymbol, Doc.ActiveView);
+            var doc = familySymbol.Document;
+            var instance = doc.Create.NewFamilyInstance(xyz, familySymbol, doc.ActiveView);
             return instance;
         }
     }

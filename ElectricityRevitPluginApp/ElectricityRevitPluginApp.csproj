@@ -5,8 +5,11 @@
         <UseLogs>true</UseLogs>
         <UseRibbonMenu>true</UseRibbonMenu>
         <UseSimpleInjector>true</UseSimpleInjector>
+        <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\GeneralSubjectDiagram\GeneralSubjectDiagram.csproj" />
         <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
         <ProjectReference Include="..\InitialValues\InitialValues.csproj" />
         <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />

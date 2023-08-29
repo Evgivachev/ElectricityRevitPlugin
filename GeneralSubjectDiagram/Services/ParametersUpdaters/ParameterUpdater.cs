@@ -2,82 +2,76 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using Autodesk.Revit.DB;
     using CommonUtils.Extensions;
+    using CommonUtils.Helpers;
+    using ElectricityRevitPlugin;
     using ViewModels;
 
     public abstract class ParameterUpdater
     {
         public static Guid ReflectionClassNameGuid = new Guid("6c36d5e8-7863-4efb-accf-894a5aa95cc1");
-        public static Guid ConnectedElementId = new Guid("dca1fe51-4090-4178-9f12-a83aa5986266");
-        private readonly Element _fromElement;
-        private readonly ElementId _id;
-        protected readonly Document Doc;
-        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>();
+        protected Dictionary<string, Func<object, dynamic>> FuncParametricDictionary = new();
 
-        protected Dictionary<dynamic, dynamic> ParametersDictionary = new Dictionary<dynamic, dynamic>();
+        protected Dictionary<dynamic, dynamic> ParametersDictionary = new();
 
-        protected ParameterUpdater(Element fromElement)
-        {
-            _fromElement = fromElement;
-            _id = _fromElement.Id;
-            Doc = _fromElement.Document;
-        }
 
-        protected ParameterUpdater()
-        {
-        }
+        public abstract ObservableCollection<CheckableItem> GetValidateElements(Document document);
 
-        public abstract CollectionOfCheckableItems GetValidateElements(Document document);
+        /// <summary>
+        /// Имя семейство для вставки
+        /// </summary>
+        public abstract string FamilyNameToInsert { get; }
 
         public virtual FamilyInstance InsertInstance(FamilySymbol familySymbol, XYZ point)
         {
-            var instance = Doc.Create.NewFamilyInstance(point, familySymbol, Doc.ActiveView);
-            SetParameters(instance);
+            var instance = familySymbol.Document.Create.NewFamilyInstance(point, familySymbol, familySymbol.Document.ActiveView);
             return instance;
         }
 
-        public virtual void SetParameters(Element toElement)
+        public void SetParameters(Element toElement, Element baseElement)
         {
-            var p = toElement.get_Parameter(new Guid("be64f474-c030-40cf-9975-6eaebe087a84"))?.AsInteger() == 1;
+            var p = toElement.get_Parameter(SharedParametersFile.Zapretit_Izmenenie)?.AsInteger() == 1;
             if (p)
                 return;
-            SetSameParameters(toElement);
-            Doc.Regenerate();
-            SetParametersFromParametersDictionary(toElement);
-            SetParametersFromFuncDictionary(toElement);
+            SetSameParameters(toElement, baseElement);
+            toElement.Document.Regenerate();
+            SetParametersFromParametersDictionary(toElement, baseElement);
+            SetParametersFromFuncDictionary(toElement, baseElement);
         }
 
-        protected virtual void SetParametersFromParametersDictionary(Element toElement)
+        protected virtual void SetParametersFromParametersDictionary(Element toElement, Element baseElement)
         {
             foreach (var pair in ParametersDictionary)
             {
-                var fromP = (Parameter)_fromElement.get_Parameter(pair.Key);
+                var fromP = (Parameter)baseElement.get_Parameter(pair.Key);
                 var toP = (Parameter)toElement.get_Parameter(pair.Value);
                 if (fromP is null || toP is null)
                     throw new NullReferenceException();
-                var flag = toP.Set(fromP.GetValueDynamic());
+                toP.Set(fromP.GetValueDynamic());
             }
         }
 
-        protected void SetParametersFromFuncDictionary(Element toElement)
+        private void SetParametersFromFuncDictionary(Element toElement, Element baseElement)
         {
             foreach (var func in FuncParametricDictionary)
             {
                 var toP = toElement.LookupParameter(func.Key);
                 if (toP is null)
                     throw new NullReferenceException();
-                var value = func.Value.Invoke(_fromElement);
+                var value = func.Value.Invoke(baseElement);
                 if (value is null)
-                    continue;
-                toP.Set(value);
+                    toP.ResetValue();
+                else
+                    toP.Set(value);
             }
         }
 
-        public void SetSameParameters(Element toElement)
+        private void SetSameParameters(Element toElement, Element baseElement)
         {
-            foreach (Parameter fromP in _fromElement.Parameters)
+            foreach (Parameter fromP in baseElement.Parameters)
             {
                 if (!fromP.IsShared)
                     continue;
@@ -90,14 +84,15 @@
                     Debug.Print($"{toP.Definition.Name} is wrong");
             }
 
-            toElement.get_Parameter(ConnectedElementId).Set(_fromElement.Id.IntegerValue.ToString());
+            toElement
+                .get_Parameter(SharedParametersFile.ID_Svyazannogo_Elementa)
+                .Set(baseElement.Id.IntegerValue.ToString());
         }
 
-        //protected XYZ PickPoint()
-        //{
-        //    ObjectSnapTypes snapTypes = ObjectSnapTypes.Endpoints | ObjectSnapTypes.Intersections;
-        //    XYZ point = UiDoc.Selection.PickPoint(snapTypes, "Select an end point or intersection");
-        //    return point;
-        //}
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return FamilyNameToInsert;
+        }
     }
 }

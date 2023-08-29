@@ -1,4 +1,6 @@
-namespace ElectricityRevitPlugin
+// ReSharper disable All
+#pragma warning disable CS1570
+namespace CommonUtils.Helpers
 {
     using System;
 

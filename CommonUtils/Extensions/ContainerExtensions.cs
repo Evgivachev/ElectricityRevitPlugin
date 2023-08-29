@@ -6,6 +6,9 @@ using PikTools.Ui.Services;
 using PikTools.Ui.ViewModels;
 using RxBim.Di;
 
+/// <summary>
+/// Методы расширения
+/// </summary>
 public static class ContainerExtensions
 {
     public static IContainer AddBaseRevitDependences(this IContainer container, ExternalCommandData commandData)

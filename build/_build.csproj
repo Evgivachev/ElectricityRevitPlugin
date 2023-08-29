@@ -8,10 +8,16 @@
         <NukeRootDirectory>..</NukeRootDirectory>
         <NukeScriptDirectory>..</NukeScriptDirectory>
         <NukeTelemetryVersion>1</NukeTelemetryVersion>
+        <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="RxBim.Nuke.Revit" Version="2019.2.0.1" />
+        <PackageDownload Include="NuGet.CommandLine" Version="[6.5.0]" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="PikTools.Nuke.Updater.Revit" Version="1.0.4" />
     </ItemGroup>
 
 </Project>

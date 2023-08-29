@@ -6,15 +6,12 @@
     /// <summary>
     /// Логика взаимодействия для GeneralSubjectWpf.xaml
     /// </summary>
-    public partial class GeneralSubjectView : IClosable
+    public partial class GeneralSubjectView : IHidable
     {
-        private readonly GeneralSubjectViewModel _viewModel;
-
         /// <inheritdoc />
         public GeneralSubjectView(GeneralSubjectViewModel viewModel)
         {
-            _viewModel = viewModel;
-            DataContext = _viewModel;
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

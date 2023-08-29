@@ -32,16 +32,18 @@
                 if (allSystems is null
                     || allSystems.Count == 0)
                     return null;
-                var assignedElectricalSystems =
-                    familyInstance.MEPModel!.GetAssignedElectricalSystems().ToHashSet(new ElectricalSystemsComparer());
-                if (assignedElectricalSystems is null)
+                var assignedElectricalSystemsIds =
+                    familyInstance.MEPModel!.GetAssignedElectricalSystems()
+                        .Select(es => es.Id.IntegerValue)
+                        .ToHashSet();
+                if (assignedElectricalSystemsIds.Count == 0)
                     return allSystems.First();
-                if (allSystems.Count == assignedElectricalSystems.Count)
+                if (allSystems.Count == assignedElectricalSystemsIds.Count)
                     return null;
                 return allSystems
-                    .First(x => !assignedElectricalSystems.Contains(x));
+                    .First(x => !assignedElectricalSystemsIds.Contains(x.Id.IntegerValue));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -56,8 +58,8 @@
             var doc = familyInstance.Document;
             var typeId = familyInstance.GetTypeId();
             var type = doc.GetElement(typeId);
-            Parameter activePowerParameter = null;
-            Parameter powerFactorParameter = null;
+            Parameter? activePowerParameter;
+            Parameter? powerFactorParameter;
             Parameter loadClassificationParameter;
             loadClassification = ElementId.InvalidElementId;
             //Коэффициент для перевода кВт в Вт
@@ -72,19 +74,19 @@
 
             var instanceActivePowerParameter = familyInstance.get_Parameter(_installedPower);
             var typeActivePowerParameter = type.get_Parameter(_installedPower);
-            if (instanceActivePowerParameter != null && instanceActivePowerParameter.HasValue)
+            if (instanceActivePowerParameter is { HasValue: true })
                 activePowerParameter = instanceActivePowerParameter;
             else
                 activePowerParameter = typeActivePowerParameter;
             var instancePowerFactorParameter = familyInstance.get_Parameter(_powerFactor);
             var typePowerFactorParameter = type.get_Parameter(_powerFactor);
-            if (instancePowerFactorParameter != null && instancePowerFactorParameter.HasValue)
+            if (instancePowerFactorParameter is { HasValue: true })
                 powerFactorParameter = instancePowerFactorParameter;
             else
                 powerFactorParameter = typePowerFactorParameter;
             var instanceLoadClassificationParameter = familyInstance.get_Parameter(_loadClassificationGuid);
             var typeLoadClassificationParameter = type.get_Parameter(_loadClassificationGuid);
-            if (instanceLoadClassificationParameter != null && instanceLoadClassificationParameter.HasValue)
+            if (instanceLoadClassificationParameter is { HasValue: true })
                 loadClassificationParameter = instanceLoadClassificationParameter;
             else
                 loadClassificationParameter = typeLoadClassificationParameter;

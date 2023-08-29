@@ -5,6 +5,8 @@
         <Version>2.0.0</Version>
         <Description>Плагин ЭОМ.</Description>
         <UseWpf>true</UseWpf>
+        <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp" />

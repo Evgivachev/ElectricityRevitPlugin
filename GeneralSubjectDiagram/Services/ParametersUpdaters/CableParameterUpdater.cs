@@ -2,29 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using CommonUtils.Extensions;
     using CommonUtils.Helpers;
+    using JetBrains.Annotations;
     using ViewModels;
 
+    [UsedImplicitly]
     public class CableParameterUpdater : ParameterUpdater
     {
         public CableParameterUpdater()
         {
-        }
-
-        public CableParameterUpdater(Element fromElement)
-            : base(fromElement)
-        {
             ParametersDictionary = new Dictionary<dynamic, dynamic>
             {
-                //Установленная мощность
-                //{ BuiltInParameter.RBS_ELEC_TRUE_LOAD, new Guid("9ebba55d-0d75-4556-8fcf-93b5362c3e27")},
-                ////Расчётный ток 
-                //{ BuiltInParameter.RBS_ELEC_APPARENT_CURRENT_PARAM, new Guid("3e12a7ce-cfff-44d3-8c9b-8a08095f6fcd") },
-
                 //Коэффициент мощности
                 { BuiltInParameter.RBS_ELEC_POWER_FACTOR, new Guid("2ca28edf-3aaf-486a-830a-fae82079832d") },
             };
@@ -67,18 +60,14 @@
             };
         }
 
-        public override CollectionOfCheckableItems GetValidateElements(Document document)
+        public override ObservableCollection<CheckableItem> GetValidateElements(Document document)
         {
             var elss = new FilteredElementCollector(document)
-                    .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
-                    .OfType<ElectricalSystem>()
-                    .OrderBy(x => x.PanelName)
-                    .ThenBy(x => x.GetGroupByGost(), new RevitNameComparer())
-                    .GroupBy(x => x.PanelName ?? "???")
-                //.GroupBy(x => x.PanelName)
-                ;
-            var result = new CollectionOfCheckableItems();
-            foreach (var group in elss)
+                .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
+                .OfType<ElectricalSystem>()
+                .GroupBy(x => x.PanelName ?? "???");
+            var result = new ObservableCollection<CheckableItem>();
+            foreach (var group in elss.OrderBy(x => x.Key))
             {
                 var item = new CheckableItem()
                 {
@@ -87,7 +76,7 @@
                     IsChecked = false
                 };
                 result.Add(item);
-                foreach (var system in group)
+                foreach (var system in group.OrderBy(x => x.GetGroupByGost(), new RevitNameComparer()))
                 {
                     var child = new CheckableItem(item)
                     {
@@ -102,10 +91,14 @@
             return result;
         }
 
+        /// <inheritdoc />
+        public override string FamilyNameToInsert => "ВРУ.Кабель";
+
         public override FamilyInstance InsertInstance(FamilySymbol familySymbol, XYZ xyz)
         {
+            var doc = familySymbol.Document;
             var line = Line.CreateBound(xyz, xyz + new XYZ(0, 0.1, 0));
-            var instance = Doc.Create.NewFamilyInstance(line, familySymbol, Doc.ActiveView);
+            var instance = doc.Create.NewFamilyInstance(line, familySymbol, doc.ActiveView);
             return instance;
         }
     }

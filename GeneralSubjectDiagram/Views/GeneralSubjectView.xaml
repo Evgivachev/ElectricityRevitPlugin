@@ -2,7 +2,7 @@
     Height="570"
     MinHeight="500"
     MinWidth="500"
-    Title="Вставить элементы"
+    Title="{Binding Title}"
     Width="503.2"
     d:DataContext="{d:DesignInstance viewModels:GeneralSubjectViewModel}"
     mc:Ignorable="d"
@@ -52,12 +52,17 @@
                 Text="Семейство для вставки"
                 VerticalAlignment="Center" />
             <ComboBox
-                DisplayMemberPath="Name"
                 Grid.Column="1"
                 Grid.Row="0"
-                ItemsSource="{Binding AvailableFamilySymbols}"
-                SelectedItem="{Binding SelectedFamilySymbol}"
-                VerticalAlignment="Center" />
+                ItemsSource="{Binding AvailableFamilies}"
+                SelectedItem="{Binding SelectedUpdater}"
+                VerticalAlignment="Center">
+                <ComboBox.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
         </Grid>
 
         <CheckBox
@@ -78,12 +83,10 @@
             </TreeView.Resources>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:CheckableItem}" ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox
-                            Content="{Binding Name}"
-                            IsChecked="{Binding IsChecked}"
-                            VerticalAlignment="Center" />
-                    </StackPanel>
+                    <CheckBox
+                        Content="{Binding Name}"
+                        IsChecked="{Binding IsChecked}"
+                        VerticalAlignment="Center" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

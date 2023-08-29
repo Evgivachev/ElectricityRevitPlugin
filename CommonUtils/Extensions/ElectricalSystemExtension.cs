@@ -44,13 +44,13 @@
 
                 if (!string.IsNullOrEmpty(type) && (type != "/" && type != "\\" && type != "Соединитель"))
                 {
-                    types.Add(type);
+                    types.Add(type!);
                 }
 
                 var space = fi.Space?
                     .Number;
                 if (!string.IsNullOrEmpty(space))
-                    spaces.Add(space);
+                    spaces.Add(space!);
             }
 
             var result = new StringBuilder();

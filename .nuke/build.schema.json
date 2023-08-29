@@ -55,6 +55,10 @@
             "VSCode"
           ]
         },
+        "IgnoreFailedSources": {
+          "type": "boolean",
+          "description": "Ignore unreachable sources during Restore"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
@@ -88,6 +92,10 @@
         "Root": {
           "type": "string",
           "description": "Root directory during build execution"
+        },
+        "RxBimEnvironment": {
+          "type": "string",
+          "description": "Environment variable"
         },
         "ServerUrl": {
           "type": "string",
@@ -148,6 +156,10 @@
               "Test"
             ]
           }
+        },
+        "TimestampRevisionVersion": {
+          "type": "boolean",
+          "description": "Adds timestamp revision version"
         },
         "Verbosity": {
           "type": "string",

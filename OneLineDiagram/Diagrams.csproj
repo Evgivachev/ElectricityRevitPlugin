@@ -10,6 +10,8 @@
         <UseWpf>true</UseWpf>
         <UsePikUi>true</UsePikUi>
         <UseMoreLinq>true</UseMoreLinq>
+        <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp" />

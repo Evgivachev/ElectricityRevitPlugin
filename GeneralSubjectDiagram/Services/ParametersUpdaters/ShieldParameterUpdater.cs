@@ -2,19 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Autodesk.Revit.DB;
     using CommonUtils.Extensions;
+    using JetBrains.Annotations;
     using ViewModels;
 
+    [UsedImplicitly]
     class ShieldParameterUpdater : ParameterUpdater
     {
         public ShieldParameterUpdater()
-        {
-        }
-
-        public ShieldParameterUpdater(Element fromElement)
-            : base(fromElement)
         {
             FuncParametricDictionary = new Dictionary<string, Func<object, dynamic>>
             {
@@ -37,20 +35,28 @@
             };
         }
 
-        public override CollectionOfCheckableItems GetValidateElements(Document document)
+        public override ObservableCollection<CheckableItem> GetValidateElements(Document document)
         {
+            var q = new FilteredElementCollector(document)
+                .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
+                .WhereElementIsNotElementType()
+                .OfType<FamilyInstance>()
+                .Select(x => new { Family = x, Group = x.GetPowerElectricalSystem()?.GetGroupByGost() })
+                .OrderBy(x => x.Group?.Length)
+                .ThenBy(x => x.Group)
+                .ToArray();
+                
             var elss = new FilteredElementCollector(document)
-                    .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
-                    .WhereElementIsNotElementType()
-                    .OfType<FamilyInstance>()
-                    .Select(x => new { Family = x, Group = x.GetPowerElectricalSystem()?.GetGroupByGost() })
-                    .OrderBy(x => x.Group?.Length)
-                    .ThenBy(x => x.Group)
-                    .Select(x => x.Family)
-                    .GroupBy(x => x.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_SUPPLY_FROM_PARAM).AsString())
-                    .OrderBy(x => x.Key)
-                ;
-            var result = new CollectionOfCheckableItems();
+                .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
+                .WhereElementIsNotElementType()
+                .OfType<FamilyInstance>()
+                .Select(x => new { Family = x, Group = x.GetPowerElectricalSystem()?.GetGroupByGost() })
+                .OrderBy(x => x.Group?.Length)
+                .ThenBy(x => x.Group)
+                .Select(x => x.Family)
+                .GroupBy(x => x.get_Parameter(BuiltInParameter.RBS_ELEC_PANEL_SUPPLY_FROM_PARAM).AsString())
+                .OrderBy(x => x.Key);
+            var result = new ObservableCollection<CheckableItem>();
             foreach (var group in elss)
             {
                 var item = new CheckableItem()
@@ -74,5 +80,7 @@
 
             return result;
         }
+
+        public override string FamilyNameToInsert => "ВРУ. Электрический щит";
     }
 }
