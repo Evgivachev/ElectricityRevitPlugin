@@ -67,6 +67,15 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Плагин создания схемы ВРУ")
                                 .ToolTip("Плагин создания схемы ВРУ"))
+                        .CommandButton(
+                            nameof(PhaseDistribution),
+                            typeof(PhaseDistribution.Cmd),
+                            button => button
+                                .Text("Распределение по фазам")
+                                .LargeImage(@"img\icons8-death-star-32.png")
+                                .Description(
+                                    "Распределение по фазам отходящих линий в щитах")
+                                .ToolTip("Распределение по фазам отходящих линий в щитах"))
                     )
                     .Panel("Щиты", builder => builder
                         .CommandButton(

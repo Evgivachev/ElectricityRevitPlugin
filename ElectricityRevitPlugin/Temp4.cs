@@ -45,7 +45,7 @@
                         continue;
                     var shield = shieldDict[shieldGuid] as FamilyInstance;
                     MessageBox.Show(shield.Name + "\n" + shield.Id + "\n" + head.Id);
-                    var powerSystem = FamilyInstanceExtension.GetPowerElectricalSystem(shield);
+                    var powerSystem = FamilyInstanceExtensions.GetPowerElectricalSystem(shield);
                     var l = powerSystem.get_Parameter(SharedParametersFile.Dlina_Kabeley_Dlya_OS).AsDouble();
                     l = UnitUtils.ConvertFromInternalUnits(l, UnitTypeId.Meters);
                     lParameter.Set(l.ToString("F2"));

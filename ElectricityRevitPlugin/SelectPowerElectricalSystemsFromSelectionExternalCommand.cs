@@ -28,7 +28,7 @@
                     .Select(e => doc.GetElement(e))
                     .Where(e => e != null)
                     .OfType<FamilyInstance>()
-                    .Select(f => FamilyInstanceExtension.GetPowerElectricalSystem(f))
+                    .Select(f => FamilyInstanceExtensions.GetPowerElectricalSystem(f))
                     .Where(x => x != null);
                 var elSystemIds = elSystems
                     .Select(x => x.Id)

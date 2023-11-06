@@ -44,7 +44,7 @@
                     if (el is ElectricalSystem electricalSystem)
                         system = electricalSystem;
                     else if (el is FamilyInstance fi)
-                        system = FamilyInstanceExtension.GetPowerElectricalSystem(fi);
+                        system = FamilyInstanceExtensions.GetPowerElectricalSystem(fi);
                     if (system != null)
                     {
                         var isProhibitChanges = system.get_Parameter(_isProhibitChangesGuid);

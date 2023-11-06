@@ -1,4 +1,4 @@
-namespace Diagrams
+namespace PhaseDistribution.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -6,14 +6,14 @@ namespace Diagrams
 
     public class PhaseDistribution
     {
-        private string[] _namesOfPhase = new[]
+        private readonly string[] _namesOfPhase = new[]
         {
             "L1",
             "L2",
             "L3"
         };
 
-        public string ThreePhases { get; } = "L1,L2,L3";
+        private string ThreePhases => "L1,L2,L3";
 
         public double[] LoadOnPhases { get; } = new double[3];
 

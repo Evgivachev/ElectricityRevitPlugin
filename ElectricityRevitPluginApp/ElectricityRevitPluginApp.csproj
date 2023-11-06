@@ -13,6 +13,7 @@
         <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
         <ProjectReference Include="..\InitialValues\InitialValues.csproj" />
         <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
+        <ProjectReference Include="..\PhaseDistribution\PhaseDistribution.csproj" />
         <ProjectReference Include="..\ShieldPanel\ShieldPanel.csproj" />
     </ItemGroup>
     <ItemGroup>
