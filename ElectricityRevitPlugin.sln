@@ -17,7 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectricalLoadsImportFromEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkingElectricalSystems", "MarkingElectricalSystems\MarkingElectricalSystems.csproj", "{6676418B-F6D2-4BDE-A21A-5DCEDEE0159B}"
 EndProject
-
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{B1F4DBB3-A09B-4BC4-9F58-798F52520233}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{FFB3DE09-634C-4BE6-8D6D-8D738E9362FB}"
@@ -40,8 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralSubjectDiagram", "Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhaseDistribution", "PhaseDistribution\PhaseDistribution.csproj", "{902429DC-4147-43FD-B7C8-491A2A399047}"
 EndProject
-
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortCircuits", "ShortCircuits\ShortCircuits.csproj", "{07A3CA0B-8684-4B46-964E-28E9369C7367}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
@@ -150,6 +149,14 @@ Global
 		{902429DC-4147-43FD-B7C8-491A2A399047}.Debug R24|Any CPU.Build.0 = Debug|Any CPU
 		{902429DC-4147-43FD-B7C8-491A2A399047}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{902429DC-4147-43FD-B7C8-491A2A399047}.Debug R22|Any CPU.Build.0 = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug R24|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug R24|Any CPU.Build.0 = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A3CA0B-8684-4B46-964E-28E9369C7367}.Debug R22|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -169,5 +176,6 @@ Global
 		{55C5F5C9-2E1A-4BE9-8EEF-5C20572BACDB} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{2706AB72-9DE7-466C-A15A-958391FD1696} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{902429DC-4147-43FD-B7C8-491A2A399047} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{07A3CA0B-8684-4B46-964E-28E9369C7367} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 	EndGlobalSection
 EndGlobal
