@@ -1,4 +1,6 @@
-﻿namespace ElectricityRevitPluginApp;
+﻿using JetBrains.Annotations;
+
+namespace ElectricityRevitPluginApp;
 
 using System.Reflection;
 using RxBim.Application.Ribbon;
@@ -6,6 +8,7 @@ using RxBim.Di;
 using ShieldPanel.SelectModelOfShield;
 
 /// <inheritdoc />
+[UsedImplicitly]
 public class Config : IApplicationConfiguration
 {
     /// <inheritdoc />
@@ -76,6 +79,15 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Распределение по фазам отходящих линий в щитах")
                                 .ToolTip("Распределение по фазам отходящих линий в щитах"))
+                        .CommandButton(
+                            nameof(ShortCircuits),
+                            typeof(ShortCircuits.Cmd),
+                            button => button
+                                .Text("Ток 3кз")
+                                .LargeImage(@"img\shortCircuits.png")
+                                .Description(
+                                    "Плагин для расчета токов 3х-фазного короткого замыкания")
+                                .ToolTip("Плагин для расчета токов 3х-фазного короткого замыкания"))
                     )
                     .Panel("Щиты", builder => builder
                         .CommandButton(

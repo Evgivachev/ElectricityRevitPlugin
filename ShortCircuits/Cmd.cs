@@ -13,7 +13,7 @@ namespace ShortCircuits
     /// <inheritdoc />
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public class ShortCircuits : CmdBase
+    public class Cmd : CmdBase
     {
         /// <inheritdoc />
         protected override void ConfigureServices(IServiceCollection serviceCollection)

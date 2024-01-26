@@ -1,13 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <UseCommand>true</UseCommand>
     <UseMoreLinq>true</UseMoreLinq>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\CommonUtils\CommonUtils.csproj" />
   </ItemGroup>
-
+  <PropertyGroup>
+    <PackageGuid>12fcc7b6-8c89-4f5c-a832-1d83b279e59f</PackageGuid>
+    <UpgradeCode>b6f89718-a428-4fd2-82c7-0c2dbe3f3311</UpgradeCode>
+  </PropertyGroup>
 </Project>

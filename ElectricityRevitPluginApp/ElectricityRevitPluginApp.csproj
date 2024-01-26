@@ -15,6 +15,7 @@
         <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
         <ProjectReference Include="..\PhaseDistribution\PhaseDistribution.csproj" />
         <ProjectReference Include="..\ShieldPanel\ShieldPanel.csproj" />
+        <ProjectReference Include="..\ShortCircuits\ShortCircuits.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="img\*.png">

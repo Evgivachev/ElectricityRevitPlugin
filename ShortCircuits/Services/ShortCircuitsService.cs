@@ -12,6 +12,7 @@ public class ShortCircuitsService : IShortCircuitsService
     private double _resistanceOfElectricalAcr;
     private double _lowVoltage;
 
+    // все сопротивления в мОм!!!
     /// <inheritdoc />
     public void Calculate(Document document)
     {
@@ -44,39 +45,42 @@ public class ShortCircuitsService : IShortCircuitsService
                     UnitTypeId.Volts);
             using var tr = new Transaction(document);
             tr.Start("Расчёт токов 3кз");
-            SetParametersToElectricalSystemsInShield(null, transformer, r, x);
+            SetParametersToElectricalSystemsInShield(transformer, r, x);
             tr.Commit();
         }
     }
 
     private void SetParametersToElectricalSystemsInShield(
-        ElectricalSystem? powerSystem,
         FamilyInstance panel,
         double r,
         double x)
     {
-        if (powerSystem != null)
-        {
-            var (rPs, xPs) = GetResistanceOfElectricalSystem(powerSystem);
-            r += rPs;
-            x += xPs;
-        }
-
         if (panel.LookupParameter("Вводное отключающее устройство").AsElementId() != null)
         {
             r += _resistanceOfElectricalContacts;
         }
 
         var connectedSystems = panel.MEPModel?.GetAssignedElectricalSystems();
+        var currentShort3 = CalculateShortCircuits(r + _resistanceOfElectricalAcr, x);
+        var internalCurrent = UnitUtils.ConvertToInternalUnits(currentShort3, UnitTypeId.Amperes);
+        panel.get_Parameter(SharedParametersFile.Tok_3KZ_A)?.Set(internalCurrent);
         if (connectedSystems == null) return;
         foreach (var system in connectedSystems)
         {
+            var currentShort3Parameter = system.get_Parameter(SharedParametersFile.Tok_3KZ_A);
+            if (system.HotConductorsNumber < 3)
+            {
+                currentShort3Parameter.Set(0);
+                continue;
+            }
+
+            var r1 = r;
+            var x1 = x;
             var device1 = system.LookupParameter("Отключающее устройство 1").AsString();
             if (device1 != null && device1 != "-")
-                r += _resistanceOfElectricalContacts;
-            var currentShort3 = CalculateShortCircuits(r + _resistanceOfElectricalAcr, x);
-            var currentShort3Parameter = system.get_Parameter(SharedParametersFile.Tok_3KZ_A);
-            var internalCurrent = UnitUtils.ConvertToInternalUnits(currentShort3, UnitTypeId.Amperes);
+                r1 += _resistanceOfElectricalContacts;
+            currentShort3 = CalculateShortCircuits(r1 + _resistanceOfElectricalAcr, x);
+            internalCurrent = UnitUtils.ConvertToInternalUnits(currentShort3, UnitTypeId.Amperes);
             currentShort3Parameter.Set(internalCurrent);
 
             //Подключенное оборудование к цепи
@@ -84,9 +88,13 @@ public class ShortCircuitsService : IShortCircuitsService
                 .Elements
                 .Cast<FamilyInstance>()
                 .Where(shield => shield.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment);
+
+            var (rPs, xPs) = GetResistanceOfElectricalSystem(system);
+            r1 += rPs;
+            x1 += xPs;
             foreach (var shield in connectedShields)
             {
-                SetParametersToElectricalSystemsInShield(system, shield, r, x);
+                SetParametersToElectricalSystemsInShield(shield, r1, x1);
             }
         }
     }
@@ -98,18 +106,23 @@ public class ShortCircuitsService : IShortCircuitsService
         return i;
     }
 
+    /// <summary>
+    /// Выполняет расчет сопротивления кабеля в мОм
+    /// </summary>
     private static (double r, double x) GetResistanceOfElectricalSystem(ElectricalSystem system)
     {
+        // Ом / км
         var dr = system.LookupParameter("Активное сопротивление").AsDouble();
         var dx = system.LookupParameter("Индуктивное сопротивление").AsDouble();
-        //Длина кабелей для ОС
+        //Длина кабелей для ОС, конвертируются в метры
         var length = system.get_Parameter(SharedParametersFile.Dlina_Kabeley_Dlya_OS).AsDouble();
+        length = UnitUtils.ConvertFromInternalUnits(length, UnitTypeId.Meters);
         var n = system.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
         if (n < 1)
             throw new ArgumentException(
                 $"Неверное значение \"Кол-во кабелей (провод) в одной группе\" в цепи {system.CircuitNumber}");
-        var r = dr / 1000 * length / n;
-        var x = dx / 1000 * length / n;
+        var r = dr * length / n;
+        var x = dx * length / n;
         return (r, x);
     }
 }
