@@ -83,6 +83,8 @@ public class ShortCircuitsService : IShortCircuitsService
             internalCurrent = UnitUtils.ConvertToInternalUnits(currentShort3, UnitTypeId.Amperes);
             currentShort3Parameter.Set(internalCurrent);
 
+            var kud = CalculateKud(r1, x);
+            system.get_Parameter(SharedParametersFile.Kud_Koeffitsient_Udarnogo_Toka)?.Set(kud);
             //Подключенное оборудование к цепи
             var connectedShields = system
                 .Elements
@@ -104,6 +106,25 @@ public class ShortCircuitsService : IShortCircuitsService
         //в амперах
         var i = _lowVoltage / Math.Sqrt(3 * (r * r + x * x)) * Math.Pow(10, 3);
         return i;
+    }
+
+    /// <summary>
+    /// Коэффициент ударного тока.
+    /// </summary>
+    /// <param name="r">Активное сопротивление.</param>
+    /// <param name="x">Реактивное сопротивление</param>
+    private static double CalculateKud(double r, double x)
+    {
+        // постоянная времени затухания апериодической составляющей тока КЗ
+        var ta = x / r / (2 * Math.PI / 50);
+        // угол сдвига по фазе напряжения или ЭДС источника и периодической составляющей тока КЗ
+        var phi = Math.Atan2(x, r);
+        // время от начала КЗ до появления ударного тока, с
+        var tud = 0.01 * (Math.PI / 2 + phi) / Math.PI;
+
+        var kud = 1 + Math.Sin(phi) * Math.Exp(-tud / ta);
+
+        return kud;
     }
 
     /// <summary>
