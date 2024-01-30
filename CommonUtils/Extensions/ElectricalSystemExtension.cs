@@ -1,21 +1,30 @@
 ﻿namespace CommonUtils.Extensions
 {
-    using System;
+    using Helpers;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
 
+    /// <summary>
+    /// Методы расширения для <see cref="ElectricalSystem"/>
+    /// </summary>
     public static class ElectricalSystemExtension
     {
-        private static readonly Guid ByGost = new Guid("8d1b8079-3007-4140-835c-73f0de4e81bd");
-
+        /// <summary>
+        /// Возвращает значение параметра "Номер группы по ГОСТ"
+        /// </summary>
+        /// <param name="es"></param>
         public static string GetGroupByGost(this ElectricalSystem es)
         {
-            return es.get_Parameter(ByGost).AsString();
+            return es.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST).AsString();
         }
 
+        /// <summary>
+        /// Возвращает имя нагрузки для эл. цепи.
+        /// </summary>
+        /// <param name="es"></param>
         public static string GetLoadName(this ElectricalSystem es)
         {
             var doc = es.Document;
@@ -26,7 +35,7 @@
                 .Cast<FamilyInstance>();
             foreach (var fi in elements)
             {
-                var type = string.Empty;
+                string? type;
                 var category = fi.Category;
                 if (category.Id == new ElementId(BuiltInCategory.OST_ElectricalEquipment))
                 {
@@ -36,13 +45,14 @@
                 }
                 else
                 {
-                    var tryGetElectricalParameters = fi.TryGetElectricalParameters(out var activePower, out _, out var loadClassification);
+                    var tryGetElectricalParameters =
+                        fi.TryGetElectricalParameters(out var activePower, out _, out var loadClassification);
                     if (!tryGetElectricalParameters)
                         continue;
                     type = doc.GetElement(loadClassification).Name;
                 }
 
-                if (!string.IsNullOrEmpty(type) && (type != "/" && type != "\\" && type != "Соединитель"))
+                if (!string.IsNullOrEmpty(type) && type != "/" && type != "\\" && type != "Соединитель")
                 {
                     types.Add(type!);
                 }

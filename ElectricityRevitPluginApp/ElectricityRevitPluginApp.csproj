@@ -9,6 +9,8 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj" />
+        <ProjectReference Include="..\ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj" />
         <ProjectReference Include="..\GeneralSubjectDiagram\GeneralSubjectDiagram.csproj" />
         <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
         <ProjectReference Include="..\InitialValues\InitialValues.csproj" />

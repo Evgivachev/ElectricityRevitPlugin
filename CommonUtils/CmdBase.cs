@@ -8,6 +8,9 @@ using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+/// <summary>
+/// Базовый класс команды
+/// </summary>
 public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
 {
     /// <inheritdoc />

@@ -99,7 +99,27 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Плагин подбора корпусов щитового оборудования")
                                 .ToolTip("Плагин подбора корпусов щитового оборудования"))
-                    )),
+                    )
+                    .Panel("Нагрузки", builder =>
+                        builder.StackedItems(stack => stack
+                            .CommandButton(
+                                nameof(ElectricalLoadsExportToExcel),
+                                typeof(ElectricalLoadsExportToExcel.ExternalCommand),
+                                button => button
+                                    .Text("Экспорт в Excel")
+                                    .Description("Экспорт электрических нагрузок в таблицу Excel")
+                                    .ToolTip("Экспорт электрических нагрузок в таблицу Excel")
+                            )
+                            .CommandButton(
+                                nameof(ElectricalLoadsImportFromExcel),
+                                typeof(ElectricalLoadsImportFromExcel.ExternalCommand),
+                                button => button
+                                    .Text("Импорт из Excel")
+                                    .Description("Импорт электрических нагрузок из таблицы Excel")
+                                    .ToolTip("Импорт электрических нагрузок из таблицы Excel")
+                            ))
+                    )
+                ),
             Assembly.GetExecutingAssembly());
     }
 }

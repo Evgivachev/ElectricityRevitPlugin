@@ -4,9 +4,11 @@
     using System.Linq;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
-    using Comparer;
     using Helpers;
 
+    /// <summary>
+    /// Методы расширения для <see cref="Autodesk.Revit.DB.FamilyInstance"/>
+    /// </summary>
     public static class FamilyInstanceExtensions
     {
         /// <summary>
@@ -52,7 +54,7 @@
             Parameter loadClassificationParameter;
             loadClassification = ElementId.InvalidElementId;
             //Коэффициент для перевода кВт в Вт
-            if (familyInstance.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment)
+            if (familyInstance.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment)
             {
                 activePowerParameter =
                     familyInstance.get_Parameter(SharedParametersFile.Aktivnaya_Moshchnost_V_SHCHitakh);
@@ -100,7 +102,7 @@
         {
             try
             {
-                var flag = familyInstance.Category.Id.IntegerValue == (int)BuiltInCategory.OST_ElectricalEquipment;
+                var flag = familyInstance.Category.Id.IntegerValue == (int) BuiltInCategory.OST_ElectricalEquipment;
                 if (!flag)
                     return false;
                 var voltage = UnitUtils.ConvertFromInternalUnits(
@@ -110,7 +112,7 @@
                     return false;
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

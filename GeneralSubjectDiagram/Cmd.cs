@@ -34,7 +34,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
     private IContainer CreateContainer(ExternalCommandData commandData)
     {
         IContainer container = new SimpleInjectorContainer();
-        container.AddBaseRevitDependences(commandData);
+        container.AddBaseRevitDependencies(commandData);
         var config = new Config();
         config.Configure(container);
         return container;

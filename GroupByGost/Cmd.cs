@@ -77,7 +77,7 @@ namespace GroupByGost
         private IContainer CreateContainer(ExternalCommandData commandData)
         {
             var container = new SimpleInjectorContainer();
-            container.AddBaseRevitDependences(commandData);
+            container.AddBaseRevitDependencies(commandData);
             new Config().Configure(container);
             return container;
         }

@@ -8,6 +8,10 @@ namespace CommonUtils.Extensions
     /// </summary>
     public static class ParameterExtension
     {
+        /// <summary>
+        /// Возвращает значение параметра в dynamic.
+        /// </summary>
+        /// <param name="parameter"></param>
         public static dynamic GetValueDynamic(this Parameter parameter)
         {
             var type = parameter.StorageType;
@@ -25,7 +29,6 @@ namespace CommonUtils.Extensions
         /// Сбрасывает значение параметра
         /// </summary>
         /// <param name="parameter">Параметр</param>
-        /// <returns></returns>
         public static bool ResetValue(this Parameter parameter)
         {
             return parameter.StorageType switch
@@ -39,15 +42,20 @@ namespace CommonUtils.Extensions
             };
         }
 
+        /// <summary>
+        /// Устанавливает значение параметра.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="value"></param>
         public static bool SetDynamicValue(this Parameter parameter, dynamic value)
         {
             var type = parameter.StorageType;
             switch (type)
             {
                 case StorageType.Double:
-                    return parameter.Set((double)value);
+                    return parameter.Set((double) value);
                 case StorageType.Integer:
-                    return parameter.Set((int)value);
+                    return parameter.Set((int) value);
 
                 case StorageType.String:
                 {
@@ -57,7 +65,7 @@ namespace CommonUtils.Extensions
                 }
 
                 case StorageType.ElementId:
-                    return parameter.Set((ElementId)value);
+                    return parameter.Set((ElementId) value);
                 case StorageType.None:
                 default:
                     return parameter.SetValueString(value.ToString());
