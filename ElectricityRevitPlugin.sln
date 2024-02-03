@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		.gitignore = .gitignore
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{201C15FB-A2D7-4C9A-ACA2-202BF2C607F4}"
@@ -40,6 +41,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhaseDistribution", "PhaseDistribution\PhaseDistribution.csproj", "{902429DC-4147-43FD-B7C8-491A2A399047}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortCircuits", "ShortCircuits\ShortCircuits.csproj", "{07A3CA0B-8684-4B46-964E-28E9369C7367}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RevitTemplate", "RevitTemplate", "{95A578A1-28B2-4F2C-B7E6-77851340EC8A}"
+	ProjectSection(SolutionItems) = preProject
+		RevitTemplate\REVIT_Parameters.txt = RevitTemplate\REVIT_Parameters.txt
+		RevitTemplate\Шаблон_ЭОМ.rvt = RevitTemplate\Шаблон_ЭОМ.rvt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,5 +184,6 @@ Global
 		{2706AB72-9DE7-466C-A15A-958391FD1696} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{902429DC-4147-43FD-B7C8-491A2A399047} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{07A3CA0B-8684-4B46-964E-28E9369C7367} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
+		{95A578A1-28B2-4F2C-B7E6-77851340EC8A} = {FFB3DE09-634C-4BE6-8D6D-8D738E9362FB}
 	EndGlobalSection
 EndGlobal
