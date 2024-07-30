@@ -1,21 +1,29 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.UI;
+using CommonUtils;
 using CommonUtils.Helpers;
-using ShortCircuits.Abstractions;
+using Microsoft.Extensions.Hosting;
 
 namespace ShortCircuits.Services;
 
 /// <inheritdoc />
-public class ShortCircuitsService : IShortCircuitsService
+public class ShortCircuitsService : DefaultUseCase
 {
     private double _resistanceOfElectricalContacts;
     private double _resistanceOfElectricalAcr;
     private double _lowVoltage;
 
+    public ShortCircuitsService(IApplicationLifetime applicationLifetime)
+        : base(applicationLifetime)
+    {
+    }
+
     // все сопротивления в мОм!!!
     /// <inheritdoc />
-    public void Calculate(Document document)
+    public override Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
+        var document = commandData.Application.ActiveUIDocument.Document;
         //Получить значения общих параметров
         _resistanceOfElectricalAcr = document.ProjectInformation
             .get_Parameter(SharedParametersFile.Rd_Dugi)
@@ -48,6 +56,8 @@ public class ShortCircuitsService : IShortCircuitsService
             SetParametersToElectricalSystemsInShield(transformer, r, x);
             tr.Commit();
         }
+
+        return Result.Succeeded;
     }
 
     private void SetParametersToElectricalSystemsInShield(

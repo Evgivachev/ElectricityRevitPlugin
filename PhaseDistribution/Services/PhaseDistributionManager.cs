@@ -1,22 +1,24 @@
 ﻿namespace PhaseDistribution.Services;
 
-using Abstractions;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using CommonUtils;
 using CommonUtils.Extensions;
 using CommonUtils.Helpers;
 using Helpers;
+using Microsoft.Extensions.Hosting;
 
-class PhaseDistributionManager : IPhaseDistributionManager
+class PhaseDistributionManager : DefaultUseCase
 {
     private readonly UIApplication _application;
 
-    public PhaseDistributionManager(UIApplication application)
+    public PhaseDistributionManager(IApplicationLifetime applicationLifetime, UIApplication application)
+        : base(applicationLifetime)
     {
         _application = application;
     }
 
-    public void Execute()
+    public override Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var doc = _application.ActiveUIDocument.Document;
         var baseShields = new FilteredElementCollector(doc)
@@ -49,6 +51,7 @@ class PhaseDistributionManager : IPhaseDistributionManager
         }
 
         tr.Commit();
+        return Result.Succeeded;
     }
 
     private void DistributionPhase(FamilyInstance el)

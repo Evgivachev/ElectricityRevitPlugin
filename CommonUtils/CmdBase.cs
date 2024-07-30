@@ -1,10 +1,9 @@
-﻿#pragma warning disable CS4014
-namespace CommonUtils;
+﻿namespace CommonUtils;
 
 using System;
+using System.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,8 +12,10 @@ using Microsoft.Extensions.Hosting;
 /// </summary>
 public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
 {
-    /// <inheritdoc />
-    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+    private readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
+
+    /// <inheritdoc cref="IExternalCommand.Execute" />
+    public virtual Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         try
         {
@@ -25,9 +26,15 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
                 ConfigureBaseDependencies(sc, commandData);
                 ConfigureServices(sc);
             });
-            var host = hostBuilder.Build();
-            host.RunAsync(host.Services.GetService<RevitTask>()!);
-            var result = Execute(host.Services);
+            using var host = hostBuilder.Build();
+            host.Start();
+            var usecase = host.Services.GetService<ICmdUseCase>();
+            var result = usecase.Execute(commandData, ref message, elements);
+            host.Services.GetService<IApplicationLifetime>().ApplicationStopped
+                .Register(() => { _shutdownBlock.Set(); });
+
+            host.StopAsync();
+            _shutdownBlock.WaitOne();
             return result;
         }
         catch (Exception e)
@@ -37,12 +44,19 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
         }
     }
 
-    private void ConfigureBaseDependencies(IServiceCollection serviceCollection, ExternalCommandData commandData)
+    /// <summary>
+    /// Конфигурирует базовые зависимости.
+    /// </summary>
+    /// <param name="serviceCollection"></param>
+    /// <param name="commandData"></param>
+    protected virtual void ConfigureBaseDependencies(IServiceCollection serviceCollection,
+        ExternalCommandData commandData)
     {
+        serviceCollection.AddSingleton(commandData);
         serviceCollection.AddSingleton(commandData.Application);
         serviceCollection.AddSingleton(commandData.Application.Application);
         serviceCollection.AddTransient(_ => commandData.Application.ActiveUIDocument);
-        serviceCollection.AddTransient(_ => commandData.Application.ActiveUIDocument.Document);
+        serviceCollection.AddTransient(_ => commandData.Application.ActiveUIDocument?.Document);
         var task = new RevitTask();
         serviceCollection.AddTransient(typeof(RevitTask), _ => task);
     }
@@ -53,14 +67,8 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
     /// <param name="serviceCollection"><see cref="IServiceCollection"/></param>
     protected abstract void ConfigureServices(IServiceCollection serviceCollection);
 
-    /// <summary>
-    /// Запускает выполнение плагина.
-    /// </summary>
-    /// <param name="serviceProvider"><see cref="IServiceProvider"/></param>
-    protected abstract Result Execute(IServiceProvider serviceProvider);
-
     /// <inheritdoc />
-    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+    public virtual bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
     {
         return applicationData.ActiveUIDocument.Document is not null;
     }
