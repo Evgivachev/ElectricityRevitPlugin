@@ -13,8 +13,6 @@ public class Cmd : CmdBase
     /// <inheritdoc />
     protected override void ConfigureServices(IServiceCollection serviceCollection)
     {
-
-        serviceCollection.AddTransient<DisService>();
         serviceCollection.AddSingleton<ICmdUseCase, PhaseDistributionManager>();
     }
 }
