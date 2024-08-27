@@ -24,6 +24,4 @@ class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsGenerato
     T From<T>()
         where T : INukeBuild =>
         (T)(object)this;
-    
-    
 }

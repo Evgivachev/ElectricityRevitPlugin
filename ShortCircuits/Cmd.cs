@@ -3,17 +3,18 @@ using CommonUtils;
 using Microsoft.Extensions.DependencyInjection;
 using ShortCircuits.Services;
 
-namespace ShortCircuits
+namespace ShortCircuits;
+
+/// <inheritdoc />
+[Transaction(TransactionMode.Manual)]
+[Regeneration(RegenerationOption.Manual)]
+public class Cmd : CmdBase
 {
     /// <inheritdoc />
-    [Transaction(TransactionMode.Manual)]
-    [Regeneration(RegenerationOption.Manual)]
-    public class Cmd : CmdBase
+    protected override void ConfigureServices(IServiceCollection serviceCollection)
     {
-        /// <inheritdoc />
-        protected override void ConfigureServices(IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<ICmdUseCase, ShortCircuitsService>();
-        }
+        serviceCollection.AddSingleton<ShortCircuitsService>();
+        serviceCollection.AddSingleton<OneShortCircuitsService>();
+        serviceCollection.AddSingleton<ICmdUseCase, CommonShortCircuitsCmdUseCase>();
     }
 }
