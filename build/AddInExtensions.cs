@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using RxBim.Nuke.Helpers;
 using RxBim.Nuke.Revit.Generators.Models;
 
-internal static class AddInExtensions
+static class AddInExtensions
 {
     /// <summary>
     /// Maps an <see cref="T:RxBim.Nuke.Revit.Generators.Models.AddIn" /> to the <see cref="T:System.Xml.Linq.XElement" />.
@@ -15,7 +15,7 @@ internal static class AddInExtensions
     /// <param name="addIn">An addin.</param>
     /// <returns>The <see cref="T:System.Xml.Linq.XElement" /> mapped from <paramref name="addIn" />.</returns>
     public static XElement ToXElement(this AddIn addIn) =>
-        new XElement((XName)"AddIn", new object[7]
+        new((XName)"AddIn", new object[7]
         {
             (object)new XAttribute((XName)"Type", (object)addIn.Type),
             (object)new XElement((XName)"Assembly", (object)addIn.Assembly),
@@ -32,7 +32,7 @@ internal static class AddInExtensions
     /// <param name="revitAddIns">RevitAddIns.</param>
     /// <returns>The <see cref="T:System.Xml.Linq.XDocument" /> mapped from <paramref name="revitAddIns" />.</returns>
     public static XDocument ToXDocument(this RevitAddIns revitAddIns) =>
-        new XDocument(new object[1]
+        new(new object[1]
         {
             (object)new XElement((XName)"RevitAddIns",
                 (object)revitAddIns.AddIn.Ensure<List<AddIn>>("revitAddIns.AddIn")

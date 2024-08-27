@@ -36,7 +36,7 @@ public static class ContainerExtensions
         container.AddSingleton<IUIDispatcher, UIDispatcher>()
             .AddSingleton<IExternalDialogs, ExternalDialogsService>()
             .AddSingleton<INotificationService, NotificationService>();
-        container.AddInstance((INotificationViewModel) new NotificationViewModel());
+        container.AddInstance((INotificationViewModel)new NotificationViewModel());
         return container;
     }
 }

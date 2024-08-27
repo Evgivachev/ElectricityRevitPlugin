@@ -1,20 +1,19 @@
-﻿namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin;
+
+using System;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI.Selection;
+
+class RevitLinkSelectionFilter : ISelectionFilter
 {
-    using System;
-    using Autodesk.Revit.DB;
-    using Autodesk.Revit.UI.Selection;
-
-    class RevitLinkSelectionFilter : ISelectionFilter
+    public bool AllowElement(Element elem)
     {
-        public bool AllowElement(Element elem)
-        {
-            var type = elem.GetType().Name;
-            return elem is RevitLinkInstance;
-        }
+        var type = elem.GetType().Name;
+        return elem is RevitLinkInstance;
+    }
 
-        public bool AllowReference(Reference reference, XYZ position)
-        {
-            throw new NotImplementedException();
-        }
+    public bool AllowReference(Reference reference, XYZ position)
+    {
+        throw new NotImplementedException();
     }
 }

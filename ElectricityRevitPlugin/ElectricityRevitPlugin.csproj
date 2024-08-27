@@ -9,13 +9,13 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="Microsoft.CSharp"/>
         <Reference Include="VCRevitRibbonUtilCustom, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
+        <ProjectReference Include="..\Commands\GroupByGost\GroupByGost.csproj"/>
     </ItemGroup>
     <PropertyGroup>
         <PackageGuid>25eecf96-13a7-4bc4-8cde-4635ba9fe732</PackageGuid>

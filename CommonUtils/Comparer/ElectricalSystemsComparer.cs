@@ -12,7 +12,7 @@ public class ElectricalSystemsComparer : IEqualityComparer<ElectricalSystem>
     {
         return x.IsValidObject == y.IsValidObject
                && x.Id.IntegerValue == y.Id.IntegerValue
-               && x.Document.Title.Equals(y.Document.Title, StringComparison.InvariantCulture )
+               && x.Document.Title.Equals(y.Document.Title, StringComparison.InvariantCulture)
                && x.PanelName.Equals(y.PanelName, StringComparison.InvariantCulture)
                && x.LoadName.Equals(y.PanelName, StringComparison.InvariantCulture);
     }

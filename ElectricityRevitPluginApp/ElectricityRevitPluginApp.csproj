@@ -9,15 +9,15 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj" />
-        <ProjectReference Include="..\ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj" />
-        <ProjectReference Include="..\GeneralSubjectDiagram\GeneralSubjectDiagram.csproj" />
-        <ProjectReference Include="..\GroupByGost\GroupByGost.csproj" />
-        <ProjectReference Include="..\InitialValues\InitialValues.csproj" />
-        <ProjectReference Include="..\MarkingElectricalSystems\MarkingElectricalSystems.csproj" />
-        <ProjectReference Include="..\PhaseDistribution\PhaseDistribution.csproj" />
-        <ProjectReference Include="..\ShieldPanel\ShieldPanel.csproj" />
-        <ProjectReference Include="..\ShortCircuits\ShortCircuits.csproj" />
+        <ProjectReference Include="..\Commands\ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj"/>
+        <ProjectReference Include="..\Commands\ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj"/>
+        <ProjectReference Include="..\Commands\GeneralSubjectDiagram\GeneralSubjectDiagram.csproj"/>
+        <ProjectReference Include="..\Commands\GroupByGost\GroupByGost.csproj"/>
+        <ProjectReference Include="..\Commands\InitialValues\InitialValues.csproj"/>
+        <ProjectReference Include="..\Commands\MarkingElectricalSystems\MarkingElectricalSystems.csproj"/>
+        <ProjectReference Include="..\Commands\PhaseDistribution\PhaseDistribution.csproj"/>
+        <ProjectReference Include="..\Commands\ShieldPanel\ShieldPanel.csproj"/>
+        <ProjectReference Include="..\Commands\ShortCircuits\ShortCircuits.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <None Update="img\*.png">

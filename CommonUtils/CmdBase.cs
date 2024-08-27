@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 /// </summary>
 public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
 {
-    private readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
+    private readonly ManualResetEvent _shutdownBlock = new(false);
 
     /// <inheritdoc cref="IExternalCommand.Execute" />
     public virtual Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

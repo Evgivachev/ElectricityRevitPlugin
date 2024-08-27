@@ -1,20 +1,19 @@
-﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator
+﻿namespace ElectricityRevitPlugin.UpdateParametersInCircuits.LossVoltageCalculator;
+
+using Autodesk.Revit.DB.Electrical;
+
+class RateCalculator : StandardCalculator
 {
-    using Autodesk.Revit.DB.Electrical;
+    private double _k;
 
-    class RateCalculator : StandardCalculator
+    internal RateCalculator(double k)
     {
-        private double _k;
+        _k = k;
+    }
 
-        internal RateCalculator(double k)
-        {
-            _k = k;
-        }
-
-        internal override double CalculateLossVoltage(ElectricalSystem el)
-        {
-            var standard = base.CalculateLossVoltage(el);
-            return _k * standard;
-        }
+    internal override double CalculateLossVoltage(ElectricalSystem el)
+    {
+        var standard = base.CalculateLossVoltage(el);
+        return _k * standard;
     }
 }

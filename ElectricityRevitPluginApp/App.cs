@@ -1,27 +1,26 @@
-﻿namespace ElectricityRevitPluginApp
+﻿namespace ElectricityRevitPluginApp;
+
+using RxBim.Application.Revit;
+using RxBim.Shared;
+
+/// <summary>
+/// app
+/// </summary>
+public class App : RxBimApplication
 {
-    using RxBim.Application.Revit;
-    using RxBim.Shared;
+    /// <summary>
+    /// start
+    /// </summary>
+    public PluginResult Start()
+    {
+        return PluginResult.Succeeded;
+    }
 
     /// <summary>
-    /// app
+    /// shutdown
     /// </summary>
-    public class App : RxBimApplication
+    public PluginResult Shutdown()
     {
-        /// <summary>
-        /// start
-        /// </summary>
-        public PluginResult Start()
-        {
-            return PluginResult.Succeeded;
-        }
-
-        /// <summary>
-        /// shutdown
-        /// </summary>
-        public PluginResult Shutdown()
-        {
-            return PluginResult.Succeeded;
-        }
+        return PluginResult.Succeeded;
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace ElectricityRevitPlugin
+﻿namespace ElectricityRevitPlugin;
+
+public class App
 {
-    public class App
-    {
-    }
 }

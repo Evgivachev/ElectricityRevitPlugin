@@ -10,7 +10,7 @@ public class RevitCmdHostLifetime : IHostLifetime
 {
     private readonly IApplicationLifetime _applicationLifetime;
     private readonly UIApplication _application;
-    private readonly ManualResetEvent _shutdownBlock = new ManualResetEvent(false);
+    private readonly ManualResetEvent _shutdownBlock = new(false);
 
     public RevitCmdHostLifetime(IApplicationLifetime applicationLifetime, UIApplication application)
     {
@@ -25,7 +25,7 @@ public class RevitCmdHostLifetime : IHostLifetime
             _applicationLifetime.StopApplication();
             _shutdownBlock.WaitOne();
         };
-        
+
         return Task.CompletedTask;
     }
 

@@ -1,22 +1,21 @@
-﻿namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule
+﻿namespace ElectricityRevitPlugin.CopyElementsInSameViewSchedule;
+
+using System.Windows;
+
+/// <summary>
+/// Логика взаимодействия для CopyElementsInSameScheduleView.xaml
+/// </summary>
+public partial class CopyElementsInSameScheduleView : Window
 {
-    using System.Windows;
-
-    /// <summary>
-    /// Логика взаимодействия для CopyElementsInSameScheduleView.xaml
-    /// </summary>
-    public partial class CopyElementsInSameScheduleView : Window
+    public CopyElementsInSameScheduleView(CopyElementsInSameScheduleViewModel model)
     {
-        public CopyElementsInSameScheduleView(CopyElementsInSameScheduleViewModel model)
-        {
-            DataContext = model;
-            InitializeComponent();
-        }
+        DataContext = model;
+        InitializeComponent();
+    }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
-        }
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
+        Close();
     }
 }
