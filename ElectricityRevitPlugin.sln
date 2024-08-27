@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RevitTemplate", "RevitTempl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitParametersCodeGenerator", "RevitParametersCodeGenerater\RevitParametersCodeGenerator.csproj", "{E34C2E6B-CAAE-4B7A-B7CC-28EC64D9869E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountFixturesInSpaceCmd", "Commands\CountFixturesInSpaceCmd\CountFixturesInSpaceCmd.csproj", "{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
@@ -174,6 +176,14 @@ Global
 		{E34C2E6B-CAAE-4B7A-B7CC-28EC64D9869E}.Debug R24|Any CPU.Build.0 = Debug|Any CPU
 		{E34C2E6B-CAAE-4B7A-B7CC-28EC64D9869E}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{E34C2E6B-CAAE-4B7A-B7CC-28EC64D9869E}.Debug R22|Any CPU.Build.0 = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug R24|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug R24|Any CPU.Build.0 = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6}.Debug R22|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,5 +204,6 @@ Global
 		{902429DC-4147-43FD-B7C8-491A2A399047} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{07A3CA0B-8684-4B46-964E-28E9369C7367} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 		{95A578A1-28B2-4F2C-B7E6-77851340EC8A} = {FFB3DE09-634C-4BE6-8D6D-8D738E9362FB}
+		{9BA0F798-6563-4294-BBA4-BDFE1F9A86C6} = {B1F4DBB3-A09B-4BC4-9F58-798F52520233}
 	EndGlobalSection
 EndGlobal
