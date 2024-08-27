@@ -1,12 +1,10 @@
-﻿namespace PhaseDistribution;
-
-using Abstractions;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.Attributes;
 using CommonUtils;
 using CommonUtils.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Services;
+using PhaseDistribution.Services;
+
+namespace PhaseDistribution;
 
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
@@ -15,13 +13,6 @@ public class Cmd : CmdBase
     /// <inheritdoc />
     protected override void ConfigureServices(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<IPhaseDistributionManager, PhaseDistributionManager>();
-    }
-
-    /// <inheritdoc />
-    protected override Result Execute(IServiceProvider serviceProvider)
-    {
-        serviceProvider.GetService<IPhaseDistributionManager>()!.Execute();
-        return Result.Succeeded;
+        serviceCollection.AddSingleton<ICmdUseCase, PhaseDistributionManager>();
     }
 }

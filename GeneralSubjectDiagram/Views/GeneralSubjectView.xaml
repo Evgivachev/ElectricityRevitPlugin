@@ -28,10 +28,6 @@
         <b:EventTrigger EventName="ContentRendered">
             <b:InvokeCommandAction Command="{Binding InitializeCommand}" />
         </b:EventTrigger>
-
-        <!--<b:EventTrigger EventName="Closing">
-            <b:InvokeCommandAction Command="{Binding OnClosingCommand}" />
-        </b:EventTrigger>-->
     </b:Interaction.Triggers>
 
     <Grid>

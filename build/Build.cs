@@ -17,13 +17,11 @@ class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsGenerato
     
     /// <summary>Revit Version.</summary>
     [Parameter(null)]
-    public string RevitVersion { get; set; } = "2021";
+    public string RevitVersion { get; set; } = "2022";
     public static int Main() => Execute<Build>(x => x.Compile);
 
 
     T From<T>()
         where T : INukeBuild =>
         (T)(object)this;
-    
-    
 }

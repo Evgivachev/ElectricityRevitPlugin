@@ -83,11 +83,11 @@ public class Config : IApplicationConfiguration
                             nameof(ShortCircuits),
                             typeof(ShortCircuits.Cmd),
                             button => button
-                                .Text("Ток 3кз")
+                                .Text("Токи кз")
                                 .LargeImage(@"img\shortCircuits.png")
                                 .Description(
-                                    "Плагин для расчета токов 3х-фазного короткого замыкания")
-                                .ToolTip("Плагин для расчета токов 3х-фазного короткого замыкания"))
+                                    "Плагин для расчета токов короткого замыкания")
+                                .ToolTip("Плагин для расчета токов короткого замыкания"))
                     )
                     .Panel("Щиты", builder => builder
                         .CommandButton(
