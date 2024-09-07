@@ -1,7 +1,7 @@
 ﻿namespace CommonUtils;
 
 using System;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 public abstract class WpfCmd<TWindow> : CmdBase
     where TWindow : Window
 {
-    private readonly ManualResetEvent _shutdownBlock = new(false);
     private static IHost? _host;
 
     /// <inheritdoc />
@@ -31,26 +30,13 @@ public abstract class WpfCmd<TWindow> : CmdBase
             {
                 ConfigureBaseDependencies(sc, commandData);
                 ConfigureServices(sc);
+                sc.AddHostedService<WpfHostedService<TWindow>>();
+                sc.AddSingleton<IHostLifetime, WpfLifeTime<TWindow>>();
             });
             var host = hostBuilder.Build();
+
             _host = host;
-            host.Start();
-            var window = host.Services.GetService<TWindow>();
-            window.Closed += (sender, args) =>
-            {
-                _host.Services.GetService<RevitTask>().Run(_ =>
-                {
-                    _host?.Services.GetService<IApplicationLifetime>().ApplicationStopped
-                        .Register(() => { _shutdownBlock.Set(); });
-                    _host?.StopAsync();
-                    _shutdownBlock.WaitOne();
-                    _host?.Dispose();
-                    _host = null;
-                });
-            };
-
-            window.Show();
-
+            Run(host);
             return Result.Succeeded;
         }
         catch (Exception e)
@@ -62,4 +48,19 @@ public abstract class WpfCmd<TWindow> : CmdBase
 
     /// <inheritdoc />
     protected abstract override void ConfigureServices(IServiceCollection serviceCollection);
+
+    private async Task Run(IHost host)
+    {
+        try
+        {
+            await host.StartAsync();
+            await host.WaitForShutdownAsync();
+        }
+        finally
+        {
+            _host = null;
+            var revitTask = host!.Services.GetRequiredService<RevitTask>();
+            await revitTask.Run(_ => host.Dispose());
+        }
+    }
 }

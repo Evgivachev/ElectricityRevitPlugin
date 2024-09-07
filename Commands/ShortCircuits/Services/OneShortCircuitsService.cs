@@ -14,11 +14,6 @@ public class OneShortCircuitsService : DefaultUseCase
     private double _resistanceOfElectricalAcr;
     private double _lowVoltage;
 
-    public OneShortCircuitsService(IApplicationLifetime applicationLifetime)
-        : base(applicationLifetime)
-    {
-    }
-
     // все сопротивления в мОм!!!
     /// <inheritdoc />
     public override Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
