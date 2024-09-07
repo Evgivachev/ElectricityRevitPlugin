@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\CommonUtils\CommonUtils.csproj"/>
+        <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>

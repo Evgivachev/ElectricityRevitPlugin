@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\CommonUtils\CommonUtils.csproj"/>
+        <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj" />
     </ItemGroup>
     <PropertyGroup>
         <PackageGuid>222a603a-2869-4951-a71d-e47c1dcf7a04</PackageGuid>

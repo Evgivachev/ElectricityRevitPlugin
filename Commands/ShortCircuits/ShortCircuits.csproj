@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\CommonUtils\CommonUtils.csproj"/>
+        <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj" />
     </ItemGroup>
     <PropertyGroup>
         <PackageGuid>12fcc7b6-8c89-4f5c-a832-1d83b279e59f</PackageGuid>

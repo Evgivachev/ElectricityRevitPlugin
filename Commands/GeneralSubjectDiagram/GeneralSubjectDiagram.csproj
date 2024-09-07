@@ -13,17 +13,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\CommonUtils\CommonUtils.csproj"/>
-        <ProjectReference Include="..\..\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
+        <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj" />
+        <ProjectReference Include="..\..\Shared\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
         <ProjectReference Include="..\..\ElectricityRevitPlugin\ElectricityRevitPlugin.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="WPF-UI" Version="2.0.3"/>
-    </ItemGroup>
-    <ItemGroup>
-      <Reference Include="Microsoft.Xaml.Behaviors">
-        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>
