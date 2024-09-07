@@ -1,4 +1,5 @@
 using Bimlab.Nuke.Components;
+using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
@@ -7,12 +8,13 @@ using RxBim.Nuke.Builds;
 using RxBim.Nuke.Revit.Generators;
 
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions(name: "Compile",
+[GitHubActions(name: nameof(BuildApp),
     image: GitHubActionsImage.WindowsLatest,
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(BuildApp) }
 )]
-class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsGenerator, RevitProjectPropertiesGenerator, OptionsBuilder>,
+[PublicAPI]
+public class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsGenerator, RevitProjectPropertiesGenerator, OptionsBuilder>,
     IRestore,
     IHazConfiguration
 {

@@ -13,10 +13,4 @@
         <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     </ItemGroup>
     
-    <ItemGroup>
-      <Reference Include="Microsoft.Xaml.Behaviors">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
 </Project>
