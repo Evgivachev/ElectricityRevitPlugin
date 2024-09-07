@@ -7,8 +7,8 @@
         <TargetFramework>net48</TargetFramework>
         <Nullable>enable</Nullable>
         <PlatformTarget>x64</PlatformTarget>
-        <UseWpf>true</UseWpf>
-        <UsePikUi>true</UsePikUi>
+        <UseWindowsForms>true</UseWindowsForms>
+        <UseUi>false</UseUi>
         <UseMoreLinq>true</UseMoreLinq>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>

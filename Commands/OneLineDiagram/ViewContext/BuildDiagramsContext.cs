@@ -7,10 +7,10 @@
     using Abstractions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using ElectricityRevitPlugin.UI;
+    using GalaSoft.MvvmLight.CommandWpf;
     using Models;
     using MoreLinq;
-    using PikTools.Ui.Commands;
-    using PikTools.Ui.ViewModels;
 
     public class BuildDiagramsContext : MainViewModelBase
     {

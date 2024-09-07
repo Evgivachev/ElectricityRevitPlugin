@@ -34,7 +34,6 @@
         private void TransformPoints()
         {
             var tolerance = 1e-9;
-            var previous = _points.FirstOrDefault();
             if (_points.Count < 2)
                 return;
             var result = new List<XYZ> { _points.First() };

@@ -18,7 +18,6 @@
         private Element[] Device1;
         private Element[] Device2;
         private Element[] InputDevice;
-        private FamilyInstance[] Lines;
 
         internal ModelUpdater(Document document)
         {
@@ -234,24 +233,6 @@
             }
         }
 
-
-        private static int LevenshteinDistance(string first, string second)
-        {
-            var opt = new int[first.Length + 1, second.Length + 1];
-            for (var i = 0; i <= first.Length; ++i)
-                opt[i, 0] = i;
-            for (var i = 0; i <= second.Length; ++i)
-                opt[0, i] = i;
-            for (var i = 1; i <= first.Length; ++i)
-            for (var j = 1; j <= second.Length; ++j)
-                if (first[i - 1] == second[j - 1])
-                    opt[i, j] = opt[i - 1, j - 1];
-                else
-                    opt[i, j] = Math.Min(opt[i - 1, j], Math.Min(opt[i, j - 1], opt[i - 1, j - 1])) + 1;
-
-            return opt[first.Length, second.Length];
-        }
-
         private static int DamerauLevenshteinDistance(string string1, string string2)
         {
             return GetDistance(string1, string2, true);
@@ -298,8 +279,6 @@
                 }
             }
 
-            //var element = elements.MinBy(x => LevenshteinDistance(x.Name, nameOfElement));
-            //return element;
             return el;
         }
     }

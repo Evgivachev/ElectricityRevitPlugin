@@ -8,9 +8,9 @@
         <Nullable>enable</Nullable>
         <PlatformTarget>x64</PlatformTarget>
         <UseDi>true</UseDi>
-        <UsePikUi>true</UsePikUi>
+        <UseUi>true</UseUi>
+        <UseWpf>true</UseWpf>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
-        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>
@@ -26,7 +26,7 @@
         <!-- DO NOT CHANGE OR UPDATE VERSIONS OF MICROSOFT.EXTENSIONS PACKAGES!!! -->
 
         <PackageReference Include="RevitTask" Version="3.0.0"/>
-        <PackageReference Include="RxBim.Tools" Version="1.1.2"/>
+        <PackageReference Include="RxBim.Tools" Version="1.1.3" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Abstractions"/>

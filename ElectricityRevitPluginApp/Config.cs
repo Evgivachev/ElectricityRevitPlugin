@@ -26,7 +26,7 @@ public class Config : IApplicationConfiguration
                 .Tab(tabName, tabBuilder => tabBuilder
                     .Panel("Цепи", panelBuilder => panelBuilder
                         .CommandButton(
-                            nameof(GroupByGost.Cmd),
+                            nameof(GroupByGost),
                             typeof(GroupByGost.Cmd),
                             button => button
                                 .Text("Группы по ГОСТ")
@@ -51,16 +51,21 @@ public class Config : IApplicationConfiguration
                                     .LargeImage(@"img\icons8-морфеус-32.png")
                                     .Description(
                                         "Плагин для для обновления марок электрических цепей")
-                                    .ToolTip("Плагин для для обновления марок электрических цепей")))
-                        .CommandButton(
-                            nameof(InitialValues),
-                            typeof(InitialValues.ExternalCommand),
-                            button => button
-                                .Text("Начальные значения")
-                                .LargeImage(@"img\icons8.png")
-                                .Description(
-                                    "Плагин для задания начальных значений электрическим цепям")
-                                .ToolTip("Плагин для задания начальных значений электрическим цепям"))
+                                    .ToolTip("Плагин для для обновления марок электрических цепей"))
+                        )
+                        .Separator()
+                        .StackedItems(builder => builder.CommandButton(
+                                nameof(CountFixturesInSpaceCmd),
+                                typeof(CountFixturesInSpaceCmd.Cmd),
+                                button => button
+                                    .Text("Подсчет светильников в помещениях"))
+                            .CommandButton(
+                                nameof(CountFixturesInSpaceCmd)+ "2",
+                                typeof(CountFixturesInSpaceCmd.Cmd2),
+                                button => button
+                                    .Text("Подсчет светильников в помещениях 2"))
+                        )
+                        .Separator()
                         .CommandButton(
                             nameof(GeneralSubjectDiagram),
                             typeof(GeneralSubjectDiagram.Cmd),

@@ -7,7 +7,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using CommonUtils.Extensions;
-using Extensions;
 
 [Regeneration(RegenerationOption.Manual)]
 [Transaction(TransactionMode.Manual)]

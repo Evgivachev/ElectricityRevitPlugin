@@ -27,7 +27,6 @@ public abstract class WpfCmd<TWindow> : CmdBase
             }
 
             var hostBuilder = new HostBuilder();
-            hostBuilder.UseConsoleLifetime();
             hostBuilder.ConfigureServices(sc =>
             {
                 ConfigureBaseDependencies(sc, commandData);
@@ -41,15 +40,16 @@ public abstract class WpfCmd<TWindow> : CmdBase
             {
                 _host.Services.GetService<RevitTask>().Run(_ =>
                 {
-                    _host.Services.GetService<IApplicationLifetime>().ApplicationStopped
+                    _host?.Services.GetService<IApplicationLifetime>().ApplicationStopped
                         .Register(() => { _shutdownBlock.Set(); });
-                    _host.StopAsync();
+                    _host?.StopAsync();
                     _shutdownBlock.WaitOne();
-                    _host.Dispose();
+                    _host?.Dispose();
+                    _host = null;
                 });
-
-                _host = null;
             };
+
+            window.Show();
 
             return Result.Succeeded;
         }

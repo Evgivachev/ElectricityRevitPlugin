@@ -70,6 +70,6 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
     /// <inheritdoc />
     public virtual bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
     {
-        return applicationData.ActiveUIDocument.Document is not null;
+        return applicationData.ActiveUIDocument?.Document is not null;
     }
 }

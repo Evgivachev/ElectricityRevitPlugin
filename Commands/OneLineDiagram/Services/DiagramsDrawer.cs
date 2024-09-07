@@ -6,7 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Windows.Forms;
+    using System.Windows;
     using Abstractions;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
@@ -42,12 +42,9 @@
                     tr.Commit();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignored
-            }
-            finally
-            {
             }
         }
 
@@ -295,14 +292,11 @@
                     if (!flag)
                         throw new Exception();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     nullParametr.AppendLine($"Ошибка! Не удалось установить значение \"{parameter.Definition.Name}\"");
                 }
             }
-
-            var q1 = nullParametr.ToString();
-            //TaskDialog.Show("Warning!", q1.ToString());
         }
 
         public void DrawLines(Shield shield, View view)
@@ -723,18 +717,7 @@
                     var elements = line
                         .Elements
                         .Cast<FamilyInstance>()
-                        .Where(x =>
-                        {
-                            //todo уточнить
-                            //некоректно!
-                            //после "-" часто 0 встресается //0 у щитов
-                            return x != null;
-                            var paramString = x.LookupParameter("Данные об электрооборудовании").AsString().Split('-').Last();
-                            double.TryParse(paramString, NumberStyles.Any,
-                                CultureInfo.InvariantCulture.NumberFormat,
-                                out var parameterDouble);
-                            return parameterDouble > 0;
-                        });
+                        .Where(x => x != null);
                     foreach (var familyInstance in elements)
                     {
                         var type = familyInstance
@@ -1011,7 +994,7 @@
                         if (!flag)
                             nullParameter.AppendLine($"{system.Name} Не удалось установить значение \"{parameter.Definition.Name}\"");
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         nullParameter.AppendLine(
                             $"{system.Name} Ошибка! Не удалось установить значение \"{parameter.Definition.Name}\"");

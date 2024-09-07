@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UseWpf>true</UseWpf>
+        <UseDi>true</UseDi>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+        <PackageReference Include="MvvmLight" Version="5.4.1.1" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Reference Include="Microsoft.Xaml.Behaviors">
+        <HintPath>..\..\..\..\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

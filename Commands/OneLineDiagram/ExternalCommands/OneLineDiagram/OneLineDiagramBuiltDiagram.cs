@@ -1,11 +1,7 @@
-#region Namespaces
-
-#endregion
-
 namespace Diagrams.ExternalCommands.OneLineDiagram
 {
     using System;
-    using System.Windows.Forms;
+    using System.Windows;
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;

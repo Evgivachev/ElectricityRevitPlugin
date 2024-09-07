@@ -1,18 +1,3 @@
-// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
-/* SpecificationRevitToExcel
- * GroupByGostExternalCommand.cs
- * https://revit-addins.blogspot.ru
- * © EvgIv, 2018
- *
- * The external command.
- */
-
-#region Namespaces
-
-#endregion
-
 namespace GroupByGost;
 
 using System;
@@ -76,7 +61,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
 
     private IContainer CreateContainer(ExternalCommandData commandData)
     {
-        var container = new SimpleInjectorContainer();
+        var container = new DiContainer();
         container.AddBaseRevitDependencies(commandData);
         new Config().Configure(container);
         return container;
@@ -129,9 +114,6 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
     {
         foreach (var shield in shields)
         {
-            //var uGuid = new Guid("dd0d401b-feb3-4c57-bb19-1e4463b5f310");
-            //var uParameter = shield.get_Parameter(uGuid);
-            //var u = UnitUtils.ConvertFromInternalUnits(uParameter.AsDouble(), DisplayUnitType.DUT_VOLTS);
             var circuits = shield
                 .MEPModel?
                 .GetAssignedElectricalSystems()?

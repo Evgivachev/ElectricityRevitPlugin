@@ -11,9 +11,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using CommonUtils.Extensions;
 using CommonUtils.Helpers;
-using PikTools.Ui.Abstractions;
-using PikTools.Ui.Commands;
-using PikTools.Ui.ViewModels;
+using ElectricityRevitPlugin.UI;
 using Services.ParametersUpdaters;
 
 /// <inheritdoc />
@@ -41,14 +39,14 @@ public class GeneralSubjectViewModel : MainViewModelBase
         _revitTask = revitTask;
         _uiDoc = uiApplication.ActiveUIDocument;
         _doc = _uiDoc.Document;
-        InitializeCommand = new RelayAsyncCommand<IClosable>(Initialize);
+        InitializeCommand = new RelayAsyncCommand<ICloseable>(Initialize);
         AvailableFamilies = updaters.ToArray();
     }
 
     /// <summary>
     /// Создание семейств
     /// </summary>
-    public ICommand ExecuteCommand => new RelayAsyncCommand<IHidable>(Execute);
+    public ICommand ExecuteCommand => new RelayAsyncCommand<IHideable>(Execute);
 
     /// <summary>
     /// Выбранное семейство для вставки
@@ -97,7 +95,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
         private set => Set(ref _treeCollectionOfCheckableItems, value);
     }
 
-    private async Task Initialize(IClosable arg)
+    private async Task Initialize(ICloseable arg)
     {
         var familyNames = AvailableFamilies.Select(x => x.FamilyNameToInsert).ToHashSet();
         var families = await _revitTask
@@ -113,7 +111,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
         SelectedUpdater = AvailableFamilies.FirstOrDefault();
     }
 
-    private async Task Execute(IHidable closable)
+    private async Task Execute(IHideable closable)
     {
         try
         {

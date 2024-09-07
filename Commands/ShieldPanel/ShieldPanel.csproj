@@ -5,7 +5,7 @@
         <UseSimpleInjector>true</UseSimpleInjector>
         <UseCommand>true</UseCommand>
         <UseMoreLinq>true</UseMoreLinq>
-        <UsePikUi>true</UsePikUi>
+        <UseUi>true</UseUi>
         <UseWpf>true</UseWpf>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>

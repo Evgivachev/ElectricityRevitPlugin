@@ -13,7 +13,7 @@ namespace ElectricalLoadsExportToExcel
 {
     using System;
     using System.Collections.Generic;
-    using System.Windows.Forms;
+    using System.Windows;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
     using Application = Microsoft.Office.Interop.Excel.Application;

@@ -51,24 +51,14 @@
                         leftFixtures.Remove(lastFixtures);
                     }
 
-                    var ids = track.Select(l => l.Id).ToArray();
-                    Debug.Print("track:\n");
-                    foreach (var id in ids)
-                        Debug.Print(id.ToString());
 
                     var elSystemTr = new ElSystemTransformer(track, es);
                     var points = elSystemTr.GetPoints();
-                    Debug.Print("Points:\n");
-                    foreach (var p in points)
-                        Debug.Print(p.ToString());
 
-                    var array = es.GetCircuitPath().Take(5).ToArray();
                     using (var tr = new Transaction(doc))
                     {
                         tr.Start("jfjf");
                         es.SetCircuitPath(points);
-                        //es.SetCircuitPath(points.Take(4).ToArray());
-                        //es.SetCircuitPath(array);
                         tr.Commit();
                     }
                 }

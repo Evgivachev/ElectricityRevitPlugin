@@ -58,7 +58,6 @@
             var owners = connectors
                 .Select(c => c.Owner)
                 .Distinct();
-            var ids = owners.Select(o => o.Id.IntegerValue).ToArray();
             return owners;
         }
 
@@ -68,7 +67,6 @@
             if (ct is MyCableTrayFitting mctf)
                 if (!(mctf.GetBuiltInCategory() is BuiltInCategory.OST_CableTray))
                 {
-                    var min = double.MaxValue;
                     var result = GetPoints()
                         .SelectMany(
                             mp => ct
@@ -78,17 +76,6 @@
                                         .DistanceTo(mp))
                         )
                         .Min();
-                    //Проверка
-                    //foreach (var myP in GetPoints())
-                    //{
-                    //    foreach (var point in ct.GetPoints())
-                    //    {
-                    //        var d = myP.DistanceTo(point);
-                    //        if (d < min)
-                    //            min = d;
-                    //    }
-                    //}
-                    //var flag = result - min < 0.00001;
                     return result;
                 }
 
@@ -135,10 +122,6 @@
             var abl = ab.GetLength();
             var result = p1 + ab / abl * l;
 
-            //check
-            var q1 = result.DotProduct(ab) < 0.00001;
-            var q2 = (result - p1).GetLength() + (result - p2).GetLength() - ab.GetLength() < 0.001;
-            //
             return result;
         }
 

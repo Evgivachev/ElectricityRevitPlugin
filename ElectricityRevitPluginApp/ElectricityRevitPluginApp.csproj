@@ -9,11 +9,11 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Commands\CountFixturesInSpaceCmd\CountFixturesInSpaceCmd.csproj" />
         <ProjectReference Include="..\Commands\ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj"/>
         <ProjectReference Include="..\Commands\ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj"/>
         <ProjectReference Include="..\Commands\GeneralSubjectDiagram\GeneralSubjectDiagram.csproj"/>
         <ProjectReference Include="..\Commands\GroupByGost\GroupByGost.csproj"/>
-        <ProjectReference Include="..\Commands\InitialValues\InitialValues.csproj"/>
         <ProjectReference Include="..\Commands\MarkingElectricalSystems\MarkingElectricalSystems.csproj"/>
         <ProjectReference Include="..\Commands\PhaseDistribution\PhaseDistribution.csproj"/>
         <ProjectReference Include="..\Commands\ShieldPanel\ShieldPanel.csproj"/>

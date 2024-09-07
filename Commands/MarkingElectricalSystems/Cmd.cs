@@ -8,8 +8,8 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using ElectricityRevitPlugin.UI;
 using Models;
-using PikTools.Ui.Abstractions;
 using RxBim.Di;
 using Services;
 
@@ -23,7 +23,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
     /// <inheritdoc />
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var container = new SimpleInjectorContainer();
+        var container = new DiContainer();
         new Config().Configure(container);
         var notificationService = container.GetService<INotificationService>();
         var uiApp = commandData.Application;
@@ -72,8 +72,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
             .ToArray();
         if (elSystems.Length == 0)
         {
-            notificationService.ShowMessage(GetType().Name, "Отсутствуют выделенные подключенные элементы электрических цепей",
-                NotificationType.Error);
+            notificationService.ShowError(GetType().Name, "Отсутствуют выделенные подключенные элементы электрических цепей");
             return result;
         }
 

@@ -1,12 +1,11 @@
 ﻿namespace GeneralSubjectDiagram.Views;
 
-using PikTools.Ui.Abstractions;
 using ViewModels;
 
 /// <summary>
 /// Логика взаимодействия для GeneralSubjectWpf.xaml
 /// </summary>
-public partial class GeneralSubjectView : IHidable
+public partial class GeneralSubjectView
 {
     /// <inheritdoc />
     public GeneralSubjectView(GeneralSubjectViewModel viewModel)

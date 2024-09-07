@@ -9,9 +9,10 @@ namespace ElectricalLoadsExportToExcel
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Forms;
+    using System.Windows;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.UI;
+    using Microsoft.Win32;
 
     public sealed partial class ExternalCommand
     {

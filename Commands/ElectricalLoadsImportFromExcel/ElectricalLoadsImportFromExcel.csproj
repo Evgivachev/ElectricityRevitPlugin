@@ -8,7 +8,7 @@
         <Nullable>enable</Nullable>
         <PlatformTarget>x64</PlatformTarget>
         <UseWpf>true</UseWpf>
-        <UsePikUi>true</UsePikUi>
+        <UseUi>true</UseUi>
         <UseMoreLinq>true</UseMoreLinq>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>

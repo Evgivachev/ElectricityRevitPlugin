@@ -8,11 +8,12 @@ namespace ElectricalLoadsImportFromExcel
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Forms;
+    using System.Windows;
     using Autodesk.Revit.DB;
     using Autodesk.Revit.DB.Electrical;
     using Autodesk.Revit.UI;
     using Microsoft.Office.Interop.Excel;
+    using Microsoft.Win32;
     using Application = Microsoft.Office.Interop.Excel.Application;
 
     public sealed partial class ExternalCommand

@@ -7,7 +7,6 @@ using System.Diagnostics;
 using Autodesk.Revit.DB;
 using CommonUtils.Extensions;
 using CommonUtils.Helpers;
-using ElectricityRevitPlugin;
 using ViewModels;
 
 public abstract class ParameterUpdater

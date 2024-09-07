@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -38,12 +37,6 @@ class UpdateParameterADSK_Floor : DefaultExternalCommand
                     .WhereElementIsNotElementType();
                 foreach (var element in allElements)
                 {
-                    if (element.Id.IntegerValue == 24666035)
-                        Debug.Print("24666035");
-
-                    //var projectParameter = element.get_Parameter(projectChapterGuid);
-                    //if (projectParameter is null)
-                    //    continue;
                     var adskFloor = element.get_Parameter(floorGuid)?.AsString() ?? "";
                     if (!(element is FamilyInstance fi))
                         continue;

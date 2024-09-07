@@ -1,7 +1,7 @@
 ﻿namespace Diagrams.ViewContext
 {
     using System.Collections.Generic;
-    using PikTools.Ui.ViewModels;
+    using ElectricityRevitPlugin.UI;
 
     public class SelectableGroupModel<T, TInner> : SelectableViewModel<T>
     {

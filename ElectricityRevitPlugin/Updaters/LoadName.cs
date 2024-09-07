@@ -6,7 +6,6 @@ using System.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using CommonUtils.Extensions;
-using Extensions;
 using UpdateParametersInCircuits;
 
 public class LoadName : MyUpdater

@@ -8,10 +8,11 @@
         <Nullable>enable</Nullable>
         <PlatformTarget>x64</PlatformTarget>
         <UseWpf>true</UseWpf>
-        <UsePikUi>true</UsePikUi>
+        <UseUi>true</UseUi>
         <UseMoreLinq>true</UseMoreLinq>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>
@@ -23,5 +24,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\CommonUtils\CommonUtils.csproj"/>
+        <ProjectReference Include="..\..\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
     </ItemGroup>
 </Project>
