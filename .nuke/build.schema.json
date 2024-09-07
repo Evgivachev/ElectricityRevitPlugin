@@ -87,7 +87,8 @@
           "description": "Select project"
         },
         "RevitVersion": {
-          "type": "string"
+          "type": "string",
+          "description": "Revit Version"
         },
         "Root": {
           "type": "string",
@@ -107,6 +108,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "BuildApp",
               "BuildFromTag",
               "BuildInnoExe",
               "BuildMsi",
@@ -137,6 +139,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "BuildApp",
               "BuildFromTag",
               "BuildInnoExe",
               "BuildMsi",
