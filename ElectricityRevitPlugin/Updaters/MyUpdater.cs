@@ -109,7 +109,7 @@ public abstract class MyUpdater : IUpdater
         }
         catch (Exception e)
         {
-            MessageBox.Show($"Не удалось зарегестрировать средство обновления {Name}");
+            MessageBox.Show($"Не удалось зарегистрировать средство обновления {Name}" + "\n" + $"{e.Message}");
         }
     }
 }

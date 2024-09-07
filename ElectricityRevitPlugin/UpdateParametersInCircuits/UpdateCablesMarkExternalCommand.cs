@@ -17,7 +17,6 @@ class UpdateCablesMarkExternalCommand : IExternalCommand, IUpdaterParameters<Ele
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var app = uiApp.Application;
         var result = Result.Succeeded;
         var electricalSystems = new FilteredElementCollector(doc)
             .OfClass(typeof(ElectricalSystem))
@@ -44,14 +43,13 @@ class UpdateCablesMarkExternalCommand : IExternalCommand, IUpdaterParameters<Ele
 
     public string UpdateParameters(ElectricalSystem els)
     {
-        var number = els.CircuitNumber;
         //Марка кабелей для выносок
         var markParam = els.get_Parameter(new Guid("78e8268c-f1d6-46c2-8bd9-8c0c0590868a"));
         var nCables = els.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
         var cableMark = els.LookupParameter("Тип изоляции").AsString();
         var nConduits = els.LookupParameter("Кол-во жил").AsDouble();
         var crossSection = els.LookupParameter("Сечение кабеля").AsDouble();
-        var tube = els.LookupParameter("Способ прокладки для схем").AsString();
+        els.LookupParameter("Способ прокладки для схем").AsString();
         var result = new StringBuilder();
         if (nCables > 1)
             result.Append((int)nCables + "x");

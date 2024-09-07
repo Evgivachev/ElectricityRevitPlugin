@@ -20,7 +20,7 @@ public class RevitCmdHostLifetime : IHostLifetime
 
     public Task WaitForStartAsync(CancellationToken cancellationToken)
     {
-        AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
+        AppDomain.CurrentDomain.ProcessExit += (_, _) =>
         {
             _applicationLifetime.StopApplication();
             _shutdownBlock.WaitOne();

@@ -4,7 +4,7 @@ using System.Windows;
 using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 
-public partial class SampleWindow : Window
+public partial class SampleWindow
 {
     public SampleWindow()
     {

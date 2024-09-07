@@ -36,7 +36,7 @@
                     //Создание нового вида
                     var viewDrafting = CreateViewDrafting(shield.Name);
                     //рисование шапки
-                    var headFamilyInstance = DrawHead(shield, viewDrafting);
+                    _ = DrawHead(shield, viewDrafting);
                     //Рисование отходящих линий
                     DrawLines(shield, viewDrafting);
                     tr.Commit();
@@ -76,57 +76,57 @@
 {shieldFi.UniqueId}",
                 //"1QS для РТ" String
                 //["1QS для РТ"]=
-                ["ID электрического щита"] = powerCable => shieldFi.UniqueId,
+                ["ID электрического щита"] = _ => shieldFi.UniqueId,
                 //"Кабель к медной шине" String
                 //["Кабель к медной шине"]
 
                 //"Классификация вводных устройств" Integer
-                ["Классификация вводных устройств"] = powerCable =>
+                ["Классификация вводных устройств"] = _ =>
                 {
                     //"Классификация вводных устройств" Integer
                     var value = shieldFi.LookupParameter("Классификация вводных устройств")?.AsInteger();
                     return value == 0 ? 3 : value;
                 },
                 //"Колво отключаемых полюсов" Double
-                ["Колво отключаемых полюсов"] = powerCable => shieldFi.LookupParameter("Кол-во отключаемых полюсов")?.AsDouble(),
+                ["Колво отключаемых полюсов"] = _ => shieldFi.LookupParameter("Кол-во отключаемых полюсов")?.AsDouble(),
                 //"Номер 0" String
-                ["Номер 0"] = powerCable => { return "QF0"; },
+                ["Номер 0"] = _ => { return "QF0"; },
                 //"Номер группы в щитах Revit" String
                 ["Номер группы в щитах Revit"] = powerCable => { return powerCable?.Name; },
                 //"Номинальный ток вводного устройства" Double
                 ["Номинальный ток вводного устройства"] =
-                    powerCable => shieldFi.LookupParameter("Номинальный ток вводного устройства")?.AsDouble(),
+                    _ => shieldFi.LookupParameter("Номинальный ток вводного устройства")?.AsDouble(),
                 //"Панель" String
-                ["Панель"] = powerCable => { return shieldFi.Name; },
+                ["Панель"] = _ => { return shieldFi.Name; },
                 //"Тип вводного автомата" String
-                ["Тип вводного автомата"] = powerCable => shieldFi.LookupParameter("Тип вводного автомата")?.AsString(),
+                ["Тип вводного автомата"] = _ => shieldFi.LookupParameter("Тип вводного автомата")?.AsString(),
                 //"Уставка вводного устроуства" Double
-                ["Уставка вводного устроуства"] = powerCable => shieldFi.LookupParameter("Уставка вводного устроуства")?.AsDouble(),
+                ["Уставка вводного устроуства"] = _ => shieldFi.LookupParameter("Уставка вводного устроуства")?.AsDouble(),
 
                 #endregion
 
                 #region Электросети нагрузки
 
                 //"Коэффициент спроса в щитах" Double
-                ["Коэффициент спроса в щитах"] = powerCable => shieldFi.LookupParameter("Коэффициент спроса в щитах")?.AsDouble(),
+                ["Коэффициент спроса в щитах"] = _ => shieldFi.LookupParameter("Коэффициент спроса в щитах")?.AsDouble(),
                 //"Перекос фаз" Double
-                ["Перекос фаз"] = powerCable => shieldFi.LookupParameter("Перекос фаз")?.AsDouble() * 100,
+                ["Перекос фаз"] = _ => shieldFi.LookupParameter("Перекос фаз")?.AsDouble() * 100,
                 //"Суммарный ток L1" Double
-                ["Суммарный ток L1"] = powerCable => shieldFi.LookupParameter("Суммарный ток L1")?.AsDouble(),
+                ["Суммарный ток L1"] = _ => shieldFi.LookupParameter("Суммарный ток L1")?.AsDouble(),
                 //"Суммарный ток L2" Double
-                ["Суммарный ток L2"] = powerCable => shieldFi.LookupParameter("Суммарный ток L2")?.AsDouble(),
+                ["Суммарный ток L2"] = _ => shieldFi.LookupParameter("Суммарный ток L2")?.AsDouble(),
                 //"Суммарный ток L3" Double
-                ["Суммарный ток L3"] = powerCable => shieldFi.LookupParameter("Суммарный ток L3")?.AsDouble(),
+                ["Суммарный ток L3"] = _ => shieldFi.LookupParameter("Суммарный ток L3")?.AsDouble(),
                 //"Установленная мощность в щитах" Double
-                ["Установленная мощность в щитах"] = powerCable => shieldFi.LookupParameter("Установленная мощность в щитах")?.AsDouble(),
+                ["Установленная мощность в щитах"] = _ => shieldFi.LookupParameter("Установленная мощность в щитах")?.AsDouble(),
                 //"Ток в щитах" Double
-                ["Ток в щитах"] = powerCable => shieldFi.LookupParameter("Ток в щитах")?.AsDouble(),
+                ["Ток в щитах"] = _ => shieldFi.LookupParameter("Ток в щитах")?.AsDouble(),
                 //"Полная мощность в щитах" Double
-                ["Полная мощность в щитах"] = powerCable => shieldFi.LookupParameter("Полная мощность в щитах")?.AsDouble(),
+                ["Полная мощность в щитах"] = _ => shieldFi.LookupParameter("Полная мощность в щитах")?.AsDouble(),
                 //"Косинус в щитах" Double
-                ["Косинус в щитах"] = powerCable => shieldFi.LookupParameter("Косинус в щитах").AsDouble(),
+                ["Косинус в щитах"] = _ => shieldFi.LookupParameter("Косинус в щитах").AsDouble(),
                 //"Активная мощность в щитах" Double
-                ["Активная мощность в щитах"] = powerCable => shieldFi.LookupParameter("Активная мощность в щитах")?.AsDouble(),
+                ["Активная мощность в щитах"] = _ => shieldFi.LookupParameter("Активная мощность в щитах")?.AsDouble(),
 
                 #endregion
 
@@ -172,17 +172,17 @@
                 #region Видимость
 
                 //"PE" Integer
-                ["PE"] = powerCable => { return 1; },
+                ["PE"] = _ => { return 1; },
                 //"Видимость на схеме перекоса фаз" Integer
-                ["Видимость на схеме перекоса фаз"] = powerCable => { return 1; },
+                ["Видимость на схеме перекоса фаз"] = _ => { return 1; },
                 //"Магистраль вид" Integer
-                ["Магистраль вид"] = powerCable => { return 0; },
+                ["Магистраль вид"] = _ => { return 0; },
                 //"Начало щита" Integer
-                ["Начало щита"] = powerCable => { return 1; },
+                ["Начало щита"] = _ => { return 1; },
                 //"Продолжение щита" Integer
-                ["Продолжение щита"] = powerCable => { return 1; },
+                ["Продолжение щита"] = _ => { return 1; },
                 //"Шапка видимость" Integer
-                ["Шапка видимость"] = powerCable => { return 1; },
+                ["Шапка видимость"] = _ => { return 1; },
 
                 #endregion
 
@@ -191,7 +191,7 @@
                 //"1" Integer
                 //["1"] = "",
                 //"Количество групп" Integer
-                ["Количество групп"] = powerCable =>
+                ["Количество групп"] = _ =>
                 {
                     return shieldFi
                         .MEPModel?
@@ -657,14 +657,14 @@
                     return value;
                 },
                 //К щиту ЩОА String
-                ["К щиту ЩОА"] = line =>
+                ["К щиту ЩОА"] = _ =>
                 {
                     //
                     return null
                         ;
                 },
                 //кей Double
-                ["кей"] = line => 0.0,
+                ["кей"] = _ => 0.0,
                 //Кол-во жил Double
                 ["Кол-во жил"] = line =>
                 {
@@ -705,7 +705,7 @@
                 },
                 //Наименование пустых ячеек String
                 //todo
-                ["Наименование пустых ячеек"] = line => null,
+                ["Наименование пустых ячеек"] = _ => null,
 
                 //Наименование электроприемника String
                 ["Наименование электроприемника"] = line =>
@@ -763,11 +763,11 @@
                     return "";
                 },
                 //Номер контактора String
-                ["Номер контактора"] = line => { return null; },
+                ["Номер контактора"] = _ => { return null; },
                 //Номер контактора 2 String
-                ["Номер контактора 2"] = line => null,
+                ["Номер контактора 2"] = _ => null,
                 //Номер отключающего устройства в схеме String
-                ["Номер отключающего устройства в схеме"] = line => $"QF{numberOfLine}",
+                ["Номер отключающего устройства в схеме"] = _ => $"QF{numberOfLine}",
                 //Номер цепи String
                 ["Номер цепи"] = line => line.CircuitNumber,
                 //Отключающее устройство String
@@ -924,7 +924,7 @@
                 //    return line.LookupParameter("") ?
                 //   ;
                 //},
-                ["Порядковый номер группы"] = line => { return (double)numberOfLine; }
+                ["Порядковый номер группы"] = _ => { return (double)numberOfLine; }
             };
             var nullParameter = new StringBuilder();
             var connectedSystems = shieldFamilyInstance?
@@ -959,7 +959,7 @@
                     //if (lineP.IsShared || lineP.IsReadOnly)
                     //    continue;
                     var value = elParameter.GetValueDynamic();
-                    var isOk = ParameterExtension.SetDynamicValue(lineP, value);
+                    ParameterExtension.SetDynamicValue(lineP, value);
                 }
 
                 foreach (var pair in parametersOfLineDict)
@@ -977,8 +977,7 @@
                         continue;
                     }
 
-                    var currentValue = parameter.AsValueString() ?? parameter.AsString();
-                    var q = parameter.ResetValue();
+                    _ = parameter.ResetValue();
                     doc.Regenerate();
                     var value = pair.Value.Invoke(system);
                     if (value is null)
@@ -987,7 +986,6 @@
                         continue;
                     }
 
-                    var valueType = value.GetType();
                     try
                     {
                         var flag = ParameterExtension.SetDynamicValue(parameter, value);
@@ -1020,7 +1018,6 @@
                 throw new NullReferenceException();
             var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
             var doc = uiDoc?.Document;
 
             #endregion
@@ -1075,7 +1072,6 @@
                 throw new NullReferenceException();
             var uiApp = OneLineDiagramBuiltDiagram.CommandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
             var doc = uiDoc?.Document;
 
             #endregion
@@ -1087,20 +1083,17 @@
                 as Family;
             if (familyHead == null)
                 throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
-            var familySymbolHead = (FamilySymbol)doc?.GetElement(familyHead?.GetFamilySymbolIds().First());
-            using (var tr = new Transaction(doc))
-            {
-                tr.Start($"Вставка семейсва шапки {shield.Name}");
-                var familyInstanceHead = doc?.Create.NewFamilyInstance(new XYZ(), familySymbolHead, view);
-                if (familyInstanceHead == null)
-                    throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
-                var sb = new StringBuilder();
-                //Вычисление перекола фаз
-                //CalculateCurrentImbalance(shield);
-                SetParametersToHead(familyInstanceHead, shield);
-                tr.Commit();
-                return familyInstanceHead;
-            }
+            var familySymbolHead = (FamilySymbol)doc?.GetElement(familyHead.GetFamilySymbolIds().First());
+            using var tr = new Transaction(doc);
+            tr.Start($"Вставка семейсва шапки {shield.Name}");
+            var familyInstanceHead = doc?.Create.NewFamilyInstance(new XYZ(), familySymbolHead, view);
+            if (familyInstanceHead == null)
+                throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyOfHead}\"");
+            //Вычисление перекола фаз
+            //CalculateCurrentImbalance(shield);
+            SetParametersToHead(familyInstanceHead, shield);
+            tr.Commit();
+            return familyInstanceHead;
         }
 
         private static string GetGostNameOfCircuit(ElectricalSystem es)

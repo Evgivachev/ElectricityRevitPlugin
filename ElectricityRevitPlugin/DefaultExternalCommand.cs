@@ -13,17 +13,14 @@ public abstract class DefaultExternalCommand : IExternalCommand
     protected Application App;
     protected UIApplication UiApp;
     protected UIDocument UiDoc;
-    public Document Doc { get; set; }
+    public Document? Doc { get; set; }
 
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        if (commandData != null)
-        {
-            UiApp = commandData.Application;
-            UiDoc = UiApp.ActiveUIDocument;
-            Doc = UiDoc?.Document;
-            App = UiApp.Application;
-        }
+        UiApp = commandData.Application;
+        UiDoc = UiApp.ActiveUIDocument;
+        Doc = UiDoc?.Document;
+        App = UiApp.Application;
 
         Result result;
         try

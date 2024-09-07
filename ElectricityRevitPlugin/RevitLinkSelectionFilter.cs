@@ -8,7 +8,6 @@ class RevitLinkSelectionFilter : ISelectionFilter
 {
     public bool AllowElement(Element elem)
     {
-        var type = elem.GetType().Name;
         return elem is RevitLinkInstance;
     }
 

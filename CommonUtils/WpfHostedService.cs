@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 public class WpfHostedService<TWindow> : IHostedService where TWindow : Window
 {
     private readonly IServiceProvider _serviceProvider;
-    public WpfHostedService(IServiceProvider serviceProvider, RevitTask revitTask)
+    public WpfHostedService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

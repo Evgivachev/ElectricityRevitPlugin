@@ -44,7 +44,7 @@ public static class ElectricalSystemExtension
             else
             {
                 var tryGetElectricalParameters =
-                    fi.TryGetElectricalParameters(out var activePower, out _, out var loadClassification);
+                    fi.TryGetElectricalParameters(out _, out _, out var loadClassification);
                 if (!tryGetElectricalParameters)
                     continue;
                 type = doc.GetElement(loadClassification).Name;

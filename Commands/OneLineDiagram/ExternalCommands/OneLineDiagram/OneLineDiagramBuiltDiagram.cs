@@ -14,7 +14,7 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
     /// </summary>	
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public sealed partial class OneLineDiagramBuiltDiagram : IExternalCommand
+    public sealed class OneLineDiagramBuiltDiagram : IExternalCommand
     {
         internal static ExternalCommandData? CommandData;
 
@@ -28,13 +28,10 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
         Result IExternalCommand.Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             CommandData = commandData;
-            var result = Result.Failed;
+            Result result;
             try
             {
                 var uiApp = commandData.Application;
-                var uiDoc = uiApp?.ActiveUIDocument;
-                var app = uiApp?.Application;
-                var doc = uiDoc?.Document;
                 var drawer = new DiagramsDrawer(uiApp);
                 var updater = new DiagramsUpdater(uiApp, drawer);
                 var dc = new BuildDiagramsContext(new ShieldProvider(uiApp!), uiApp, drawer, updater);

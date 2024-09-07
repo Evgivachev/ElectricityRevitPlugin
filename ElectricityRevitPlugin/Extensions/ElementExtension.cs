@@ -51,7 +51,6 @@ public static class ElementExtension
                 var value = fromParam.GetValueDynamic();
                 if (value is null)
                     continue;
-                var flag = toParam.Set(value);
             }
         }
 

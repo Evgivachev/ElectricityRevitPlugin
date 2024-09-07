@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 
 public class UpdateLocker : IDisposable
 {
-    private static UpdateLocker _updateLocker;
+    private static UpdateLocker? _updateLocker;
     private bool _isLocked = false;
 
     private UpdateLocker()
@@ -15,13 +15,13 @@ public class UpdateLocker : IDisposable
         ElementsIds = new List<Tuple<ElementId, ChangeType>>();
     }
 
-    public ICollection<Tuple<ElementId, ChangeType>> ElementsIds { get; set; }
+    public ICollection<Tuple<ElementId, ChangeType>>? ElementsIds { get; set; }
 
 
     public void Dispose()
     {
         _isLocked = false;
-        ElementsIds = null;
+        ElementsIds = null!;
     }
 
     public static UpdateLocker GetUpdateLocker()

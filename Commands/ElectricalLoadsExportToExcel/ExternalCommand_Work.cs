@@ -23,7 +23,6 @@ namespace ElectricalLoadsExportToExcel
             if (null == commandData) throw new ArgumentNullException(nameof(commandData));
             var uiApp = commandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
             var doc = uiDoc?.Document;
 
             #endregion
@@ -36,7 +35,6 @@ namespace ElectricalLoadsExportToExcel
                 .OfClass(typeof(FamilyInstance))
                 .Cast<FamilyInstance>()
                 .ToList();
-            var names = allShieldsList.Select(x => x.Name).OrderBy(x => x).ToList();
             var allShields = new Dictionary<string, FamilyInstance>();
             var message = new HashSet<string>();
             foreach (var familyInstance in allShieldsList)
@@ -53,8 +51,7 @@ namespace ElectricalLoadsExportToExcel
                 .Where(x => shieldList.Contains(x.UniqueId))
                 .Where(x =>
                 {
-                    var name = x.Name;
-                    var uString = x.LookupParameter("Напряжение в щите").AsValueString().Split(' ')[0];
+                    _ = x.LookupParameter("Напряжение в щите").AsValueString().Split(' ')[0];
                     //if (double.TryParse(uString, out var u)&&u<100 || uString=="0") return false;
                     //if (double.TryParse(uString, out var u) && u < 200 ) return false;
                     var flag = x.MEPModel?
@@ -111,9 +108,9 @@ namespace ElectricalLoadsExportToExcel
             };
             var graph = new Graph();
             graph.MakeGraph(baseShields);
-            var q = graph.Print();
+            graph.Print();
             graph.UpdateGraph();
-            var q1 = graph.Print();
+            graph.Print();
             //считать файл Excel
             var openFile = new OpenFileDialog
             {
@@ -126,7 +123,7 @@ namespace ElectricalLoadsExportToExcel
             var excelFile = ExcelClass.ReadExcelFile(openFile.FileName);
             //обработать наш граф
             graph.UpdateGraphFromExcelFile(excelFile);
-            var q3 = graph.Print();
+            graph.Print();
             graph.ExportToExcel(openFile.FileName);
             TaskDialog.Show("Info", "Успешно!");
             tr.RollBack();

@@ -37,7 +37,6 @@ namespace ElectricalLoadsExportToExcel
                     XlPlatform.xlWindows,
                     "", true, false, 0, true, false, false);
                 var objWorkSheet = (Worksheet)objWorkBook.Sheets[1];
-                var sheetName = objWorkSheet.Name;
                 var currentCell = new Cell(1, 1);
                 var flag = true;
                 while (flag)
@@ -62,7 +61,6 @@ namespace ElectricalLoadsExportToExcel
                     result[nameOfShield] = new List<Load>();
 
                     //поиск ячейки "итого по щиту"
-                    var shieldResult = new Cell(currentCell);
 
                     //Поиск ячейки нагрузки
                     var loadCell = new Cell(currentCell);

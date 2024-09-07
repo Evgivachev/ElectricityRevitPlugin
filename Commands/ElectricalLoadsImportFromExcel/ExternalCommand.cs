@@ -36,7 +36,6 @@ namespace ElectricalLoadsImportFromExcel
             {
                 var uiApp = commandData?.Application;
                 var uiDoc = uiApp?.ActiveUIDocument;
-                var app = uiApp?.Application;
                 var doc = uiDoc?.Document;
                 using (var trGr = new TransactionGroup(doc, "trGrName"))
                 {

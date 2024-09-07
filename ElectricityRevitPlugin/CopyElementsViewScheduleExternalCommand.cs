@@ -29,7 +29,7 @@ public class CopyElementsViewScheduleExternalCommand : IExternalCommand
         var doc = uiDoc.Document;
         Application = uiApp.Application;
         var result = Result.Succeeded;
-        ActiveViewSchedule = doc.ActiveView as ViewSchedule;
+        ActiveViewSchedule = (ViewSchedule)doc.ActiveView;
         var window = new CopyElementsInViewScheduleWPF(this);
         window.CopyElements();
         return result;

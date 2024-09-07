@@ -25,7 +25,6 @@ class UpdateParameterADSK_Floor : DefaultExternalCommand
 
     protected override Result DoWork(ref string message, ElementSet elements)
     {
-        var projectChapterGuid = SharedParametersFile.Razdel_Proektirovaniya;
         var floorGuid = new Guid("9eabf56c-a6cd-4b5c-a9d0-e9223e19ea3f");
         using (var tr = new Transaction(Doc))
         {

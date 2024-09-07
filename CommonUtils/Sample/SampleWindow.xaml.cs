@@ -1,8 +1,6 @@
 ﻿namespace CommonUtils.Sample;
 
-using System.Windows;
-
-public partial class SampleWindow : Window
+public partial class SampleWindow
 {
     public SampleWindow(ViewModel viewModel)
     {

@@ -12,7 +12,6 @@ public class SelectionElSystemsProvider : IElSystemsProvider
     public IEnumerable<ElectricalSystem> GetElectricalSystems()
     {
         var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var selection = uiDoc.Selection;

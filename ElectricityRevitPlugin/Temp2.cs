@@ -16,10 +16,9 @@ public class Temp2 : IExternalCommand
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
-        var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
-        var sheets = new FilteredElementCollector(doc)
+        new FilteredElementCollector(doc)
             .OfCategory(BuiltInCategory.OST_Sheets)
             .Cast<ViewSheet>();
         using (var tr = new Transaction(doc))
@@ -34,7 +33,6 @@ public class Temp2 : IExternalCommand
                 .Where(x => x != null)
                 .Select(x => x.Id.IntegerValue)
                 .ToHashSet();
-            var framesIds = new List<ElementId>();
             var allFrames = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_TitleBlocks)
                 .WhereElementIsNotElementType()
@@ -43,7 +41,6 @@ public class Temp2 : IExternalCommand
             {
                 var ownerViewId = frame.OwnerViewId.IntegerValue;
                 var ownerView = doc.GetElement(new ElementId(ownerViewId));
-                var viewName = ownerView.Name;
                 if (!lists.Contains(ownerViewId))
                     continue;
                 var isEdit = frame.LookupParameter("Изменения").AsInteger() == 1;

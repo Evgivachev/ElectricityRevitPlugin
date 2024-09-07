@@ -127,7 +127,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
             {
                 using var tr = new Transaction(_doc, "Вставка элементов схемы ВРУ");
                 var familySymbol =
-                    _doc.GetElement(_familiesDict[SelectedUpdater.FamilyNameToInsert].GetFamilySymbolIds().First()) as FamilySymbol;
+                    (FamilySymbol)_doc.GetElement(_familiesDict[SelectedUpdater.FamilyNameToInsert].GetFamilySymbolIds().First());
                 tr.Start();
                 foreach (var baseElement in selectedItems)
                 {

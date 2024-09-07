@@ -36,7 +36,7 @@ class StandardCalculator : LossVoltageCalculator
             UnitTypeId.Volts);
         Debug.Print($"Voltage {voltage}");
         //Сечение кабеля
-        var crossSection = el.LookupParameter("Сечение кабеля").AsDouble();
+        el.LookupParameter("Сечение кабеля").AsDouble();
         //r Перевод сопротивления на 1м, не на км
         var r = el.LookupParameter("Активное сопротивление").AsDouble() / 1000;
         Debug.Print($"r, Ом/м {r}");

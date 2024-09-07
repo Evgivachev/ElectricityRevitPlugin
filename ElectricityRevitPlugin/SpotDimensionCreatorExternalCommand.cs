@@ -27,7 +27,7 @@ class SpotDimensionCreatorExternalCommand : DefaultExternalCommand
                 var origin = originLocationPoint.Point;
                 var bend = origin + new XYZ(0, 1, 4);
                 var end = bend + new XYZ(0, 2, 4);
-                var spotDimension = Doc.Create.NewSpotElevation(view, reference, origin, bend, end, origin, false);
+                Doc.Create.NewSpotElevation(view, reference, origin, bend, end, origin, false);
             }
 
             tr.Commit();

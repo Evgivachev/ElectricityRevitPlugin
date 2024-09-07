@@ -14,7 +14,6 @@ public abstract class ElSystemShiftProcessing
     public static void MakeAllDevicesInElectricalSystems(IEnumerable<ElectricalSystem> electricalSystems)
     {
         var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         using (var tr = new Transaction(doc))
@@ -30,7 +29,6 @@ public abstract class ElSystemShiftProcessing
     public static void MakeAllDevicesInElectricalSystems(ElectricalSystem electricalSystems, bool openTransaction = false)
     {
         var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         if (openTransaction)
@@ -50,7 +48,6 @@ public abstract class ElSystemShiftProcessing
     public virtual Result Process(IEnumerable<ElectricalSystem> electricalSystems, double shift)
     {
         var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         MakeAllDevicesInElectricalSystems(electricalSystems);

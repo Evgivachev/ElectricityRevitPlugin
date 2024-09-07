@@ -47,7 +47,6 @@ public class ShieldProcessing
                 var device2Cl = currentElS.LookupParameter("Классификатор ОУ2").AsDouble();
                 var device2Nm = currentElS.LookupParameter("Количество модулей ОУ2").AsDouble();
                 var deltaOfWidthRow = _widthOfModule * (device1Nm + device2Nm);
-                var newWidthRow = widthOfCurrentRow + deltaOfWidthRow;
                 if (i == 35)
                 {
                 }

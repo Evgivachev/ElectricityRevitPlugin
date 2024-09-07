@@ -16,7 +16,6 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
     public override Result Process(IEnumerable<ElectricalSystem> electricalSystems, double shift)
     {
         var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         foreach (var electricalSystem in electricalSystems)

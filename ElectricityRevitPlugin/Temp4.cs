@@ -17,12 +17,11 @@ public class Temp4 : IExternalCommand
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
-        var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
         var selection = uiDoc.Selection;
-        var selectedEl = selection.GetElementIds().Select(x => doc.GetElement(x));
-        var systems = new FilteredElementCollector(doc)
+        selection.GetElementIds().Select(x => doc.GetElement(x));
+        new FilteredElementCollector(doc)
             .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
             .Cast<ElectricalSystem>();
         var heads = new FilteredElementCollector(doc)

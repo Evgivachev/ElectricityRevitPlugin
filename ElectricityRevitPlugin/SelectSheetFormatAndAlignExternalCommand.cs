@@ -18,7 +18,6 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var uiApp = commandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
@@ -57,7 +56,6 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
         XYZ shiftTitleBlock)
     {
         var uiApp = commandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
@@ -102,7 +100,6 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
         ElementId result = null;
         foreach (var type in allTypes)
         {
-            var typeName = type.Name;
             var length = type.LookupParameter("Ширина").AsDouble() -
                          UnitUtils.ConvertToInternalUnits(25, UnitTypeId.Millimeters);
             var height = type.LookupParameter("Высота").AsDouble() -
@@ -127,7 +124,6 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
 
     protected virtual BoundingBoxXYZ GetBoundingBoxXyz(ViewSheet viewSheet, IEnumerable<Element> elements)
     {
-        var doc = viewSheet.Document;
         var allElements = elements.Where(x => x.Category.Id.IntegerValue != (int)BuiltInCategory.OST_TitleBlocks);
         var bbs = allElements.Select(x => x.get_BoundingBox(viewSheet)).ToArray();
         if (!bbs.Any())

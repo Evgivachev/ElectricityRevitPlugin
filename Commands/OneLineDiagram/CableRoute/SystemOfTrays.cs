@@ -21,11 +21,10 @@
             while (queue.Count > 0)
             {
                 var current = queue.Dequeue();
-                var cid = current.GetHashCode();
                 _cableTrays[current.GetHashCode()] = current;
                 foreach (var incident in current.GetIncidentElements())
                 {
-                    ICableTray incT = null;
+                    ICableTray incT;
                     if (incident is CableTray ict)
                         incT = new MyCableTray(ict);
                     else if (incident is FamilyInstance fi)

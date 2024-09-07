@@ -30,7 +30,7 @@ public class GeneralSubjectGroupByGost : DefaultExternalCommand
                     var groupByGost = parentElement.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST)?.AsString();
                     if (string.IsNullOrEmpty(groupByGost))
                         groupByGost = "&&&";
-                    var flag = el.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST).Set(groupByGost);
+                    el.get_Parameter(SharedParametersFile.Nomer_Gruppy_Po_GOST).Set(groupByGost);
                 }
             }
 

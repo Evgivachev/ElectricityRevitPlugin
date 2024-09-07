@@ -23,7 +23,6 @@ namespace ElectricalLoadsExportToExcel
             {
                 var uiApp = commandData?.Application;
                 var uiDoc = uiApp?.ActiveUIDocument;
-                var app = uiApp?.Application;
                 var doc = uiDoc?.Document;
                 using var trGr = new TransactionGroup(doc, "trGrName");
                 if (TransactionStatus.Started == trGr.Start())
@@ -36,7 +35,6 @@ namespace ElectricalLoadsExportToExcel
                         .Cast<FamilyInstance>()
                         .Where(x =>
                         {
-                            var name = x.Name;
                             var uString = x.LookupParameter("Напряжение в щите").AsValueString().Split(' ')[0];
                             if (double.TryParse(uString, out var u) && u < 200) return false;
                             var flag = x.MEPModel?
@@ -44,7 +42,6 @@ namespace ElectricalLoadsExportToExcel
                                 .Any();
                             return flag.HasValue && flag.Value;
                         }).ToArray();
-                    var shieldsDictionary = allShields.ToDictionary(x => x.UniqueId);
                     var form = new SelectShields(allShields);
                     form.OkButton.Click += (sender, args) =>
                     {

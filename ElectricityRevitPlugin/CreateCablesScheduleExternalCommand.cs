@@ -23,7 +23,6 @@ public class CreateCablesScheduleExternalCommand : DefaultExternalCommand
             tr.Start();
             foreach (var group in circuitsGroup)
             {
-                var pathName = group.Key;
                 var number = 1;
                 foreach (var electricalSystem in group.OrderBy(x => x.PanelName)
                              .ThenBy(x => x.LookupParameter("Номер QF").AsString()))

@@ -58,7 +58,7 @@ public abstract class WpfCmd<TWindow> : CmdBase
         finally
         {
             _host = null;
-            var revitTask = host!.Services.GetRequiredService<RevitTask>();
+            var revitTask = host.Services.GetRequiredService<RevitTask>();
             await revitTask.Run(_ => host.Dispose());
         }
     }

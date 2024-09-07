@@ -114,7 +114,7 @@
 
         private XYZ GetNearestPoint(MyCableTray otherMcTf)
         {
-            var otherPoints = otherMcTf.GetPoints().Take(2);
+            var otherPoints = otherMcTf.GetPoints().Take(2).ToArray();
             var myPoints = GetPoints().Take(2);
             XYZ result = null;
             var minD = double.MaxValue;

@@ -4,18 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using Autodesk.Revit.DB;
-    using Autodesk.Revit.DB.Electrical;
 
     public class ElSystemTransformer
     {
-        private readonly ElectricalSystem _electricalSystem;
         private readonly List<ICableTray> _elements;
         private List<XYZ> _points = new();
 
-        public ElSystemTransformer(List<ICableTray> elements, ElectricalSystem electricalSystem)
+        public ElSystemTransformer(List<ICableTray> elements)
         {
             _elements = elements;
-            _electricalSystem = electricalSystem;
         }
 
         private void CalculatePoints()

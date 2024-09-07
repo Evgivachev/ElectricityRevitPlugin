@@ -21,17 +21,13 @@ public class ModelFromServerListGetter
         var rootDirectory = new DirectoryInfo(Root);
         var revitModels = rootDirectory.EnumerateDirectories("*.rvt", SearchOption.AllDirectories);
         return revitModels;
-        var qq = string.Join("\n", revitModels);
-        File.WriteAllLines(@"C:\Users\iev\Documents\Список моделей для теста.txt", revitModels.Select(di => Path.Combine(di.FullName
-            .Split(Path.DirectorySeparatorChar)
-            .Skip(5).ToArray())));
     }
 
     public void SaveModelsList(string path)
     {
         var models = GetModels()
             .ToArray();
-        var text = string.Join<DirectoryInfo>("\n", models);
+        string.Join<DirectoryInfo>("\n", models);
         File.WriteAllLines(path, models
             .Select(di => Path
                 .Combine(di.FullName

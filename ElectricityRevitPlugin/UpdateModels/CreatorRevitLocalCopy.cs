@@ -60,7 +60,7 @@ class CreatorRevitLocalCopy
 
     private void RunBatFile(string path)
     {
-        var p = Process.Start(path);
+        Process.Start(path);
     }
 
     public bool CreateLocalCopy(IEnumerable<string> modelsToUpdate)
@@ -71,7 +71,7 @@ class CreatorRevitLocalCopy
             var batFile = CreateBatFile(modelsToUpdate);
             RunBatFile(batFile);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             result = false;
         }

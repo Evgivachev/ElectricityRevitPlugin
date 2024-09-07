@@ -37,7 +37,7 @@ class ShieldParameterUpdater : ParameterUpdater
 
     public override ObservableCollection<CheckableItem> GetValidateElements(Document document)
     {
-        var q = new FilteredElementCollector(document)
+        new FilteredElementCollector(document)
             .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
             .WhereElementIsNotElementType()
             .OfType<FamilyInstance>()

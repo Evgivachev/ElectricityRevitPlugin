@@ -8,7 +8,6 @@ public static class KeyScheduleExtension
 {
     public static void AddElement(this ViewSchedule schedule, Element el, bool openTransaction)
     {
-        var fromElementName = el.Name;
         var doc = schedule.Document;
         var td = schedule.GetTableData();
         var body = td.GetSectionData(SectionType.Body);

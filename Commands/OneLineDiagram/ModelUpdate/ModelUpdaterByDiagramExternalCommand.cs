@@ -19,7 +19,6 @@
             {
                 var uiApp = commandData?.Application;
                 var uiDoc = uiApp?.ActiveUIDocument;
-                var app = uiApp?.Application;
                 var doc = uiDoc?.Document;
                 var schedules = new FilteredElementCollector(doc)
                     .OfClass(typeof(ViewSchedule))

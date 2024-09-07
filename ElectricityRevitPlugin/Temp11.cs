@@ -13,15 +13,13 @@ public class Temp11 : DefaultExternalCommand
     {
         var selection = UiDoc.Selection;
         var viewIds = selection.GetElementIds();
-        var views = viewIds
+        viewIds
             .Select(Doc.GetElement)
             .OfType<ViewDrafting>();
-        using (var tr = new Transaction(Doc, "Rename"))
+        using (new Transaction(Doc, "Rename"))
         {
-            var currentRevitServerAccelerator = App.CurrentRevitServerAccelerator;
-            var loadedApps = UiApp.LoadedApplications.Cast<IExternalApplication>();
-            var updaters = UpdaterRegistry.GetRegisteredUpdaterInfos();
-            var ups = UpdaterRegistry.GetRegisteredUpdaterInfos(Doc);
+            UpdaterRegistry.GetRegisteredUpdaterInfos();
+            UpdaterRegistry.GetRegisteredUpdaterInfos(Doc);
         }
 
         return Result.Succeeded;

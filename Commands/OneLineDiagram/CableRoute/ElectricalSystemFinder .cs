@@ -43,7 +43,10 @@
                     .GetElectricalSystems()?
                     .FirstOrDefault();
                 if (es != null && !laster.Contains(es.Id.IntegerValue))
+                {
                     yield return es;
+                    laster.Add(es.Id.IntegerValue);
+                }
             }
         }
     }

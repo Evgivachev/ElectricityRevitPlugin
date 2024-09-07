@@ -34,7 +34,7 @@ class Temp8 : DefaultExternalCommand
                     if (first == 1)
                     {
                         var d = system.get_Parameter(new Guid("387ba243-768e-45cf-9c22-ce1b5650fe3d")).AsDouble();
-                        var isParsing = double.TryParse(
+                        double.TryParse(
                             system.get_Parameter(new Guid("b4954a6d-3d42-44ff-b700-e308cf0fcc46")).AsString(),
                             NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                             out var du);
@@ -64,10 +64,10 @@ class Temp8 : DefaultExternalCommand
                     else if (first == 4)
                     {
                         //Запретить изменение
-                        var dontChange = system.get_Parameter(new Guid("be64f474-c030-40cf-9975-6eaebe087a84"))
+                        system.get_Parameter(new Guid("be64f474-c030-40cf-9975-6eaebe087a84"))
                             .Set(0);
                         //Запретить изменение наименование нагрузки
-                        var dontChangeLoadName = system.get_Parameter(new Guid("5de14719-6968-4655-9457-94825e70b623")).Set(0);
+                        system.get_Parameter(new Guid("5de14719-6968-4655-9457-94825e70b623")).Set(0);
                     }
                 }
 

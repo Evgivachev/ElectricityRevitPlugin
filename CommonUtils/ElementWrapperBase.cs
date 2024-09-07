@@ -41,7 +41,7 @@ public abstract class ElementWrapperBase<T> : Wrapper<T>
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         var wrapper = obj as ElementWrapperBase<T>;
         var element = wrapper?.Object;

@@ -5,18 +5,10 @@ using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
 using CommonUtils;
 using CommonUtils.Extensions;
-using Microsoft.Extensions.Hosting;
 
 /// <inheritdoc />
 public class CountFixturesInSpaceService : DefaultUseCase
 {
-
-    /// <inheritdoc />
-    public CountFixturesInSpaceService(IApplicationLifetime applicationLifetime)
-        : base(applicationLifetime)
-    {
-    }
-
     /// <inheritdoc />
     public override Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
@@ -66,7 +58,7 @@ public class CountFixturesInSpaceService : DefaultUseCase
             {
                 if (spaces.ContainsKey(space.Id.IntegerValue))
                     continue;
-                spaces[space.Id.IntegerValue] = null;
+                spaces[space.Id.IntegerValue] = null!;
             }
 
             foreach (var pair in spaces)

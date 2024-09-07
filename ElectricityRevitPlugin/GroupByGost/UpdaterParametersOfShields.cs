@@ -17,7 +17,6 @@ public class UpdaterParametersOfShields : IExternalCommand
         {
             var uiApp = commandData?.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
             var doc = uiDoc?.Document;
             var shields = new FilteredElementCollector(doc)
                 .OfCategory(BuiltInCategory.OST_ElectricalEquipment)

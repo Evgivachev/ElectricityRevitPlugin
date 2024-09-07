@@ -36,7 +36,7 @@ public class LossVoltageOfElectricalSystemExternalCommand : DefaultExternalComma
         var lossVoltageParameter = el.get_Parameter(_lossVoltageParameterGuid);
         if (!lossVoltageParameter.IsReadOnly)
         {
-            var flag = lossVoltageParameter.Set(du0);
+            lossVoltageParameter.Set(du0);
         }
 
         return null;
@@ -58,7 +58,7 @@ public class LossVoltageOfElectricalSystemExternalCommand : DefaultExternalComma
                     var isDisableChange = electricalSystem.get_Parameter(_disableChangeGuid)?.AsInteger() == 1;
                     if (isDisableChange)
                         continue;
-                    var resultMessage = UpdateParameters(electricalSystem);
+                    UpdateParameters(electricalSystem);
                 }
                 catch (Exception e)
                 {

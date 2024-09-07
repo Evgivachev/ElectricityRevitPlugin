@@ -16,7 +16,6 @@ public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand, IExter
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
-        var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Failed;
         using (var trGr = new TransactionGroup(doc))

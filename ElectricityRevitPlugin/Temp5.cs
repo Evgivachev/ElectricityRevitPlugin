@@ -16,7 +16,6 @@ class Temp5 : IExternalCommand
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var app = uiApp.Application;
         var result = Result.Succeeded;
         try
         {
@@ -32,7 +31,7 @@ class Temp5 : IExternalCommand
                     var param = el.get_Parameter(_projectSectionParameterGuid);
                     if (param.IsReadOnly || param is null)
                         continue;
-                    var paramString = param.AsString();
+                    param.AsString();
                     var value = "_@";
                     switch (param.AsString())
                     {

@@ -18,7 +18,7 @@
         {
             Name = shield.Name;
             Shield = shield;
-            var prefix = shield
+            shield
                 .LookupParameter("Префикс цепи")?
                 .AsString();
             var powerCable = shield.GetPowerElectricalSystem();

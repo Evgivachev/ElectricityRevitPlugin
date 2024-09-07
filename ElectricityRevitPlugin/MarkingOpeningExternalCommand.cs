@@ -16,7 +16,6 @@ class MarkingOpeningExternalCommand : DefaultExternalCommand
         var familyId = new ElementId(25767172);
         var family = Doc.GetElement(familyId) as Family;
         var symbolIds = family.GetFamilySymbolIds();
-        var filter = new FamilySymbolFilter(symbolIds.First());
         var openings = new FilteredElementCollector(Doc)
                 .OfCategory(BuiltInCategory.OST_GenericModel)
                 .WhereElementIsNotElementType()

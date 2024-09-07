@@ -16,7 +16,6 @@ class UpdateParametersOfElectricalSystemIExternalCommand : IExternalCommand
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var app = uiApp.Application;
         var result = Result.Succeeded;
         var parameterUpdater = new UpdaterParameters<ElectricalSystem>(doc, BuiltInCategory.OST_ElectricalCircuit);
 

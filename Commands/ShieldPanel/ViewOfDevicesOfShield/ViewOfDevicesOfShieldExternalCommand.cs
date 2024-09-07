@@ -17,7 +17,6 @@ public class ViewOfDevicesOfShieldExternalCommand : IExternalCommand
         var application = commandData?.Application;
         var activeUiDocument = application?.ActiveUIDocument;
         var document = activeUiDocument?.Document;
-        var app = application?.Application;
 
         try
         {
@@ -34,7 +33,7 @@ public class ViewOfDevicesOfShieldExternalCommand : IExternalCommand
                     {
                         tr.Start("ViewOfShield");
                         processing.SetParametersOfThis();
-                        var q = tr.Commit();
+                        tr.Commit();
                     }
                 }
                 transactionGroup.Assimilate();

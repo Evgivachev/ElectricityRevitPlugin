@@ -39,13 +39,6 @@ class SaveLocalCopyExternalCommand : DefaultExternalCommand
             ////modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(revitModel.FullName);
             var modelPath = new FilePath(revitModelPath);
             Doc = App.OpenDocumentFile(modelPath, _openOptions);
-            var saveAsOption = new SaveAsOptions()
-            {
-                Compact = false,
-                MaximumBackups = 1,
-                OverwriteExistingFile = true
-            };
-            var savePath = fileInfo.Directory.FullName + "\\" + fileInfo.Name + "2021";
             throw new NotImplementedException();
             //Doc.SaveAs();
             //UiDoc = UiApp.OpenAndActivateDocument(q, openOption, true);

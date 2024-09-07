@@ -37,8 +37,6 @@
                     track.Add(start);
                     while (leftFixtures.Count > 0)
                     {
-                        //var tracks = leftFixtures
-                        //    .Select(f => Dijkstra(systemOfTrays, start, f)).ToArray();
                         var shortTrack = leftFixtures
                             .Select(f => Dijkstra(systemOfTrays, start, f))
                             .MinBy(tr => tr.Price)
@@ -52,7 +50,7 @@
                     }
 
 
-                    var elSystemTr = new ElSystemTransformer(track, es);
+                    var elSystemTr = new ElSystemTransformer(track);
                     var points = elSystemTr.GetPoints();
 
                     using (var tr = new Transaction(doc))
@@ -71,12 +69,8 @@
             return result;
         }
 
-        public static (List<ICableTray> Track, double Price) Dijkstra(SystemOfTrays systemOfTrays, ICableTray start, ICableTray end)
+        private static (List<ICableTray> Track, double Price) Dijkstra(SystemOfTrays systemOfTrays, ICableTray start, ICableTray end)
         {
-            if (end.Id == 19969580)
-            {
-            }
-
             var priceGetter = new PriceGetter();
             //не посесещенные вершины
             var notVisited = new List<ICableTray>(systemOfTrays.GetCableTrays());
@@ -86,7 +80,6 @@
             var track = new Dictionary<ICableTray, (ICableTray Previous, double Price)>();
             track[start] = (null, 0);
             track[end] = (start, priceGetter.GetPrice(start, end) * 10);
-            var price0 = track[end].Price;
             while (true)
             {
                 ICableTray toOpen = null;

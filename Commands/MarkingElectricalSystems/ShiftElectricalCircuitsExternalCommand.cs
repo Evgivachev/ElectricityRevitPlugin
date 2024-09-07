@@ -21,9 +21,7 @@ public class ShiftElectricalCircuits : IExternalCommand
         try
         {
             var uiApp = commandData.Application;
-            var app = uiApp.Application;
             var uiDoc = uiApp.ActiveUIDocument;
-            var doc = uiDoc.Document;
             var tuple = GetParameters();
             var shift = tuple.Item1;
             var flag = tuple.Item2;

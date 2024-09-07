@@ -17,7 +17,6 @@ public class SortSheets : IExternalCommand
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var uiApp = commandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
@@ -65,8 +64,7 @@ public class SortSheets : IExternalCommand
                     var sheet = sortedSheets[index];
                     var newNumber = currentNumber++;
                     var param = sheet.get_Parameter(_listManuallyNumberParameterGuid);
-                    var sheetName = sheet.Name;
-                    var flag = param.Set(newNumber);
+                    param.Set(newNumber);
                     var grOfSheet = sheet.LookupParameter(grName).AsString();
                     var repeat = 0;
                     while (true)

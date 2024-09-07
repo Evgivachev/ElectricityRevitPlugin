@@ -4,7 +4,4 @@ using System.Windows;
 
 public class WindowsBase : Window, ICloseable, IHideable
 {
-    public WindowsBase()
-    {
-    }
 }

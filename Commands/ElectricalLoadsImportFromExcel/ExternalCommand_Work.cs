@@ -27,7 +27,6 @@ namespace ElectricalLoadsImportFromExcel
             if (null == elements) throw new ArgumentNullException(nameof(elements));
             var uiApp = commandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
-            var app = uiApp?.Application;
             var doc = uiDoc?.Document;
 
             #endregion

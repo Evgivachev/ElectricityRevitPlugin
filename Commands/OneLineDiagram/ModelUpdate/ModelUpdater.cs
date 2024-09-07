@@ -24,11 +24,7 @@
             _doc = document;
         }
 
-        private View WorkView
-        {
-            get => _workView ?? _doc.ActiveView;
-            set => _workView = value;
-        }
+        private View WorkView => _workView ?? _doc.ActiveView;
 
         private FamilyInstance Head
         {

@@ -55,8 +55,7 @@ public class ParametersOfShield
             _nm1Parameter[nStr],
             _nm2Parameter[nStr]
         };
-        var names = parameters.Select(x => x.Definition.Name).ToArray();
-        var result = parameters.Select(p => p.Set(value)).ToArray();
+        parameters.Select(p => p.Set(value)).ToArray();
         //_cl1Parameter[nStr].Set(value);
         //_cl2Parameter[nStr].Set(value);
         //_nm1Parameter[nStr].Set(value);

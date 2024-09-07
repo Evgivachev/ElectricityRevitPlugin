@@ -4,7 +4,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using CommonUtils;
 using CommonUtils.Extensions;
-using Microsoft.Extensions.Hosting;
 
 /// <inheritdoc />
 public class CountFixturesInSpaceService2 : DefaultUseCase

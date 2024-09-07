@@ -177,17 +177,14 @@ public partial class SelectModelOfShieldWPF : Window
             {
                 var grid = item.Header as Grid;
                 var children = grid.Children;
-                var count = children.Count;
                 var c1 = children[0];
                 var type = c1.GetType();
-                var str = type.ToString();
 
                 var cb = children.OfType<CheckBox>().First();
                 var isChecked = cb?.IsChecked;
                 if (!isChecked.HasValue || isChecked.Value == false)
                     continue;
                 var shield = children.OfType<TextBlock>().First().Tag as FamilyInstance;
-                var value = children.OfType<ComboBox>().First().SelectedItem as Element;
                 //if (value is null)
                 //{
                 var nmOfShield = ShieldGetter.GetNumberOfModules(shield);
@@ -238,10 +235,8 @@ public partial class SelectModelOfShieldWPF : Window
                 {
                     var grid = item.Header as Grid;
                     var children = grid.Children;
-                    var count = children.Count;
                     var c1 = children[0];
                     var type = c1.GetType();
-                    var str = type.ToString();
 
                     var cb = children.OfType<CheckBox>().First();
                     var isChecked = cb?.IsChecked;
@@ -253,7 +248,7 @@ public partial class SelectModelOfShieldWPF : Window
                     processing.SetParametersOfThis();
                 }
             }
-            var q = tr.Commit();
+            tr.Commit();
         }
 
     }
@@ -278,10 +273,8 @@ public partial class SelectModelOfShieldWPF : Window
                 {
                     var grid = item.Header as Grid;
                     var children = grid.Children;
-                    var count = children.Count;
                     var c1 = children[0];
                     var type = c1.GetType();
-                    var str = type.ToString();
 
                     var cb = children.OfType<CheckBox>().First();
                     var isChecked = cb?.IsChecked;
@@ -297,7 +290,7 @@ public partial class SelectModelOfShieldWPF : Window
                     param.Set(Math.Abs(visible - 1));
                 }
             }
-            var q = tr.Commit();
+            tr.Commit();
         }
 
     }

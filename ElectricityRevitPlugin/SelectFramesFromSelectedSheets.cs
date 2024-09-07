@@ -16,7 +16,6 @@ public class SelectFramesFromSelectedSheets : IExternalCommand
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var uiApp = commandData.Application;
-        var app = uiApp.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;

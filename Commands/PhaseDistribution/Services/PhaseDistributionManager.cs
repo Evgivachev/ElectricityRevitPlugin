@@ -6,7 +6,6 @@ using CommonUtils;
 using CommonUtils.Extensions;
 using CommonUtils.Helpers;
 using Helpers;
-using Microsoft.Extensions.Hosting;
 
 class PhaseDistributionManager : DefaultUseCase
 {
@@ -36,7 +35,6 @@ class PhaseDistributionManager : DefaultUseCase
         while (shieldsQueue.Count > 0)
         {
             var currentShield = shieldsQueue.Dequeue();
-            var shieldName = currentShield.Name;
             DistributionPhase(currentShield);
             var connectedShields = currentShield.MEPModel?
                 .GetAssignedElectricalSystems()?

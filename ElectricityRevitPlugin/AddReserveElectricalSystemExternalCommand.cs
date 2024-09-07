@@ -19,7 +19,6 @@ class AddReserveElectricalSystemExternalCommand : IExternalCommand
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var app = uiApp.Application;
         var result = Result.Succeeded;
         try
         {

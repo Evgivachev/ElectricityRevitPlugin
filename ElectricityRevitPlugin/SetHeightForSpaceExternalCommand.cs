@@ -20,7 +20,6 @@ public class SetHeightForSpaceExternalCommand : IExternalCommand
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
-        var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
         try
@@ -73,7 +72,6 @@ public class SetHeightForSpaceExternalCommand : IExternalCommand
         var spaceName = space.Name;
         if (string.IsNullOrEmpty(spaceName) || string.IsNullOrEmpty(spaceNumber))
             return;
-        var spaceLevel = space.Level;
         var room = _rooms.FirstOrDefault(r =>
         {
             if (string.IsNullOrEmpty(r.Name) || string.IsNullOrEmpty(r.Number))
@@ -82,9 +80,7 @@ public class SetHeightForSpaceExternalCommand : IExternalCommand
         });
         if (room is null)
             return;
-        var sb = space.BaseOffset;
-        var su = space.LimitOffset;
-        var result = space.get_Parameter(BuiltInParameter.ROOM_LOWER_OFFSET).Set(room.BaseOffset) &&
-                     space.get_Parameter(BuiltInParameter.ROOM_UPPER_OFFSET).Set(room.LimitOffset);
+        _ = space.get_Parameter(BuiltInParameter.ROOM_LOWER_OFFSET).Set(room.BaseOffset) &&
+            space.get_Parameter(BuiltInParameter.ROOM_UPPER_OFFSET).Set(room.LimitOffset);
     }
 }

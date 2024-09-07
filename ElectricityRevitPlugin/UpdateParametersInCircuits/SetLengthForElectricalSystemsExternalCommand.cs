@@ -69,13 +69,13 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         var lengthThrowAllDeviceParameter = el.get_Parameter(_lengthThrowAllDevicesGuid);
         var lengthTrowAllDevicesWithShiftParameter = el.get_Parameter(_lengthThrowAllDevicesWithShiftGuid);
         var shiftForElectricalCircuits = el.get_Parameter(_shiftForElectricalCircuit).AsDouble();
-        var isCalculated = CalculateLengthsOfElSystem(el,
+        CalculateLengthsOfElSystem(el,
             shiftForElectricalCircuits,
             out var lengthToNearestDevice,
             out var lengthToMostRemote,
             out var lengthTrowAllDevice,
             out var lengthThrowAllDevicesWithShift);
-        var q = new[]
+        _ = new[]
         {
             !lengthToNearestDeviceParameter.IsReadOnly && lengthToNearestDeviceParameter.Set(lengthToNearestDevice),
             !lengthToMostRemoteDeviceParameter.IsReadOnly && lengthToMostRemoteDeviceParameter.Set(lengthToMostRemote),
@@ -133,7 +133,7 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         out double lengthThrowAllDevice,
         out double lengthThrowAllDevicesWithShift)
     {
-        var path = el.GetCircuitPath();
+        el.GetCircuitPath();
         var devices = el
             .Elements
             .Cast<Element>()
@@ -151,7 +151,6 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         foreach (var pair in devices)
         {
             var device = (FamilyInstance)pair.Value;
-            var familyInstanceLocationPoint = ((LocationPoint)device.Location).Point;
             var electricalConnectorLocation = GetCoordinateOfElectricalConnector(device);
             var point = electricalConnectorLocation;
             var distanceToBaseDevice = CalculateDistanceBetweenPoints2(point, baseDevicePoint);

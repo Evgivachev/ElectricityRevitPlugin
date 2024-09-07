@@ -6,7 +6,7 @@
         <Description>Плагин ЭОМ.</Description>
         <UseWpf>true</UseWpf>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
-        <Platforms>AnyCPU</Platforms>
+        <NoWarn>CS8602, CS8603, CS8618, CS8600, CS8604</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>

@@ -54,17 +54,15 @@
                         else
                         {
                             var mepConnectorInfo = (MEPFamilyConnectorInfo)connector.GetMEPConnectorInfo();
-                            var systemTypeParam =
-                                (IntegerParameterValue)mepConnectorInfo.GetConnectorParameterValue(
-                                    new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_TYPE));
+                            _ = (IntegerParameterValue)mepConnectorInfo.GetConnectorParameterValue(
+                                new ElementId(BuiltInParameter.RBS_ELEC_CIRCUIT_TYPE));
                             var clParam = (ElementIdParameterValue)mepConnectorInfo.GetConnectorParameterValue(
                                 new ElementId(BuiltInParameter.RBS_ELEC_LOAD_CLASSIFICATION));
                             var cl = doc.GetElement(clParam.Value).Name;
                             if (cl.StartsWith("\\") || cl.StartsWith("/"))
                                 continue;
-                            var countOfPoles =
-                                (IntegerParameterValue)mepConnectorInfo.GetConnectorParameterValue(
-                                    new ElementId(BuiltInParameter.RBS_ELEC_NUMBER_OF_POLES));
+                            _ = (IntegerParameterValue)mepConnectorInfo.GetConnectorParameterValue(
+                                new ElementId(BuiltInParameter.RBS_ELEC_NUMBER_OF_POLES));
                             var sParam = (DoubleParameterValue)mepConnectorInfo.GetConnectorParameterValue(
                                 new ElementId(BuiltInParameter.RBS_ELEC_APPARENT_LOAD));
                             var s = UnitUtils.ConvertFromInternalUnits(sParam.Value, UnitTypeId.KilovoltAmperes);

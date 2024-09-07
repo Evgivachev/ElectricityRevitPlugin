@@ -15,7 +15,6 @@ public class SelectElectricalSystemsFromAnnotation : IExternalCommand
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
-        var app = uiApp.Application;
         var doc = uiDoc.Document;
         var result = Result.Succeeded;
         var systems = new Dictionary<string, ElectricalSystem>();
