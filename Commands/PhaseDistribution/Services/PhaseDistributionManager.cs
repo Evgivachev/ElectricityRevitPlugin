@@ -12,8 +12,7 @@ class PhaseDistributionManager : DefaultUseCase
 {
     private readonly UIApplication _application;
 
-    public PhaseDistributionManager(IApplicationLifetime applicationLifetime, UIApplication application)
-        : base(applicationLifetime)
+    public PhaseDistributionManager(UIApplication application)
     {
         _application = application;
     }

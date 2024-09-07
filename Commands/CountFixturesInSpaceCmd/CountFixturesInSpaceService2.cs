@@ -11,11 +11,6 @@ public class CountFixturesInSpaceService2 : DefaultUseCase
 {
 
     /// <inheritdoc />
-    public CountFixturesInSpaceService2(IApplicationLifetime applicationLifetime) : base(applicationLifetime)
-    {
-    }
-
-    /// <inheritdoc />
     public override Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var uiApp = commandData.Application;

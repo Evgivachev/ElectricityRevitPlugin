@@ -20,7 +20,7 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
         try
         {
             var hostBuilder = new HostBuilder();
-            hostBuilder.UseConsoleLifetime();
+            
             hostBuilder.ConfigureServices(sc =>
             {
                 ConfigureBaseDependencies(sc, commandData);
