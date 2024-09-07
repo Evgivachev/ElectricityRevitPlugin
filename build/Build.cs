@@ -25,7 +25,7 @@ public class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsG
     public static int Main() => Execute<Build>(x => x.Compile);
 
     Target BuildApp => d => d
-        .Produces(RootDirectory / "out/*")
+        .Produces(RootDirectory / "out/*.exe")
         .Inherit(t =>
         {
             Project = "ElectricityRevitPluginApp";
