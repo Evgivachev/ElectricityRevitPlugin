@@ -10,6 +10,7 @@ using RxBim.Nuke.Revit.Generators;
 [ShutdownDotNetAfterServerBuild]
 [GitHubActions(name: nameof(BuildApp),
     image: GitHubActionsImage.WindowsLatest,
+    FetchDepth = 0,
     On = new[] { GitHubActionsTrigger.Push },
     InvokedTargets = new[] { nameof(BuildApp) }
 )]
