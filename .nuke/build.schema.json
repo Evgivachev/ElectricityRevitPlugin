@@ -125,7 +125,8 @@
               "Restore",
               "SignAssemblies",
               "TagProject",
-              "Test"
+              "Test",
+              "Test2"
             ]
           }
         },
@@ -156,7 +157,8 @@
               "Restore",
               "SignAssemblies",
               "TagProject",
-              "Test"
+              "Test",
+              "Test2"
             ]
           }
         },

@@ -1,13 +1,10 @@
 namespace ElectricityRevitPlugin.ArchTests;
 
 using ArchUnitNET.Domain;
-using ArchUnitNET.Loader;
 using ArchUnitNET.Fluent;
+using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
 using GroupByGost.Domain;
-using Xunit;
-
-//add a using directive to ArchUnitNET.Fluent.ArchRuleDefinition to easily define ArchRules
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
 public class ArchTests
