@@ -1,6 +1,6 @@
 ﻿namespace GroupByGost.Infrastructure;
 
-using Bll;
+using Application;
 using CommonUtils;
 using Microsoft.Extensions.DependencyInjection;
 

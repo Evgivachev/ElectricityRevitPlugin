@@ -1,9 +1,10 @@
-﻿namespace GroupByGost.Bll;
+﻿namespace GroupByGost.Application;
 
 using System.Collections.Generic;
 using System.Linq;
 using CommonUtils;
-using Domain;
+using GroupByGost.Domain;
+using MoreLinq;
 
 public class GroupByGostService : IGroupByGostService
 {
@@ -19,8 +20,13 @@ public class GroupByGostService : IGroupByGostService
     {
         var shields = _dbRepository.GetShields();
         var allElements = _dbRepository.GetElectricalElements();
-        var electricalSystems = _dbRepository
-            .GetElectricalSystems()
+        var shieldsCircuits = shields
+            .SelectMany(s => s.GetCircuits())
+            .ToArray();
+        var electricalSystems = shieldsCircuits
+            .Concat(_dbRepository
+                .GetElectricalSystems())
+            .DistinctBy(c => c.Id)
             .ToDictionary(s => s.Id);
         foreach (var shield in shields)
         {
@@ -30,7 +36,7 @@ public class GroupByGostService : IGroupByGostService
         ProcessElements(allElements, electricalSystems);
 
         using var tr = _transactionsService.StartTransaction("Группы по ГОСТ");
-        _dbRepository.UpdateCircuits(shields.SelectMany(s => s.GetCircuits()).ToArray());
+        _dbRepository.UpdateCircuits(shieldsCircuits);
         _dbRepository.UpdateElements(allElements);
         _transactionsService.Commit();
     }

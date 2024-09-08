@@ -1,4 +1,4 @@
-﻿namespace GroupByGost.Bll;
+﻿namespace GroupByGost.Application;
 
 public interface IGroupByGostService
 {

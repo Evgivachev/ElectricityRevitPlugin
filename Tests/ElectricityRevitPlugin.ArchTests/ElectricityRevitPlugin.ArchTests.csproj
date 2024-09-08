@@ -21,4 +21,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Commands\GroupByGost\GroupByGost.csproj" />
+    </ItemGroup>
+
 </Project>
