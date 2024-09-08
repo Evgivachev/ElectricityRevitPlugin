@@ -6,16 +6,18 @@ using System.Linq;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
+using Bll;
+using CommonUtils;
 using CommonUtils.Extensions;
-using RxBim.Di;
+using Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// Revit external command.
 /// </summary>	
 [Transaction(TransactionMode.Manual)]
 [Regeneration(RegenerationOption.Manual)]
-public class Cmd : IExternalCommand, IExternalCommandAvailability
+public class Cmd : CmdBase
 {
     private readonly string _defaultGroupByGost = "???";
     private readonly Guid _disableChangeGuid = new("be64f474-c030-40cf-9975-6eaebe087a84");
@@ -25,11 +27,17 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
 
     private Guid _isReserveGroupGuid = new("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
 
-    /// <inheritdoc />
+    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddSingleton<ICmdUseCase, UseCase>();
+        serviceCollection.AddBll();
+        serviceCollection.AddInfrastructure();
+    }
+
+    /*/// <inheritdoc />
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var container = CreateContainer(commandData);
-        var doc = container.GetService<Document>();
+        var doc = commandData.Application.ActiveUIDocument.Document;
         using var tr = new Transaction(doc, "trName");
         if (TransactionStatus.Started == tr.Start())
         {
@@ -57,21 +65,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
         }
 
         return Result.Failed;
-    }
-
-    private IContainer CreateContainer(ExternalCommandData commandData)
-    {
-        var container = new DiContainer();
-        container.AddBaseRevitDependencies(commandData);
-        new Config().Configure(container);
-        return container;
-    }
-
-    /// <inheritdoc />
-    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
-    {
-        return applicationData.ActiveUIDocument?.Document is not null;
-    }
+    }*/
 
     public void SetValuesToElement(FamilyInstance fi)
     {
@@ -94,7 +88,7 @@ public class Cmd : IExternalCommand, IExternalCommandAvailability
 
         var circuitName = powerCable?.Name;
         var circuitGost = powerCable?.get_Parameter(_groupByGostGuid)?.AsString();
-        parameter?.Set(string.IsNullOrEmpty(circuitGost) ? circuitName ?? string.Empty : circuitGost);
+        parameter.Set(string.IsNullOrEmpty(circuitGost) ? circuitName ?? string.Empty : circuitGost);
     }
 
     public void SetValuesToElement(ElectricalSystem electricalSystem)
