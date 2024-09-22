@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
+      <ProjectReference Include="..\..\Shared\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,7 +4,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
@@ -22,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Commands\CableJournalCmd\CableJournalCmd.csproj" />
       <ProjectReference Include="..\..\Commands\GroupByGost\GroupByGost.csproj" />
     </ItemGroup>
 

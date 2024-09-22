@@ -4,13 +4,14 @@ using ArchUnitNET.Domain;
 using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
-using GroupByGost.Domain;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
 public class ArchTests
 {
     private static readonly Architecture Architecture =
-        new ArchLoader().LoadAssemblies(typeof(Element).Assembly).Build();
+        new ArchLoader().LoadAssemblies(
+            typeof(GroupByGost.Application.IGroupByGostService).Assembly,
+            typeof(CableJournalCmd.Application.ICableJournalService).Assembly).Build();
 
     //use As() to give your variables a custom description
     private readonly IObjectProvider<IType> DomainLayer =
