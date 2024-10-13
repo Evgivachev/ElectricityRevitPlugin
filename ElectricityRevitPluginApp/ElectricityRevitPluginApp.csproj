@@ -9,6 +9,7 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Commands\CableJournalCmd\CableJournalCmd.csproj" />
         <ProjectReference Include="..\Commands\CountFixturesInSpaceCmd\CountFixturesInSpaceCmd.csproj" />
         <ProjectReference Include="..\Commands\ElectricalLoadsExportToExcel\ElectricalLoadsExportToExcel.csproj"/>
         <ProjectReference Include="..\Commands\ElectricalLoadsImportFromExcel\ElectricalLoadsImportFromExcel.csproj"/>

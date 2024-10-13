@@ -6,25 +6,18 @@ using System.Linq;
 
 public class Shield
 {
-    private Shield()
+    private readonly ElectricalCircuit[] _electricalCircuits;
+    
+    public Shield(string prefix, string separator, ElectricalCircuit[] electricalCircuits)
     {
+        Prefix = prefix;
+        Separator = separator;
+        _electricalCircuits = electricalCircuits;
     }
 
 
-    private string Prefix { get; init; }
-    private string Separator { get; init; }
-
-    public static Shield Create(string prefix, string separator, IEnumerable<ElectricalCircuit> electricalCircuits)
-    {
-        return new Shield()
-        {
-            Prefix = prefix,
-            Separator = separator,
-            _electricalCircuits = electricalCircuits.ToArray()
-        };
-    }
-
-    private ElectricalCircuit[] _electricalCircuits;
+    private string Prefix { get; }
+    private string Separator { get; }
 
     public void SortCircuits()
     {

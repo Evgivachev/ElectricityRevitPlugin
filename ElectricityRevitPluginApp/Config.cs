@@ -3,6 +3,7 @@
 namespace ElectricityRevitPluginApp;
 
 using System.Reflection;
+using CableJournalCmd.Domain;
 using RxBim.Application.Ribbon;
 using RxBim.Di;
 using ShieldPanel.SelectModelOfShield;
@@ -34,7 +35,8 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Группы по ГОСТ")
                                 .ToolTip("Группы по ГОСТ"))
-                        .StackedItems(builder => builder.CommandButton(
+                        .StackedItems(builder => builder
+                            .CommandButton(
                                 nameof(MarkingElectricalSystems),
                                 typeof(MarkingElectricalSystems.Cmd),
                                 button => button
@@ -52,6 +54,14 @@ public class Config : IApplicationConfiguration
                                     .Description(
                                         "Плагин для для обновления марок электрических цепей")
                                     .ToolTip("Плагин для для обновления марок электрических цепей"))
+                            .CommandButton(
+                                nameof(CableJournalCmd.Cmd),
+                                typeof(CableJournalCmd.Cmd),
+                                button => button
+                                    .Text("Кабельный журнал")
+                                    .Description(
+                                        "Кабельный журнал")
+                                    .ToolTip("Кабельный журнал"))
                         )
                         .Separator()
                         .StackedItems(builder => builder.CommandButton(

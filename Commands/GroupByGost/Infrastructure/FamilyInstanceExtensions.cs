@@ -9,6 +9,6 @@ public static class FamilyInstanceExtensions
     {
         var prefix = shield.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_PREFIX).AsString();
         var separator = shield.get_Parameter(BuiltInParameter.RBS_ELEC_CIRCUIT_PREFIX_SEPARATOR).AsString();
-        return  Shield.Create(prefix, separator, circuits);
+        return  new Shield(prefix, separator, circuits);
     }
 }
