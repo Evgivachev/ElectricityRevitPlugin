@@ -21,7 +21,7 @@ public class Build : RxBimBuild<RevitInstallerBuilder2021, RevitPackageContentsG
     IHazConfiguration
 {
     [Parameter("Revit Version.")]
-    public string RevitVersion { get; set; } = "2022";
+    public string RevitVersion { get; set; } = "2021";
 
     public static int Main() => Execute<Build>(x => x.Compile);
 
