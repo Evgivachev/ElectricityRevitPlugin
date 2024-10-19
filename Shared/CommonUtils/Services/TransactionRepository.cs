@@ -14,8 +14,10 @@ public class TransactionRepository : ITransactionRepository
 
     public ITransaction StartTransaction(string? name = null)
     {
-        if (name is null)
-            return new TransactionWrapper(_document);
-        return new TransactionWrapper(_document, name);
+        var tr = string.IsNullOrEmpty(name) 
+        ? new Transaction(_document)
+            : new Transaction(_document, name);
+        tr.Start();
+        return new TransactionWrapper(tr);
     }
 }

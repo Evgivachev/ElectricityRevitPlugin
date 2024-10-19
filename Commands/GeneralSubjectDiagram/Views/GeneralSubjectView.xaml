@@ -8,14 +8,12 @@
     mc:Ignorable="d"
     x:Class="GeneralSubjectDiagram.Views.GeneralSubjectView"
     x:Name="GeneralSubjectWindow"
-    Style="{StaticResource MaterialDesignWindow}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:GeneralSubjectDiagram.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    
     xmlns:ui="clr-namespace:ElectricityRevitPlugin.UI;assembly=ElectricityRevitPlugin.UI">
 
     <ui:WindowsBase.Resources>

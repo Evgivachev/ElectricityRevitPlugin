@@ -10,8 +10,8 @@ namespace PhaseDistribution;
 public class Cmd : CmdBase
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<ICmdUseCase, PhaseDistributionManager>();
+        services.AddSingleton<ICmdUseCase, PhaseDistributionManager>();
     }
 }

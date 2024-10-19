@@ -30,7 +30,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
     /// <inheritdoc />
     public GeneralSubjectViewModel(
         UIApplication uiApplication,
-        IEnumerable<ParameterUpdater> updaters,
+        IReadOnlyCollection<ParameterUpdater> updaters,
         IUIDispatcher uiDispatcher,
         RevitTask revitTask)
         : base("Схема ВРУ")

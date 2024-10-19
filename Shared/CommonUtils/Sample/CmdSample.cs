@@ -8,11 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 public class CmdSample : WpfCmd<SampleWindow>
 {
 
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<SampleWindow>();
-        serviceCollection.AddSingleton<ViewModel>();
-        serviceCollection.AddSingleton<IRevitService, RevitService>();
+        services.AddSingleton<SampleWindow>();
+        services.AddSingleton<ViewModel>();
+        services.AddSingleton<IRevitService, RevitService>();
         
     }
 }

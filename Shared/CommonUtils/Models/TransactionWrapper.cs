@@ -16,6 +16,11 @@ public class TransactionWrapper : ITransaction
     {
         _transaction = new Transaction(document, name);
     }
+    
+    public TransactionWrapper(Transaction transaction)
+    {
+        _transaction = transaction;
+    }
 
     public void Dispose()
     {

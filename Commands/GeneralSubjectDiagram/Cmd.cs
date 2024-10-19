@@ -19,13 +19,14 @@ using Views;
 public class Cmd : WpfCmd<GeneralSubjectView>
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
         Assembly.Load(typeof(MoreEnumerable).Assembly.Location);
-        serviceCollection.AddSingleton<IUIDispatcher, UiDispatcher>();
-        serviceCollection.AddSingleton<GeneralSubjectView>()
+        services.AddSingleton<IUIDispatcher, UiDispatcher>();
+        services.AddSingleton<GeneralSubjectView>()
             .AddSingleton<GeneralSubjectViewModel>();
-        serviceCollection.AddSingleton(() => (IEnumerable<ParameterUpdater>)new[]
+        
+        services.AddSingleton(_ => (IReadOnlyCollection<ParameterUpdater>)new[]
         {
             (ParameterUpdater)new CableParameterUpdater(),
             new DisconnectingDeviceParameterUpdater(),

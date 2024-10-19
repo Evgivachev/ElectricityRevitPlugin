@@ -27,11 +27,11 @@ public class Cmd : CmdBase
 
     private Guid _isReserveGroupGuid = new("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
 
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<ICmdUseCase, UseCase>();
-        serviceCollection.AddBll();
-        serviceCollection.AddInfrastructure();
+        services.AddSingleton<ICmdUseCase, UseCase>();
+        services.AddBll();
+        services.AddInfrastructure();
     }
 
     /*/// <inheritdoc />

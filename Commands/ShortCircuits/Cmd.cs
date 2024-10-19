@@ -11,10 +11,10 @@ namespace ShortCircuits;
 public class Cmd : CmdBase
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<ShortCircuitsService>();
-        serviceCollection.AddSingleton<OneShortCircuitsService>();
-        serviceCollection.AddSingleton<ICmdUseCase, CommonShortCircuitsCmdUseCase>();
+        services.AddSingleton<ShortCircuitsService>();
+        services.AddSingleton<OneShortCircuitsService>();
+        services.AddSingleton<ICmdUseCase, CommonShortCircuitsCmdUseCase>();
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 public class Cmd : CmdBase
 {
     /// <inheritdoc />
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<ICmdUseCase, CountFixturesInSpaceService>();
+        services.AddSingleton<ICmdUseCase, CountFixturesInSpaceService>();
     }
 }

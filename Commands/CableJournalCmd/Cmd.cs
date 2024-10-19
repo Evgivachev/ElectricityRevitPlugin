@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 [Regeneration(RegenerationOption.Manual)]
 public class Cmd : CmdBase
 {
-    protected override void ConfigureServices(IServiceCollection serviceCollection)
+    protected override void ConfigureServices(IServiceCollection services)
     {
-        serviceCollection.AddSingleton<ICmdUseCase, UseCase>();
-        serviceCollection.AddSingleton<ICableJournalService, CableJournalService>()
+        services.AddSingleton<ICmdUseCase, UseCase>();
+        services.AddSingleton<ICableJournalService, CableJournalService>()
             .AddTransient<ICableRepository, CableRepository>();
     }
 }

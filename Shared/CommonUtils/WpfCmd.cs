@@ -46,7 +46,7 @@ public abstract class WpfCmd<TWindow> : CmdBase
     }
 
     /// <inheritdoc />
-    protected abstract override void ConfigureServices(IServiceCollection serviceCollection);
+    protected abstract override void ConfigureServices(IServiceCollection services);
 
     private async Task Run(IHost host)
     {

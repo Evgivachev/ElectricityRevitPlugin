@@ -64,8 +64,8 @@ public abstract class CmdBase : IExternalCommand, IExternalCommandAvailability
     /// <summary>
     /// Конфигурирует сервисы.
     /// </summary>
-    /// <param name="serviceCollection"><see cref="IServiceCollection"/></param>
-    protected abstract void ConfigureServices(IServiceCollection serviceCollection);
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    protected abstract void ConfigureServices(IServiceCollection services);
 
     /// <inheritdoc />
     public virtual bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
