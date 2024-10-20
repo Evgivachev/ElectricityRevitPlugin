@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
@@ -92,7 +93,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
     public ObservableCollection<CheckableItem> TreeCollectionOfCheckableItems
     {
         get => _treeCollectionOfCheckableItems;
-        private set => Set(ref _treeCollectionOfCheckableItems, value);
+        set => Set(ref _treeCollectionOfCheckableItems, value);
     }
 
     private async Task Initialize(ICloseable arg)
@@ -197,6 +198,8 @@ public class GeneralSubjectViewModel : MainViewModelBase
             elements = new ObservableCollection<CheckableItem>(arr);
         }
 
+        // TreeCollectionOfCheckableItems = elements;
+        // Dispatcher.CurrentDispatcher.InvokeAsync(() => TreeCollectionOfCheckableItems = elements);
         await _uiDispatcher.InvokeAsync(() => TreeCollectionOfCheckableItems = elements);
     }
 

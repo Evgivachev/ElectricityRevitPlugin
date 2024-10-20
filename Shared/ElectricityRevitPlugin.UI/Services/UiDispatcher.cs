@@ -4,8 +4,9 @@ using System.Windows.Threading;
 
 public class UiDispatcher : IUIDispatcher
 {
+    private readonly Dispatcher _dispatcher = Dispatcher.CurrentDispatcher;
     public async Task InvokeAsync(Action action)
     {
-        await Dispatcher.CurrentDispatcher.InvokeAsync(action);
+        await _dispatcher.InvokeAsync(action);
     }
 }

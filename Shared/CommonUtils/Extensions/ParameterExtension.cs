@@ -19,9 +19,9 @@ public static class ParameterExtension
         {
             StorageType.Double => parameter.AsDouble(),
             StorageType.Integer => parameter.AsInteger(),
-            StorageType.String => parameter.AsString(),
-            StorageType.ElementId => parameter.AsElementId(),
-            _ => parameter.AsValueString()
+            StorageType.String => parameter.AsString() ?? string.Empty,
+            StorageType.ElementId => parameter.AsElementId() ?? ElementId.InvalidElementId,
+            _ => parameter.AsValueString() ?? string.Empty
         };
     }
 

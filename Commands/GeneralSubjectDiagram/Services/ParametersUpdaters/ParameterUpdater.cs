@@ -78,7 +78,8 @@ public abstract class ParameterUpdater
             var toP = toElement.get_Parameter(fromGuid);
             if (toP is null || toP.IsReadOnly || !toP.IsShared)
                 continue;
-            var flag = toP.Set(fromP.GetValueDynamic());
+            var valueDynamic = fromP.GetValueDynamic();
+            var flag = toP.Set(valueDynamic);
             if (!flag)
                 Debug.Print($"{toP.Definition.Name} is wrong");
         }

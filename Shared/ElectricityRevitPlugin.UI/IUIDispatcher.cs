@@ -2,6 +2,5 @@
 
 public interface IUIDispatcher
 {
-
     Task InvokeAsync(Action action);
 }

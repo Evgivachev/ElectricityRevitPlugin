@@ -1,5 +1,6 @@
 ﻿namespace GeneralSubjectDiagram.Views;
 
+using System;
 using ViewModels;
 
 /// <summary>
@@ -12,5 +13,9 @@ public partial class GeneralSubjectView
     {
         DataContext = viewModel;
         InitializeComponent();
+    }
+    private void GeneralSubjectView_OnContentRendered(object sender, EventArgs e)
+    {
+        // ((GeneralSubjectViewModel)DataContext).InitializeCommand!.Execute(this);
     }
 }
