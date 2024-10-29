@@ -3,7 +3,10 @@
 namespace ElectricityRevitPluginApp;
 
 using System.Reflection;
+using Autodesk.Revit.UI;
 using CableJournalCmd.Domain;
+using Diagrams.ExternalCommands.OneLineDiagram;
+using Diagrams.ModelUpdate;
 using RxBim.Application.Ribbon;
 using RxBim.Di;
 using ShieldPanel.SelectModelOfShield;
@@ -70,21 +73,12 @@ public class Config : IApplicationConfiguration
                                 button => button
                                     .Text("Подсчет светильников в помещениях"))
                             .CommandButton(
-                                nameof(CountFixturesInSpaceCmd)+ "2",
+                                nameof(CountFixturesInSpaceCmd) + "2",
                                 typeof(CountFixturesInSpaceCmd.Cmd2),
                                 button => button
                                     .Text("Подсчет светильников в помещениях 2"))
                         )
                         .Separator()
-                        .CommandButton(
-                            nameof(GeneralSubjectDiagram),
-                            typeof(GeneralSubjectDiagram.Cmd),
-                            button => button
-                                .Text("Схема ВРУ")
-                                .LargeImage(@"img\icons8-паутина-32.png")
-                                .Description(
-                                    "Плагин создания схемы ВРУ")
-                                .ToolTip("Плагин создания схемы ВРУ"))
                         .CommandButton(
                             nameof(PhaseDistribution),
                             typeof(PhaseDistribution.Cmd),
@@ -103,6 +97,26 @@ public class Config : IApplicationConfiguration
                                 .Description(
                                     "Плагин для расчета токов короткого замыкания")
                                 .ToolTip("Плагин для расчета токов короткого замыкания"))
+                    )
+                    .Panel("Схемы", builder => builder
+                        .StackedItems(sb => sb
+                            .CommandButton<OneLineDiagramBuiltDiagram>(nameof(OneLineDiagramBuiltDiagram),
+                                bt => bt
+                                    .Text("Создать схему")
+                                    .Description("Создание однолинейных схем щитов"))
+                            .CommandButton<OneLineDiagramUpdateDiagram>(nameof(OneLineDiagramUpdateDiagram),
+                                bt => bt.Text("Обновить схему")
+                                    .Description("Обновить однолинейные схемы щитов"))
+                        )
+                        .CommandButton(
+                            nameof(GeneralSubjectDiagram),
+                            typeof(GeneralSubjectDiagram.Cmd),
+                            button => button
+                                .Text("Схема ВРУ")
+                                .LargeImage(@"img\icons8-паутина-32.png")
+                                .Description(
+                                    "Плагин создания схемы ВРУ")
+                                .ToolTip("Плагин создания схемы ВРУ"))
                     )
                     .Panel("Щиты", builder => builder
                         .CommandButton(

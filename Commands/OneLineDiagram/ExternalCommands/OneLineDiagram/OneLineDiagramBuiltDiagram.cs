@@ -14,7 +14,7 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
     /// </summary>	
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public sealed class OneLineDiagramBuiltDiagram : IExternalCommand
+    public sealed class OneLineDiagramBuiltDiagram : IExternalCommand, IExternalCommandAvailability
     {
         internal static ExternalCommandData? CommandData;
 
@@ -46,6 +46,10 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
             }
 
             return result;
+        }
+        public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+        {
+            return applicationData.ActiveUIDocument is not null;
         }
     }
 }

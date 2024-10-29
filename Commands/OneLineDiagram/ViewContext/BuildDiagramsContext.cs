@@ -113,25 +113,26 @@
             //todo
             var heads = new FilteredElementCollector(doc)
                 .OfClass(typeof(FamilyInstance))
+                .WhereElementIsNotElementType()
                 .WherePasses(filter)
                 .OfType<FamilyInstance>()
-                .ToArray();
+                .ToLookup(x => x.LookupParameter("ID электрического щита")?.AsString(), x => x);
             foreach (var shield in Shields.SelectMany(x => x.InnerItems))
             {
                 if (!shield.IsChecked)
                     continue;
                 //виды где есть аннотация со ссылкой на этот щит
-                var uniqueName = shield.Value.Name;
-                heads.Where(an =>
-                        {
-                            var uniqueId = an.LookupParameter("ID электрического щита")?.AsString();
-                            return string.CompareOrdinal(uniqueId, uniqueName) == 0;
-                        }
-                    )
+                var uniqueName = shield.Value.Object.UniqueId;
+                if (!heads.Contains(uniqueName))
+                {
+                    continue;
+                }
+                
+                heads[uniqueName]
                     .Select(an => an.OwnerViewId)
-                    .Select(x => doc.GetElement(x) as View)
+                    .Select(x => doc.GetElement(x) as ViewDrafting)
                     .Where(x => x is not null)
-                    .Pipe(_diagramsUpdater.UpdateDiagram);
+                    .ForEach(_diagramsUpdater.UpdateDiagram);
             }
         }
 

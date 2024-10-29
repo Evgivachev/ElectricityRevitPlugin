@@ -12,7 +12,7 @@
     /// </summary>	
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
-    public sealed class OneLineDiagramUpdateDiagram : IExternalCommand
+    public sealed class OneLineDiagramUpdateDiagram : IExternalCommand, IExternalCommandAvailability
     {
         /// <summary>
         /// 
@@ -37,6 +37,11 @@
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error");
                 return Result.Failed;
             }
+        }
+        
+        public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
+        {
+            return applicationData.ActiveUIDocument is not null;
         }
     }
 }

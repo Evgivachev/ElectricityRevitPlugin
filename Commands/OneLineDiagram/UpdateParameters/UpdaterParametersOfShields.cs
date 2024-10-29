@@ -1,4 +1,5 @@
-﻿namespace Diagrams.UpdateParameters
+﻿/*
+namespace Diagrams.UpdateParameters
 {
     using System;
     using System.Globalization;
@@ -109,3 +110,4 @@
         }
     }
 }
+*/

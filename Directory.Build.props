@@ -8,6 +8,7 @@
     </PropertyGroup>
  
     <PropertyGroup>
+        <Version>1.0.1</Version>
         <MsiFilePrefix>ElectricityRevitPlugin.</MsiFilePrefix>
         <ProductVersion>2024</ProductVersion>
         <Authors>Ivachevev</Authors>

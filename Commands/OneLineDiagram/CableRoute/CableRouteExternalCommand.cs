@@ -1,4 +1,5 @@
-﻿namespace Diagrams.CableRoute
+﻿/*
+namespace Diagrams.CableRoute
 {
     using Autodesk.Revit.Attributes;
     using Autodesk.Revit.DB;
@@ -17,3 +18,4 @@
         }
     }
 }
+*/
