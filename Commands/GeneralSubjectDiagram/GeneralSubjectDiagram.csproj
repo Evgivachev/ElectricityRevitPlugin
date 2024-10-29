@@ -18,7 +18,7 @@
         <ProjectReference Include="..\..\ElectricityRevitPlugin\ElectricityRevitPlugin.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="WPF-UI" Version="2.0.3"/>
+        <PackageReference Include="WPF-UI" />
     </ItemGroup>
 
 </Project>

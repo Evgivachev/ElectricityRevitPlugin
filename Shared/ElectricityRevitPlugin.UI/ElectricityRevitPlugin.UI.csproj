@@ -9,8 +9,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
-        <PackageReference Include="MvvmLight" Version="5.4.1.1" />
+        <PackageReference Include="MaterialDesignThemes" />
+        <PackageReference Include="MvvmLight" />
     </ItemGroup>
     
 </Project>

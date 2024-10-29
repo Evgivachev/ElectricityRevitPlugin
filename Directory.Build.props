@@ -18,7 +18,7 @@
 
     <ItemGroup>
         <Reference Include="Microsoft.CSharp"/>
-        <PackageReference Include="IsExternalInit" Version="1.0.3" />
+        <PackageReference Include="IsExternalInit" />
     </ItemGroup>
 
     <!--<ItemGroup Condition=" '$(UseRevit)' == 'true' ">
@@ -42,27 +42,26 @@
     -->
 
     <ItemGroup Condition=" '$(UseRevit)' == 'true' ">
-        <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2022.1.0"/>
+        <PackageReference Include="Revit_All_Main_Versions_API_x64" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(UseApplication)' == 'true' ">
-        <PackageReference Include="RxBim.Application.Revit.2022" Version="1.9.4"/>
+        <PackageReference Include="RxBim.Application.Revit.2022" />
     </ItemGroup>
     <ItemGroup Condition=" '$(UseRibbonMenu)' == 'true' ">
-        <PackageReference Include="RxBim.Application.Ribbon.Revit.2022" Version="2.3.4"/>
+        <PackageReference Include="RxBim.Application.Ribbon.Revit.2022" />
     </ItemGroup>
     
-    
     <ItemGroup Condition=" '$(UseDi)' == 'true' ">
-        <PackageReference Include="RxBim.Di" Version="2.0.1"/>
+        <PackageReference Include="RxBim.Di" />
     </ItemGroup>
     
     <ItemGroup Condition=" '$(UseMoreLinq)' == 'true' ">
-        <PackageReference Include="morelinq" Version="3.4.2"/>
+        <PackageReference Include="morelinq" />
     </ItemGroup>
     
     <ItemGroup Condition=" '$(UseCommand)' == 'true' ">
-        <PackageReference Include="RxBim.Command.Revit.2022" Version="1.9.4"/>
+        <PackageReference Include="RxBim.Command.Revit.2022" />
     </ItemGroup>
 
 </Project>

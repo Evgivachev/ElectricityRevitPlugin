@@ -23,7 +23,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39"/>
+        <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj"/>

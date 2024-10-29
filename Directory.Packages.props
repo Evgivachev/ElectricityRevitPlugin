@@ -1,0 +1,36 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="MaterialDesignThemes" Version="5.1.0" />
+        <PackageVersion Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39"/>
+        <PackageVersion Include="MvvmLight" Version="5.4.1.1" />
+        <PackageVersion Include="WPF-UI" Version="2.0.3"/>
+
+        <PackageVersion Include="morelinq" Version="3.4.2"/>
+        <PackageVersion Include="IsExternalInit" Version="1.0.3" />
+        
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="2.2.0"/>
+        <!-- DO NOT CHANGE OR UPDATE VERSIONS OF MICROSOFT.EXTENSIONS PACKAGES!!! -->
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0"/>
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0"/>
+        <!-- DO NOT CHANGE OR UPDATE VERSIONS OF MICROSOFT.EXTENSIONS PACKAGES!!! -->
+
+        <PackageVersion Include="RxBim.Application.Revit.2022" Version="1.9.4"/>
+        <PackageVersion Include="RxBim.Application.Ribbon.Revit.2022" Version="2.3.4"/>
+        <PackageVersion Include="RxBim.Command.Revit.2022" Version="1.9.4"/>
+        <PackageVersion Include="RxBim.Di" Version="2.0.1"/>
+        <PackageVersion Include="RxBim.Tools" Version="1.1.3" />
+        <PackageVersion Include="Revit_All_Main_Versions_API_x64" Version="2022.1.0"/>
+        <PackageVersion Include="RevitTask" Version="3.0.0"/>
+
+        <PackageVersion Include="coverlet.collector" Version="6.0.0"/>
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.11.0" />
+        <PackageVersion Include="xunit" Version="2.5.3"/>
+        <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3"/>
+    </ItemGroup>
+</Project>
