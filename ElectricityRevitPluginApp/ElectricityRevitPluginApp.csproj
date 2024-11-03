@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <UseApplication>true</UseApplication>
         <UseLogs>true</UseLogs>
-        <UseRibbonMenu>true</UseRibbonMenu>
-        <UseSimpleInjector>true</UseSimpleInjector>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
@@ -20,10 +17,20 @@
         <ProjectReference Include="..\Commands\PhaseDistribution\PhaseDistribution.csproj"/>
         <ProjectReference Include="..\Commands\ShieldPanel\ShieldPanel.csproj"/>
         <ProjectReference Include="..\Commands\ShortCircuits\ShortCircuits.csproj"/>
+        <ProjectReference Include="..\Updaters\AddedElectricalSystemsUpdater\AddedElectricalSystemsUpdater.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="RxBim.Application.Revit.2022" />
+        <PackageReference Include="RxBim.Application.Ribbon.Revit.2022" />
+    </ItemGroup>
+    
     <ItemGroup>
         <None Update="img\*.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

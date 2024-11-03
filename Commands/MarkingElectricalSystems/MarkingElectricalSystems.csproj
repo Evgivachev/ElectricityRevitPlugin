@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <UseSimpleInjector>true</UseSimpleInjector>
         <UseCommand>true</UseCommand>
         <UseMoreLinq>true</UseMoreLinq>
         <UseUi>true</UseUi>

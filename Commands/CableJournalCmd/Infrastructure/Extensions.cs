@@ -16,5 +16,4 @@ public static class Extensions
         var isControl = system.get_Parameter(SharedParametersFile.Kontrolnye_TSepi).AsInteger() > 0;
         return new Cable(system.Id.IntegerValue, chapter, panelName, qf, groupGost, isReserved, isControl);
     }
-
 }

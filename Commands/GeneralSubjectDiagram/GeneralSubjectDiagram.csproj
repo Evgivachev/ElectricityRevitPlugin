@@ -2,10 +2,8 @@
 
     <PropertyGroup>
         <UseCommand>true</UseCommand>
-        <UseSimpleInjector>true</UseSimpleInjector>
         <UseWpf>true</UseWpf>
         <UseMoreLinq>true</UseMoreLinq>
-        <UseSimpleInjector>true</UseSimpleInjector>
         <Nullable>enable</Nullable>
         <UseUi>true</UseUi>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>

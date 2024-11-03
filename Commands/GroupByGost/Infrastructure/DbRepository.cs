@@ -13,13 +13,11 @@ using Element = Domain.Element;
 public class DbRepository : IDbRepository
 {
     private readonly Document _document;
-    private readonly string _defaultGroupByGost = "???";
     private readonly Guid _disableChangeGuid = new("be64f474-c030-40cf-9975-6eaebe087a84");
     private readonly Guid _groupByGostGuid = new("8d1b8079-3007-4140-835c-73f0de4e81bd");
     private readonly Guid _idLinkElement = new("dca1fe51-4090-4178-9f12-a83aa5986266");
-    private Guid _isControlCircuit = new("0f13e1e5-71bb-4b0f-b3dc-18054c25e1ee");
-
-    private Guid _isReserveGroupGuid = new("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
+    private readonly Guid _isControlCircuit = new("0f13e1e5-71bb-4b0f-b3dc-18054c25e1ee");
+    private readonly Guid _isReserveGroupGuid = new("cd2dc469-276a-40f4-bd34-c6ab2ae05348");
 
     public DbRepository(Document document)
     {

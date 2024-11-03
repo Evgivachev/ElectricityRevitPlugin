@@ -10,10 +10,7 @@
     class ModelUpdater
     {
         private readonly Document _doc;
-
         private FamilyInstance _head;
-        private View _workView;
-
         private Element[] Cables;
         private Element[] Device1;
         private Element[] Device2;
@@ -24,7 +21,7 @@
             _doc = document;
         }
 
-        private View WorkView => _workView ?? _doc.ActiveView;
+        private View WorkView => _doc.ActiveView;
 
         private FamilyInstance Head
         {

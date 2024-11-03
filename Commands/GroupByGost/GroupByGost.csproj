@@ -2,7 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <UseDi>true</UseDi>
-        <UseSimpleInjector>true</UseSimpleInjector>
         <UseCommand>true</UseCommand>
         <UseMoreLinq>true</UseMoreLinq>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>

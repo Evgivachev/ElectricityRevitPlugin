@@ -13,11 +13,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageDownload Include="NuGet.CommandLine" Version="[6.5.0]"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="PikTools.Nuke.Updater.Revit" Version="1.0.4"/>
+        <PackageReference Include="NuGet.CommandLine" />
+        <PackageReference Include="PikTools.Nuke.Updater.Revit" />
     </ItemGroup>
 
 </Project>

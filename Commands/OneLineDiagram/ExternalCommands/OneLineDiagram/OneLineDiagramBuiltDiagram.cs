@@ -16,7 +16,7 @@ namespace Diagrams.ExternalCommands.OneLineDiagram
     [Regeneration(RegenerationOption.Manual)]
     public sealed class OneLineDiagramBuiltDiagram : IExternalCommand, IExternalCommandAvailability
     {
-        internal static ExternalCommandData? CommandData;
+        internal static ExternalCommandData CommandData;
 
         /// <summary>
         /// 

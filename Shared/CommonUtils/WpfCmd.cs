@@ -34,7 +34,9 @@ public abstract class WpfCmd<TWindow> : CmdBase
                 sc.AddSingleton<IHostLifetime, WpfLifeTime<TWindow>>();
             });
             _host = hostBuilder.Build();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Run(_host);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             return Result.Succeeded;
         }
         catch (Exception e)

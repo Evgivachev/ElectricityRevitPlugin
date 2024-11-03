@@ -9,8 +9,8 @@ using CommonUtils.Helpers;
 using UpdateParametersInCircuits;
 
 /// <summary>
-/// Установка всех булевых пораметров в 0
-/// Установка траектории електрической цепи через все элементы
+/// Установка всех булевых параметров в 0
+/// Установка траектории электрической цепи через все элементы
 /// </summary>
 public class UpdateAddedElectricalSystems : MyUpdater
 {
