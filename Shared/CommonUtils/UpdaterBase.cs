@@ -1,15 +1,14 @@
 ﻿namespace CommonUtils;
 
 using System;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 
 public abstract class UpdaterBase : IUpdater
 {
     private readonly AddInId _addInId;
-    protected UpdaterBase(Application application)
+    protected UpdaterBase(AddInId addInId)
     {
-        _addInId = application.ActiveAddInId;
+        _addInId = addInId;
     }
     protected abstract Guid Guid { get; }
 

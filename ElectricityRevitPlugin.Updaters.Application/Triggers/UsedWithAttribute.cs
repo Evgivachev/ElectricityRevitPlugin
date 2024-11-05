@@ -1,4 +1,4 @@
-﻿namespace ElectricityRevitPluginApp.Triggers;
+﻿namespace ElectricityRevitPlugin.Updaters.Application.Triggers;
 
 using System;
 

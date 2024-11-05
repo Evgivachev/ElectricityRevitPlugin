@@ -1,19 +1,15 @@
 ﻿namespace ElectricityRevitPluginApp;
 
-using System;
-using System.IO;
 using System.Reflection;
-using AddedElectricalSystemsUpdater;
 using CountFixturesInSpaceCmd;
 using Diagrams.ExternalCommands.OneLineDiagram;
+using ElectricalLoadsExportToExcel;
 using JetBrains.Annotations;
 using MarkingElectricalSystems;
-using Microsoft.Extensions.Configuration;
 using RxBim.Application.Ribbon;
 using RxBim.Di;
-using RxBim.Di.Extensions;
 using ShieldPanel.SelectModelOfShield;
-using Triggers;
+using Cmd = GroupByGost.Cmd;
 
 /// <inheritdoc />
 [UsedImplicitly]
@@ -22,34 +18,8 @@ public class Config : IApplicationConfiguration
     /// <inheritdoc />
     public void Configure(IContainer container)
     {
-        // var buider = new ConfigurationBuilder();
-        // buider.AddJsonFile(GetJsonPath("appsettings.json"), optional: false, reloadOnChange: true);
-        // buider.AddJsonFile(GetJsonPath("appsettings.AddedElectricalSystemsUpdater.json"), optional: false, reloadOnChange: true);
-        // var jsonConfiguration = buider.Build();
-        
         ConfigurePanel(container);
-        container.Services.AddElectricalSystemsUpdater();
-        container.AddScoped<IUpdaterTrigger, OnCreatedElectricalSystemTrigger>();
-        container.AddSingleton<Action<IContainer, IConfigurationBuilder>>((c , b) => b.AddJsonFile("appsettings.AddedElectricalSystemsUpdater.json", optional: false, reloadOnChange: true));
     }
-    
-    private IConfigurationBuilder GetBaseConfigurationBuilder(Assembly assembly)
-    {
-        var basePath = Path.GetDirectoryName(assembly.Location) 
-                       ?? throw new InvalidOperationException("Can't find directory for assembly '" + assembly.FullName + "'!");
-        var str = "appsettings." + assembly.GetName().Name + ".json";
-        return new ConfigurationBuilder()
-            .SetBasePath(basePath)
-            .SetFileLoadExceptionHandler((Action<FileLoadExceptionContext>) (ctx => ctx.Ignore = true))
-            .AddJsonFile(str, true)
-            .AddEnvironmentJsonFile(basePath, str);
-    }
-
-    private string GetJsonPath(string json)
-    {
-        return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, json);
-    }
-    
 
     private void ConfigurePanel(IContainer container)
     {
@@ -61,7 +31,7 @@ public class Config : IApplicationConfiguration
                     .Panel("Цепи", panelBuilder => panelBuilder
                         .CommandButton(
                             nameof(GroupByGost),
-                            typeof(GroupByGost.Cmd),
+                            typeof(Cmd),
                             button => button
                                 .Text("Группы по ГОСТ")
                                 .LargeImage(@"img\icons8.png")
@@ -163,7 +133,7 @@ public class Config : IApplicationConfiguration
                         builder.StackedItems(stack => stack
                             .CommandButton(
                                 nameof(ElectricalLoadsExportToExcel),
-                                typeof(ElectricalLoadsExportToExcel.ExternalCommand),
+                                typeof(ExternalCommand),
                                 button => button
                                     .Text("Экспорт в Excel")
                                     .Description("Экспорт электрических нагрузок в таблицу Excel")

@@ -50,25 +50,44 @@ public static class ParameterExtension
     public static bool SetDynamicValue(this Parameter parameter, dynamic value)
     {
         var type = parameter.StorageType;
+        dynamic? converted;
         switch (type)
         {
             case StorageType.Double:
-                return parameter.Set((double)value);
+                converted = ConvertM((object)value, Convert.ToDouble, 0);
+                return parameter.Set((double)converted);
             case StorageType.Integer:
-                return parameter.Set((int)value);
+                converted = ConvertM((object)value, Convert.ToInt32, 0);
+                return parameter.Set((int)converted);
 
             case StorageType.String:
             {
                 if (value is string q)
                     return parameter.Set(q);
-                return false;
+                return parameter.Set(value.ToString());
             }
 
             case StorageType.ElementId:
-                return parameter.Set((ElementId)value);
+            {
+                if (value is ElementId elementId)
+                    return parameter.Set(elementId);
+                converted = ConvertM((object)value, Convert.ToInt32, 0);
+                return parameter.Set(new ElementId((int)converted));
+            }
+
             case StorageType.None:
             default:
                 return parameter.SetValueString(value.ToString());
         }
+    }
+
+    private static T ConvertM<T>(object value, Func<IConvertible, T> action, T defaultValue)
+    {
+        return value switch
+        {
+            T t => t,
+            IConvertible convertible => action(convertible),
+            _ => defaultValue
+        };
     }
 }

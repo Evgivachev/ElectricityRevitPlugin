@@ -1,25 +1,22 @@
 ﻿namespace AddedElectricalSystemsUpdater;
 
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using CommonUtils;
-using CommonUtils.Helpers;
+using CommonUtils.Extensions;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Configuration;
 using Settings;
 
 [UsedImplicitly]
-public class AddedElectricalSystemsUpdater : UpdaterBase
+public class AddedElectricalSystemsUpdater(AddInId addInId, IConfiguration configuration) : UpdaterBase(addInId)
 {
-    private readonly IConfiguration _configuration;
-    public AddedElectricalSystemsUpdater(Application app, IConfiguration configuration) : base(app)
-    {
-        _configuration = configuration;
-    }
+    private CircuitInitialValues _initialValues = null!;
 
     public override void Execute(UpdaterData data)
-    {
+    {        
+        //TODO
+        _initialValues = configuration.GetSection(nameof(CircuitInitialValues)).Get<CircuitInitialValues>();
         var doc = data.GetDocument();
         var addedSystems = data.GetAddedElementIds()
             .Select(x => doc.GetElement(x) as ElectricalSystem)
@@ -42,33 +39,50 @@ public class AddedElectricalSystemsUpdater : UpdaterBase
 
     private void SetParameters(Document doc, IEnumerable<ElectricalSystem> systems)
     {
+        
         var schedules = GetKeySchedules(doc);
         var schedulesParameters = new Dictionary<string, ElementId>();
         foreach (var schedule in schedules)
         {
+            if (!_initialValues.FromKeyScheduleValues.ContainsKey(schedule.Name))
+                continue;
             using var scheduleCollector = new FilteredElementCollector(doc, schedule.Id);
 
-            var firstElementId = scheduleCollector.FirstElementId();
+            var elementIds = scheduleCollector.ToElementIds();
+            var elementId = elementIds.FirstOrDefault(id => id.IntegerValue == _initialValues.FromKeyScheduleValues[schedule.Name]);
+            if (elementId == null)
+                continue;
             var parameter = schedule.KeyScheduleParameterName;
-            schedulesParameters[parameter] = firstElementId;
+            schedulesParameters[parameter] = elementId;
         }
-        
+
         foreach (var system in systems)
         {
-            system!.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS).Set("77777");
-
             foreach (Parameter systemParameter in system.Parameters)
             {
-                if(schedulesParameters.ContainsKey(systemParameter.Definition.Name))
+                if (schedulesParameters.ContainsKey(systemParameter.Definition.Name))
                 {
                     systemParameter.Set(schedulesParameters[systemParameter.Definition.Name]);
                 }
             }
-            
+
+            foreach (var pair in _initialValues.FromBuiltInParameters)
+            {
+                if (Enum.TryParse<BuiltInParameter>(pair.Key, out var parameter))
+                {
+                    system.get_Parameter(parameter)?.SetDynamicValue(pair.Value);
+                }
+            }
+
+            foreach (var pair in _initialValues.FromSharedParameters)
+            {
+                if (Guid.TryParse(pair.Key, out var guid))
+                    system.get_Parameter(guid)?.SetDynamicValue(pair.Value);
+            }
+
             var mode = system.CircuitPathMode;
             if (mode == ElectricalCircuitPathMode.FarthestDevice)
                 system.CircuitPathMode = ElectricalCircuitPathMode.AllDevices;
-            system.get_Parameter(SharedParametersFile.Koeffitsient_Sprosa_V_SHCHitakh).Set(1.0);
         }
     }
 

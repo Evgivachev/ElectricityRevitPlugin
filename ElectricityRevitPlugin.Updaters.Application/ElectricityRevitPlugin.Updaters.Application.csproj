@@ -1,10 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
-        <UseLogs>true</UseLogs>
-        <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
-        <Platforms>AnyCPU</Platforms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="Revit_All_Main_Versions_API_x64" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\ElectricityRevitPlugin.RibbonBuilder\ElectricityRevitPlugin.RibbonBuilder.csproj" />
+        <ProjectReference Include="..\Shared\CommonUtils\CommonUtils.csproj" />
+        <ProjectReference Include="..\Updaters\AddedElectricalSystemsUpdater\AddedElectricalSystemsUpdater.csproj" />
+    </ItemGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Commands\CableJournalCmd\CableJournalCmd.csproj" />
         <ProjectReference Include="..\Commands\CountFixturesInSpaceCmd\CountFixturesInSpaceCmd.csproj" />
@@ -20,22 +32,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="RxBim.Application.Revit.2022" />
-        <PackageReference Include="RxBim.Application.Ribbon.Revit.2022" />
-    </ItemGroup>
-    
-    <ItemGroup>
         <None Update="img\*.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="appsettings.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
-
-    <PropertyGroup>
-        <PackageGuid>37e5471b-ffb4-4b5a-bc50-69262e3d52f1</PackageGuid>
-        <UpgradeCode>f273beea-0f78-4222-9db1-5b0e175dbd34</UpgradeCode>
-        <Application__ElectricityRevitPluginApp_App>ace9d964-d6d5-495d-845a-ec2574dc35aa</Application__ElectricityRevitPluginApp_App>
-    </PropertyGroup>
+    
 </Project>
