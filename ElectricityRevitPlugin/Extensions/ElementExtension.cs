@@ -13,7 +13,7 @@ public static class ElementExtension
     /// <param name="element"></param>
     /// <param name="forgeTypeId"></param>
     /// <returns></returns>
-    public static double GetInstallationHeightRelativeToLevel(this Element element, ForgeTypeId? forgeTypeId = null)
+    public static double GetInstallationHeightRelativeToLevel(this Element element, ForgeTypeId forgeTypeId = null)
     {
         //Смещение по высоте, есть не у всех элементов но работает
         var shiftParam = element.get_Parameter(BuiltInParameter.INSTANCE_ELEVATION_PARAM);
@@ -51,6 +51,7 @@ public static class ElementExtension
                 var value = fromParam.GetValueDynamic();
                 if (value is null)
                     continue;
+                // TODO set parameters
             }
         }
 

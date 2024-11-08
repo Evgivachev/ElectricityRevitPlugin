@@ -29,7 +29,7 @@
                 Width="118" />
             <Label
                 Content="Ключевая спецификация:"
-                Grid.Row="1"
+                Grid.Row="1" Grid.Column="0"
                 Height="26"
                 HorizontalAlignment="Left"
                 Margin="10,14,0,0"
@@ -70,7 +70,7 @@
             <Border
                 BorderBrush="Black"
                 BorderThickness="1"
-                Grid.Column="1"
+                Grid.Row="0" Grid.Column="1"
                 Height="30"
                 HorizontalAlignment="Left"
                 Margin="10,10,0,0"
@@ -89,7 +89,7 @@
             <Button
                 Click="BrowseButton_Click"
                 Content="Обзор"
-                Grid.Column="1"
+                Grid.Row="0" Grid.Column="1"
                 Height="30"
                 HorizontalAlignment="Left"
                 Margin="495,10,0,0"

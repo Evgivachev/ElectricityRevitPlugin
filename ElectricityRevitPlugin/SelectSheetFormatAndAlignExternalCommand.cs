@@ -34,7 +34,7 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
                 if (!sheets.Any())
                     throw new Exception("Следует выделить листы в диспетчере проекта");
                 foreach (var view in sheets)
-                    ExecuteOnTheViewSheet(commandData, ref message, elements, view, ShiftTitleBlock);
+                    ExecuteOnTheViewSheet(commandData, view, ShiftTitleBlock);
 
                 trGr.Assimilate();
             }
@@ -48,45 +48,38 @@ public class SelectSheetFormatAndAlignExternalCommand : IExternalCommand
         return result;
     }
 
-    private Result ExecuteOnTheViewSheet(
+    private void ExecuteOnTheViewSheet(
         ExternalCommandData commandData,
-        ref string message,
-        ElementSet elements,
         ViewSheet view,
         XYZ shiftTitleBlock)
     {
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var result = Result.Succeeded;
-        using (var tr = new Transaction(doc))
+        using var tr = new Transaction(doc);
+        tr.Start("Move Title Block");
+        if (view is null)
+            throw new Exception("Active View is not ViewSheet");
+        var allElementsOnView = new FilteredElementCollector(doc, view.Id).ToElements();
+        var titleBlock = (FamilyInstance)allElementsOnView
+            .FirstOrDefault(x => x.Category.Id.IntegerValue == (int)BuiltInCategory.OST_TitleBlocks);
+        if (titleBlock is null)
+            throw new Exception("TitleBlock is null");
+        var bb = GetBoundingBoxXyz(view, allElementsOnView);
+        var betterFormat = ChooseTitleBlockFormat(titleBlock, bb);
+        if (betterFormat != null)
         {
-            tr.Start("Move Title Block");
-            if (view is null)
-                throw new Exception("Active View is not ViewSheet");
-            var allElementsOnView = new FilteredElementCollector(doc, view.Id).ToElements();
-            var titleBlock = (FamilyInstance)allElementsOnView
-                .FirstOrDefault(x => x.Category.Id.IntegerValue == (int)BuiltInCategory.OST_TitleBlocks);
-            if (titleBlock is null)
-                throw new Exception("TitleBlock is null");
-            var bb = GetBoundingBoxXyz(view, allElementsOnView);
-            var betterFormat = ChooseTitleBlockFormat(titleBlock, bb);
-            if (betterFormat != null)
-            {
-                titleBlock.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM).Set(betterFormat);
-                doc.Regenerate();
-            }
-
-            var viewPortCenter = bb.Max.Add(bb.Min).Multiply(0.5);
-            var titleBlockBoundingBox = titleBlock.get_BoundingBox(view);
-            var titleBlockCenter = titleBlockBoundingBox.Min.Add(titleBlockBoundingBox.Max).Multiply(0.5);
-            titleBlock.Location.Move(viewPortCenter - titleBlockCenter);
-            if (shiftTitleBlock != null)
-                titleBlock.Location.Move(shiftTitleBlock);
-            result = tr.Commit() == TransactionStatus.Committed ? Result.Succeeded : Result.Failed;
+            titleBlock.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM).Set(betterFormat);
+            doc.Regenerate();
         }
 
-        return result;
+        var viewPortCenter = bb.Max.Add(bb.Min).Multiply(0.5);
+        var titleBlockBoundingBox = titleBlock.get_BoundingBox(view);
+        var titleBlockCenter = titleBlockBoundingBox.Min.Add(titleBlockBoundingBox.Max).Multiply(0.5);
+        titleBlock.Location.Move(viewPortCenter - titleBlockCenter);
+        if (shiftTitleBlock != null)
+            titleBlock.Location.Move(shiftTitleBlock);
+        tr.Commit();
     }
 
     private ElementId ChooseTitleBlockFormat(FamilyInstance titleBlock, BoundingBoxXYZ box)

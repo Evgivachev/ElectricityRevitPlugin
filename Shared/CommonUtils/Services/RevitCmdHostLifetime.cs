@@ -1,21 +1,18 @@
-﻿using System;
+﻿namespace CommonUtils.Services;
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Autodesk.Revit.UI;
 using Microsoft.Extensions.Hosting;
-
-namespace CommonUtils.Services;
 
 public class RevitCmdHostLifetime : IHostLifetime
 {
     private readonly IApplicationLifetime _applicationLifetime;
-    private readonly UIApplication _application;
     private readonly ManualResetEvent _shutdownBlock = new(false);
 
-    public RevitCmdHostLifetime(IApplicationLifetime applicationLifetime, UIApplication application)
+    public RevitCmdHostLifetime(IApplicationLifetime applicationLifetime)
     {
         _applicationLifetime = applicationLifetime;
-        _application = application;
     }
 
     public Task WaitForStartAsync(CancellationToken cancellationToken)

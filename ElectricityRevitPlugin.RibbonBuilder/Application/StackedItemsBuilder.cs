@@ -1,6 +1,6 @@
 namespace ElectricityRevitPlugin.RibbonBuilder.Application;
 
-using ElectricityRevitPlugin.RibbonBuilder.Domain;
+using Domain;
 
 public class StackedItemsBuilder
 {

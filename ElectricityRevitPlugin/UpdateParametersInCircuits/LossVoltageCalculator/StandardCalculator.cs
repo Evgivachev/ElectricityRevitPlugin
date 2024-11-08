@@ -46,7 +46,7 @@ class StandardCalculator : LossVoltageCalculator
         //Количество параллельных кабелей
         var n = el.LookupParameter("Кол-во кабелей (провод) в одной группе").AsDouble();
         Debug.Print($"Количество пар кабелей {n}");
-        double activePower = 0, cosPhi = 0, reactivePower = 0, tgPhi = 0;
+        double activePower = 0, reactivePower = 0;
         var loadFactor = el.get_Parameter(SharedParametersFile.Koeffitsient_Sprosa_V_SHCHitakh).AsDouble();
         foreach (Element element in el.Elements)
         {
@@ -62,8 +62,8 @@ class StandardCalculator : LossVoltageCalculator
             }
         }
 
-        tgPhi = activePower < _tolerance ? 0 : reactivePower / activePower;
-        cosPhi = Math.Sqrt(1 / (1 + tgPhi * tgPhi));
+        var tgPhi = activePower < _tolerance ? 0 : reactivePower / activePower;
+        var cosPhi = Math.Sqrt(1 / (1 + tgPhi * tgPhi));
 
         //Активная нагрузка
         //var activePower = el
@@ -115,7 +115,6 @@ class StandardCalculator : LossVoltageCalculator
             Debug.Print($"Реактивная Мощность приемника {reactivePower}");
             if (double.IsNaN(du) || double.IsInfinity(du))
             {
-                du = 0;
                 isTrueCalculating = false;
                 break;
             }

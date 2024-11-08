@@ -7,15 +7,15 @@ using Autodesk.Revit.DB;
 
 public class UpdateLocker : IDisposable
 {
-    private static UpdateLocker? _updateLocker;
-    private bool _isLocked = false;
+    private static UpdateLocker _updateLocker;
+    private bool _isLocked;
 
     private UpdateLocker()
     {
         ElementsIds = new List<Tuple<ElementId, ChangeType>>();
     }
 
-    public ICollection<Tuple<ElementId, ChangeType>>? ElementsIds { get; set; }
+    public ICollection<Tuple<ElementId, ChangeType>> ElementsIds { get; set; }
 
 
     public void Dispose()

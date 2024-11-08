@@ -16,7 +16,7 @@ public class MenuBuilder : IMenuBuilder
             var tabBuilder = new TabBuilder();
             pair.Value(tabBuilder);
             visitorBuilder.CreateTab(pair.Key);
-            var tab = tabBuilder.Build(pair.Key, visitorBuilder);
+            tabBuilder.Build(pair.Key, visitorBuilder);
             
         }
     }

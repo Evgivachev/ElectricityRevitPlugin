@@ -8,7 +8,7 @@ using Microsoft.Win32;
 /// <summary>
 /// Логика взаимодействия для CopyElementsInViewScheduleWPF.xaml
 /// </summary>
-public partial class CopyElementsInViewScheduleWPF : Window
+public partial class CopyElementsInViewScheduleWPF
 {
     private CopyElementsViewScheduleExternalCommand _command;
 

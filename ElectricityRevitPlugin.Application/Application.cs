@@ -19,7 +19,7 @@ public class Application : RxBimApplication
             var hostBuilder = new HostBuilder();
             hostBuilder.ConfigureHostConfiguration(_ => { });
 
-            hostBuilder.ConfigureAppConfiguration((context, builder) =>
+            hostBuilder.ConfigureAppConfiguration((_, builder) =>
             {
                 builder.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
                 builder.AddJsonFile("appsettings.AddedElectricalSystemsUpdater.json", false);

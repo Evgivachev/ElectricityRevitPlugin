@@ -88,7 +88,7 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         return null;
     }
 
-    private bool SetLengthOfCableForDiagrams(ElectricalSystem el, string type, double k = 0)
+    private void SetLengthOfCableForDiagrams(ElectricalSystem el, string type, double k = 0)
     {
         var doc = el.Document;
         doc.Regenerate();
@@ -122,10 +122,9 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         var tubeLengthParam = el.LookupParameter("Длина труб для спецификации");
         var value = Math.Max(0, numberOfCables * (lengthForDiagrams + storeLengthForTube));
         tubeLengthParam.Set(value);
-        return true;
     }
 
-    private bool CalculateLengthsOfElSystem(
+    private void CalculateLengthsOfElSystem(
         ElectricalSystem el,
         double shift,
         out double lengthToNearestDevice,
@@ -144,7 +143,7 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         lengthThrowAllDevice = 0;
         lengthThrowAllDevicesWithShift = 0;
         if (baseDevice is null)
-            return true;
+            return;
         //TODO взять точку семейства
         var baseDevicePoint = ((LocationPoint)baseDevice.Location).Point;
         //GetCoordinateOfElectricalConnector(baseDevice);
@@ -200,7 +199,6 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
         //TODO считает с соединителями
         var connectedElementsCount = el.Elements.Size;
         lengthThrowAllDevicesWithShift = lengthThrowAllDevice + shift * connectedElementsCount;
-        return true;
     }
 
     private XYZ GetCoordinateOfElectricalConnector(FamilyInstance fi)
@@ -211,7 +209,7 @@ public class SetLengthForElectricalSystemsExternalCommand : DefaultExternalComma
             .Connectors;
         //TODO что если в семействе несколько электрических соединителей
         var connector = connectorSet.Cast<Connector>().FirstOrDefault(x => x.ConnectorType is ConnectorType.End);
-        var p = connector
+        var p = connector!
             .CoordinateSystem
             .Origin;
         return p;

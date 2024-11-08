@@ -11,9 +11,9 @@ using Autodesk.Revit.UI;
 public abstract class DefaultExternalCommand : IExternalCommand
 {
     protected Application App;
-    protected UIApplication UiApp;
+    private UIApplication UiApp;
     protected UIDocument UiDoc;
-    public Document? Doc { get; set; }
+    public Document Doc { get; set; }
 
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {

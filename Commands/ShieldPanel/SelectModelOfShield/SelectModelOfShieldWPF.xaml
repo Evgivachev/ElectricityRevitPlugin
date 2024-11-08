@@ -51,13 +51,14 @@
 
         </GroupBox>
         <Button Name="selectionTreeButton" Content="Выбрать все/снять выделение" Margin="24,10,24,0" Grid.Row="1"
+                Grid.Column="0"
                 VerticalAlignment="Top" Click="SelectionTreeButton_Click" />
         <Button Name="ViewOfShieldButton" Content="Обновить вид щитов" Grid.Column="2" Margin="0,0,10,10" Grid.Row="2"
                 HorizontalAlignment="Right" Width="126" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"
                 Click="ViewOfShieldButton_Click" />
-        <Button Content="Развернуть/свернуть" HorizontalAlignment="Left" Margin="24,52,0,0" Grid.Row="1"
+        <Button Content="Развернуть/свернуть" HorizontalAlignment="Left" Margin="24,52,0,0" Grid.Row="1" Grid.Column="0"
                 VerticalAlignment="Top" Width="216" Click="ShowAllButton_Click" />
         <Button Content="Показать/скрыть двери щитов" Grid.Column="2" HorizontalAlignment="Left" Margin="17,180,0,0"
-                VerticalAlignment="Top" Width="190" Grid.ColumnSpan="2" Click="Button_Click" />
+                VerticalAlignment="Top" Width="190" Grid.Row="0" Grid.ColumnSpan="2" Click="Button_Click" />
     </Grid>
 </Window>

@@ -1,13 +1,11 @@
 ﻿namespace ElectricityRevitPlugin.RibbonBuilder.Application;
 
-using ElectricityRevitPlugin.RibbonBuilder.Domain;
+using Domain;
 
 public class TabBuilder
 {
 
-    private string _tabName = string.Empty;
-    private readonly List<Action<Tab>> _tabAction = new();
-    private readonly List<Action<RibbonBuilder>> ribbonBuilders = new();
+    private readonly List<Action<RibbonBuilder>> ribbonBuilders = [];
     public TabBuilder Panel(string name, Action<RibbonBuilder> ribbonBuilder)
     {
         ribbonBuilders.Add(ribbon =>

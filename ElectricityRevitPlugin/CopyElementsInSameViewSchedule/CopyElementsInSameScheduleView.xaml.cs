@@ -5,7 +5,7 @@ using System.Windows;
 /// <summary>
 /// Логика взаимодействия для CopyElementsInSameScheduleView.xaml
 /// </summary>
-public partial class CopyElementsInSameScheduleView : Window
+public partial class CopyElementsInSameScheduleView
 {
     public CopyElementsInSameScheduleView(CopyElementsInSameScheduleViewModel model)
     {
