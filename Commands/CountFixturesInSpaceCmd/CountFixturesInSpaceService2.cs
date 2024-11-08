@@ -29,7 +29,7 @@ public class CountFixturesInSpaceService2 : DefaultUseCase
             var viewPhase = (Phase)doc.GetElement(viewphaseId);
             foreach (var element in allFixtures)
             {
-                var fixture = (FamilyInstance)element;
+                var fixture = element;
                  
                 //Стадия сноса
                 var fixturePhaseDemolished =

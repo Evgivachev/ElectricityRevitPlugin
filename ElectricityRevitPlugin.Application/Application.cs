@@ -17,7 +17,7 @@ public class Application : RxBimApplication
         try
         {
             var hostBuilder = new HostBuilder();
-            hostBuilder.ConfigureHostConfiguration(c => { });
+            hostBuilder.ConfigureHostConfiguration(_ => { });
 
             hostBuilder.ConfigureAppConfiguration((context, builder) =>
             {
@@ -39,7 +39,7 @@ public class Application : RxBimApplication
 
             return Result.Succeeded;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return Result.Failed;
         }

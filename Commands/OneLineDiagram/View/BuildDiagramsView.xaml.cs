@@ -1,9 +1,8 @@
 ﻿namespace Diagrams.View
 {
-    using System.Windows;
     using ViewContext;
 
-    public partial class BuildDiagramsView : Window
+    public partial class BuildDiagramsView
     {
         public BuildDiagramsView(BuildDiagramsContext context)
         {

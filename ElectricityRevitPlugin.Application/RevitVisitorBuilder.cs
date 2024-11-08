@@ -44,7 +44,7 @@ public class RevitVisitorBuilder(UIControlledApplication application) : IVisitor
                 });
         }
 
-        if (ribbonItem is Separator separator)
+        if (ribbonItem is Separator)
         {
             _panelAction[ribbon].Add(panel => { panel.AddSeparator(); });
         }

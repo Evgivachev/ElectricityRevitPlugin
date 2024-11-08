@@ -255,7 +255,5 @@ namespace ElectricalLoadsExportToExcel
             }
             startCell.Row++;
         }
-
-        private delegate void Format();
     }
 }

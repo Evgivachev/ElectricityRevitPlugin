@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommonUtils;
-using GroupByGost.Domain;
+using Domain;
 using MoreLinq;
 
 public class GroupByGostService : IGroupByGostService

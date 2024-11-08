@@ -18,7 +18,7 @@ namespace ElectricalLoadsExportToExcel
     using Microsoft.Office.Interop.Excel;
     using Application = Microsoft.Office.Interop.Excel.Application;
 
-    public sealed partial class ExcelClass
+    public sealed class ExcelClass
     {
         public static Dictionary<string, List<Load>> ReadExcelFile(string file)
         {

@@ -7,7 +7,7 @@
 
     public static class FamilyInstanceExtension
     {
-        public static ElectricalSystem? GetPowerElectricalSystem(this FamilyInstance familyInstance)
+        public static ElectricalSystem GetPowerElectricalSystem(this FamilyInstance familyInstance)
         {
             if (familyInstance == null)
                 throw new ArgumentNullException(nameof(familyInstance));

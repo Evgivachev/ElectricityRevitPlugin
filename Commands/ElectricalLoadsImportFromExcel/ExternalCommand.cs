@@ -34,7 +34,7 @@ namespace ElectricalLoadsImportFromExcel
             var result = Result.Failed;
             try
             {
-                var uiApp = commandData?.Application;
+                var uiApp = commandData.Application;
                 var uiDoc = uiApp?.ActiveUIDocument;
                 var doc = uiDoc?.Document;
                 using (var trGr = new TransactionGroup(doc, "trGrName"))
@@ -43,8 +43,7 @@ namespace ElectricalLoadsImportFromExcel
                     {
                         /* Here do your work or the set of
                          * works... */
-                        if (DoWork(commandData, ref message,
-                                elements))
+                        if (DoWork(commandData))
                         {
                             if (TransactionStatus.Committed == trGr.Assimilate())
                                 result = Result.Succeeded;
@@ -58,11 +57,6 @@ namespace ElectricalLoadsImportFromExcel
             {
                 MessageBox.Show(ex.Message + '\n' + ex.StackTrace, "Error");
                 result = Result.Failed;
-            }
-            finally
-            {
-                //resMng.ReleaseAllResources();
-                //defResMng.ReleaseAllResources();
             }
 
             return result;

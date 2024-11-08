@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
@@ -124,7 +123,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
                 .Where(x => x.Item is Element and not null)
                 .Select(x => (Element)x.Item!)
                 .ToArray();
-            await _revitTask.Run(application =>
+            await _revitTask.Run(_ =>
             {
                 using var tr = new Transaction(_doc, "Вставка элементов схемы ВРУ");
                 var familySymbol =
@@ -165,7 +164,7 @@ public class GeneralSubjectViewModel : MainViewModelBase
         var elements = await _revitTask.Run(application => SelectedUpdater.GetValidateElements(application.ActiveUIDocument.Document));
         if (IsHideExistingElementsCheckBox)
         {
-            var elementsOnCurrentView = await _revitTask.Run(application =>
+            var elementsOnCurrentView = await _revitTask.Run(_ =>
             {
                 var activeView = _uiDoc.Document.ActiveView as ViewDrafting;
                 if (activeView is null)

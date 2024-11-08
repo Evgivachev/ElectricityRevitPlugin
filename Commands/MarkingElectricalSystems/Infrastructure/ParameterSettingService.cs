@@ -104,7 +104,7 @@ public class ParameterSettingService(Document document) : IParameterSettingServi
                     .Split("\n\r".ToCharArray())
                     .Select(id => doc.GetElement(id) as Autodesk.Revit.DB.Electrical.ElectricalSystem)
                     .Where(es => es != null)
-                    .Select(s => new MarkingElectricalSystems.Domain.ElectricalSystem()
+                    .Select(s => new ElectricalSystem()
                     {
                         Id = s!.Id.IntegerValue,
                         CategoryId = s.Category.Id.IntegerValue,

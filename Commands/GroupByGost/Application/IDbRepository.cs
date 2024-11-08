@@ -1,7 +1,7 @@
 ﻿namespace GroupByGost.Application;
 
 using System.Collections.Generic;
-using GroupByGost.Domain;
+using Domain;
 
 public interface IDbRepository
 {

@@ -11,14 +11,14 @@ public class SelectionElSystemsProvider : IElSystemsProvider
 {
     public IEnumerable<ElectricalSystem> GetElectricalSystems()
     {
-        var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
+        var uiApp = ShiftElectricalCircuits.ExternalCommandData!.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         var selection = uiDoc.Selection;
         var selectedElements = selection.GetElementIds();
         var systems = selectedElements.SelectMany(elId =>
             {
-                var el = doc.GetElement((ElementId)elId) as FamilyInstance;
+                var el = doc.GetElement(elId) as FamilyInstance;
                 return el?.MEPModel?.GetElectricalSystems();
             })
             .Where(es => es is not null)

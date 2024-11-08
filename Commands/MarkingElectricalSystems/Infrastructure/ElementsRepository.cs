@@ -12,7 +12,7 @@ using Domain;
 using Models;
 using Element = Domain.Element;
 
-public class ElementsRepository(Application application, UIApplication uiApplication, UIDocument uiDocument) : IElementsRepository
+public class ElementsRepository(Application application, UIDocument uiDocument) : IElementsRepository
 {
     private readonly Document _doc = uiDocument.Document;
     private readonly List<int> _addedElementIds = [];
@@ -51,7 +51,7 @@ public class ElementsRepository(Application application, UIApplication uiApplica
                     var ids = el.LookupParameter("ID цепей")?.AsString();
                     if (string.IsNullOrEmpty(ids))
                         return [];
-                    var systemsFromAnnotation = ids?
+                    var systemsFromAnnotation = ids
                         .Split("\n\r".ToCharArray())
                         .Select(uid => doc.GetElement(uid))
                         .OfType<Autodesk.Revit.DB.Electrical.ElectricalSystem>();
@@ -68,7 +68,7 @@ public class ElementsRepository(Application application, UIApplication uiApplica
             .ToArray();
         return elSystems;
     }
-    public IReadOnlyCollection<Element> GetSelectedElements(IReadOnlyCollection<int>? categoryIds)
+    public IReadOnlyCollection<Element> GetSelectedElements(IReadOnlyCollection<int> categoryIds)
     {
         var doc = uiDocument.Document;
         var currentSelection = uiDocument.Selection;

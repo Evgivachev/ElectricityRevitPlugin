@@ -13,13 +13,12 @@ namespace ShieldPanel.SelectModelOfShield;
 /// <summary>
 /// Логика взаимодействия для SelectModelOfShieldWPF.xaml
 /// </summary>
-public partial class SelectModelOfShieldWPF : Window
+public partial class SelectModelOfShieldWPF
 {
-    private Document _doc;
-    private Element[] _catalog;
-    private bool _isAllSelected = false;
-    private bool _isVisibleOfLineOfGrid = false;
-    private bool _visibleOfDoors = false;
+    private readonly Document _doc;
+    private readonly Element[] _catalog;
+    private bool _isAllSelected;
+    private readonly bool _isVisibleOfLineOfGrid = false;
     public SelectModelOfShieldWPF(FamilyInstance[] shields, Element[] catalog, HashSet<int> selection)
     {
         _catalog = catalog;
@@ -41,25 +40,6 @@ public partial class SelectModelOfShieldWPF : Window
                 item.Header = grid;
                 parentItem.Items.Add(item);
             }
-            //    var text = new TextBlock();
-            //    text.Text = shield.Name;
-            //    text.Tag = shield;
-            //    var grid = new Grid();
-            //    var cd = new ColumnDefinition();
-            //    cd.Width = new GridLength(1, GridUnitType.Star);
-            //    grid.ColumnDefinitions.Add(cd);
-            //    grid.Children.Add(text);
-            //    var comboBox = new ComboBox();
-            //    comboBox.ItemsSource = catalog;
-            //    comboBox.DisplayMemberPath = "Name";
-            //    var valueId = shield.LookupParameter("Оболочка щита").AsElementId();
-            //    comboBox.SelectedItem = catalog.FirstOrDefault(sh => sh.Id.IntegerValue == valueId.IntegerValue);
-
-            //    //grid.ShowGridLines = true;
-            //    grid.Children.Add(comboBox);
-
-            //    comboBox.Parent.SetValue(Grid.ColumnSpanProperty, 1);
-            //    //StackPanel.Children.Add(grid);
         }
 
         var manufactures = catalog.Select(m => m
@@ -127,7 +107,7 @@ public partial class SelectModelOfShieldWPF : Window
         var cb = sender as CheckBox;
         if (cb is null)
             return;
-        var grid = cb?.Parent as Grid;
+        var grid = cb.Parent as Grid;
         var item = grid?.Parent as TreeViewItem;
         var childCb = item?.Items
             .OfType<TreeViewItem>()

@@ -18,110 +18,96 @@ namespace ElectricalLoadsImportFromExcel
 
     public sealed partial class ExternalCommand
     {
-        private bool DoWork(ExternalCommandData commandData, ref string message, ElementSet elements)
+        private bool DoWork(ExternalCommandData commandData)
         {
             #region MyRegion
 
             if (null == commandData) throw new ArgumentNullException(nameof(commandData));
-            if (null == message) throw new ArgumentNullException(nameof(message));
-            if (null == elements) throw new ArgumentNullException(nameof(elements));
             var uiApp = commandData.Application;
             var uiDoc = uiApp?.ActiveUIDocument;
             var doc = uiDoc?.Document;
 
             #endregion
 
-            try
+            using var tr = new Transaction(doc, "trName");
+            if (TransactionStatus.Started == tr.Start())
             {
-                using var tr = new Transaction(doc, "trName");
-                if (TransactionStatus.Started == tr.Start())
+                //словарь питающих цепей
+                var powerDictionary = new Dictionary<int, ElectricalSystem>();
+                var shieldsParamDictionary = GetShields();
+                if (shieldsParamDictionary.Count == 0) return TransactionStatus.Committed == tr.RollBack();
+                var listOfShields = new FilteredElementCollector(doc)
+                    .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
+                    .OfClass(typeof(FamilyInstance))
+                    .Cast<FamilyInstance>()
+                    .Where(x => x.MEPModel.GetElectricalSystems() is not null).ToList();
+                var namesOfParameters = new[]
                 {
-                    //словарь питающих цепей
-                    var powerDictionary = new Dictionary<int, ElectricalSystem>();
-                    var shieldsParamDictionary = GetShields();
-                    if (shieldsParamDictionary.Count == 0) return TransactionStatus.Committed == tr.RollBack();
-                    var listOfShields = new FilteredElementCollector(doc)
-                        .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
-                        .OfClass(typeof(FamilyInstance))
-                        .Cast<FamilyInstance>()
-                        .Where(x => x.MEPModel.GetElectricalSystems() is not null).ToList();
-                    var namesOfParameters = new[]
+                    "Установленная мощность в щитах",
+                    "Коэффициент спроса в щитах",
+                    "Косинус в щитах",
+                    "Тангенс в щитах",
+                    "Активная мощность в щитах",
+                    "Реактивная мощность в щитах",
+                    "Полная мощность в щитах",
+                    "Ток в щитах"
+                };
+                var counter = 0;
+                foreach (var shield in listOfShields)
+                {
+                    //Запись в параметры щитов
+                    if (!shieldsParamDictionary.ContainsKey(shield.Name)) continue;
+                    for (var i = 0; i < 8; i++)
+                        if (!shield.LookupParameter(namesOfParameters[i])
+                                .Set(shieldsParamDictionary[shield.Name][i]))
+                            MessageBox.Show($"Не удалось установить параметр \"{namesOfParameters[i]}\" в щите {shield.Name} ",
+                                "Error");
+
+                    //Запись в параметры цепи
+                    //Питающая сеть
+                    var powerCirсuit = shield.MEPModel
+                        .GetElectricalSystems()
+                        .FirstOrDefault(x => x.PanelName != shield.Name);
+                    if (powerCirсuit is null)
                     {
-                        "Установленная мощность в щитах",
-                        "Коэффициент спроса в щитах",
-                        "Косинус в щитах",
-                        "Тангенс в щитах",
-                        "Активная мощность в щитах",
-                        "Реактивная мощность в щитах",
-                        "Полная мощность в щитах",
-                        "Ток в щитах"
-                    };
-                    var counter = 0;
-                    foreach (var shield in listOfShields)
-                    {
-                        //Запись в параметры щитов
-                        if (!shieldsParamDictionary.ContainsKey(shield.Name)) continue;
-                        for (var i = 0; i < 8; i++)
-                            if (!shield.LookupParameter(namesOfParameters[i])
-                                    .Set(shieldsParamDictionary[shield.Name][i]))
-                                MessageBox.Show($"Не удалось установить параметр \"{namesOfParameters[i]}\" в щите {shield.Name} ",
-                                    "Error");
-
-                        //Запись в параметры цепи
-                        //Питающая сеть
-                        var powerCirсuit = shield.MEPModel
-                            .GetElectricalSystems()
-                            .FirstOrDefault(x => x.PanelName != shield.Name);
-                        if (powerCirсuit is null)
-                        {
-                            MessageBox.Show($"Не удалось найти питающую цепь в щите {shield.Name} ", "Error");
-                            continue;
-                        }
-
-                        if (powerDictionary.ContainsKey(powerCirсuit.Id.IntegerValue))
-                            for (var i = 0; i < 8; i++)
-                            {
-                                var currentValue = powerCirсuit.LookupParameter(namesOfParameters[i]).AsDouble();
-                                if (!powerCirсuit.LookupParameter(namesOfParameters[i])
-                                        .Set(shieldsParamDictionary[shield.Name][i] + currentValue))
-                                    MessageBox.Show(
-                                        $"Не удалось установить параметр \"{namesOfParameters[i]}\" в питающей цепи щита {shield.Name} ",
-                                        "Error");
-
-                                var Py = powerCirсuit.LookupParameter(namesOfParameters[0]).AsDouble();
-                                var Pr = powerCirсuit.LookupParameter(namesOfParameters[4]).AsDouble();
-                                var Q = powerCirсuit.LookupParameter(namesOfParameters[5]).AsDouble();
-                                var S = powerCirсuit.LookupParameter(namesOfParameters[6]).AsDouble();
-                                powerCirсuit.LookupParameter(namesOfParameters[1]).Set(Pr / Py); //коэффициент спроса
-                                powerCirсuit.LookupParameter(namesOfParameters[2]).Set(Pr / S); //cos phi
-                                powerCirсuit.LookupParameter(namesOfParameters[3]).Set(Q / Pr); //tan phi
-                            }
-                        else
-                        {
-                            powerDictionary[powerCirсuit.Id.IntegerValue] = powerCirсuit;
-                            for (var i = 0; i < 8; i++)
-                                if (!powerCirсuit.LookupParameter(namesOfParameters[i])
-                                        .Set(shieldsParamDictionary[shield.Name][i]))
-                                    MessageBox.Show(
-                                        $"Не удалось установить параметр \"{namesOfParameters[i]}\" в питающей цепи щита {shield.Name} ",
-                                        "Error");
-                        }
-
-                        counter++;
+                        MessageBox.Show($"Не удалось найти питающую цепь в щите {shield.Name} ", "Error");
+                        continue;
                     }
 
-                    TaskDialog.Show("Message", $"Количество обработанных щитов: {counter} ");
-                    return TransactionStatus.Committed == tr.Commit();
+                    if (powerDictionary.ContainsKey(powerCirсuit.Id.IntegerValue))
+                        for (var i = 0; i < 8; i++)
+                        {
+                            var currentValue = powerCirсuit.LookupParameter(namesOfParameters[i]).AsDouble();
+                            if (!powerCirсuit.LookupParameter(namesOfParameters[i])
+                                    .Set(shieldsParamDictionary[shield.Name][i] + currentValue))
+                                MessageBox.Show(
+                                    $"Не удалось установить параметр \"{namesOfParameters[i]}\" в питающей цепи щита {shield.Name} ",
+                                    "Error");
+
+                            var Py = powerCirсuit.LookupParameter(namesOfParameters[0]).AsDouble();
+                            var Pr = powerCirсuit.LookupParameter(namesOfParameters[4]).AsDouble();
+                            var Q = powerCirсuit.LookupParameter(namesOfParameters[5]).AsDouble();
+                            var S = powerCirсuit.LookupParameter(namesOfParameters[6]).AsDouble();
+                            powerCirсuit.LookupParameter(namesOfParameters[1]).Set(Pr / Py); //коэффициент спроса
+                            powerCirсuit.LookupParameter(namesOfParameters[2]).Set(Pr / S); //cos phi
+                            powerCirсuit.LookupParameter(namesOfParameters[3]).Set(Q / Pr); //tan phi
+                        }
+                    else
+                    {
+                        powerDictionary[powerCirсuit.Id.IntegerValue] = powerCirсuit;
+                        for (var i = 0; i < 8; i++)
+                            if (!powerCirсuit.LookupParameter(namesOfParameters[i])
+                                    .Set(shieldsParamDictionary[shield.Name][i]))
+                                MessageBox.Show(
+                                    $"Не удалось установить параметр \"{namesOfParameters[i]}\" в питающей цепи щита {shield.Name} ",
+                                    "Error");
+                    }
+
+                    counter++;
                 }
-            }
-            catch (Exception ex)
-            {
-                /* TODO: Handle the exception here if you need
-                 * or throw the exception again if you need. */
-                throw ex;
-            }
-            finally
-            {
+
+                TaskDialog.Show("Message", $"Количество обработанных щитов: {counter} ");
+                return TransactionStatus.Committed == tr.Commit();
             }
 
             return false;
@@ -146,7 +132,7 @@ namespace ElectricalLoadsImportFromExcel
                 Filter = "Excel Files|*.xls;*.xlsx;*.xlsm"
             };
             openFile.ShowDialog();
-            if (openFile.FileName is null || openFile.FileName == "")
+            if (openFile.FileName == "")
                 return new Dictionary<string, double[]>();
             var result = new Dictionary<string, double[]>();
             var objExcel = new Application();
@@ -167,7 +153,7 @@ namespace ElectricalLoadsImportFromExcel
                 var flag = true;
                 while (flag)
                 {
-                    string nameOfShield = null;
+                    string? nameOfShield = null;
                     var paramOfShield = new double[8];
                     //поиск ячейки щита
                     var emptyCells = 0;
@@ -216,13 +202,13 @@ namespace ElectricalLoadsImportFromExcel
                         paramOfShieldCell.Colomn++;
                     }
 
-                    result[nameOfShield] = paramOfShield;
+                    result[nameOfShield!] = paramOfShield;
                 }
 
                 objExcel.Quit();
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 objExcel.Quit();
                 throw;

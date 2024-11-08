@@ -17,7 +17,6 @@ public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand, IExter
         var uiApp = commandData.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
-        var result = Result.Failed;
         using var trGr = new TransactionGroup(doc);
         trGr.Start("Обновление параметров");
         var annotations = new FilteredElementCollector(doc)
@@ -27,7 +26,7 @@ public class UpdatingMarkingOfCircuitsExternalCommand : IExternalCommand, IExter
             .Cast<AnnotationSymbol>();
         var parameterSetter = new ParameterSettingService(doc);
         parameterSetter.SetParameters(doc, annotations);
-        result = trGr.Assimilate() == TransactionStatus.Committed ? Result.Succeeded : Result.Failed;
+        var result = trGr.Assimilate() == TransactionStatus.Committed ? Result.Succeeded : Result.Failed;
 
         return result;
     }

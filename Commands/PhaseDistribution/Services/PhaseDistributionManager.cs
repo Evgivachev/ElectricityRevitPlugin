@@ -71,7 +71,7 @@ class PhaseDistributionManager : DefaultUseCase
         else
         {
             var ks = el.LookupParameter("Коэффициент спроса в щитах").AsDouble();
-            var iParameter = new Parameter[]
+            var iParameter = new[]
             {
                 el.LookupParameter("Суммарный ток L1"),
                 el.LookupParameter("Суммарный ток L2"),

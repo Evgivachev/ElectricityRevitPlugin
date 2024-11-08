@@ -14,7 +14,7 @@
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var result = Result.Failed;
+            Result result;
             try
             {
                 var uiApp = commandData?.Application;

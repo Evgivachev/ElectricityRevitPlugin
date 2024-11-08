@@ -1,6 +1,5 @@
 ﻿namespace ShieldPanel.ViewOfDevicesOfShield;
 
-using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
@@ -10,27 +9,25 @@ public class ShieldProcessing
     public ShieldProcessing(FamilyInstance sh)
     {
         _shield = sh;
-        _assignedElectricalSystems = sh?.MEPModel.GetAssignedElectricalSystems()?.OfType<ElectricalSystem>().OrderBy(es => es.StartSlot)
+        _assignedElectricalSystems = sh?.MEPModel
+            .GetAssignedElectricalSystems()?
+            .OrderBy(es => es.StartSlot)
             .ToArray();
         _widthOfShield = _shield.LookupParameter("Ширина щита по каталогу").AsDouble().FromFootToMillimeters();
-        _heightOfShield = _shield.LookupParameter("Высота щита по каталогу").AsDouble().FromFootToMillimeters();
+        _shield.LookupParameter("Высота щита по каталогу").AsDouble().FromFootToMillimeters();
         _countOfModulsOfShield = _shield.LookupParameter("Всего модулей на щит для спецификации").AsDouble();
         _parameters = new ParametersOfShield(sh);
     }
 
-    protected readonly FamilyInstance _shield;
-    protected int Id => _shield.Id.IntegerValue;
-    private IEnumerable<ElectricalSystem> ElectricalSystems => _shield.MEPModel.GetElectricalSystems().OfType<ElectricalSystem>();
+    private readonly FamilyInstance _shield;
     private readonly ElectricalSystem[] _assignedElectricalSystems;
-    protected ElectricalSystem InputElectricalSystem => ElectricalSystems.FirstOrDefault(s => s.BaseEquipment.Id.IntegerValue != Id);
 
-    private ParametersOfShield _parameters;
+    private readonly ParametersOfShield _parameters;
     private readonly double _widthOfShield;
-    private readonly double _heightOfShield;
     private readonly double _countOfModulsOfShield;
-    private double lengthFromWall = 35;
-    private double _lengthOfInputDevice = 85;
-    private double _widthOfModule = 18;
+    private readonly double lengthFromWall = 35;
+    private readonly double _lengthOfInputDevice = 85;
+    private readonly double _widthOfModule = 18;
 
     public void SetParametersOfThis()
     {

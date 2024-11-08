@@ -20,7 +20,7 @@
             set
             {
                 _isChecked = value;
-                RaisePropertyChanged(nameof(IsChecked));
+                RaisePropertyChanged();
             }
         }
     }

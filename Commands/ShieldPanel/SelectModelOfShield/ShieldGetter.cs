@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
@@ -11,17 +10,13 @@ namespace ShieldPanel.SelectModelOfShield;
 
 public class ShieldGetter
 {
-    private UIApplication UiApp;
-    private UIDocument UiDoc;
-    private Document Doc;
-    private Application App;
+    private readonly Document Doc;
 
     public ShieldGetter(ExternalCommandData cd)
     {
-        UiApp = cd?.Application;
-        UiDoc = UiApp?.ActiveUIDocument;
-        Doc = UiDoc?.Document;
-        App = UiApp?.Application;
+        var uiApp = cd?.Application;
+        var uiDoc = uiApp?.ActiveUIDocument;
+        Doc = uiDoc?.Document;
     }
 
     public IEnumerable<FamilyInstance> GetShields()

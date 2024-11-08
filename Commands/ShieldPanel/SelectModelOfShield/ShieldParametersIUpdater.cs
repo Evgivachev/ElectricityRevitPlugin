@@ -80,8 +80,7 @@ public class ShieldParametersIUpdater : IUpdater
                 if (from[i].HasValue)
                 {
                     var value = GetValue(from[i]);
-                    bool? flag;
-                    flag = to[i]?.Set(value);
+                    to[i]?.Set(value);
                 }
                 else
                 {
@@ -99,18 +98,13 @@ public class ShieldParametersIUpdater : IUpdater
     private dynamic GetValue(Parameter p)
     {
         var t = p.StorageType;
-        switch (t)
+        return t switch
         {
-            case StorageType.Double:
-                return p.AsDouble();
-                break;
-            case StorageType.ElementId:
-                return p.AsElementId();
-            case StorageType.Integer:
-                return p.AsInteger();
-            case StorageType.String:
-                return p.AsString();
-            default: return p.AsValueString();
-        }
+            StorageType.Double => p.AsDouble(),
+            StorageType.ElementId => p.AsElementId(),
+            StorageType.Integer => p.AsInteger(),
+            StorageType.String => p.AsString(),
+            _ => p.AsValueString()
+        };
     }
 }

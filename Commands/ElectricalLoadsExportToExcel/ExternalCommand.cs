@@ -43,7 +43,7 @@ namespace ElectricalLoadsExportToExcel
                             return flag.HasValue && flag.Value;
                         }).ToArray();
                     var form = new SelectShields(allShields);
-                    form.OkButton.Click += (sender, args) =>
+                    form.OkButton.Click += (_, _) =>
                     {
                         try
                         {

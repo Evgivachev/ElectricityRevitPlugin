@@ -44,7 +44,7 @@
             private set
             {
                 _shields = value;
-                RaisePropertyChanged(nameof(Shields));
+                RaisePropertyChanged();
             }
         }
 

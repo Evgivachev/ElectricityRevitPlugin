@@ -4,5 +4,6 @@
     <Platforms>AnyCPU</Platforms>
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>exe</OutputType>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 </Project>

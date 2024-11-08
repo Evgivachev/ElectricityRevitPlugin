@@ -6,7 +6,7 @@ using Domain;
 public interface IElementsRepository
 {
     IReadOnlyCollection<ElectricalSystem> GetSelectedElectricalSystems();
-    IReadOnlyCollection<Element> GetSelectedElements(IReadOnlyCollection<int>? categoryIds);
+    IReadOnlyCollection<Element> GetSelectedElements(IReadOnlyCollection<int> categoryIds);
     
     int GetFamilySymbolId(string name);
     

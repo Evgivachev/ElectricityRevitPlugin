@@ -37,15 +37,6 @@ class ShieldParameterUpdater : ParameterUpdater
 
     public override ObservableCollection<CheckableItem> GetValidateElements(Document document)
     {
-        new FilteredElementCollector(document)
-            .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
-            .WhereElementIsNotElementType()
-            .OfType<FamilyInstance>()
-            .Select(x => new { Family = x, Group = x.GetPowerElectricalSystem()?.GetGroupByGost() })
-            .OrderBy(x => x.Group?.Length)
-            .ThenBy(x => x.Group)
-            .ToArray();
-
         var elss = new FilteredElementCollector(document)
             .OfCategory(BuiltInCategory.OST_ElectricalEquipment)
             .WhereElementIsNotElementType()

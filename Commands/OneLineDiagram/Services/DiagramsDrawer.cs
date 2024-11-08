@@ -310,7 +310,7 @@
                 as Family;
             if (familyLine == null)
                 throw new NullReferenceException($"Не удалось найти семейство \"{nameOfFamilyLine}\"");
-            var familySymbolLine = (FamilySymbol)doc?.GetElement(familyLine?.GetFamilySymbolIds().First());
+            var familySymbolLine = (FamilySymbol)doc?.GetElement(familyLine.GetFamilySymbolIds().First());
 
             //Установка параметров
             var numberOfLine = 1;
@@ -1047,19 +1047,16 @@
             if (viewFamilyType is null)
                 throw new NullReferenceException("Нет вида Drafting");
 
-            ViewDrafting currentView = null;
-            using (var tr = new Transaction(doc))
-            {
-                tr.Start($"Создание вида {name}");
-                currentView = ViewDrafting.Create(doc, viewFamilyType.Id);
-                currentView.LookupParameter("Назначение вида")?.Set("Однолинейные схемы");
-                var index1 = name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
-                var subName = name.Substring(0, index1 > 0 ? index1 : name.Length - 1);
-                currentView.LookupParameter("Группа вида")?.Set(subName);
-                currentView.Name = name;
-                currentView.Scale = 1;
-                tr.Commit();
-            }
+            using var tr = new Transaction(doc);
+            tr.Start($"Создание вида {name}");
+            var currentView = ViewDrafting.Create(doc, viewFamilyType.Id);
+            currentView.LookupParameter("Назначение вида")?.Set("Однолинейные схемы");
+            var index1 = name.IndexOfAny(new[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' });
+            var subName = name.Substring(0, index1 > 0 ? index1 : name.Length - 1);
+            currentView.LookupParameter("Группа вида")?.Set(subName);
+            currentView.Name = name;
+            currentView.Scale = 1;
+            tr.Commit();
 
             return currentView;
         }

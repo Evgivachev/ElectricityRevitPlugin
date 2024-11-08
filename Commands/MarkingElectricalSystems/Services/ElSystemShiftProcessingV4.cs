@@ -5,17 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Abstractions;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using MoreLinq;
 
-public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
+public class ElSystemShiftProcessingV4
 {
-    public override Result Process(IEnumerable<ElectricalSystem> electricalSystems, double shift)
+    public Result Process(IEnumerable<ElectricalSystem> electricalSystems, double shift)
     {
-        var uiApp = ShiftElectricalCircuits.ExternalCommandData.Application;
+        var uiApp = ShiftElectricalCircuits.ExternalCommandData!.Application;
         var uiDoc = uiApp.ActiveUIDocument;
         var doc = uiDoc.Document;
         foreach (var electricalSystem in electricalSystems)
@@ -33,14 +32,15 @@ public class ElSystemShiftProcessingV4 : ElSystemShiftProcessing
             {
                 var previousLevelId = previous.LevelId;
                 var devicesOnThisLevel = unconnectedDevices
-                    .Where(d => d.LevelId.IntegerValue == previousLevelId.IntegerValue || d.LevelId.IntegerValue == -1);
-                FamilyInstance nearest = null;
+                    .Where(d => d.LevelId.IntegerValue == previousLevelId.IntegerValue || d.LevelId.IntegerValue == -1)
+                    .ToList();
+                FamilyInstance nearest;
                 if (devicesOnThisLevel.Any())
                     nearest = devicesOnThisLevel.MinBy(x => GetDistance(x, previous)).FirstOrDefault();
                 else
                     nearest = unconnectedDevices.MinBy(x => GetDistance(x, previous)).FirstOrDefault();
 
-                var nearestDeviceLevelId = nearest.LevelId;
+                var nearestDeviceLevelId = nearest!.LevelId;
                 if (nearestDeviceLevelId.IntegerValue == -1)
                     nearestDeviceLevelId =
                         nearest.get_Parameter(BuiltInParameter.INSTANCE_SCHEDULE_ONLY_LEVEL_PARAM)

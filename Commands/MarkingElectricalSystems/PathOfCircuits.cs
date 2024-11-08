@@ -8,7 +8,7 @@ public class PathOfCircuits
 {
     //с точностью 1е-9 не работает
     private const double Tolerance = 1e-3;
-    private XYZ _lastPoint = null;
+    private XYZ _lastPoint;
     public List<XYZ> Points { get; } = new();
     public int Count => Points.Count;
 
@@ -25,40 +25,29 @@ public class PathOfCircuits
         {
             if (LengthLessTolerance(p, _lastPoint))
                 return;
-            else
-            {
-                var dx = Math.Abs(_lastPoint.X - p.X);
-                var dy = Math.Abs(_lastPoint.Y - p.Y);
-                if (dx > Tolerance && dy > Tolerance)
-                    Add(dx > dy ? new XYZ(p.X, _lastPoint.Y, p.Z) : new XYZ(_lastPoint.X, p.Y, p.Z));
+            var dx = Math.Abs(_lastPoint.X - p.X);
+            var dy = Math.Abs(_lastPoint.Y - p.Y);
+            if (dx > Tolerance && dy > Tolerance)
+                Add(dx > dy ? new XYZ(p.X, _lastPoint.Y, p.Z) : new XYZ(_lastPoint.X, p.Y, p.Z));
 
-                Points.Add(p);
-                _lastPoint = p;
-                return;
-            }
+            Points.Add(p);
+            _lastPoint = p;
+            return;
         }
-        else if (IsVertical(_lastPoint, p))
+        if (IsVertical(_lastPoint, p))
         {
             Points.Add(p);
             _lastPoint = p;
             return;
         }
-        else
-        {
-            var p1 = new XYZ(_lastPoint.X, _lastPoint.Y, p.Z);
-            Add(p1);
-            Add(p);
-        }
+        var p1 = new XYZ(_lastPoint.X, _lastPoint.Y, p.Z);
+        Add(p1);
+        Add(p);
     }
 
     private bool LengthLessTolerance(XYZ p1, XYZ p2)
     {
         return p1.Subtract(p2).GetLength() < Tolerance;
-    }
-
-    private bool LengthLessTolerance(double p1, double p2)
-    {
-        return Math.Abs(p1 - p2) < Tolerance;
     }
 
     private bool OnSameLevel(XYZ p1, XYZ p2)
@@ -104,11 +93,8 @@ public class PathOfCircuits
             Add(p);
             return;
         }
-        else
-        {
-            Add(new XYZ(_lastPoint.X, _lastPoint.Y, z));
-            Add(new XYZ(p.X, p.Y, z));
-            Add(p);
-        }
+        Add(new XYZ(_lastPoint.X, _lastPoint.Y, z));
+        Add(new XYZ(p.X, p.Y, z));
+        Add(p);
     }
 }

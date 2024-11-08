@@ -6,6 +6,7 @@
         <UseWpf>true</UseWpf>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <PropertyGroup>
         <PackageGuid>e4d6c467-c112-4fe0-865d-be1499a12299</PackageGuid>

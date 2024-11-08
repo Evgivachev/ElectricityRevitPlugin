@@ -16,12 +16,9 @@ public class ShiftElectricalCircuits : IExternalCommand
 
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        if (ExternalCommandData is null)
-            ExternalCommandData = commandData;
+        ExternalCommandData ??= commandData;
         try
         {
-            var uiApp = commandData.Application;
-            var uiDoc = uiApp.ActiveUIDocument;
             var tuple = GetParameters();
             var shift = tuple.Item1;
             var flag = tuple.Item2;
@@ -49,8 +46,8 @@ public class ShiftElectricalCircuits : IExternalCommand
     {
         var window = new GetShiftView();
         window.ShowDialog();
-        var sh = (double?)window?.TextBox?.Tag;
+        var sh = (double?)window.TextBox?.Tag;
         var shift = sh / 1000 / 0.3048;
-        return new Tuple<double?, bool?>(shift, window?.AllElementsRadioButton?.IsChecked);
+        return new Tuple<double?, bool?>(shift, window.AllElementsRadioButton?.IsChecked);
     }
 }

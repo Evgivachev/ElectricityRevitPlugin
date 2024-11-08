@@ -8,6 +8,7 @@
         <UseWpf>true</UseWpf>
         <Configurations>Debug;Release;Debug R24;Debug R22</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj"/>

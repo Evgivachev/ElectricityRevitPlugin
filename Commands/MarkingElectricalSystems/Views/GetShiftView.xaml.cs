@@ -6,7 +6,7 @@ using System.Windows;
 /// <summary>
 /// Логика взаимодействия для GetShiftWpf.xaml
 /// </summary>
-public partial class GetShiftView : Window
+public partial class GetShiftView
 {
     public GetShiftView()
     {
