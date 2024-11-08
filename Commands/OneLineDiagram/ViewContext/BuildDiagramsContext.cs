@@ -100,7 +100,7 @@
 
         private void UpdateMethod()
         {
-            var doc = _uiApplication.ActiveUIDocument.Document;
+            var doc = _uiApplication.ActiveUIDocument.Document!;
             var nameOfFamilyOfHead = "ЭОМ-Схемы однолинейные-Шапка (ГОСТ 2.708-81)";
             var familyHead = new FilteredElementCollector(doc)
                     .OfClass(typeof(Family))
@@ -122,7 +122,7 @@
                 if (!shield.IsChecked)
                     continue;
                 //виды где есть аннотация со ссылкой на этот щит
-                var uniqueName = shield.Value.Object.UniqueId;
+                var uniqueName = shield.Value.UniqueId;
                 if (!heads.Contains(uniqueName))
                 {
                     continue;

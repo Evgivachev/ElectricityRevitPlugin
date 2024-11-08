@@ -1,10 +1,8 @@
-﻿/*
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using DefaultNamespace;
 using Nuke.Common.ProjectModel;
 using RxBim.Nuke.Extensions;
 using RxBim.Nuke.Models;
@@ -22,16 +20,20 @@ public class AddInGenerator
         IReadOnlyList<ProjectWithAssemblyType> addInTypesPerProjects,
         string outputDirectory)
     {
+        Console.WriteLine("Generating addin file...");
+        Console.WriteLine($"count is {addInTypesPerProjects.Count} ");
+        Console.WriteLine(string.Join("\t",addInTypesPerProjects
+            .Select(x => x.AssemblyType)));
         var list = addInTypesPerProjects
-            .Where(x => x.AssemblyType.BaseTypeNames.Contains("CmdBase"))
             .ToList();
+        
         if (!addInTypesPerProjects.Any())
         {
             var interpolatedStringHandler = new DefaultInterpolatedStringHandler(38, 3);
             interpolatedStringHandler.AppendLiteral("Project ");
             interpolatedStringHandler.AppendFormatted(rootProjectName);
             interpolatedStringHandler.AppendLiteral(" should contain any ");
-            interpolatedStringHandler.AppendFormatted("CmdBase");
+            interpolatedStringHandler.AppendFormatted("IExternalApplication");
             throw new ArgumentException(interpolatedStringHandler.ToStringAndClear());
         }
 
@@ -68,5 +70,4 @@ public class AddInGenerator
         return result;
     }
 }
-*/
 

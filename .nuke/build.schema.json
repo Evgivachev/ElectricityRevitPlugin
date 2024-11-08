@@ -6,14 +6,6 @@
     "build": {
       "type": "object",
       "properties": {
-        "Algorithm": {
-          "type": "string",
-          "description": "Digest algorithm"
-        },
-        "Cert": {
-          "type": "string",
-          "description": "Certificate path"
-        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build - Default is 'Debug' (local) or 'Release' (server)",
@@ -25,10 +17,6 @@
         "Continue": {
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
-        },
-        "Csp": {
-          "type": "string",
-          "description": "CSP containing for Private key"
         },
         "Help": {
           "type": "boolean",
@@ -55,10 +43,6 @@
             "VSCode"
           ]
         },
-        "IgnoreFailedSources": {
-          "type": "boolean",
-          "description": "Ignore unreachable sources during Restore"
-        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
@@ -70,10 +54,6 @@
         "Plan": {
           "type": "boolean",
           "description": "Shows the execution plan (HTML)"
-        },
-        "PrivateKey": {
-          "type": "string",
-          "description": "Private key container"
         },
         "Profile": {
           "type": "array",
@@ -98,9 +78,9 @@
           "type": "string",
           "description": "Environment variable"
         },
-        "ServerUrl": {
-          "type": "string",
-          "description": "Timestamp server URL"
+        "SeriesMaxAny": {
+          "type": "boolean",
+          "description": "Supports any maximum version of CAD"
         },
         "Skip": {
           "type": "array",
@@ -109,23 +89,12 @@
             "type": "string",
             "enum": [
               "BuildApp",
-              "BuildFromTag",
               "BuildInnoExe",
-              "BuildMsi",
-              "CheckCurrentBranch",
-              "CheckProductionVersion",
-              "CheckStageVersion",
-              "Clean",
               "Compile",
               "CompileToTemp",
               "GenerateAdditionalFiles",
               "GeneratePackageContentsFile",
-              "GenerateProjectProps",
-              "InstallWixTools",
               "Restore",
-              "SignAssemblies",
-              "TagProject",
-              "Test",
               "Test2"
             ]
           }
@@ -141,23 +110,12 @@
             "type": "string",
             "enum": [
               "BuildApp",
-              "BuildFromTag",
               "BuildInnoExe",
-              "BuildMsi",
-              "CheckCurrentBranch",
-              "CheckProductionVersion",
-              "CheckStageVersion",
-              "Clean",
               "Compile",
               "CompileToTemp",
               "GenerateAdditionalFiles",
               "GeneratePackageContentsFile",
-              "GenerateProjectProps",
-              "InstallWixTools",
               "Restore",
-              "SignAssemblies",
-              "TagProject",
-              "Test",
               "Test2"
             ]
           }

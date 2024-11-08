@@ -9,9 +9,10 @@ using Domain;
 
 public class CableRepository(Document document) : TransactionRepository(document), ICableRepository
 {
+    private readonly Document _document = document;
     public IReadOnlyCollection<Cable> GetAll()
     {
-        using var collector = new FilteredElementCollector(document);
+        using var collector = new FilteredElementCollector(_document);
         var cables = collector
             .WhereElementIsNotElementType()
             .OfCategory(BuiltInCategory.OST_ElectricalCircuit)
@@ -25,7 +26,7 @@ public class CableRepository(Document document) : TransactionRepository(document
     {
         foreach (var cable in cables)
         {
-            var element = document.GetElement(new ElementId(cable.id));
+            var element = _document.GetElement(new ElementId(cable.id));
             var nameInCableScheduleParameter =
                 element.get_Parameter(SharedParametersFile.Oboznachenie_Kabelya_V_KZH);
             nameInCableScheduleParameter.Set(cable.InJournalName);

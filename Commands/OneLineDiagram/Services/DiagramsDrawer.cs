@@ -50,7 +50,7 @@
 
         public void SetParametersToHead(FamilyInstance familyInstanceHead, Shield shield)
         {
-            var shieldFi = shield.Object;
+            var shieldFi = (FamilyInstance)familyInstanceHead.Document.GetElement(new ElementId(shield.Id));
             ElectricalSystem electricalSystem = null;
             var prefix = shieldFi.LookupParameter($"Префикс цепи").AsString();
             var electricalSystems = shieldFi.MEPModel?.GetElectricalSystems();
@@ -301,7 +301,7 @@
 
         public void DrawLines(Shield shield, View view)
         {
-            var shieldFamilyInstance = shield.Object;
+            var shieldFamilyInstance = (FamilyInstance)view.Document.GetElement(new ElementId(shield.Id));
             var doc = shieldFamilyInstance.Document;
             var nameOfFamilyLine = "ЭОМ-Схемы однолинейные-Отходящая линия (ГОСТ 2.708-81)";
             var familyLine = new FilteredElementCollector(doc)

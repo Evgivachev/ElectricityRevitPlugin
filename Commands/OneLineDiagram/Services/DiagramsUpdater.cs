@@ -42,8 +42,13 @@ namespace Diagrams.Services
             Shield shield = null;
             if (shieldId != null)
             {
-                var shieldFi = doc.GetElement(shieldId) as FamilyInstance;
-                shield = new Shield(shieldFi);
+                var shieldFi = (FamilyInstance)doc.GetElement(shieldId);
+                shield = new Shield()
+                {
+                    Name = shieldFi.Name,
+                    Id = shieldFi.Id.IntegerValue,
+                    UniqueId = shieldFi.UniqueId
+                };
             }
 
             //Если не удалось найти щит по UnID

@@ -33,7 +33,12 @@
                     return uFlag && !(u < 200);
                 })
                 .OrderBy(x => x.Name)
-                .Select(x => new Shield(x))
+                .Select(x => new Shield()
+                {
+                    Name = x.Name,
+                    Id = x.Id.IntegerValue,
+                    UniqueId = x.UniqueId
+                })
                 .ToArray();
         }
     }

@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-public  class Program
+public class Program
 {
     [STAThread]
     public static void Main()
@@ -16,7 +16,7 @@ public  class Program
             return;
         }
         var fileGenerator = new SharedParametersFileGenerator();
-            
+
         var sharedParametersFile = fileGenerator.GetClassFile(file);
         SaveFile(sharedParametersFile);
 
@@ -28,7 +28,7 @@ public  class Program
         openFileDialog.Filter = "txt files (*.txt)|*.txt";
         string filePath = null;
         if (openFileDialog.ShowDialog() == DialogResult.OK)
-        { 
+        {
             filePath = openFileDialog.FileName;
         }
         return filePath;
@@ -48,8 +48,8 @@ public  class Program
         {
             // Save document
             var filename = dlg.FileName;
-            File.WriteAllText(filename,text );
+            File.WriteAllText(filename, text);
         }
-            
+
     }
 }

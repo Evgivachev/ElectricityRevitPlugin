@@ -61,7 +61,7 @@ namespace RevitParametersCodeGenerator
             foreach (var t in s)
             {
                 var isSpacesPattern = new Regex("\\s");
-                if (t == '_'||isSpacesPattern.IsMatch(t.ToString()))
+                if (t == '_' || isSpacesPattern.IsMatch(t.ToString()))
                 {
                     ret.Append('_');
                     nextIsUpper = true;
@@ -74,7 +74,7 @@ namespace RevitParametersCodeGenerator
                     {
                         if (eng[i] == null)
                             continue;
-                        ret.Append(char.IsLower(t)&&!nextIsUpper ? eng[i].ToLower() : eng[i]);
+                        ret.Append(char.IsLower(t) && !nextIsUpper ? eng[i].ToLower() : eng[i]);
                         nextIsUpper = false;
                         flag = true;
                         break;
