@@ -61,6 +61,7 @@ public class Application : RxBimApplication
     {
         services.AddSingleton<ISyncBackGroundService, RegisterUpdatersService>();
         services.AddSingleton<ISyncBackGroundService, ConfigurePanelService>();
+        services.AddSingleton<ISyncBackGroundService, RegisterAssemblyResolver>();
         services.AddElectricalSystemsUpdater(configuration);
         services.AddScoped<IUpdaterTrigger, OnCreatedElectricalSystemTrigger>();
         
