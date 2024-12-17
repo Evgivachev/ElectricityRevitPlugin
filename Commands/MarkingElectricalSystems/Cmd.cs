@@ -16,5 +16,7 @@ public class Cmd : CmdBase
         services.AddSingleton<ICmdUseCase, CmdUseCase>();
         services.AddTransient<IElementsRepository, ElementsRepository>();
         services.AddTransient<IParameterSettingService, ParameterSettingService>();
+        services.AddTransient<IMarkElectricalSystemsService, MarkElectricalSystemsService>();
+        services.AddTransient<ITransactionsService, TransactionsService>();
     }
 }

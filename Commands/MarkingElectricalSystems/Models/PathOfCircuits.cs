@@ -1,4 +1,4 @@
-﻿namespace MarkingElectricalSystems;
+﻿namespace MarkingElectricalSystems.Models;
 
 using System;
 using System.Collections.Generic;
