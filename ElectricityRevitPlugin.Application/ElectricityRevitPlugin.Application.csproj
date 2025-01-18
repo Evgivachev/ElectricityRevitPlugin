@@ -12,6 +12,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <ProjectReference Include="..\Commands\CommonUpdateCmd\CommonUpdateCmd.csproj" />
         <ProjectReference Include="..\ElectricityRevitPlugin.RibbonBuilder\ElectricityRevitPlugin.RibbonBuilder.csproj" />
         <ProjectReference Include="..\Shared\CommonUtils\CommonUtils.csproj" />
         <ProjectReference Include="..\Updaters\AddedElectricalSystemsUpdater\AddedElectricalSystemsUpdater.csproj" />

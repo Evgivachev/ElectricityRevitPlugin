@@ -17,15 +17,6 @@ public class ConfigurePanelService(
         menuBuilder
             .Tab(_tabName, tabBuilder => tabBuilder
                 .Panel("Цепи", panelBuilder => panelBuilder
-                    .CommandButton(
-                        nameof(GroupByGost),
-                        typeof(Cmd),
-                        button => button
-                            .Text("Группы по ГОСТ")
-                            .LargeImage(@"img\icons8.png")
-                            .Description(
-                                "Группы по ГОСТ")
-                            .ToolTip("Группы по ГОСТ"))
                     .StackedItems(builder => builder
                         .CommandButton(
                             nameof(MarkingElectricalSystems),
@@ -136,6 +127,14 @@ public class ConfigurePanelService(
                                 .ToolTip("Импорт электрических нагрузок из таблицы Excel")
                         ))
                 )
+                .Panel("Обновление параметров", builder => builder
+                    .CommandButton(
+                        nameof(CommonUpdateCmd.Cmd),
+                        typeof(CommonUpdateCmd.Cmd),
+                        button => button
+                            .Text("Обновить параметры")
+                            .ToolTip("Обновляет параметры Группы по гост, параметры в цепях, параметры в щитах")
+                    ))
             );
 
         menuBuilder.Build(visitorBuilder);

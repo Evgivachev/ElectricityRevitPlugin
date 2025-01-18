@@ -4,23 +4,18 @@ using System;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 
-public class TransactionsService : ITransactionsService, IDisposable
+public class TransactionsService(UIApplication application) : ITransactionsService, IDisposable
 {
-    private readonly UIApplication _application;
     private Transaction? _transaction;
-    public TransactionsService(UIApplication application)
-    {
-        _application = application;
-    }
 
     public IDisposable StartTransaction(string name)
     {
         if (_transaction != null)
         {
-            throw new InvalidOperationException("Transaction already started");
+            return this;
         }
         
-        var doc = _application.ActiveUIDocument.Document;
+        var doc = application.ActiveUIDocument.Document;
         _transaction = new Transaction(doc, name);
         _transaction.Start();
         return this;
