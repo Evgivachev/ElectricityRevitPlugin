@@ -8,12 +8,12 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <MsiFilePrefix>ElectricityRevitPlugin.</MsiFilePrefix>
-        <ProductVersion>2024</ProductVersion>
-        <Authors>Ivachevev</Authors>
+        <ProductVersion>2025</ProductVersion>
+        <Authors>EugenyIvachev</Authors>
         <Product>ElectricityRevitPlugin</Product>
-        <Copyright>Copyright ©2024</Copyright>
+        <Copyright>Copyright ©2025</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
