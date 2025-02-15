@@ -30,6 +30,7 @@
         <ProjectReference Include="..\Commands\PhaseDistribution\PhaseDistribution.csproj"/>
         <ProjectReference Include="..\Commands\ShieldPanel\ShieldPanel.csproj"/>
         <ProjectReference Include="..\Commands\ShortCircuits\ShortCircuits.csproj"/>
+        <ProjectReference Include="..\Commands\PrintCmd\PrintCmd.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

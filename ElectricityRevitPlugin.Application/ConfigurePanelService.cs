@@ -135,6 +135,15 @@ public class ConfigurePanelService(
                             .Text("Обновить параметры")
                             .ToolTip("Обновляет параметры Группы по гост, параметры в цепях, параметры в щитах")
                     ))
+                .Panel("Общая", builder => builder
+                    .CommandButton(
+                        nameof(PrintCmd.Cmd),
+                        typeof(PrintCmd.Cmd),
+                        button => button
+                            .Text("Печать")
+                            .LargeImage(@"img\icons8-печать-32.png")
+                            .ToolTip("Обновляет параметры Группы по гост, параметры в цепях, параметры в щитах")
+                    ))
             );
 
         menuBuilder.Build(visitorBuilder);

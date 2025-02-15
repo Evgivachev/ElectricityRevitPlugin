@@ -1,0 +1,18 @@
+﻿<RevitAddIns>
+ 
+<AddIn Type="Application">
+  
+<AddInId>FC576245-C84C-498D-8BEA-82D1A9C236CD</AddInId>
+    
+<Name>BimRenRes</Name>
+    
+<Assembly>BimRenRes/Release/BimRenRes.dll</Assembly>
+    
+<FullClassName>BimRenRes.CommonPluginsExternalApplication</FullClassName>
+    
+<VendorId>BimRenRes</VendorId>
+    
+<VendorDescription>BimRenRes</VendorDescription>
+  
+</AddIn>
+</RevitAddIns>

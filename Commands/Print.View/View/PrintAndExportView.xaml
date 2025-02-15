@@ -1,0 +1,250 @@
+﻿<ui:WindowsBase x:Class="Print.View.View.PrintAndExportView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:view="clr-namespace:Print.View"
+                xmlns:viewModel="clr-namespace:Print.View.ViewModel"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:ui="clr-namespace:ElectricityRevitPlugin.UI;assembly=ElectricityRevitPlugin.UI"
+                xmlns:view1="clr-namespace:Print.View.View"
+                Name="window"
+                ContentRendered="PrintAndExportView_OnContentRendered"
+                d:DataContext="{d:DesignInstance viewModel:BaseViewModel}"
+                mc:Ignorable="d"
+                d:DesignHeight="600"
+                d:DesignWidth="1000"
+                MinWidth="1000"
+                MinHeight="770"
+                Width="1500"
+                Height="1000"
+                WindowStartupLocation="CenterOwner"
+                Title="{Binding Title}">
+
+    <ui:WindowsBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesResources />
+            </ResourceDictionary.MergedDictionaries>
+            <view1:CheckCommand x:Key="ToggleSelectionCommand" />
+        </ResourceDictionary>
+    </ui:WindowsBase.Resources>
+
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="ContentRendered">
+            <b:InvokeCommandAction Command="{Binding InitializeCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+
+    <Border Padding="10" BorderThickness="2">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" MinWidth="600" d:DesignWidth="800" />
+            </Grid.ColumnDefinitions>
+
+            <TreeView Grid.Column="0"
+                      ItemsSource="{Binding SheetsTreeCollectionOfCheckableItems}"
+                      SelectedValuePath="Item">
+                <!--<b:Interaction.Triggers>
+                    ~1~ Привязываем команду к событию SelectedItemChanged @1@
+                    <b:EventTrigger EventName="SelectedItemChanged">
+                        <b:InvokeCommandAction Command="{Binding CheckstateChangedCommand}" 
+                                                CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=TreeView}}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>-->
+                <b:Interaction.Behaviors>
+                    <view1:RoutedCommandBindingBehavior Command="{Binding CheckstateChangedCommand}"
+                                                        RoutedCommand="{StaticResource ToggleSelectionCommand}" />
+                </b:Interaction.Behaviors>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate
+                        DataType="{x:Type view:CheckableItem}"
+                        ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}"
+                                      CommandParameter="{Binding .}"
+                                      Command="{StaticResource ToggleSelectionCommand}">
+
+                            </CheckBox>
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+            <GridSplitter HorizontalAlignment="Center" Width="3"
+                          Grid.Column="1"
+                          VerticalAlignment="Stretch" />
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="Расположение файла">
+
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Stretch"
+                                   TextWrapping="Wrap" MinWidth="200"
+                                   Text="{Binding Folder, Mode=TwoWay}" />
+                        <Button Content="Обзор"
+                                Command="{Binding BrowseFolderCommand}"
+                                HorizontalAlignment="Right"
+                                Grid.Column="1" />
+                    </Grid>
+
+                </GroupBox>
+
+                <TabControl Grid.Row="1">
+
+                    <TabItem DataContext="{Binding Path = ExportViewModel}" Header="DWG Export"
+                             IsSelected="{Binding IsExportSelected}">
+                        <StackPanel>
+                            <GroupBox HorizontalAlignment="Stretch"
+                                      Header="Настройка экспорта"
+                                      VerticalAlignment="Top">
+                                <ComboBox ItemsSource="{Binding AvailableDwgExportOptions}"
+                                          SelectedItem="{Binding SelectedAvailableDwgExportOption}"
+                                          Margin="5" />
+                            </GroupBox>
+
+                            <GroupBox Header="Префикс файла" VerticalAlignment="Top">
+                                <GroupBox.ToolTip>
+                                    <TextBlock Text="{Binding NameToolTip}" />
+                                </GroupBox.ToolTip>
+                                <TextBox Text="{Binding FilePrefix, Mode =TwoWay}" />
+                            </GroupBox>
+
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem DataContext="{Binding Path =PrintViewModel}" Header="PDF Печать">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Grid.Row="0" Grid.Column="0"
+                                      Header="Размещение видов">
+
+                                <StackPanel>
+                                    <RadioButton IsChecked="{Binding IsPaperPlacementTypeCenter}">По центру</RadioButton>
+                                    <RadioButton IsChecked="{Binding IsPaperPlacementTypeMargins}">
+                                        <StackPanel>
+                                            <TextBlock>Смещение от угла</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>x=</TextBlock>
+                                                <TextBox Width="25">0</TextBox>
+                                                <TextBlock>y=</TextBlock>
+                                                <TextBox Width="25">0</TextBox>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </RadioButton>
+                                </StackPanel>
+
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="0" Grid.Column="1" Header="Невидимые линии">
+                                <StackPanel>
+                                    <TextBlock>Способ удаления невидимых линий:</TextBlock>
+                                    <RadioButton IsChecked="{Binding IsHiddenLineViewsTypeVectorProcessing}">Векторная обработка</RadioButton>
+                                    <RadioButton IsChecked="{Binding IsHiddenLineViewsTypeRasterProcessing}">Растровая обработка</RadioButton>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="1" Grid.Column="0" Header="Масштабирование" Grid.ColumnSpan="2">
+                                <StackPanel>
+
+                                    <RadioButton IsChecked="{Binding IsZoomTypeFitToPage}">Вписать</RadioButton>
+
+                                    <RadioButton IsChecked="{Binding IsZoomTypeZoom}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock>Масштаб</TextBlock>
+                                            <TextBox>100</TextBox>
+                                            <TextBlock> % от размера</TextBlock>
+                                        </StackPanel>
+                                    </RadioButton>
+
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Grid.Column="1" Header="Вывод на печать">
+                                <StackPanel>
+                                    <TextBlock>Качество растровых:</TextBlock>
+                                    <ComboBox
+                                        ItemsSource="{Binding Path=RasterQuality,
+                                            Converter={view:EnumToCollectionConverter},
+                                            Mode = OneTime}"
+                                        SelectedValuePath="Item1"
+                                        DisplayMemberPath="Item2"
+                                        SelectedValue="{Binding Path=RasterQuality}">
+                                    </ComboBox>
+                                    <TextBlock>Цвета:</TextBlock>
+                                    <ComboBox
+                                        ItemsSource="{Binding Path=ColorDepthType,
+                                            Converter={view:EnumToCollectionConverter},
+                                            Mode = OneTime}"
+                                        SelectedValuePath="Item1"
+                                        DisplayMemberPath="Item2"
+                                        SelectedValue="{Binding Path=ColorDepthType}" />
+                                </StackPanel>
+
+                            </GroupBox>
+                            <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Header="Параметры">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <CheckBox IsChecked="{Binding ViewLinksinBlue}">Выделять связи синим (только цветная печать)</CheckBox>
+                                        <CheckBox IsChecked="{Binding HideReforWorkPlanes}">Скрыть опорные/рабочие плоскости</CheckBox>
+                                        <CheckBox IsChecked="{Binding HideUnreferencedViewTags}">Печатать только имеющие на виде марки</CheckBox>
+                                        <CheckBox IsChecked="{Binding MaskCoincidentLines}">Кромки области маскируют совпадающие линии</CheckBox>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1">
+                                        <CheckBox IsChecked="{Binding HideScopeBoxes}">Скрыть границы области видимости</CheckBox>
+                                        <CheckBox IsChecked="{Binding HideCropBoundaries}">Скрыть границы обрезки</CheckBox>
+                                        <CheckBox IsChecked="{Binding ReplaceHalftoneWithThinLines}">Заменить полутона тонкими линиями</CheckBox>
+                                    </StackPanel>
+
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Header="PDF Принтер">
+                                <ComboBox SelectedItem="{Binding PrinterName}"
+                                          ItemsSource="{Binding AvailablePrinters}" />
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Grid.Row="2"
+                    HorizontalAlignment="Right">
+                    <Button Content="ОК"
+                            IsDefault="True"
+                            Command="{Binding OkButtonCommand}"
+                            CommandParameter="{Binding ElementName=window}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+
+</ui:WindowsBase>

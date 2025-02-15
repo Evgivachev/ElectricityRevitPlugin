@@ -1,4 +1,4 @@
-﻿namespace CommonUtils.Helpers;
+﻿namespace CommonUtils.Comparer;
 
 using System.Collections.Generic;
 using Autodesk.Revit.DB;

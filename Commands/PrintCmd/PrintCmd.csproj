@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <UseCommand>true</UseCommand>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Print.Application\Print.Application.csproj" />
+      <ProjectReference Include="..\..\Shared\CommonUtils\CommonUtils.csproj" />
+      <ProjectReference Include="..\Print.View\Print.View.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="RevitAPI">
+        <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Printing">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.netframework.referenceassemblies.net48\1.0.3\build\.NETFramework\v4.8\System.Printing.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+
+</Project>

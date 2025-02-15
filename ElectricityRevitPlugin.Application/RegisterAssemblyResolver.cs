@@ -11,7 +11,7 @@ public class RegisterAssemblyResolver : ISyncBackGroundService
         currentDomain.AssemblyResolve += MyResolveEventHandler;
     }
 
-    private static Assembly MyResolveEventHandler(object sender, ResolveEventArgs args)
+    private static Assembly? MyResolveEventHandler(object sender, ResolveEventArgs args)
     {
         var directory = new FileInfo(typeof(ISyncBackGroundService).Assembly.Location).Directory!;
         var dlls = directory.GetFiles("*.dll");

@@ -1,0 +1,80 @@
+﻿<Window x:Class="BimRenRes.AddParametersToFamilyInstance.AddingParametersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BimRenRes.AddParametersToFamilyInstance"
+             xmlns:bimRenRes="clr-namespace:BimRenRes"
+
+             mc:Ignorable="d" d:DesignWidth="444"
+             MinHeight="445"
+             MinWidth="444"
+             Height="642"
+             Width="444"
+             Name="Window"
+             Title="Добавление параметров в семейство">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="101*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="10" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="111"/>
+                <ColumnDefinition Width="111"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Label Content="Выбор параметров" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <TreeView ItemsSource="{Binding Parameters}" 
+                      Margin="10" Grid.Row="1" Grid.ColumnSpan="3">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate
+                        DataType="bimRenRes:CheckableItem"
+                        ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}"/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+
+                    </HierarchicalDataTemplate>
+
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <Button Name="AddButton"
+                    Command ="{Binding AddParametersCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Content="Добавить" Margin="10" Grid.Row="3" Grid.Column="1" IsDefault="True"/>
+            <Button Name="CancelButton" Content="Отмена" Margin="10" Grid.Row="3" Grid.Column="2" IsCancel="True"/>
+            <Label Content="Группа" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="48"/>
+            <ComboBox ItemsSource="{Binding Path = ParameterGroups, Mode=OneTime}"
+                      SelectedItem="{Binding SelectedGroup}"
+                      SelectedIndex="0"
+                      DisplayMemberPath="Name"
+                      Grid.ColumnSpan="2"
+                      Grid.Column="0"
+                      HorizontalAlignment="Left" 
+                      Margin="75,14,0,0" 
+                      Grid.Row="2"
+                      VerticalAlignment="Top" Width="209" Height="22" IsReadOnly="True"/>
+            <RadioButton Content="Тип" HorizontalAlignment="Left" 
+                         IsChecked="{Binding IsTypeParameter}"
+                         GroupName="type"
+                         Margin="10,49,0,0" 
+                         Grid.Row="2" 
+                         VerticalAlignment="Top" Height="15" Width="39"/>
+            <RadioButton Content="Экземпляр" HorizontalAlignment="Left" 
+                         GroupName="type"
+                         Margin="10,79,0,0"
+                         Grid.Row="2"
+                         VerticalAlignment="Top" 
+                         Height="15" Width="79"/>
+        </Grid>
+
+    </Grid>
+</Window>

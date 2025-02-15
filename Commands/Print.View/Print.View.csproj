@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <UseWpf>true</UseWpf>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UseMoreLinq>true</UseMoreLinq>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Print.Application\Print.Application.csproj" />
+      <ProjectReference Include="..\..\Shared\ElectricityRevitPlugin.UI\ElectricityRevitPlugin.UI.csproj" />
+    </ItemGroup>    
+
+</Project>

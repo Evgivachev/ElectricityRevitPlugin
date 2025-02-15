@@ -1,6 +1,6 @@
 ﻿namespace ElectricityRevitPlugin.UI;
 
-public interface IHideable
+public interface IHideable : ICloseable
 {
     void Hide();
     void Show();

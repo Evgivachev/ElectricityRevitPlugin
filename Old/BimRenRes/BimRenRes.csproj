@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B48043FB-E74D-45E0-8876-81F535759E08}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BimRenRes</RootNamespace>
+    <AssemblyName>BimRenRes</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>BimRenRes\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\ref\AdWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\ref\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIIFC">
+      <HintPath>..\..\ref\RevitAPIIFC.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIMacros">
+      <HintPath>..\..\ref\RevitAPIMacros.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\ref\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUIMacros">
+      <HintPath>..\..\ref\RevitAPIUIMacros.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VCRevitRibbonUtilCustom">
+      <HintPath>..\..\ref\VCRevitRibbonUtilCustom.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddParametersToFamilyInstance\AddingParametersToFamilyExternalCommand.cs" />
+    <Compile Include="AddParametersToFamilyInstance\AddingParametersView.xaml.cs">
+      <DependentUpon>AddingParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddParametersToFamilyInstance\AddingParametersViewModel.cs" />
+    <Compile Include="AddParametersToFamilyInstance\GroupOfParameters.cs" />
+    <Compile Include="AddParametersToFamilyInstance\ParameterSetter.cs" />
+    <Compile Include="CommonPluginsExternalApplication.cs" />
+    <Compile Include="DefaultExternalCommand.cs" />
+    <Compile Include="MarkingOpeningExternalCommand.cs" />
+    <Compile Include="ParameterExtension.cs" />
+    <Compile Include="PrintAndExport\ExternalCommand.cs" />
+    <Compile Include="PrintAndExport\RevitPrinter.cs" />
+    <Compile Include="QuickSelection\AddFilterCommand.cs" />
+    <Compile Include="QuickSelection\BuiltInParameterGetter.cs" />
+    <Compile Include="QuickSelection\Interfaces.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\Contains.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\EndsWith.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\GreaterOrEqual.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\Equals.cs" />
+    <Compile Include="QuickSelection\FilterCreatorViewModel.cs" />
+    <Compile Include="QuickSelection\FilterCreatorWindow.xaml.cs">
+      <DependentUpon>FilterCreatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickSelection\MyElementCategoryFilter.cs" />
+    <Compile Include="QuickSelection\MyElementParameterFilter.cs" />
+    <Compile Include="QuickSelection\MyFilter.cs" />
+    <Compile Include="QuickSelection\MyLogicalAndFilter.cs" />
+    <Compile Include="QuickSelection\MyLogicalFilter.cs" />
+    <Compile Include="QuickSelection\ExternalCommand.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\Greater.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\Less.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\LessOrEqual.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\NotBeginsWith.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\NotContains.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\NotEndsWith.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\NotEquals.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\ParameterFunction.cs" />
+    <Compile Include="QuickSelection\ParameterFunctions\BeginsWith.cs" />
+    <Compile Include="QuickSelection\SharedAndGlobalParameterGetter.cs" />
+    <Compile Include="QuickSelection\ParameterGetter.cs" />
+    <Compile Include="QuickSelection\QuickSelectionViewModel.cs" />
+    <Compile Include="QuickSelection\QuickSelectionWindow.xaml.cs">
+      <DependentUpon>QuickSelectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickSelection\ValueClass.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SchedulesToCsv.cs" />
+    <Compile Include="Sheets\DuplicateSheets.cs" />
+    <Compile Include="Sheets\SelectFramesFromSelectedSheets.cs" />
+    <Compile Include="Sheets\SelectSheetFormatAndAlignExternalCommand.cs" />
+    <Compile Include="SelectSuperComponentsExternalCommand.cs" />
+    <Compile Include="Sheets\SortSheets.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AddParametersToFamilyInstance\AddingParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuickSelection\FilterCreatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuickSelection\QuickSelectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\icons8-фильтр-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BimRenResRevitManifestFile.addin" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-futurama-zoidberg-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-futurama-professor-farnsworth-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-futurama-fry-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-futurama-bender-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-отправить-на-принтер-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-futurama-zapp-brannigan-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-edvard-munch-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-txt-32.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
